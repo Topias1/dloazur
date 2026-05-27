@@ -1,6 +1,9 @@
 # Skills agent installés localement (régénérables via `skills add` — cf. skills-lock.json)
 .agents/
 
+# Bindings Claude Code locaux (symlinks .claude/skills → .agents, settings perso)
+.claude/
+
 # macOS
 .DS_Store
 **/.DS_Store

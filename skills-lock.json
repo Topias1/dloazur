@@ -6,6 +6,12 @@
       "sourceType": "github",
       "skillPath": "skill/SKILL.md",
       "computedHash": "34e59a34b9705187e87039faa5d9585aebe0056ef657f761b905afef276a3362"
+    },
+    "ui-ux-pro-max": {
+      "source": "nexu-io/open-design",
+      "sourceType": "github",
+      "skillPath": "skills/ui-ux-pro-max/SKILL.md",
+      "computedHash": "13887b516bebbd2e97885435ea022b2aec36cc77224f639d098a47f2723865cb"
     }
   }
 }
