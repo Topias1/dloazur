@@ -45,7 +45,8 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 - **Photos systématiques** à chaque passage. **Smartphone uniquement** (mobile-first).
 - Facturation : mix **ponctuel / forfait ~50/50**. **Odoo** déjà utilisé (plan probablement sans accès API).
 - Une **maquette React** (diagnostic + espace client) existe mais jugée **insatisfaisante** → jetée. On conserve uniquement sa **logique métier de diagnostic** (arbre de décision + formules de doses) comme spécification.
-- Note de cadrage détaillée : `docs/superpowers/specs/2026-05-27-dloazur-refonte-design.md`
+- Note de cadrage détaillée (v2) : `docs/superpowers/specs/2026-05-27-dloazur-refonte-design.md`
+- Design system & prompts Claude Design : `docs/superpowers/specs/2026-05-27-dloazur-design-system.md` (palette eau/Caraïbes, Plus Jakarta Sans + Inter, prompts écran saisie passage + accueil vitrine)
 
 ## Constraints
 
@@ -66,6 +67,8 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 | Single-tenant (pas de marque blanche) | Lot 2 diagnostic ciblé pistes A + B, pas C | — Pending |
 | Hébergement Laravel Cloud EU + photos Scaleway Paris | Managé / pas cher + conformité RGPD | — Pending |
 | Odoo : POC d'abord, puis API ou pont CSV selon le plan | API réservée au plan Custom (vérifié) | — Pending |
+| Maquettage via **Claude Design** (claude.ai/design) | Conversationnel, applique un design system, handoff Claude Code ; pas de Figma (dev solo) | — Pending |
+| Palette **« Eau/Caraïbes »** turquoise lagon (teal-500) | Cohérent avec « Dlo » (eau en créole) ; design system dédié | — Pending |
 
 ## Evolution
 
