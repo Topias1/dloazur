@@ -67,7 +67,7 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 | Single-tenant (pas de marque blanche) | Lot 2 diagnostic ciblé pistes A + B, pas C | — Pending |
 | Hébergement Laravel Cloud EU + photos Scaleway Paris | Managé / pas cher + conformité RGPD | — Pending |
 | Odoo : POC d'abord, puis API ou pont CSV selon le plan | API réservée au plan Custom (vérifié) | — Pending |
-| Maquettage via **Claude Design** (claude.ai/design) | Conversationnel, applique un design system, handoff Claude Code ; pas de Figma (dev solo) | — Pending |
+| Design UI via le skill **impeccable** (in-repo, Claude Code) | Génère/itère de l'UI Tailwind implémentable, intégré au repo ; alimenté par le design-system. Claude Design (externe) reste optionnel pour des maquettes standalone | — Pending |
 | Palette **« Eau/Caraïbes »** — bleu azur (sky-500, aligné au logo), turquoise en accent | Logo bleu azur + nom « Azur » ; turquoise reste un accent | — Pending |
 
 ## Evolution
