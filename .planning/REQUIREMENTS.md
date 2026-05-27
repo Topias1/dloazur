@@ -97,24 +97,53 @@ Exclusions explicites pour éviter le scope creep.
 
 ## Traceability
 
-Mapping provisoire (finalisé par la roadmap). Chaque requirement → une phase.
+Mapping finalisé par la roadmap. Chaque requirement → une phase.
 
-| Requirement | Phase (provisoire) | Status |
-|-------------|--------------------|--------|
-| SITE-01..07 | V — Vitrine | Pending |
-| AUTH-01..04 | 0 — MVP Suivi | Pending |
-| CLI-01..03 | 0 — MVP Suivi | Pending |
-| PASS-01..06 | 0 — MVP Suivi | Pending |
-| PORT-01..02 | 0 — MVP Suivi | Pending |
-| FACT-01..07 | 1a — Facturation & Odoo | Pending |
-| NOTIF-01..03 | 1b — Notifications | Pending |
-| DIAG-01..05 | 2 — Diagnostic | Pending |
+| Requirement | Phase | Status |
+|-------------|-------|--------|
+| SITE-01 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-02 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-03 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-04 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-05 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-06 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-07 | Phase 1 — Vitrine & Fondations | Pending |
+| AUTH-01 | Phase 1 — Vitrine & Fondations | Pending |
+| AUTH-02 | Phase 2 — MVP Suivi Offline-First | Pending |
+| AUTH-03 | Phase 2 — MVP Suivi Offline-First | Pending |
+| AUTH-04 | Phase 2 — MVP Suivi Offline-First | Pending |
+| CLI-01 | Phase 2 — MVP Suivi Offline-First | Pending |
+| CLI-02 | Phase 2 — MVP Suivi Offline-First | Pending |
+| CLI-03 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-01 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-02 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-03 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-04 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-05 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PASS-06 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PORT-01 | Phase 2 — MVP Suivi Offline-First | Pending |
+| PORT-02 | Phase 2 — MVP Suivi Offline-First | Pending |
+| FACT-01 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-02 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-03 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-04 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-05 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-06 | Phase 3 — Facturation & Odoo | Pending |
+| FACT-07 | Phase 3 — Facturation & Odoo | Pending |
+| NOTIF-01 | Phase 4 — Notifications | Pending |
+| NOTIF-02 | Phase 4 — Notifications | Pending |
+| NOTIF-03 | Phase 4 — Notifications | Pending |
+| DIAG-01 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-02 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-03 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-04 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-05 | Phase 5 — Diagnostic Commercialisable | Pending |
 
 **Coverage:**
 - v1 requirements: 37 total
-- Mapped to phases: 37 (provisoire)
+- Mapped to phases: 37
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-27*
-*Last updated: 2026-05-27 after initialization*
+*Last updated: 2026-05-27 — traceability finalisée par roadmap*
