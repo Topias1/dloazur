@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Connexion — Dlo Azur Piscines</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="theme.js"></script>
+  <link rel="stylesheet" href="app.css">
+  <link rel="icon" href="../assets/brand/logo/logo-icon.png">
+</head>
+<body class="bg-sand-50 text-ink-700">
+
+  <div class="min-h-screen lg:grid lg:grid-cols-2">
+
+    <!-- ===== Brand panel ===== -->
+    <div class="relative hidden lg:block overflow-hidden bg-navy-900">
+      <img src="../assets/brand/photos/villa-hospitality.jpg" alt="" class="absolute inset-0 h-full w-full object-cover opacity-35">
+      <div class="absolute inset-0 bg-gradient-to-br from-navy-950 via-navy-900/80 to-navy-800/70 ripple"></div>
+      <div class="relative h-full flex flex-col justify-between p-12">
+        <a href="vitrine.html" class="flex items-center gap-3">
+          <span class="text-azure-400"><svg width="34" height="41" viewBox="0 0 28 34" fill="none"><path d="M14 1.5C14 1.5 3.5 13.5 3.5 22a10.5 10.5 0 0 0 21 0C24.5 13.5 14 1.5 14 1.5Z" fill="currentColor"/><path d="M8.4 21.4c1.6-2.3 3.8-2.3 5.6 0s4 2.3 5.6 0" stroke="oklch(0.232 0.052 251)" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="leading-none"><span class="block font-display font-700 text-white text-2xl">Dlo Azur</span><span class="block text-xs font-semibold uppercase tracking-[0.24em] text-azure-400">Piscines</span></span>
+        </a>
+        <div>
+          <h2 class="font-display font-700 text-4xl text-white leading-tight max-w-md">Chaque passage, gardé en mémoire.</h2>
+          <p class="mt-4 text-lg text-navy-100 max-w-md leading-relaxed">L'espace de suivi de Dlo Azur : mesures de l'eau, actions et photos, accessibles en quelques secondes.</p>
+        </div>
+        <p class="text-sm text-navy-300">Pierre ADAM · Martinique · 0696 94 00 54</p>
+      </div>
+    </div>
+
+    <!-- ===== Form panel ===== -->
+    <div class="flex flex-col items-center justify-center px-5 py-12 sm:px-10">
+      <div class="w-full max-w-sm">
+        <!-- mobile logo -->
+        <a href="vitrine.html" class="lg:hidden flex items-center gap-2.5 mb-8">
+          <span class="text-azure-500"><svg width="30" height="36" viewBox="0 0 28 34" fill="none"><path d="M14 1.5C14 1.5 3.5 13.5 3.5 22a10.5 10.5 0 0 0 21 0C24.5 13.5 14 1.5 14 1.5Z" fill="currentColor"/><path d="M8.4 21.4c1.6-2.3 3.8-2.3 5.6 0s4 2.3 5.6 0" stroke="oklch(0.987 0.005 85)" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <span class="font-display font-700 text-ink-950 text-xl">Dlo Azur</span>
+        </a>
+
+        <!-- segmented toggle -->
+        <div class="grid grid-cols-2 gap-1 rounded-2xl bg-sand-200/70 p-1 mb-7">
+          <button data-tab="pro" class="tab h-10 rounded-xl text-sm font-bold bg-white text-ink-950 shadow-xs transition-colors cursor-pointer">Espace pro</button>
+          <button data-tab="client" class="tab h-10 rounded-xl text-sm font-bold text-ink-500 hover:text-ink-700 transition-colors cursor-pointer">Espace client</button>
+        </div>
+
+        <!-- PRO -->
+        <form id="pane-pro" class="space-y-4">
+          <div>
+            <h1 class="font-display font-700 text-2xl text-ink-950">Bon retour, Pierre.</h1>
+            <p class="text-ink-500 mt-1 text-sm">Connectez-vous pour gérer vos passages.</p>
+          </div>
+          <div>
+            <label for="pro-email" class="block text-sm font-semibold text-ink-900 mb-1.5">E-mail</label>
+            <input id="pro-email" type="email" autocomplete="email" placeholder="pierre@dloazurpiscines.com" class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition">
+          </div>
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label for="pro-pass" class="block text-sm font-semibold text-ink-900">Mot de passe</label>
+              <a href="#" class="text-sm font-semibold text-azure-600 hover:text-azure-700">Oublié ?</a>
+            </div>
+            <input id="pro-pass" type="password" autocomplete="current-password" placeholder="••••••••••" class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition">
+          </div>
+          <label class="flex items-center gap-2.5 cursor-pointer select-none">
+            <span class="grid h-5 w-5 place-items-center rounded-md bg-azure-500 text-white shrink-0"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
+            <span class="text-sm text-ink-700">Rester connecté sur ce téléphone</span>
+          </label>
+          <button type="button" class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors cursor-pointer">Se connecter</button>
+        </form>
+
+        <!-- CLIENT -->
+        <form id="pane-client" class="space-y-4 hidden">
+          <div>
+            <h1 class="font-display font-700 text-2xl text-ink-950">Votre espace piscine.</h1>
+            <p class="text-ink-500 mt-1 text-sm">Pas de mot de passe : recevez un lien d'accès sécurisé par e-mail.</p>
+          </div>
+          <div>
+            <label for="cli-email" class="block text-sm font-semibold text-ink-900 mb-1.5">Votre e-mail</label>
+            <input id="cli-email" type="email" autocomplete="email" placeholder="vous@exemple.com" class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition">
+          </div>
+          <button type="button" class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors cursor-pointer">Recevoir mon lien d'accès</button>
+          <div class="flex items-start gap-3 rounded-2xl bg-lagon-500/8 ring-1 ring-lagon-500/20 p-4">
+            <span class="grid h-9 w-9 place-items-center rounded-full bg-lagon-500/20 text-lagon-700 shrink-0"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg></span>
+            <p class="text-sm text-ink-700 leading-relaxed">Le lien arrive en quelques secondes et reste valable une heure. Un souci ? <a href="https://wa.me/596696940054" class="font-semibold text-lagon-700 hover:underline">Écrivez à Pierre</a>.</p>
+          </div>
+        </form>
+
+        <p class="mt-8 text-center text-sm text-ink-400">Données hébergées en Europe · <a href="#" class="hover:text-ink-600">Confidentialité</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const tabs = document.querySelectorAll('.tab');
+    const panes = { pro: document.getElementById('pane-pro'), client: document.getElementById('pane-client') };
+    tabs.forEach(t => t.addEventListener('click', () => {
+      const k = t.dataset.tab;
+      tabs.forEach(x => {
+        const on = x === t;
+        x.classList.toggle('bg-white', on); x.classList.toggle('text-ink-950', on); x.classList.toggle('shadow-xs', on);
+        x.classList.toggle('text-ink-500', !on);
+      });
+      panes.pro.classList.toggle('hidden', k !== 'pro');
+      panes.client.classList.toggle('hidden', k !== 'client');
+    }));
+  </script>
+</body>
+</html>
