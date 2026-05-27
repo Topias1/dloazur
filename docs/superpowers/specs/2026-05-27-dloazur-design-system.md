@@ -75,6 +75,7 @@ Ouvrir via un serveur local (les chemins `../assets` exigent HTTP) : `python3 -m
 | `passage.html` | **product** (terrain) | Saisie d'un passage offline-first : header, bandeau hors-ligne, mesures 2×2 avec steppers, actions, photos (envoyée/en attente), notes, barre d'enregistrement collante |
 | `dashboard.html` | **product** (pro) | Tableau de bord : tournée du jour, à recontacter, stats, derniers comptes-rendus. Sidebar desktop / bottom-nav mobile |
 | `portail.html` | **product** (client) | Espace client lecture seule : piscine, dernier passage (mesures, mot de Pierre, photos), historique, lien sécurisé sans mot de passe |
+| `auth.html` | **product** (entrée) | Connexion : login pro (e-mail + mot de passe) et accès client par lien magique sans mot de passe, sur un écran scindé marine/sable avec bascule Pro/Client |
 
 Implémentation : Tailwind via CDN + `theme.js` (config) + `app.css` (tokens/motif/base). Aucune étape de build ; transposable tel quel en Blade.
 
