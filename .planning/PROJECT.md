@@ -68,7 +68,7 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 | Hébergement Laravel Cloud EU + photos Scaleway Paris | Managé / pas cher + conformité RGPD | — Pending |
 | Odoo : POC d'abord, puis API ou pont CSV selon le plan | API réservée au plan Custom (vérifié) | — Pending |
 | Maquettage via **Claude Design** (claude.ai/design) | Conversationnel, applique un design system, handoff Claude Code ; pas de Figma (dev solo) | — Pending |
-| Palette **« Eau/Caraïbes »** turquoise lagon (teal-500) | Cohérent avec « Dlo » (eau en créole) ; design system dédié | — Pending |
+| Palette **« Eau/Caraïbes »** — bleu azur (sky-500, aligné au logo), turquoise en accent | Logo bleu azur + nom « Azur » ; turquoise reste un accent | — Pending |
 
 ## Evolution
 
