@@ -1,6 +1,6 @@
 # Design system & maquettes — Dlo Azur Piscines
 
-**Version :** v1
+**Version :** v1.1 — palette alignée sur le logo bleu azur (cf. `assets/brand/README.md`)
 **Date :** 2026-05-27
 **Statut :** prêt à coller dans Claude Design (claude.ai/design)
 **Document parent :** `2026-05-27-dloazur-refonte-design.md`
@@ -22,9 +22,10 @@
 
 | Rôle | Hex | Tailwind | Usage |
 |---|---|---|---|
-| Primary (turquoise lagon) | `#14B8A6` | `teal-500` | Boutons principaux, liens, accents |
-| Secondary (bleu profond) | `#0E4D64` | proche `teal-900` | Titres, texte fort, header |
-| Accent (vert d'eau clair) | `#5EEAD4` | `teal-300` | États actifs, highlights |
+| Primary (bleu azur) | `#0EA5E9` | `sky-500` | Boutons principaux, liens, accents — **couleur du logo** |
+| Secondary (bleu profond) | `#0E4D64` | proche `sky-900` | Titres, texte fort, header |
+| Accent (turquoise lagon) | `#14B8A6` | `teal-500` | États actifs, highlights, touches « eau » |
+| Accent clair (vert d'eau) | `#5EEAD4` | `teal-300` | Survols, fonds d'accent légers |
 | Background (sable très clair) | `#FEFCF7` | proche `stone-50` | Fond général |
 | CTA chaud (corail doux) | `#FB923C` | `orange-400` | CTA secondaires, alertes douces |
 | Texte courant (gris ardoise) | `#475569` | `slate-600` | Paragraphes |
@@ -57,7 +58,7 @@
 - **Pas de glassmorphism**, pas de gradient agressif
 - **Espacement** : généreux, padding minimum 16px sur mobile
 - **Boutons** : minimum 44px de hauteur (touch target iOS)
-- **Inputs** : grands, lisibles, focus ring visible en `teal-500`
+- **Inputs** : grands, lisibles, focus ring visible en `sky-500`
 
 ---
 
@@ -80,10 +81,10 @@ d'entretien de piscines. "Dlo" signifie "eau" en créole martiniquais.
 Identité visuelle souhaitée :
 - Inspiration : eau de lagon, Caraïbes, fraîcheur, lumière. Évite les clichés
   (palmiers, cocotiers, drapeaux). On vise pro/moderne, pas tourisme.
-- Palette principale :
-  • Turquoise lagon (primary) : #14B8A6 (teal-500)
+- Palette principale (alignée sur le logo bleu azur) :
+  • Bleu azur (primary) : #0EA5E9 (sky-500) — c'est la couleur du logo
   • Bleu profond (secondary/texte fort) : #0E4D64
-  • Vert d'eau clair (accent) : #5EEAD4
+  • Turquoise lagon (accent) : #14B8A6 (teal-500)
   • Sable très clair (background) : #FEFCF7
   • Corail doux (CTA chaud) : #FB923C
   • Gris ardoise (texte courant) : #475569

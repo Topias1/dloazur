@@ -35,7 +35,7 @@
 | **Hébergement** | **Laravel Cloud, région EU (Francfort)** | Managé max, scale-to-zero, Postgres managé inclus, ~4-7 €/mois. |
 | **Stockage photos** | **Scaleway Object Storage (Paris)** | Hébergeur européen, RGPD propre, coût négligeable. |
 | **Maquettage** | **Claude Design** (claude.ai/design) | Conversationnel, applique un design system, handoff vers Claude Code. Pas de Figma. |
-| **Palette visuelle** | **Eau / Caraïbes**, turquoise lagon dominant | Cohérent avec "Dlo" (eau en créole) ; détaillée dans `2026-05-27-dloazur-design-system.md`. |
+| **Palette visuelle** | **Eau / Caraïbes** — **bleu azur dominant** (`sky-500`, aligné au logo), turquoise en accent | Logo bleu azur + nom « Azur » ; détaillée dans `2026-05-27-dloazur-design-system.md`. |
 
 ---
 
