@@ -1,216 +1,110 @@
-# Design system & maquettes — Dlo Azur Piscines
+# Design system — Dlo Azur Piscines
 
-**Version :** v1.1 — palette alignée sur le logo bleu azur (cf. `assets/brand/README.md`)
+**Version :** v3 — **dérivé de la marque réelle** (logo vectoriel + supports imprimés fournis par le client). Remplace la v1/v2 générées sans source de marque.
 **Date :** 2026-05-27
-**Statut :** prêt à coller dans Claude Design (claude.ai/design)
-**Document parent :** `2026-05-27-dloazur-refonte-design.md`
+**Statut :** design system + maquettes implémentés dans le dépôt (`mockups/`), prêts pour le portage Blade/Livewire.
+**Source de vérité :** les fichiers de marque dans `assets/brand/` (logo `logo/`, photos `photos/`, imprimés `print/`, `qr`).
+
+> **Changement majeur vs v1/v2 :** la palette, la typographie et le ton ne sont plus inventés. Ils sont **extraits des vrais supports** : le logo vectoriel (`#0080ff`), la **carte de visite** (fond bleu marine + texte turquoise), le **flyer** et la **plaquette hospitalité**. La carte de visite est la pierre de Rosette de la marque.
 
 ---
 
 ## 1. Principes
 
-- **Mobile-first systématique** (iPhone 375px de référence).
-- **Eau / Caraïbes** comme inspiration, sans cliché tropical (pas de palmiers, pas de cocotiers).
-- **Pro et rassurant**, pas glacial corporate.
-- **Photos réelles** de piscines, pas d'illustrations vectorielles.
-- **Sobre**, généreux en espace blanc, ombres discrètes, coins arrondis.
-- **Implémentable en Tailwind** sans framework JS lourd (cohérent avec Laravel + Livewire).
+- **Mobile-first systématique** (iPhone 390px de référence).
+- **Caraïbes authentiques, pas le cliché.** Mer, soleil et palmiers sont le décor **réel** de Pierre : on les assume. On évite le stock tropical générique (palmiers vectoriels, fausses piscines turquoise de banque d'images).
+- **Chaleureux ET premium.** Deux publics : les particuliers **et** le B2B hospitalité (agences, conciergeries, villas de location). Le ton doit rassurer un propriétaire comme une conciergerie de standing.
+- **Photos réelles** : Pierre au travail, vraies piscines, vraies villas martiniquaises.
+- **Engagé en couleur** : l'azur et le marine portent les grandes surfaces, jamais des bleus délavés.
+- **Implémentable en Tailwind** sans framework JS lourd (cohérent Laravel + Livewire + Alpine).
 
 ---
 
-## 2. Palette
+## 2. Palette (OKLCH, extraite des supports)
 
-| Rôle | Hex | Tailwind | Usage |
-|---|---|---|---|
-| Primary (bleu azur) | `#0EA5E9` | `sky-500` | Boutons principaux, liens, accents — **couleur du logo** |
-| Secondary (bleu profond) | `#0E4D64` | proche `sky-900` | Titres, texte fort, header |
-| Accent (turquoise lagon) | `#14B8A6` | `teal-500` | États actifs, highlights, touches « eau » |
-| Accent clair (vert d'eau) | `#5EEAD4` | `teal-300` | Survols, fonds d'accent légers |
-| Background (sable très clair) | `#FEFCF7` | proche `stone-50` | Fond général |
-| CTA chaud (corail doux) | `#FB923C` | `orange-400` | CTA secondaires, alertes douces |
-| Texte courant (gris ardoise) | `#475569` | `slate-600` | Paragraphes |
-| Bordures / séparateurs | `#E2E8F0` | `slate-200` | Lignes discrètes |
-| Succès | `#10B981` | `emerald-500` | Validations, synchro OK |
-| Alerte douce | `#F59E0B` | `amber-500` | Hors ligne, info à vérifier |
-| Erreur | `#EF4444` | `red-500` | Erreurs critiques uniquement |
+Tous les tokens sont en OKLCH, neutres teintés vers le marine, **jamais `#000` ni `#fff`**. Voir l'implémentation exacte dans `mockups/theme.js` (config Tailwind) et `mockups/app.css` (variables CSS).
+
+| Rôle | Réf. marque | Hex | OKLCH (500/clé) | Usage |
+|---|---|---|---|---|
+| **Azur** — primary | logo | `#0080ff` | `oklch(0.615 0.211 256)` | Boutons, liens, marque, actions |
+| **Marine** — surfaces sombres & encre | fond carte de visite | `#154c79` | `oklch(0.405 0.094 248)` (600) | Héros, bandeaux, footer, texte fort |
+| **Lagon** — accent turquoise | texte carte de visite | `#2fb8c8` | `oklch(0.720 0.113 207)` | « Eau vivante », états actifs/synchro |
+| **Soleil** — accent chaud | soleil du logo / lumière | — | `oklch(0.760 0.150 72)` | CTA chaud rare, badges avant/après |
+| **Sable** — surfaces claires | papier flyer | — | `oklch(0.987 0.005 85)` (50) | Fond général (blanc tiède) |
+| **Encre** — texte sur clair | — | — | `oklch(0.255 0.045 250)` (950) | Titres / corps (teinté marine) |
+| Succès | — | — | `oklch(0.700 0.150 155)` | Eau saine, synchro OK |
+| Alerte (hors-ligne) | — | — | `oklch(0.800 0.130 80)` | Hors-ligne, à vérifier (ambre, **jamais rouge**) |
+| Erreur | — | — | `oklch(0.620 0.210 25)` | Erreurs critiques uniquement |
+
+Chaque famille a une rampe complète (50→950 pour azur/marine ; 300→700 pour lagon ; 300→500 soleil). Voir le styleguide rendu : `mockups/styleguide.html`.
+
+**Stratégie couleur (impeccable) : engagée.** Azur + marine occupent 30–60 % de certaines surfaces (héros, section hospitalité, footer, CTA). Lagon et soleil restent des accents délibérés (< 10 %).
 
 ---
 
 ## 3. Typographie
 
-- **Titres** : Plus Jakarta Sans, 600-700, hiérarchie nette
-- **Corps** : Inter, 400-500
-- **Pas de serif**, pas de fonte décorative
-- **Tailles mobile** :
-  - H1 : 28-32px
-  - H2 : 22-24px
-  - H3 : 18-20px
-  - Body : 16px
-  - Small : 14px
-- **Line-height** : 1.5 pour le corps, 1.2 pour les titres
+- **Titres : Fredoka** (500–700). Son arrondi répond directement au mot-logo « AZUR » : chaleur, accessibilité, signature de marque.
+- **Corps & app : Inter** (400–700). Lisibilité maximale en plein soleil et à petite taille (saisie terrain).
+- **Pas de serif.** La personnalité vient de Fredoka + couleur + photo + motif.
+- Échelle (mobile → desktop) : Display 2.6–3.5rem · H1 1.9–2.5rem · H2 1.5rem · H3 1.125–1.25rem · Body 1rem · Small .875rem.
+- Contraste d'échelle ≥ 1.25 ; corps plafonné à 68 caractères ; interlignage 1.5 (corps) / 1.05–1.2 (titres).
 
 ---
 
-## 4. Style général
+## 4. Style & composants
 
-- **Coins arrondis** : `rounded-xl` (12px) par défaut, `rounded-2xl` pour les cards d'accent
-- **Ombres** : très subtiles, `shadow-sm` à `shadow-md` max
-- **Pas de glassmorphism**, pas de gradient agressif
-- **Espacement** : généreux, padding minimum 16px sur mobile
-- **Boutons** : minimum 44px de hauteur (touch target iOS)
-- **Inputs** : grands, lisibles, focus ring visible en `sky-500`
-
----
-
-## 5. Workflow Claude Design
-
-1. Coller **le prompt initial (section 6)** comme premier message dans une nouvelle conversation Claude Design.
-2. Une fois le design system validé visuellement, enchaîner avec **le prompt écran 1 (section 7)**.
-3. Itérer sur cet écran jusqu'à validation (mesures, photos, ergonomie tactile).
-4. Lancer en parallèle **le prompt écran 2 (section 8)** dans une autre conversation (ou la même si Claude Design le permet).
-5. Suite des écrans (section 9) une fois ces deux références fixées.
+- **Coins** : `rounded-xl` (14px) par défaut, `rounded-2xl`/`rounded-3xl` pour cards et sections.
+- **Ombres** : teintées vers le marine (`--shadow-xs→lg`), jamais grises. Discrètes.
+- **Motif vague & goutte** : extrait du logo, en SVG. Séparateurs de section (transition « eau »), puces, badges, bandeaux (`.ripple`).
+- **Cibles tactiles** ≥ 44px ; steppers de part et d'autre des champs numériques pour la saisie au pouce ; focus visible en azur.
+- **Hors-ligne** : bandeau ambre rassurant (« ta saisie est sauvegardée »), jamais alarmant.
+- **Bans** (impeccable) : pas de glassmorphism décoratif, pas de dégradé de texte, pas de bord-rayé latéral, pas de grilles de cartes identiques, pas d'emoji-icône.
 
 ---
 
-## 6. Prompt initial Claude Design
+## 5. Maquettes livrées (`mockups/`)
 
-```
-Je crée une application web pour Dlo Azur Piscines, une entreprise martiniquaise
-d'entretien de piscines. "Dlo" signifie "eau" en créole martiniquais.
+Ouvrir via un serveur local (les chemins `../assets` exigent HTTP) : `python3 -m http.server` à la racine, puis `http://localhost:8000/mockups/`.
 
-Identité visuelle souhaitée :
-- Inspiration : eau de lagon, Caraïbes, fraîcheur, lumière. Évite les clichés
-  (palmiers, cocotiers, drapeaux). On vise pro/moderne, pas tourisme.
-- Palette principale (alignée sur le logo bleu azur) :
-  • Bleu azur (primary) : #0EA5E9 (sky-500) — c'est la couleur du logo
-  • Bleu profond (secondary/texte fort) : #0E4D64
-  • Turquoise lagon (accent) : #14B8A6 (teal-500)
-  • Sable très clair (background) : #FEFCF7
-  • Corail doux (CTA chaud) : #FB923C
-  • Gris ardoise (texte courant) : #475569
-- Typographie : Plus Jakarta Sans pour les titres, Inter pour le corps.
-  Pas de serif. Hiérarchie nette.
-- Style : moderne, généreux en espace blanc, coins arrondis (rounded-xl),
-  ombres très subtiles. Pas de gradient agressif. Pas de glassmorphism.
-- Photos : vraies photos de piscines (eau bleue claire, plein soleil),
-  pas d'illustrations vectorielles.
-- Mobile-first systématique (iPhone 375px de largeur).
+| Fichier | Univers (registre) | Contenu |
+|---|---|---|
+| `index.html` | — | Galerie de toutes les maquettes |
+| `styleguide.html` | fondations | Tokens, palette, typo, motif, composants |
+| `vitrine.html` | **brand** (public) | Accueil : héros, services (layout asymétrique), « comment ça marche », **offre hospitalité B2B**, réalisations, Pierre, teaser espace client, témoignages, CTA, footer + QR |
+| `passage.html` | **product** (terrain) | Saisie d'un passage offline-first : header, bandeau hors-ligne, mesures 2×2 avec steppers, actions, photos (envoyée/en attente), notes, barre d'enregistrement collante |
+| `dashboard.html` | **product** (pro) | Tableau de bord : tournée du jour, à recontacter, stats, derniers comptes-rendus. Sidebar desktop / bottom-nav mobile |
+| `portail.html` | **product** (client) | Espace client lecture seule : piscine, dernier passage (mesures, mot de Pierre, photos), historique, lien sécurisé sans mot de passe |
 
-L'app comporte deux univers à designer cohéremment :
-1. Une vitrine publique (SEO local Martinique)
-2. Une app métier (espace pro + espace client en lecture seule)
-
-Stack technique cible : Laravel + Livewire + Tailwind CSS. Les maquettes
-doivent rester implémentables sans framework JS lourd côté front.
-```
+Implémentation : Tailwind via CDN + `theme.js` (config) + `app.css` (tokens/motif/base). Aucune étape de build ; transposable tel quel en Blade.
 
 ---
 
-## 7. Prompt écran 1 : saisie d'un passage (mobile, critique)
+## 6. Photographie & assets
 
-```
-Crée la maquette mobile (iPhone 375x812) de l'écran le plus critique de l'app :
-la saisie d'un passage par le professionnel chez un client, sur le terrain.
-
-Contexte d'usage : il est dehors, au soleil, smartphone à une main, parfois
-hors réseau. Doit pouvoir saisir un passage complet en moins de 2 minutes.
-
-Structure de l'écran (de haut en bas) :
-1. Header compact : nom du client + nom de la piscine + date du jour,
-   bouton retour discret.
-2. Banner contextuel : visible UNIQUEMENT si hors ligne, dans le style
-   "Hors ligne, ta saisie est sauvegardée et sera envoyée au retour du réseau".
-   Ton rassurant, pas alarmant. Couleur ambre douce, pas rouge.
-3. Section "Mesures de l'eau" : 4 champs numériques en grille 2x2
-   (pH, chlore libre, TAC, sel ppm). Steppers +/- de chaque côté du champ
-   pour saisie au pouce. Unité affichée discrètement.
-4. Section "Actions menées" : liste de checkboxes prédéfinies
-   (Nettoyage skimmer, Brossage parois, Aspiration fond, Contrôle filtration,
-   Ajustement chimique, Vidange partielle), plus un champ texte libre
-   "Autre action".
-5. Section "Photos" : zone de capture, grand bouton "+ Ajouter une photo"
-   qui ouvre l'appareil photo, vignettes des photos déjà ajoutées avec
-   possibilité de supprimer. Indique si la photo est uploadée ou en attente.
-6. Section "Notes" : textarea pour le client + textarea pour notes internes.
-7. CTA sticky bottom : bouton "Enregistrer le passage" pleine largeur,
-   couleur primary (turquoise). Indique discrètement "Sauvegarde automatique"
-   si du contenu est en train d'être tapé.
-
-Tout doit être atteignable au pouce. Taille des touches minimum 44px.
-Pas de menu burger, pas de tabs. Un seul scroll vertical fluide.
-```
+- **Logo** : `assets/brand/logo/logo.svg` (vectoriel, source de vérité) ; `logo.png`, `logo-on-navy.png`, `logo-icon.png`. Mono-couleur azur — visible sur clair comme sur marine.
+- **QR** : `assets/brand/qr.svg` / `qr.png` (vers les coordonnées).
+- **Photos** (`assets/brand/photos/`, optimisées) : `hero-pierre-piscine` (héros), `pierre-portrait` (à propos), `entretien-dos-logo`, `villa-hospitality` (B2B), `piscine-hors-sol`, `montage-hors-sol`, `balai-detail`, `avant-apres`, `piscine-propre`, `test-bandelette`.
+- **Imprimés de référence** (`assets/brand/print/`) : `flyer.png`, `carte-visite.pdf`, `plaquette-hospitality.pdf`.
+- Traitement photo unifié léger (`.photo-grade`) pour homogénéiser des sources variées. Héros : superposition dégradé marine pour la lisibilité du texte.
 
 ---
 
-## 8. Prompt écran 2 : accueil vitrine
+## 7. Positionnement (rappel produit)
 
-```
-Crée la maquette de la page d'accueil du site vitrine de Dlo Azur Piscines,
-en mobile-first (375px) puis desktop (1280px).
-
-L'objectif : un visiteur (propriétaire de piscine en Martinique) doit
-comprendre l'activité en 5 secondes et avoir envie de contacter via WhatsApp.
-
-Structure (mobile, du haut en bas) :
-1. Header : logo Dlo Azur + bouton WhatsApp visible (icône + numéro).
-2. Hero : grande photo d'une belle piscine martiniquaise (eau turquoise,
-   plein jour), titre fort "Votre piscine, claire toute l'année",
-   sous-titre court "Entretien, dépannage, conseils. Martinique.",
-   CTA principal "Demander un devis" + CTA secondaire "WhatsApp direct".
-3. Section services : 4 cards (Entretien régulier, Dépannage rapide,
-   Analyse et conseils, Formation autonomie), chacune avec une icône
-   ligne fine, un titre, 2 lignes de description.
-4. Section réalisations : grille de 3-6 photos de piscines (avant/après ou
-   juste après), titre "Quelques piscines récentes".
-5. Section confiance : 2-3 témoignages courts en cards, ou note Google
-   avec étoiles, ou les deux.
-6. Section "Comment ça marche" : 3 étapes simples (1. Vous contactez,
-   2. On vient évaluer, 3. Eau claire), avec petits numéros stylisés.
-7. CTA final : bandeau plein largeur turquoise, "Une piscine verte ?
-   Une question ? Écrivez-nous", gros bouton WhatsApp.
-8. Footer : coordonnées, mentions, réseaux, plan du site minimal.
-
-Le ton doit être pro et rassurant, sans superlatif marketing.
-```
+- **Opérateur** : Pierre ADAM, pisciniste solo. Tél `0696 94 00 54` · `contact@dloazurpiscines.com` · WhatsApp `wa.me/596696940054`.
+- **Deux publics** : particuliers (entretien, dépannage, « ma piscine est verte ») **et** B2B hospitalité (conciergeries, agences de location saisonnière — villas de standing). La section hospitalité de la vitrine reprend l'angle réel de la plaquette.
+- **Promesse de l'app** dans la vitrine : chaque passage gardé en mémoire (mesures + photos), consultable côté client → justifie la Phase 0.
 
 ---
 
-## 9. Écrans suivants à maquetter
+## 8. Portage Laravel (à venir)
 
-Une fois les deux références ci-dessus validées, à enchaîner :
-
-### App métier
-- Dashboard pro (mobile + desktop) : derniers passages, clients à recontacter, accès rapide à "Nouveau passage"
-- Liste clients (recherche, filtres)
-- Fiche client (infos, piscine, historique des passages)
-- Historique des passages (vue chronologique avec filtres)
-- Espace client portail (lecture seule, mobile-first)
-- Détail d'un passage côté client (mesures, photos, notes du pro)
-- Auth : login pro + écran magic link client
-
-### Vitrine
-- Page services (détail des 4 lignes)
-- Page réalisations (galerie complète)
-- Blog (liste + article)
-- Page contact
-
-### Phase 1a (plus tard, après validation Phase 0)
-- Catalogue produits / services
-- Vue contrat client
-- Génération facture depuis un passage
-- Espace client : section factures
-- Écran signature électronique
-
-### Phase 2 (plus tard)
-- Wizard diagnostic public ("ma piscine est verte")
-- Tunnel paiement Stripe (abonnement)
-- Espace utilisateur diagnostic premium
+- Reprendre les tokens de `mockups/theme.js` dans `tailwind.config.js` du projet (mêmes valeurs OKLCH).
+- `app.css` → fichier CSS d'app (fonts, variables, `.ripple`, motif). Les fonts via `@fontsource` ou Google Fonts.
+- Les écrans `vitrine`/`dashboard`/`portail` → Blade + Livewire. **`passage` reste hors Livewire** (Alpine + IndexedDB + Service Worker), conformément à la contrainte offline-first.
+- Icônes : jeux SVG inline (style Lucide) déjà présents dans les maquettes ; WhatsApp = glyphe officiel.
 
 ---
 
-## 10. Notes pratiques
-
-- Claude Design peut **lire un codebase** pour appliquer un design system. Quand le code Laravel/Tailwind sera initialisé (Phase V), revenir dans Claude Design et lui pointer le repo pour qu'il extraie automatiquement les tokens.
-- **Export possible** : PDF, URL partageable, PPTX, ou handoff direct vers Claude Code.
-- **Itération** : préférer plusieurs petites itérations sur un même écran plutôt qu'un gros prompt initial. Claude Design répond bien aux ajustements ciblés ("rends le CTA plus discret", "double l'espacement entre les sections").
-- **Photos** : Claude Design utilise des photos stock ou générées. Pour les vraies photos de Dlo Azur, les uploader directement dans la conversation et lui demander de les intégrer.
+*Maquettes et tokens produits avec le skill `impeccable`, à partir des supports de marque réels. Itérer écran par écran dans le navigateur plutôt qu'en un gros prompt.*
