@@ -1,0 +1,6 @@
+# Skills agent installés localement (régénérables via `skills add` — cf. skills-lock.json)
+.agents/
+
+# macOS
+.DS_Store
+**/.DS_Store
