@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,8 +13,14 @@ use Illuminate\Support\Facades\Route;
 |   middleware(['web', 'auth'])->prefix('admin')->name('admin.')
 |
 | GET /admin → admin.dashboard (DashboardController@index)
-| Phase 2 will add Route::resource('clients', ClientController::class), etc.
 |
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+// Clients CRUD (Plan 02-02)
+// Write actions (store/update/destroy) handled by Livewire components.
+Route::get('clients', [ClientController::class, 'index'])->name('clients.index');
+Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
+Route::get('clients/{client}', [ClientController::class, 'show'])->name('clients.show');
+Route::get('clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');

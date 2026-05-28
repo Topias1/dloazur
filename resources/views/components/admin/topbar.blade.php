@@ -16,7 +16,7 @@
             <span class="font-display font-semibold text-ink-950">Dlo Azur</span>
         </a>
 
-        {{-- Desktop search (greyed out — Phase 2 wires actual search) --}}
+        {{-- Desktop search (contextual placeholder — live search in client list component) --}}
         <div class="hidden lg:flex items-center gap-2 flex-1 max-w-md">
             <div class="relative w-full">
                 <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
@@ -27,22 +27,38 @@
                 </svg>
                 <input disabled
                     class="w-full h-10 pl-10 pr-4 rounded-xl bg-white/60 ring-1 ring-navy-900/10 text-ink-400 placeholder:text-ink-400 outline-none cursor-not-allowed opacity-60"
-                    placeholder="Recherche disponible en Phase 2…"
-                    aria-label="Recherche (disponible en Phase 2)">
+                    placeholder="Rechercher un client, un passage…"
+                    aria-label="Recherche (disponible dans la vue liste)">
             </div>
         </div>
 
-        {{-- Nouveau passage CTA — disabled Phase 1 --}}
-        <button type="button" disabled aria-disabled="true"
-            class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500/40 text-white font-semibold cursor-not-allowed opacity-50"
-            title="Disponible en Phase 2">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
-                stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                <path d="M12 5v14M5 12h14"/>
-            </svg>
-            <span class="hidden sm:inline">Nouveau passage</span>
-            <span class="sm:hidden">Passage</span>
-        </button>
+        {{-- Action buttons --}}
+        <div class="flex items-center gap-2">
+            {{-- Nouveau client — visible uniquement sur les pages clients --}}
+            @if(request()->routeIs('admin.clients.*'))
+                <a href="{{ route('admin.clients.create') }}"
+                    class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors shadow-sm">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    <span class="hidden sm:inline">Nouveau client</span>
+                    <span class="sm:hidden">Client</span>
+                </a>
+            @endif
+
+            {{-- Nouveau passage CTA — disabled (Plan 02-05 activera) --}}
+            <button type="button" disabled aria-disabled="true"
+                class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500/40 text-white font-semibold cursor-not-allowed opacity-50"
+                title="Disponible bientôt — saisie passage en cours d'activation">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 5v14M5 12h14"/>
+                </svg>
+                <span class="hidden sm:inline">Nouveau passage</span>
+                <span class="sm:hidden">Passage</span>
+            </button>
+        </div>
 
     </div>
 </header>
