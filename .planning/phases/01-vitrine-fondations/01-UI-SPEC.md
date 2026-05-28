@@ -1,10 +1,11 @@
 ---
 phase: 1
 slug: vitrine-fondations
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-05-28
+reviewed_at: 2026-05-28
 register: brand (vitrine) / product (admin shell)
 ---
 
