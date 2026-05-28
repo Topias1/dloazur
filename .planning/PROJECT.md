@@ -50,8 +50,9 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 
 ## Constraints
 
-- **Tech stack**: Laravel 13 + Livewire 3 + Alpine.js 3 + Tailwind 4 (CSS-first @theme) + PostgreSQL 16 — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
+- **Tech stack**: Laravel 13 + Livewire 3 + Alpine.js 3 + Tailwind 4 (CSS-first @theme) + PostgreSQL 17 — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
   - Stack override 2026-05-28 : Laravel 11 EOL passé (sécurité 2026-03-12), Laravel 13 retenu (sécurité jusqu'en 2028-03-17). Tailwind v4 supprime tailwind.config.js — tokens dans resources/css/app.css via @theme.
+  - Postgres bump 2026-05-28 : Laravel Cloud Neon-managed offre Postgres 17/18 (pas 16). Choix 17 (mature, supportée jusqu'en 2029-11). CI image alignée `postgres:17`, runner PHP `8.4` (floor imposé par composer.lock — paquets Symfony v8 requièrent PHP 8.4).
 - **Offline**: saisie d'un passage offline-first (IndexedDB + Service Worker + Alpine ; **pas Livewire**, qui exige le réseau)
 - **Hébergement**: Laravel Cloud région **EU/Francfort** (scale-to-zero, ~4-7 €/mois, Postgres managé) ; photos sur **Scaleway Object Storage (Paris)**
 - **RGPD**: données clients hébergées en EU ; AWS + SCCs acceptable car données peu sensibles

@@ -33,11 +33,11 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
   4. L'opérateur se connecte avec email + mot de passe et accède au back-office
   5. Le schéma de base de données complet est déployé (inclut `client_uuid`, `odoo_id`, `signature_path`)
 
-**Plans:** 6 plans (Walking Skeleton + 4 parallel slices + cutover gate)
+**Plans:** 1/6 plans executed
 Plans:
 **Wave 1**
 
-- [ ] 01-01-PLAN.md — Walking Skeleton: Laravel 13 scaffold + Tailwind 4 @theme + Pest 4 + CI + base layouts + route partitions + Laravel Cloud staging + CLAUDE.md/PROJECT.md Laravel 13 override
+- [x] 01-01-PLAN.md — Walking Skeleton: Laravel 13 scaffold + Tailwind 4 @theme + Pest 4 + CI + base layouts + route partitions + Laravel Cloud staging + CLAUDE.md/PROJECT.md Laravel 13 override
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
@@ -122,7 +122,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vitrine & Fondations | 0/6 | Planned | - |
+| 1. Vitrine & Fondations | 1/6 | In Progress|  |
 | 2. MVP Suivi Offline-First | 0/? | Not started | - |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |

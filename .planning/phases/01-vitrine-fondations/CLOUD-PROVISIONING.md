@@ -2,7 +2,12 @@
 
 > Step-by-step handover for the human-only setup that has no CLI/API substitute (account creation, DNS verification). Once these are done, `git push origin main` triggers Laravel Cloud auto-deploy and the operator visits the staging URL to confirm the page loads.
 >
-> **Context:** Plan 01 Task 2-4 produced a Laravel 13 skeleton that runs locally and passes Pest CI (PostgreSQL 16, PHP 8.3). Task 5 closes Phase 1 by wiring the cloud edge.
+> **Context:** Plan 01 Task 2-4 produced a Laravel 13 skeleton that runs locally and passes Pest CI (PostgreSQL **17** + PHP **8.4** — see "Stack reality" note below). Task 5 closes Phase 1 by wiring the cloud edge.
+>
+> **Stack reality (amended 2026-05-28 during Task 5):**
+> - Laravel Cloud Neon-managed Postgres only offers 17/18 (no 16 — original plan), so the staging cluster runs **Postgres 17** (`misty-bird-14300504`, region `eu-central-1`, Dev tier ¼ vCPU / hibernate 300s).
+> - composer.lock pinned Symfony v8 + Spatie packages require PHP **8.4** minimum; CI runner upgraded from 8.3 → 8.4 (`.github/workflows/tests.yml`). Laravel Cloud runtime is PHP 8.5 (further ahead, safe).
+> - The Postgres resource was **attached out-of-band via the Laravel Cloud API** (env-vars set via `POST /api/environments/{env}/variables` with `method: append`) because the dashboard "Attach resource" flow didn't execute the link during Postgres creation. Stop+Start cycle on `/api/environments/{env}/{stop,start}` triggered the deploy that picked up the new env vars.
 
 ---
 
@@ -10,7 +15,7 @@
 
 | Service | Plan | Cost | Region | Purpose |
 |---------|------|------|--------|---------|
-| Laravel Cloud | Hobby (free $5/14d, then ~4-7€/mo) | EU Central (Frankfurt) | App hosting + managed Postgres 16 + scale-to-zero |
+| Laravel Cloud | Hobby (free $5/14d, then ~4-7€/mo) | EU Central (Frankfurt) | App hosting + managed Postgres 17 (Dev tier, hibernate 300s) + scale-to-zero |
 | Cloudflare R2 | Free tier (10 GB + zero egress) | EU (auto, fr-par class) | S3-compatible object storage for photo uploads (Phase 2) |
 | Brevo (ex-Sendinblue) | Free (300 emails/day) | Paris, FR (only region) | Transactional mail — contact form (Plan 04) |
 | GitHub | Existing | — | Repo `Topias1/dloazur` source of truth, auto-deploy hook |

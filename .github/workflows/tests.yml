@@ -12,13 +12,13 @@ concurrency:
 
 jobs:
   pest:
-    name: Pest (PHP 8.3 · Postgres 16)
+    name: Pest (PHP 8.4 · Postgres 17)
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
     services:
       postgres:
-        image: postgres:16
+        image: postgres:17
         env:
           POSTGRES_USER: testing
           POSTGRES_PASSWORD: testing
@@ -47,7 +47,7 @@ jobs:
       - name: Setup PHP
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.4'
           extensions: pdo_pgsql, bcmath, gd, intl, mbstring, xml
           coverage: none
           tools: composer:v2
