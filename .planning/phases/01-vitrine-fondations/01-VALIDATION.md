@@ -49,7 +49,7 @@ updated: 2026-05-28
 | 01-01-T3a | 01-01 | 1 | SITE-01, SITE-06 | T-1-07 | CSS @theme + Vite + tokens compile without errors | feature | `npm run build && grep -q '@theme' resources/css/app.css` | ❌ W0 | ⬜ pending |
 | 01-01-T3b | 01-01 | 1 | SITE-01, AUTH-01 | T-1-01, T-1-07 | Skeleton smoke + health check return styled 200 + db:ok JSON | feature | `./vendor/bin/pest --filter='SkeletonSmokeTest\|HealthCheckTest'` | ❌ W0 | ⬜ pending |
 | 01-01-T4 | 01-01 | 1 | SITE-01 | T-1-02, T-1-03 | CI workflow exists + env templates ready + CLAUDE/PROJECT/CONTEXT updated to Laravel 13 | unit | `test -f .github/workflows/tests.yml && grep -q "'8.3'" .github/workflows/tests.yml && grep -q 'Laravel 13' CLAUDE.md && grep -q 'Laravel 13' .planning/PROJECT.md && grep -q 'Laravel 13' .planning/phases/01-vitrine-fondations/01-CONTEXT.md` | ❌ W0 | ⬜ pending |
-| 01-01-T5 | 01-01 | 1 | SITE-01, SITE-07 | T-1-03 | Laravel Cloud staging + Scaleway + Brevo sender provisioned (human-only) | manual | — (checkpoint:human-verify) | ❌ W0 | ⬜ pending |
+| 01-01-T5 | 01-01 | 1 | SITE-01, SITE-07 | T-1-03 | Laravel Cloud staging + Cloudflare R2 + Brevo sender provisioned (human-only) | manual | — (checkpoint:human-verify) | ❌ W0 | ⬜ pending |
 
 ### Plan 01-02 — Business schema (D-07/D-08/D-09)
 
