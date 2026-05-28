@@ -4,6 +4,7 @@
  * StaticPagesTest — Plan 01-03 Task 1 (RED).
  *
  * Covers SITE-02 (services), SITE-03 (realisations), legal pages + contact shell.
+ * Plan 01-06 content recovery: services checklists + CGV legal sections.
  */
 
 it('services page renders 200 with own title', function () {
@@ -53,4 +54,59 @@ it('eau-verte-urgence dedicated page exists with WhatsApp CTA and Service JSON-L
     $response->assertSeeText("Traitement eau verte d'urgence");
     $response->assertSee('wa.me/596696940054', false);
     $response->assertSee('"@type": "Service"', false);
+});
+
+// ── Plan 01-06 content recovery ──────────────────────────────────────────────
+
+it('services page contains 3 Zyro service sections recovered (content recovery 01-06)', function () {
+    $response = $this->get('/services');
+    $response->assertOk();
+    // Service 1 — nettoyage
+    $response->assertSeeText('Nettoyage & remise en état');
+    $response->assertSeeText('Nettoyage intensif');
+    $response->assertSeeText('Traitement de l\'eau');
+    $response->assertSeeText('Révision complète des équipements');
+    // Service 2 — entretien hebdomadaire
+    $response->assertSeeText('Entretien hebdomadaire');
+    $response->assertSeeText('Analyse et ajustement de l\'eau');
+    $response->assertSeeText('Contrôle des équipements');
+    // Service 3 — montage hors sol
+    $response->assertSeeText('Montage hors sol');
+    $response->assertSeeText('Préparation du terrain');
+    $response->assertSeeText('Montage et installation');
+});
+
+it('services page contains "Pourquoi nous faire confiance" footer block (content recovery 01-06)', function () {
+    $response = $this->get('/services');
+    $response->assertOk();
+    $response->assertSeeText('Pourquoi nous faire confiance');
+    $response->assertSeeText('Expertise locale Martinique');
+    $response->assertSeeText('Prestations sur-mesure');
+});
+
+it('cgv page contains real legal sections with Pierre ADAM identity (content recovery 01-06)', function () {
+    $response = $this->get('/cgv');
+    $response->assertOk();
+    // Identité + SIRET
+    $response->assertSeeText('Pierre ADAM');
+    $response->assertSeeText('934 053 281 000 10');
+    // Sections juridiques
+    $response->assertSeeText('Conditions générales de vente');
+    $response->assertSeeText('Responsabilité');
+    $response->assertSeeText('Droit applicable');
+    $response->assertSeeText('Fort-de-France');
+    // TVA franchise (correction apportée)
+    $response->assertSee('293 B', false);
+    // Contact
+    $response->assertSee('contact@dloazurpiscines.com', false);
+});
+
+it('home page contains Zyro SEO paragraphs "Pourquoi choisir" and "eau parfaite" (content recovery 01-06)', function () {
+    $response = $this->get('/');
+    $response->assertOk();
+    $response->assertSeeText('Pourquoi choisir Dlo Azur Piscines');
+    $response->assertSeeText('partenaire de confiance en Martinique');
+    $response->assertSeeText('Votre piscine mérite une eau parfaite');
+    $response->assertSeeText('températures élevées');
+    $response->assertSeeText('algues et des bactéries');
 });

@@ -6,6 +6,7 @@
     <h1 class="sr-only">Services de pisciniste — Dlo Azur Piscines</h1>
     <div class="pt-24">
         @include('vitrine.partials.services-grid')
+        @include('vitrine.partials.services-detail')
         @include('vitrine.partials.urgence-eau-verte')
         @include('vitrine.partials.how-it-works')
         @include('vitrine.partials.final-cta')

@@ -15,6 +15,9 @@
     {{-- 4. How it works --}}
     @include('vitrine.partials.how-it-works')
 
+    {{-- 4b. Philosophie SEO — Pourquoi choisir / eau parfaite (récupéré Zyro, Plan 01-06) --}}
+    @include('vitrine.partials.philosophie')
+
     {{-- 5. Hospitality / B2B --}}
     @include('vitrine.partials.hospitality')
 
