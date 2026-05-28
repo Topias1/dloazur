@@ -33,7 +33,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
   4. L'opérateur se connecte avec email + mot de passe et accède au back-office
   5. Le schéma de base de données complet est déployé (inclut `client_uuid`, `odoo_id`, `signature_path`)
 
-**Plans:** 6/6 plans complete
+**Plans:** 9/6 plans complete
 Plans:
 **Wave 1**
 
@@ -48,7 +48,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 01-06-PLAN.md — Cutover gate: CacheHeaders middleware + Lighthouse/Schema.org/OG/Mailgun/login validation + CUTOVER.md playbook + Zyro URL inventory + DNS switch handoff (SITE-07 final gate)
+- [x] 01-06-PLAN.md — Cutover gate: CacheHeaders middleware + Lighthouse/Schema.org/OG/Mailgun/login validation + CUTOVER.md playbook + Zyro URL inventory + DNS switch handoff (SITE-07 final gate)
 
 **UI hint**: yes
 **Walking Skeleton**: yes (greenfield + MVP — SKELETON.md committed alongside PLAN files)
@@ -122,7 +122,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vitrine & Fondations | 6/6 | Complete   | 2026-05-28 |
+| 1. Vitrine & Fondations | 9/6 | Complete   | 2026-05-28 |
 | 2. MVP Suivi Offline-First | 0/? | Not started | - |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
