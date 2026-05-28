@@ -17,6 +17,9 @@ use Illuminate\Support\Facades\Route;
 // /up — health check : jamais mis en cache (Plan 06 cache.headers:health)
 Route::middleware('cache.headers:health')->get('/up', [HealthController::class, 'ping'])->name('health');
 
+// /offline — page hors-ligne précachée par Workbox (navigateFallback) — accessible sans auth
+Route::view('/offline', 'offline')->name('offline');
+
 // robots.txt — served as static file in production (public/robots.txt);
 // this route ensures the test suite can assert it, since the Laravel test
 // client routes through the kernel, not the web server file system.
