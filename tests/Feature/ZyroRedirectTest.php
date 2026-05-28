@@ -21,6 +21,8 @@ dataset('zyro_redirects', [
     ['/nos-realisations',                                    '/realisations'],
     ['/blog-list-nettoyage-piscine-professionnel',           '/blog'],
     ['/page-article-blog-vierge',                            '/blog'],
+    // /conditions-generales — URL Zyro hors sitemap (footer link only)
+    ['/conditions-generales',                                '/cgv'],
     // Typo variant (missing trailing 's') → canonical article slug
     [
         '/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscine',

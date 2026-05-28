@@ -40,6 +40,8 @@ Route::redirect('/services-et-nettoyage', '/services', 301);
 Route::redirect('/nos-realisations', '/realisations', 301);
 Route::redirect('/blog-list-nettoyage-piscine-professionnel', '/blog', 301);
 Route::redirect('/page-article-blog-vierge', '/blog', 301);
+// /conditions-generales — URL Zyro hors sitemap (footer link only) → Phase 1 /cgv
+Route::redirect('/conditions-generales', '/cgv', 301);
 // Typo variant (missing trailing 's') → canonical article slug (SEO recovery, D-24)
 Route::redirect(
     '/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscine',
