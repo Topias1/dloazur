@@ -1,13 +1,15 @@
 # Note de cadrage — Refonte Dlo Azur Piscines
 
-**Version :** v2 (remplace v1 du 2026-05-27)
-**Date :** 2026-05-27
-**Statut :** design validé en séance — maquettes en cours via Claude Design — en attente (1) revue dev, (2) réponses Odoo du client avant Phase 1a
+**Version :** v3 (remplace v2 du 2026-05-27)
+**Date :** 2026-05-28
+**Statut :** **maquettes v1 livrées** (six écrans HTML/Tailwind in-repo, palette extraite des supports imprimés réels), prêtes pour validation client. En attente : (1) retour Pierre sur l'aperçu v1, (2) réponses Odoo avant Phase 1a, (3) hébergement public de l'aperçu (GitHub Pages).
 
-**Changements vs v1 :**
-- §2 : ajout des décisions sur le maquettage (Claude Design) et la palette (eau/Caraïbes)
-- §9 nouvelle : Maquettes & Design (référence au fichier `2026-05-27-dloazur-design-system.md`)
-- §13 Prochaines étapes : intégration du travail de maquettage avant les writing-plans
+**Changements vs v2 :**
+
+- §2 « Maquettage » : Claude Design abandonné ; remplacé par le skill **impeccable** in-repo. Les maquettes vivent dans `mockups/v1/`, **versionnées par dossier** pour gérer les itérations clients (`v1/`, `v2/`…), transposables directement en Blade/Livewire.
+- §2 « Palette » : tokens **extraits des supports imprimés réels** (logo vectoriel, carte de visite, flyer, plaquette hospitalité) en OKLCH. Azur exact `#0080ff` (logo), marine `#154c79` (fond carte de visite), lagon `#2fb8c8` (texte de carte), soleil en accent. Typographie : **Fredoka** (titres, rondeur qui répond au mot-logo « AZUR ») + **Inter** (corps).
+- §9 « Maquettes & Design » : entièrement réécrite. Six écrans construits, design system documenté dans `DESIGN.md` (format Stitch + tokens OKLCH + composants) + `PRODUCT.md` (stratégie, registre, anti-références). Trend critique impeccable : **27/40 → 31/40**.
+- §13 Prochaines étapes : focus déplacé sur la validation Pierre + l'hébergement public de l'aperçu.
 
 ---
 
@@ -34,8 +36,8 @@
 | **Offline** | **Offline-first dès le MVP**, sur l'écran de saisie d'un passage uniquement | Réseau « hasardeux » en Martinique + photos systématiques → la saisie doit survivre sans réseau. |
 | **Hébergement** | **Laravel Cloud, région EU (Francfort)** | Managé max, scale-to-zero, Postgres managé inclus, ~4-7 €/mois. |
 | **Stockage photos** | **Scaleway Object Storage (Paris)** | Hébergeur européen, RGPD propre, coût négligeable. |
-| **Maquettage** | **Claude Design** (claude.ai/design) | Conversationnel, applique un design system, handoff vers Claude Code. Pas de Figma. |
-| **Palette visuelle** | **Eau / Caraïbes** — **bleu azur dominant** (`sky-500`, aligné au logo), turquoise en accent | Logo bleu azur + nom « Azur » ; détaillée dans `2026-05-27-dloazur-design-system.md`. |
+| **Maquettage** | **impeccable** (skill in-repo, Claude Code) | Six écrans HTML/Tailwind statiques dans `mockups/v1/`, transposables directement en Blade. **Versionnés par dossier** (`v1/`, `v2/`…) pour les itérations clients. Pas de Figma, pas de Claude Design. |
+| **Palette visuelle** | **Extraite des supports imprimés réels.** Azur `#0080ff` (logo) + marine `#154c79` (carte de visite) + lagon `#2fb8c8` + soleil. Fredoka + Inter. Tout en OKLCH. | Pas de couleurs inventées : sampling du logo vectoriel et de la carte de visite. Détaillée dans `DESIGN.md` (format Stitch) et `2026-05-27-dloazur-design-system.md` (v3). |
 
 ---
 
@@ -143,28 +145,65 @@ Réécriture propre du wizard « ma piscine est verte » : diagnostic enrichi, *
 
 ## 9. Maquettes & Design
 
-**Outil retenu :** [Claude Design](https://claude.ai/design) (Anthropic Labs, lancé avril 2026). Conversationnel, applique un design system de manière cohérente, exporte vers PDF/PPTX/URL et fait un handoff propre vers Claude Code pour l'implémentation.
+**Outil retenu :** le skill **impeccable** (Anthropic Labs, in-repo) opéré dans Claude Code. Conversationnel, design system in-process, écrit du HTML+Tailwind statique directement portable en Blade/Livewire. Claude Design (claude.ai/design) a été évalué puis abandonné : in-repo gagne sur traçabilité git, versioning, et coût d'itération.
 
-**Pourquoi pas Figma :** pas de bénéfice ici (dev solo, pas de designer dans l'équipe). Claude Design produit directement des maquettes implémentables en Tailwind, ce qui colle au stack.
+**Pourquoi pas Figma :** pas de bénéfice ici (dev solo, pas de designer dans l'équipe). impeccable produit directement des maquettes implémentables sur le stack cible, et garde tout en git.
 
-**Design system :** détaillé dans `2026-05-27-dloazur-design-system.md` (palette eau/Caraïbes, typographie Plus Jakarta Sans + Inter, style sobre/aéré, photos réelles).
+### Source de vérité visuelle
 
-**Ordre d'attaque des maquettes :**
+| Fichier | Rôle |
+|---|---|
+| `PRODUCT.md` (racine repo) | Stratégie : registre, utilisateurs, raison d'être, personnalité, anti-références, 5 principes, a11y. |
+| `DESIGN.md` (racine repo) | Système visuel format Stitch : YAML frontmatter (tokens OKLCH, typographie, composants) + 6 sections (Overview, Colors, Typography, Elevation, Components, Do's and Don'ts). North Star : « **L'artisan du lagon** ». |
+| `.impeccable/design.json` | Sidecar : rampes tonales, ombres, motion, breakpoints, 9 primitives de composants rendues (HTML+CSS self-contained). |
+| `2026-05-27-dloazur-design-system.md` | Doc historique (v3) : récapitulatif palette, typo, motif, écrans livrés, portage Laravel. |
 
-| Priorité | Écran | Justification |
-|---|---|---|
-| 1 | Saisie d'un passage (mobile) | Écran critique, valide l'ergo terrain |
-| 2 | Accueil vitrine | Pose le ton public, en parallèle |
-| 3 | Dashboard pro | Vue quotidienne du client |
-| 4 | Espace client (lecture seule) | Justifie le travail Phase 0 |
-| 5 | Auth (login pro + magic link) | Simple, à la fin |
-| 6 | Reste vitrine (services, réalisations, blog, contact) | Itératif sur la base du #2 |
+### Versioning des maquettes
 
-**Workflow :**
-1. Coller le prompt initial (design system) dans Claude Design pour fixer la base visuelle.
-2. Itérer en parallèle sur l'écran de saisie passage (#1) et l'accueil vitrine (#2).
-3. Une fois ces deux références validées, dérouler le reste à la chaîne.
-4. Quand le codebase Laravel sera initialisé (Phase V), pointer Claude Design sur le repo pour qu'il extraie automatiquement les tokens Tailwind et applique le design system aux nouveaux écrans.
+Les maquettes vivent dans **`mockups/v<N>/`** pour faciliter les itérations après retours client. Le retour de Pierre sur la v1 produit une v2 ; la v1 reste consultable et comparable.
+
+```
+mockups/
+  index.html          # redirige vers la version courante
+  v1/
+    index.html        # galerie des 6 écrans
+    vitrine.html      passage.html    portail.html
+    dashboard.html    auth.html       styleguide.html
+    app.css           theme.js
+    previews/*.png    # thumbnails de la galerie
+```
+
+### Écrans livrés (v1 — 28 mai 2026)
+
+| # | Écran | Univers (registre) | État |
+|---|---|---|---|
+| 1 | `vitrine.html` | brand (public) | hero authentique, services asymétriques, offre hospitalité B2B, réalisations, Pierre, teaser espace client, témoignages, CTA, footer + QR |
+| 2 | `passage.html` | product (terrain) | saisie offline-first dans un phone-frame : header, bandeau hors-ligne ambre, mesures 2×2 + steppers, actions, photos avec statut, notes, save-bar collante |
+| 3 | `dashboard.html` | product (pro) | sidebar desktop / bottom-nav mobile, KPI, tournée du jour, à recontacter, derniers comptes-rendus |
+| 4 | `portail.html` | product (client) | piscine, dernier passage, mot de Pierre, photos, historique, lien magique |
+| 5 | `auth.html` | product (entrée) | écran scindé marine/sable, bascule pro / client (magic link) |
+| 6 | `styleguide.html` | fondations | tokens, palette, typo, motif, composants — design system rendu |
+
+Index galerie : `mockups/v1/index.html`. Ouvrable via `python3 -m http.server` à la racine du dépôt, puis `http://localhost:8000/mockups/v1/`.
+
+### Critique & polish (impeccable)
+
+La vitrine a été passée à `/impeccable critique` puis `/impeccable polish`, snapshots persistés dans `.impeccable/critique/`.
+
+| Run | Score | P1 | Détail |
+|---|---|---|---|
+| Initial | **27 / 40** | 2 | hero-metric template, 4 em-dashes, kicker repetition |
+| Post-fix | **31 / 40** | 0 | tous P1/P2 résolus ; polish ajouté (OG meta, skip-link, lazy loading) |
+
+Détecteur déterministe : 0 errors, 0 warns sur les 6 écrans. Le détecteur upstream du skill manquait son bundle ; patch local dans `tools/impeccable-detector/` (em-dash, side-stripe border, gradient text, glassmorphism, hero-metric, kicker repetition, identical card grids).
+
+### Portage Laravel
+
+- Reprendre les tokens de `mockups/v1/theme.js` dans le `tailwind.config.js` du projet Laravel (mêmes valeurs OKLCH).
+- `app.css` → fichier CSS d'app (fonts via Google Fonts ou `@fontsource`, variables, `.ripple`, motif vague).
+- Vitrine / dashboard / portail → Blade + Livewire.
+- **`passage` reste hors Livewire** : Alpine + IndexedDB + Service Worker, conforme à la contrainte offline-first §8.
+- Icônes : jeux SVG inline (style Lucide) déjà présents dans les maquettes ; glyphe WhatsApp officiel (Simple Icons).
 
 ---
 
@@ -206,12 +245,19 @@ Réécriture propre du wizard « ma piscine est verte » : diagnostic enrichi, *
 
 ## 13. Prochaines étapes
 
-1. **Revue de cette note v2** par le dev.
-2. **Maquettes Claude Design** : produire les deux écrans de référence (saisie passage + accueil vitrine) en parallèle. Voir `2026-05-27-dloazur-design-system.md`.
-3. **Extraction spec diagnostic** depuis `diagnostic-dloazur.html` (arbre de décision, formules) — à archiver avant que la maquette soit oubliée.
-4. **Obtenir les réponses Odoo** du client (§11).
-5. **Plan d'implémentation** (writing-plans) — commencer par **Phase V (vitrine)** puis **Phase 0 (MVP suivi)**.
+| # | Étape | État |
+|---|---|---|
+| 1 | Note de cadrage v3 (cette note) à jour | ✅ fait |
+| 2 | Maquettes v1 (six écrans) construites et critique-validées (27 → 31 / 40) | ✅ fait |
+| 3 | `PRODUCT.md` + `DESIGN.md` (format Stitch) en place | ✅ fait |
+| 4 | **Hébergement public de l'aperçu v1** sur GitHub Pages (repo public) | ⏳ à faire |
+| 5 | **PDF récap client** pour Pierre (`docs/exports/recap-client.pdf`) | ⏳ à faire |
+| 6 | **Retour Pierre sur la v1** → décisions visuelles, naissance de la v2 | ⏳ en attente client |
+| 7 | **Extraction spec diagnostic** depuis `diagnostic-dloazur.html` (arbre de décision, formules) avant que la maquette React jetée ne soit oubliée | ⏳ à faire avant Phase 2 |
+| 8 | **Réponses Odoo du client** (§11) | ⏳ en attente client |
+| 9 | **Phase V — Vitrine Laravel** : initialiser le projet Laravel 11, transposer `mockups/v<N>/vitrine.html` en Blade, déployer sur Laravel Cloud EU, basculer le DNS depuis Hostinger | ⏳ à faire après v2 validée |
+| 10 | **Phase 0 — MVP suivi** : modèle de données §4, écran de saisie offline-first (Alpine + IndexedDB + Service Worker), historique pro, portail client magic link | ⏳ après Phase V |
 
 ---
 
-*Sources vérifiées : [Odoo — External API (restriction plan Custom)](https://www.odoo.com/documentation/17.0/developer/reference/external_api.html) · [Odoo Pricing](https://www.odoo.com/page/pricing) · [Laravel Cloud Pricing](https://cloud.laravel.com/pricing) · [Laravel Cloud — régions EU & nuance RGPD/Schrems II](https://danubedata.ro/blog/laravel-cloud-alternatives-europe-2026) · [Best Laravel hosting 2026](https://benjamincrozat.com/best-laravel-hosting-providers) · [Claude Design — Anthropic Labs](https://www.anthropic.com/news/claude-design-anthropic-labs)*
+*Sources vérifiées : [Odoo — External API (restriction plan Custom)](https://www.odoo.com/documentation/17.0/developer/reference/external_api.html) · [Odoo Pricing](https://www.odoo.com/page/pricing) · [Laravel Cloud Pricing](https://cloud.laravel.com/pricing) · [Laravel Cloud — régions EU & nuance RGPD/Schrems II](https://danubedata.ro/blog/laravel-cloud-alternatives-europe-2026) · [Best Laravel hosting 2026](https://benjamincrozat.com/best-laravel-hosting-providers) · [Repo GitHub `Topias1/dloazur`](https://github.com/Topias1/dloazur)*

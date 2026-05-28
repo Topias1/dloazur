@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="fr"><head>
+<meta charset="utf-8">
+<title>Note de cadrage v3 · Dlo Azur Piscines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap">
+<style>
+:root {
+  --azure: oklch(0.615 0.211 256);
+  --azure-deep: oklch(0.470 0.176 256);
+  --azure-light: oklch(0.965 0.022 256);
+  --marine: oklch(0.288 0.066 250);
+  --marine-deep: oklch(0.232 0.052 251);
+  --lagon: oklch(0.720 0.113 207);
+  --lagon-deep: oklch(0.520 0.085 211);
+  --sand: oklch(0.987 0.005 85);
+  --line: oklch(0.928 0.011 80);
+  --ink: oklch(0.255 0.045 250);
+  --ink-mid: oklch(0.445 0.030 250);
+  --ink-soft: oklch(0.585 0.024 250);
+}
+@page { size: A4; margin: 18mm 18mm 20mm; }
+@page :first { margin: 0; }
+html, body { margin: 0; padding: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+body { font-family: 'Inter', system-ui, sans-serif; font-size: 10.5pt; line-height: 1.55; color: var(--ink-mid); background: white; }
+
+.cover {
+  width: 210mm; height: 297mm;
+  background: var(--marine-deep); color: white;
+  padding: 22mm 20mm 18mm;
+  display: flex; flex-direction: column; justify-content: space-between;
+  break-after: page;
+}
+.cover .brand-row { display: flex; align-items: center; gap: 9px; }
+.cover .brand { font-family: Fredoka; font-weight: 700; font-size: 22px; color: white; line-height: 1; }
+.cover .tag { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: oklch(0.788 0.130 256); margin-top: 2px; }
+.cover h1 { font-family: Fredoka; font-weight: 700; font-size: 56px; line-height: 1.04; margin: 0; color: white; max-width: 78%; letter-spacing: -0.012em; }
+.cover .lede { font-size: 16px; max-width: 78%; line-height: 1.5; color: oklch(0.908 0.025 246); margin-top: 14px; }
+.cover .meta { font-size: 11px; color: oklch(0.708 0.060 247); padding-top: 14px; border-top: 1px solid rgba(255,255,255,0.08); }
+.cover .meta strong { color: white; font-weight: 600; }
+
+article { padding-top: 0; }
+h1, h2, h3, h4 { font-family: 'Fredoka', system-ui, sans-serif; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; }
+article > h1 { display: none; } /* the cover already has the title */
+h2 { font-size: 20pt; margin: 14pt 0 6pt; line-height: 1.12; break-before: page; }
+h2:first-of-type { break-before: avoid; }
+h3 { font-size: 12.5pt; font-weight: 600; margin: 14pt 0 4pt; }
+h4 { font-size: 11pt; font-weight: 600; margin: 8pt 0 2pt; }
+p { margin: 5pt 0; }
+ul, ol { margin: 5pt 0 5pt 1.2em; padding: 0; }
+li { margin: 2pt 0; }
+strong { color: var(--ink); font-weight: 600; }
+em { color: var(--ink); font-style: italic; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 14pt 0; }
+code { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: 0.88em; background: var(--azure-light); color: var(--azure-deep); padding: 0.5pt 4pt; border-radius: 3pt; }
+pre { background: var(--azure-light); border-radius: 6pt; padding: 8pt 10pt; overflow: hidden; margin: 8pt 0; }
+pre code { background: none; padding: 0; color: var(--marine); display: block; line-height: 1.45; }
+table { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin: 8pt 0 12pt; break-inside: avoid; }
+th, td { text-align: left; vertical-align: top; padding: 5pt 7pt; border-bottom: 1px solid var(--line); }
+th { font-family: Fredoka; font-weight: 600; color: var(--ink); background: var(--sand); }
+a { color: var(--azure-deep); text-decoration: none; border-bottom: 0.6pt solid oklch(0.470 0.176 256 / 0.35); }
+blockquote { margin: 8pt 0; padding: 4pt 12pt; color: var(--ink-mid); background: var(--azure-light); border-radius: 4pt; font-style: italic; }
+</style>
+</head><body>
+
+<section class="cover">
+  <div class="brand-row">
+    <svg width="32" height="38" viewBox="0 0 28 34" fill="none"><path d="M14 1.5C14 1.5 3.5 13.5 3.5 22a10.5 10.5 0 0 0 21 0C24.5 13.5 14 1.5 14 1.5Z" fill="oklch(0.702 0.176 256)"/><path d="M8.4 21.4c1.6-2.3 3.8-2.3 5.6 0s4 2.3 5.6 0" stroke="oklch(0.232 0.052 251)" stroke-width="1.8" stroke-linecap="round"/></svg>
+    <div><div class="brand">Dlo Azur</div><div class="tag">Piscines</div></div>
+  </div>
+  <div>
+    <h1>Note de cadrage<br>Refonte plateforme.</h1>
+    <p class="lede">Décisions verrouillées, architecture, modèle de données, roadmap, hébergement, stratégie Odoo, état des maquettes.</p>
+    <p class="meta">Version <strong>v3</strong> · 28 mai 2026 · <strong>Topias1/dloazur</strong></p>
+  </div>
+</section>
+
+<article>
+<h1>Note de cadrage — Refonte Dlo Azur Piscines</h1>
+<p><strong>Version :</strong> v3 (remplace v2 du 2026-05-27)
+<strong>Date :</strong> 2026-05-28
+<strong>Statut :</strong> <strong>maquettes v1 livrées</strong> (six écrans HTML/Tailwind in-repo, palette extraite des supports imprimés réels), prêtes pour validation client. En attente : (1) retour Pierre sur l'aperçu v1, (2) réponses Odoo avant Phase 1a, (3) hébergement public de l'aperçu (GitHub Pages).</p>
+<p><strong>Changements vs v2 :</strong></p>
+<ul>
+<li>§2 « Maquettage » : Claude Design abandonné ; remplacé par le skill <strong>impeccable</strong> in-repo. Les maquettes vivent dans <code>mockups/v1/</code>, <strong>versionnées par dossier</strong> pour gérer les itérations clients (<code>v1/</code>, <code>v2/</code>…), transposables directement en Blade/Livewire.</li>
+<li>§2 « Palette » : tokens <strong>extraits des supports imprimés réels</strong> (logo vectoriel, carte de visite, flyer, plaquette hospitalité) en OKLCH. Azur exact <code>#0080ff</code> (logo), marine <code>#154c79</code> (fond carte de visite), lagon <code>#2fb8c8</code> (texte de carte), soleil en accent. Typographie : <strong>Fredoka</strong> (titres, rondeur qui répond au mot-logo « AZUR ») + <strong>Inter</strong> (corps).</li>
+<li>§9 « Maquettes &amp; Design » : entièrement réécrite. Six écrans construits, design system documenté dans <code>DESIGN.md</code> (format Stitch + tokens OKLCH + composants) + <code>PRODUCT.md</code> (stratégie, registre, anti-références). Trend critique impeccable : <strong>27/40 → 31/40</strong>.</li>
+<li>§13 Prochaines étapes : focus déplacé sur la validation Pierre + l'hébergement public de l'aperçu.</li>
+</ul>
+<hr />
+<h2>1. Contexte</h2>
+<p><strong>Dlo Azur Piscines</strong> (Martinique) — entretien/nettoyage de piscines &amp; spas, <strong>opérateur seul</strong>. Pas de construction ni vente.</p>
+<ul>
+<li><strong>Existant :</strong> site vitrine sur <strong>Zyro</strong> (builder Hostinger) — accueil, services, réalisations, blog, formulaire contact, réseaux. <strong>Aucune fonctionnalité métier, pas d'espace client.</strong></li>
+<li><strong>Contact :</strong> +596 696 94 00 54 · contact@dloazurpiscines.com</li>
+<li><strong>Demande initiale :</strong> « refaire le site » + 2 lots métier (suivi des passages + facturation Odoo ; diagnostic piscine commercialisable).</li>
+</ul>
+<p><strong>À propos de la maquette <code>diagnostic-dloazur.html</code> :</strong> c'est une app <strong>React compilée</strong> (build single-file) qui prototypait déjà le diagnostic <em>et</em> un squelette d'espace client (<code>/api/me/visits</code>, <code>/api/clients</code>, auth cookie). <strong>Le client n'en est pas satisfait → maquette jetée.</strong> On en conserve uniquement <strong>la logique métier du diagnostic</strong> (arbre de décision, formules de doses, libellés de traitement) comme <strong>spécification</strong> pour réécrire propre (Phase 2).</p>
+<hr />
+<h2>2. Décisions verrouillées</h2>
+<table>
+<thead>
+<tr>
+<th>Décision</th>
+<th>Choix</th>
+<th>Raison</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stack</strong></td>
+<td><strong>Laravel 11 + Livewire + Alpine.js + Tailwind + PostgreSQL</strong></td>
+<td>Fluence PHP du dev ; app CRUD/portail/facturation/SEO « batteries incluses » ; maintenance solo durable (on ne parie pas sur un assistant IA toujours dispo).</td>
+</tr>
+<tr>
+<td><strong>Front</strong></td>
+<td>Server-rendered (Livewire/Blade). <strong>Pas de React, pas de SPA.</strong></td>
+<td>Cohérent avec le stack ; React abandonné.</td>
+</tr>
+<tr>
+<td><strong>Architecture</strong></td>
+<td><strong>Monolithe</strong> unique : vitrine + portail + admin + diagnostic</td>
+<td>Un seul codebase, un seul déploiement.</td>
+</tr>
+<tr>
+<td><strong>Multi-tenant</strong></td>
+<td><strong>Non</strong> (single-tenant)</td>
+<td>Lot 2 ciblé A+B, pas de marque blanche (C) pour l'instant.</td>
+</tr>
+<tr>
+<td><strong>Offline</strong></td>
+<td><strong>Offline-first dès le MVP</strong>, sur l'écran de saisie d'un passage uniquement</td>
+<td>Réseau « hasardeux » en Martinique + photos systématiques → la saisie doit survivre sans réseau.</td>
+</tr>
+<tr>
+<td><strong>Hébergement</strong></td>
+<td><strong>Laravel Cloud, région EU (Francfort)</strong></td>
+<td>Managé max, scale-to-zero, Postgres managé inclus, ~4-7 €/mois.</td>
+</tr>
+<tr>
+<td><strong>Stockage photos</strong></td>
+<td><strong>Scaleway Object Storage (Paris)</strong></td>
+<td>Hébergeur européen, RGPD propre, coût négligeable.</td>
+</tr>
+<tr>
+<td><strong>Maquettage</strong></td>
+<td><strong>impeccable</strong> (skill in-repo, Claude Code)</td>
+<td>Six écrans HTML/Tailwind statiques dans <code>mockups/v1/</code>, transposables directement en Blade. <strong>Versionnés par dossier</strong> (<code>v1/</code>, <code>v2/</code>…) pour les itérations clients. Pas de Figma, pas de Claude Design.</td>
+</tr>
+<tr>
+<td><strong>Palette visuelle</strong></td>
+<td><strong>Extraite des supports imprimés réels.</strong> Azur <code>#0080ff</code> (logo) + marine <code>#154c79</code> (carte de visite) + lagon <code>#2fb8c8</code> + soleil. Fredoka + Inter. Tout en OKLCH.</td>
+<td>Pas de couleurs inventées : sampling du logo vectoriel et de la carte de visite. Détaillée dans <code>DESIGN.md</code> (format Stitch) et <code>2026-05-27-dloazur-design-system.md</code> (v3).</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>3. Architecture</h2>
+<p>Monolithe Laravel découpé en modules. <strong>Point clé :</strong> Livewire fait un aller-retour serveur à chaque interaction → <strong>inutilisable hors-ligne</strong>. L'archi se dédouble donc proprement :</p>
+<ul>
+<li><strong>Online (Livewire / Blade)</strong> — vitrine, dashboards pro, historique, espace client, facturation, diagnostic.</li>
+<li><strong>Offline-first (Alpine + JS + IndexedDB + Service Worker)</strong> — <strong>uniquement l'écran de saisie d'un passage</strong> : persistance locale, file d'attente d'upload photos, synchronisation au retour réseau. Seule brique PWA « dure ».</li>
+</ul>
+<table>
+<thead>
+<tr>
+<th>Module</th>
+<th>Rôle</th>
+<th>Accès</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Vitrine</td>
+<td>Pages marketing SEO local</td>
+<td>Public</td>
+</tr>
+<tr>
+<td>Auth &amp; rôles</td>
+<td>Pro (email + mot de passe) / Client (magic link)</td>
+<td>—</td>
+</tr>
+<tr>
+<td>Suivi passages</td>
+<td>Saisie mobile offline-first + historique</td>
+<td>Pro</td>
+</tr>
+<tr>
+<td>Portail client</td>
+<td>Lecture seule : passages, mesures, photos</td>
+<td>Client</td>
+</tr>
+<tr>
+<td>Facturation</td>
+<td>Catalogue, contrats, factures, pont Odoo</td>
+<td>Pro</td>
+</tr>
+<tr>
+<td>Diagnostic</td>
+<td>Wizard + calcul de doses, paiement Stripe</td>
+<td>Public / freemium</td>
+</tr>
+</tbody>
+</table>
+<p><strong>Convention :</strong> code &amp; tables en anglais (idiomatique Laravel), <strong>UI en français</strong>.</p>
+<hr />
+<h2>4. Modèle de données</h2>
+<h3>Phase 0 (MVP suivi)</h3>
+<ul>
+<li><strong>users</strong> — <code>id, name, email, password (nullable), role enum(pro|client), client_id (FK→clients, nullable), timestamps</code>
+  <em>Le pro = compte staff ; un client se connecte par magic link et pointe vers son enregistrement <code>clients</code>.</em></li>
+<li><strong>clients</strong> — <code>id, name, email, phone, address, notes, timestamps</code></li>
+<li><strong>pools</strong> — <code>id, client_id (FK), label, volume_m3, type enum(liner|coque|béton|autre), filtration enum(sable|verre|cartouche|poche), has_electrolyseur bool, equipment json (nullable), notes, timestamps</code></li>
+<li><strong>visits</strong> — <code>id, pool_id (FK), performed_at, ph, free_chlorine, tac, salt_ppm (nullable), water_temp (nullable), actions text, notes text, client_uuid (idempotence offline), created_by (FK→users), timestamps</code></li>
+<li><strong>visit_photos</strong> — <code>id, visit_id (FK), disk_path, original_name, uploaded_at</code> <em>(ou spatie/laravel-medialibrary)</em></li>
+</ul>
+<p><strong>Relations :</strong> <code>Client 1—* Pool</code> · <code>Pool 1—* Visit</code> · <code>Visit 1—* VisitPhoto</code> · <code>User(client) *—1 Client</code>.
+<strong>Idempotence offline :</strong> chaque passage reçoit un <code>client_uuid</code> généré côté téléphone → la re-synchro ne crée pas de doublon.</p>
+<h3>Phase 1a (ajouts)</h3>
+<ul>
+<li><strong>products</strong> — catalogue facturable (<code>name, type service|produit, unit_price, vat_rate, odoo_product_id nullable</code>)</li>
+<li><strong>contracts</strong> — <code>client_id, type enum(ponctuel|forfait_mensuel|forfait_saisonnier), price, start_at, end_at, status</code></li>
+<li><strong>invoices</strong> — <code>client_id, visit_id?, contract_id?, number, status enum(draft|sent|paid), total, pdf_path, odoo_invoice_id?, issued_at, paid_at</code></li>
+<li><strong>invoice_lines</strong> — <code>invoice_id, product_id, label, qty, unit_price, vat_rate</code></li>
+<li><strong>signatures</strong> — image de signature liée au passage (<code>visit_id, image_path, signed_at</code>)</li>
+</ul>
+<h3>Phase 2 (ajouts)</h3>
+<ul>
+<li><strong>diagnostics</strong> — <code>user_id (nullable, anonyme permis), inputs json, decision_path json, recommendations json, created_at</code></li>
+<li><strong>subscriptions</strong> — via <code>laravel/cashier</code> (Stripe)</li>
+<li>Contenu du diagnostic (arbre + doses) = données de config/seed extraites de la maquette.</li>
+</ul>
+<hr />
+<h2>5. Roadmap</h2>
+<blockquote>
+<p>Principe : <strong>chaque phase est utilisable en production sans la suivante.</strong></p>
+</blockquote>
+<h3>Phase V — Vitrine</h3>
+<p>Refonte de la vitrine dans le codebase Laravel, <strong>remplace Zyro</strong>. Pages : accueil, services, réalisations (galerie), blog, contact. SEO local Martinique, mobile-first, formulaire contact, liens réseaux/WhatsApp, CTA avis Google. Reprise du contenu/photos existants.</p>
+<h3>Phase 0 — MVP Suivi (offline-first)</h3>
+<p><strong>On fait :</strong> auth (pro mdp / client magic link) · clients + piscine (mono-piscine en UI) · <strong>saisie d'un passage hors-ligne</strong> (mesures pH/chlore/TAC/sel, actions, notes, <strong>photos</strong>) avec synchro au retour réseau · historique pro (filtres client/date) · espace client lecture seule.
+<strong>On ne fait pas :</strong> facturation, Odoo, signature, planning, notifications métier (hors e-mail d'auth magic link), app native.</p>
+<h3>Phase 1a — Facturation &amp; Odoo</h3>
+<p><strong>POC Odoo en tout premier (2-3 j)</strong> pour valider la viabilité selon sa version (voir §6). Puis : catalogue produits/services · contrats (ponctuel + forfait) · génération de facture à la clôture d'un passage → <strong>Odoo (API)</strong> <em>ou</em> <strong>export CSV</strong> selon le résultat du POC · récupération du statut de paiement · <strong>compte-rendu PDF</strong> auto · <strong>signature client</strong> sur le téléphone du pro.</p>
+<h3>Phase 1b — Notifications <em>(réduit)</em></h3>
+<p>Email compte-rendu après passage + rappel passage J-1, <strong>option WhatsApp</strong>.
+<em>(Les rôles techniciens de la note v0.2 sont </em><em>supprimés</em><em> : le client travaille seul.)</em></p>
+<h3>Phase 2 — Diagnostic (commercialisation)</h3>
+<p>Réécriture propre du wizard « ma piscine est verte » : diagnostic enrichi, <strong>calculs de doses selon le bassin</strong>, plan d'action chiffré, suivi multi-mesures, <strong>paiement Stripe</strong>.
+<strong>Monétisation : pistes A + B</strong> — vente directe particuliers (abonnement Stripe) <strong>et</strong> module premium en upsell sur ses clients d'entretien. <strong>Piste C (marque blanche multi-tenant) écartée pour l'instant.</strong></p>
+<hr />
+<h2>6. Stratégie Odoo (critique pour 1a)</h2>
+<p><strong>Fait vérifié (doc officielle Odoo) :</strong> <em>« Access to data via the external API is only available on Custom Odoo pricing plans. Access to the external API is not available on One App Free or Standard plans. »</em> L'API externe (XML-RPC) exige donc le plan <strong>Custom (29,90 €/user/mois)</strong> sur Odoo Online ; <strong>Standard (19,90 €) et One App Free ne l'ont pas</strong>. Odoo <strong>Community auto-hébergé</strong> a l'API gratuitement mais ajoute de l'ops (va contre « managé/simple »).</p>
+<p><strong>Approche :</strong> <strong>POC en début de Phase 1a</strong> pour trancher entre deux voies :
+- <strong>Voie A — API live (XML-RPC via package PHP)</strong> si le client est sur <strong>Custom</strong> ou <strong>Community/Enterprise</strong> avec API : push facture (draft ou émise) + pull statut de paiement, temps réel.
+- <strong>Voie B — Pont sans API (CSV)</strong> si le client reste sur Free/Standard : l'app génère les factures (source de vérité) et exporte en CSV → import manuel dans Odoo. Zéro surcoût Odoo.</p>
+<p><strong>Source de vérité par défaut :</strong> l'app (à confirmer avec lui — voir §11).</p>
+<hr />
+<h2>7. Hébergement &amp; RGPD</h2>
+<ul>
+<li><strong>Laravel Cloud</strong> (GA) — région <strong>EU / Francfort</strong>. Plan Starter 0 €/mois + à l'usage, <strong>scale-to-zero</strong> (hibernation), <strong>Postgres managé (Neon) inclus</strong>. Coût réel attendu <strong>~4-7 €/mois</strong> vu le volume.</li>
+<li><strong>Nuance RGPD :</strong> Laravel Cloud tourne sur <strong>AWS</strong> (maison-mère US) → post-Schrems II, transferts couverts par <strong>SCCs</strong> (fournies par AWS). Acceptable ici car données <strong>peu sensibles</strong> (noms, adresses, photos de piscines — pas de santé/finance). Si besoin d'un récit RGPD « zéro paperasse » plus tard : bascule vers hébergeur <strong>européen</strong> (Scaleway Paris / Hetzner DE) + Ploi.</li>
+<li><strong>Photos → Scaleway Object Storage (Paris)</strong> : européen, RGPD propre, ~0,01 €/Go/mois.</li>
+</ul>
+<hr />
+<h2>8. Offline-first — approche technique</h2>
+<ul>
+<li><strong>Périmètre minimal :</strong> seul l'<strong>écran de saisie d'un passage</strong> est offline-first. Le reste (historique, dashboards) suppose le réseau.</li>
+<li><strong>Mécanique :</strong> Service Worker (PWA installable sur smartphone) + <strong>IndexedDB</strong> pour stocker passage + photos en local + <strong>file d'attente de synchro</strong> rejouée au retour réseau.</li>
+<li><strong>Idempotence :</strong> <code>client_uuid</code> par passage → pas de doublon à la re-synchro.</li>
+<li><strong>Conflits :</strong> quasi inexistants (un seul opérateur, données en création seule) → pas de résolution de conflit complexe nécessaire.</li>
+<li><strong>Implémentation :</strong> Alpine.js + JS vanilla pour cette brique (<strong>pas Livewire</strong>, qui exige le réseau).</li>
+<li><strong>Risque #1 à dérisquer tôt :</strong> quotas IndexedDB et comportement du Service Worker sur <strong>iOS Safari</strong>. Tester sur le smartphone réel du client avant d'engager le module.</li>
+</ul>
+<hr />
+<h2>9. Maquettes &amp; Design</h2>
+<p><strong>Outil retenu :</strong> le skill <strong>impeccable</strong> (Anthropic Labs, in-repo) opéré dans Claude Code. Conversationnel, design system in-process, écrit du HTML+Tailwind statique directement portable en Blade/Livewire. Claude Design (claude.ai/design) a été évalué puis abandonné : in-repo gagne sur traçabilité git, versioning, et coût d'itération.</p>
+<p><strong>Pourquoi pas Figma :</strong> pas de bénéfice ici (dev solo, pas de designer dans l'équipe). impeccable produit directement des maquettes implémentables sur le stack cible, et garde tout en git.</p>
+<h3>Source de vérité visuelle</h3>
+<table>
+<thead>
+<tr>
+<th>Fichier</th>
+<th>Rôle</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>PRODUCT.md</code> (racine repo)</td>
+<td>Stratégie : registre, utilisateurs, raison d'être, personnalité, anti-références, 5 principes, a11y.</td>
+</tr>
+<tr>
+<td><code>DESIGN.md</code> (racine repo)</td>
+<td>Système visuel format Stitch : YAML frontmatter (tokens OKLCH, typographie, composants) + 6 sections (Overview, Colors, Typography, Elevation, Components, Do's and Don'ts). North Star : « <strong>L'artisan du lagon</strong> ».</td>
+</tr>
+<tr>
+<td><code>.impeccable/design.json</code></td>
+<td>Sidecar : rampes tonales, ombres, motion, breakpoints, 9 primitives de composants rendues (HTML+CSS self-contained).</td>
+</tr>
+<tr>
+<td><code>2026-05-27-dloazur-design-system.md</code></td>
+<td>Doc historique (v3) : récapitulatif palette, typo, motif, écrans livrés, portage Laravel.</td>
+</tr>
+</tbody>
+</table>
+<h3>Versioning des maquettes</h3>
+<p>Les maquettes vivent dans <strong><code>mockups/v&lt;N&gt;/</code></strong> pour faciliter les itérations après retours client. Le retour de Pierre sur la v1 produit une v2 ; la v1 reste consultable et comparable.</p>
+<pre><code>mockups/
+  index.html          # redirige vers la version courante
+  v1/
+    index.html        # galerie des 6 écrans
+    vitrine.html      passage.html    portail.html
+    dashboard.html    auth.html       styleguide.html
+    app.css           theme.js
+    previews/*.png    # thumbnails de la galerie
+</code></pre>
+<h3>Écrans livrés (v1 — 28 mai 2026)</h3>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Écran</th>
+<th>Univers (registre)</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td><code>vitrine.html</code></td>
+<td>brand (public)</td>
+<td>hero authentique, services asymétriques, offre hospitalité B2B, réalisations, Pierre, teaser espace client, témoignages, CTA, footer + QR</td>
+</tr>
+<tr>
+<td>2</td>
+<td><code>passage.html</code></td>
+<td>product (terrain)</td>
+<td>saisie offline-first dans un phone-frame : header, bandeau hors-ligne ambre, mesures 2×2 + steppers, actions, photos avec statut, notes, save-bar collante</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>dashboard.html</code></td>
+<td>product (pro)</td>
+<td>sidebar desktop / bottom-nav mobile, KPI, tournée du jour, à recontacter, derniers comptes-rendus</td>
+</tr>
+<tr>
+<td>4</td>
+<td><code>portail.html</code></td>
+<td>product (client)</td>
+<td>piscine, dernier passage, mot de Pierre, photos, historique, lien magique</td>
+</tr>
+<tr>
+<td>5</td>
+<td><code>auth.html</code></td>
+<td>product (entrée)</td>
+<td>écran scindé marine/sable, bascule pro / client (magic link)</td>
+</tr>
+<tr>
+<td>6</td>
+<td><code>styleguide.html</code></td>
+<td>fondations</td>
+<td>tokens, palette, typo, motif, composants — design system rendu</td>
+</tr>
+</tbody>
+</table>
+<p>Index galerie : <code>mockups/v1/index.html</code>. Ouvrable via <code>python3 -m http.server</code> à la racine du dépôt, puis <code>http://localhost:8000/mockups/v1/</code>.</p>
+<h3>Critique &amp; polish (impeccable)</h3>
+<p>La vitrine a été passée à <code>/impeccable critique</code> puis <code>/impeccable polish</code>, snapshots persistés dans <code>.impeccable/critique/</code>.</p>
+<table>
+<thead>
+<tr>
+<th>Run</th>
+<th>Score</th>
+<th>P1</th>
+<th>Détail</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Initial</td>
+<td><strong>27 / 40</strong></td>
+<td>2</td>
+<td>hero-metric template, 4 em-dashes, kicker repetition</td>
+</tr>
+<tr>
+<td>Post-fix</td>
+<td><strong>31 / 40</strong></td>
+<td>0</td>
+<td>tous P1/P2 résolus ; polish ajouté (OG meta, skip-link, lazy loading)</td>
+</tr>
+</tbody>
+</table>
+<p>Détecteur déterministe : 0 errors, 0 warns sur les 6 écrans. Le détecteur upstream du skill manquait son bundle ; patch local dans <code>tools/impeccable-detector/</code> (em-dash, side-stripe border, gradient text, glassmorphism, hero-metric, kicker repetition, identical card grids).</p>
+<h3>Portage Laravel</h3>
+<ul>
+<li>Reprendre les tokens de <code>mockups/v1/theme.js</code> dans le <code>tailwind.config.js</code> du projet Laravel (mêmes valeurs OKLCH).</li>
+<li><code>app.css</code> → fichier CSS d'app (fonts via Google Fonts ou <code>@fontsource</code>, variables, <code>.ripple</code>, motif vague).</li>
+<li>Vitrine / dashboard / portail → Blade + Livewire.</li>
+<li><strong><code>passage</code> reste hors Livewire</strong> : Alpine + IndexedDB + Service Worker, conforme à la contrainte offline-first §8.</li>
+<li>Icônes : jeux SVG inline (style Lucide) déjà présents dans les maquettes ; glyphe WhatsApp officiel (Simple Icons).</li>
+</ul>
+<hr />
+<h2>10. Coûts indicatifs (récurrents)</h2>
+<table>
+<thead>
+<tr>
+<th>Poste</th>
+<th>Coût</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hébergement Laravel Cloud EU</td>
+<td>~4-7 €/mois</td>
+</tr>
+<tr>
+<td>Stockage photos Scaleway</td>
+<td>quelques centimes/mois</td>
+</tr>
+<tr>
+<td>Odoo — <strong>si Voie A</strong> (plan Custom, 1 user)</td>
+<td>+29,90 €/mois</td>
+</tr>
+<tr>
+<td>Odoo — <strong>si Voie B</strong> (CSV)</td>
+<td>0 €</td>
+</tr>
+<tr>
+<td>Stripe (Phase 2)</td>
+<td>~1,5 % + 0,25 €/transaction (cartes EU)</td>
+</tr>
+<tr>
+<td>Domaine</td>
+<td>déjà possédé</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2>11. Questions restantes pour le client (bloquent Phase 1a)</h2>
+<ul>
+<li><strong>Version exacte d'Odoo</strong> : Community / Enterprise / Online (quel plan) / Odoo.sh ? <em>(détermine Voie A vs B)</em></li>
+<li><strong>Prêt à fournir des credentials API techniques</strong> (clé API) ?</li>
+<li>Factures <strong>en draft</strong> (validation manuelle) ou <strong>émises directement</strong> ?</li>
+<li><strong>Source de vérité</strong> des contacts : l'app ou Odoo ?</li>
+<li><strong>Signature client</strong> : systématique à chaque passage, ou ponctuelle ?</li>
+</ul>
+<p><em>(Déjà répondu : ~10 passages/semaine, ~dizaine de clients à l'année · travaille seul · facturation mix ponctuel/forfait 50-50 · smartphone uniquement · réseau hasardeux · photos systématiques · 1 piscine/client · Lot 2 cible A+B, pas C.)</em></p>
+<hr />
+<h2>12. Hypothèses &amp; risques</h2>
+<ul>
+<li><strong>H1 :</strong> Odoo probablement sur un plan <strong>sans API</strong> → prévoir la Voie B (CSV) comme défaut tant que le POC n'a pas tranché. <strong>Ne pas découvrir au jour 3.</strong></li>
+<li><strong>H2 :</strong> L'offline-first alourdit le MVP (Phase 0) — assumé, car un MVP online-only serait inutilisable sur le terrain.</li>
+<li><strong>H3 :</strong> Contenu/photos de la vitrine récupérables depuis le site Zyro actuel (à confirmer, sinon shooting).</li>
+<li><strong>H4 :</strong> RGPD — données peu sensibles, AWS+SCCs acceptable ; réévaluer si le périmètre de données change.</li>
+<li><strong>H5 :</strong> IndexedDB + Service Worker sur iOS Safari — quotas et restrictions variables. POC à faire tôt sur le smartphone réel du client.</li>
+<li><strong>H6 :</strong> Extraire l'arbre de décision et les formules de doses de la maquette React <strong>avant de la jeter</strong> — sinon spec perdue pour la Phase 2.</li>
+</ul>
+<hr />
+<h2>13. Prochaines étapes</h2>
+<table>
+<thead>
+<tr>
+<th>#</th>
+<th>Étape</th>
+<th>État</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>Note de cadrage v3 (cette note) à jour</td>
+<td>✅ fait</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Maquettes v1 (six écrans) construites et critique-validées (27 → 31 / 40)</td>
+<td>✅ fait</td>
+</tr>
+<tr>
+<td>3</td>
+<td><code>PRODUCT.md</code> + <code>DESIGN.md</code> (format Stitch) en place</td>
+<td>✅ fait</td>
+</tr>
+<tr>
+<td>4</td>
+<td><strong>Hébergement public de l'aperçu v1</strong> sur GitHub Pages (repo public)</td>
+<td>⏳ à faire</td>
+</tr>
+<tr>
+<td>5</td>
+<td><strong>PDF récap client</strong> pour Pierre (<code>docs/exports/recap-client.pdf</code>)</td>
+<td>⏳ à faire</td>
+</tr>
+<tr>
+<td>6</td>
+<td><strong>Retour Pierre sur la v1</strong> → décisions visuelles, naissance de la v2</td>
+<td>⏳ en attente client</td>
+</tr>
+<tr>
+<td>7</td>
+<td><strong>Extraction spec diagnostic</strong> depuis <code>diagnostic-dloazur.html</code> (arbre de décision, formules) avant que la maquette React jetée ne soit oubliée</td>
+<td>⏳ à faire avant Phase 2</td>
+</tr>
+<tr>
+<td>8</td>
+<td><strong>Réponses Odoo du client</strong> (§11)</td>
+<td>⏳ en attente client</td>
+</tr>
+<tr>
+<td>9</td>
+<td><strong>Phase V — Vitrine Laravel</strong> : initialiser le projet Laravel 11, transposer <code>mockups/v&lt;N&gt;/vitrine.html</code> en Blade, déployer sur Laravel Cloud EU, basculer le DNS depuis Hostinger</td>
+<td>⏳ à faire après v2 validée</td>
+</tr>
+<tr>
+<td>10</td>
+<td><strong>Phase 0 — MVP suivi</strong> : modèle de données §4, écran de saisie offline-first (Alpine + IndexedDB + Service Worker), historique pro, portail client magic link</td>
+<td>⏳ après Phase V</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<p><em>Sources vérifiées : <a href="https://www.odoo.com/documentation/17.0/developer/reference/external_api.html">Odoo — External API (restriction plan Custom)</a> · <a href="https://www.odoo.com/page/pricing">Odoo Pricing</a> · <a href="https://cloud.laravel.com/pricing">Laravel Cloud Pricing</a> · <a href="https://danubedata.ro/blog/laravel-cloud-alternatives-europe-2026">Laravel Cloud — régions EU &amp; nuance RGPD/Schrems II</a> · <a href="https://benjamincrozat.com/best-laravel-hosting-providers">Best Laravel hosting 2026</a> · <a href="https://github.com/Topias1/dloazur">Repo GitHub <code>Topias1/dloazur</code></a></em></p>
+</article>
+
+</body></html>

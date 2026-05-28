@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Aperçu de la plateforme · Dlo Azur Piscines</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap">
+  <style>
+    :root {
+      --azure: oklch(0.615 0.211 256);
+      --azure-light: oklch(0.965 0.022 256);
+      --azure-deep: oklch(0.470 0.176 256);
+      --marine: oklch(0.288 0.066 250);
+      --marine-deep: oklch(0.232 0.052 251);
+      --lagon: oklch(0.720 0.113 207);
+      --lagon-deep: oklch(0.520 0.085 211);
+      --sun: oklch(0.760 0.150 72);
+      --sand: oklch(0.987 0.005 85);
+      --line: oklch(0.928 0.011 80);
+      --ink: oklch(0.255 0.045 250);
+      --ink-mid: oklch(0.445 0.030 250);
+      --ink-soft: oklch(0.585 0.024 250);
+    }
+    @page { size: A4; margin: 0; }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body {
+      font-family: 'Inter', system-ui, sans-serif;
+      color: var(--ink-mid);
+      background: var(--sand);
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
+    }
+    h1, h2, h3, .display { font-family: 'Fredoka', system-ui, sans-serif; color: var(--ink); font-weight: 700; letter-spacing: -0.005em; }
+    p { margin: 0; }
+    .page {
+      width: 210mm;
+      height: 297mm;
+      page-break-after: always;
+      position: relative;
+      overflow: hidden;
+    }
+    .page:last-child { page-break-after: auto; }
+    .inner { padding: 18mm 18mm; height: 100%; display: flex; flex-direction: column; }
+
+    /* ===== COVER ===== */
+    .cover { background: var(--marine-deep); color: white; }
+    .cover img.hero {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.5;
+    }
+    .cover .overlay {
+      position: absolute; inset: 0;
+      background:
+        linear-gradient(180deg, rgba(15,20,40,0) 30%, var(--marine-deep) 92%),
+        linear-gradient(90deg, rgba(15,20,40,0.55) 0%, transparent 60%);
+    }
+    .cover .inner { position: relative; z-index: 2; }
+    .brand-row { display: flex; align-items: center; gap: 9px; }
+    .brand-row .brand { font-family: Fredoka; font-weight: 700; font-size: 22px; line-height: 1; color: white; }
+    .brand-row .tag { font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase; color: oklch(0.788 0.130 256); margin-top: 2px; }
+    .cover h1 {
+      font-size: 72px; line-height: 1.0; color: white; margin: auto 0 0; max-width: 92%;
+      letter-spacing: -0.012em;
+    }
+    .cover .lede {
+      margin-top: 22px; font-size: 17.5px; line-height: 1.5;
+      color: oklch(0.908 0.025 246); max-width: 78%;
+    }
+    .cover .lede strong { color: white; font-weight: 600; }
+    .cover-foot {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-top: 26px; color: oklch(0.708 0.060 247); font-size: 11.5px;
+      border-top: 1px solid rgba(255,255,255,0.08); padding-top: 12px;
+    }
+    .cover-foot .name { color: white; font-weight: 600; font-size: 13px; }
+
+    /* ===== SHARED ===== */
+    .kicker { font-size: 10.5px; letter-spacing: 0.20em; text-transform: uppercase; color: var(--lagon-deep); font-weight: 700; }
+    h2.section { font-size: 36px; margin: 6px 0 4mm; line-height: 1.05; }
+    .lead { font-size: 13.5px; line-height: 1.6; color: var(--ink-mid); max-width: 165mm; }
+    .lead strong { color: var(--ink); font-weight: 600; }
+    .pagefoot {
+      position: absolute; bottom: 9mm; left: 18mm; right: 18mm;
+      display: flex; justify-content: space-between;
+      font-size: 9.5px; color: var(--ink-soft); letter-spacing: 0.10em; text-transform: uppercase;
+    }
+
+    /* ===== SCREENS GRID ===== */
+    .grid { display: grid; gap: 8mm; }
+    .grid.split { grid-template-columns: 1.35fr 1fr; }
+    .grid.three { grid-template-columns: repeat(3, 1fr); }
+    .screen {
+      background: white; border-radius: 14px; padding: 8px; padding-bottom: 12px;
+      box-shadow:
+        0 1px 2px oklch(0.29 0.07 250 / 0.06),
+        0 6px 14px -6px oklch(0.29 0.07 250 / 0.10);
+      display: flex; flex-direction: column; gap: 8px;
+    }
+    .screen img {
+      width: 100%; object-fit: cover; object-position: top;
+      border-radius: 9px;
+      border: 1px solid var(--line);
+      aspect-ratio: 16/10;
+    }
+    .screen.tall img { aspect-ratio: 16/22; }
+    .screen .meta { padding: 0 6px; }
+    .screen h3 { font-family: Fredoka; font-weight: 600; font-size: 15px; color: var(--ink); margin: 0; }
+    .screen p { margin-top: 4px; font-size: 11.5px; color: var(--ink-mid); line-height: 1.45; }
+    .pill {
+      display: inline-block; font-size: 9px; font-weight: 700; text-transform: uppercase;
+      letter-spacing: 0.18em; padding: 2px 7px; border-radius: 999px; margin-bottom: 6px;
+    }
+    .pill.brand { background: var(--azure-light); color: var(--azure-deep); }
+    .pill.product { background: oklch(0.720 0.113 207 / 0.16); color: var(--lagon-deep); }
+    .pill.found { background: oklch(0.825 0.130 80 / 0.28); color: oklch(0.5 0.13 70); }
+
+    /* ===== PALETTE + TYPO ===== */
+    .palette { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6mm; margin-top: 9mm; }
+    .sw .chip {
+      width: 100%; height: 22mm; border-radius: 10px;
+      box-shadow: 0 1px 2px oklch(0.29 0.07 250 / 0.06);
+    }
+    .sw .name { font-family: Fredoka; font-weight: 600; font-size: 12.5px; color: var(--ink); margin-top: 7px; }
+    .sw .hex { font-size: 11px; color: var(--ink-soft); font-variant-numeric: tabular-nums; }
+    .sw .note { font-size: 10px; color: var(--ink-soft); margin-top: 1px; }
+
+    .twocol { display: grid; grid-template-columns: 1fr 1fr; gap: 9mm; margin-top: 12mm; }
+    .twocol .col h3 { font-family: Fredoka; font-weight: 600; font-size: 18px; color: var(--ink); margin: 4px 0 6px; }
+    .twocol .col p { font-size: 12px; color: var(--ink-mid); line-height: 1.55; }
+    .twocol img { width: 100%; border-radius: 10px; aspect-ratio: 1.4; object-fit: cover; margin-top: 8px; box-shadow: 0 1px 2px oklch(0.29 0.07 250 / 0.06); }
+
+    .band {
+      background: var(--azure); color: white;
+      padding: 7mm 9mm; border-radius: 14px;
+      display: flex; align-items: center; justify-content: space-between; gap: 10mm;
+      box-shadow: 0 8px 20px -10px oklch(0.29 0.07 250 / 0.30);
+    }
+    .band h3 { color: white; font-family: Fredoka; font-weight: 700; font-size: 22px; margin: 0; line-height: 1.1; }
+    .band p { color: oklch(0.940 0.030 256); margin-top: 6px; font-size: 12.5px; max-width: 95mm; }
+    .band .cta {
+      background: white; color: var(--azure-deep);
+      padding: 10px 18px; border-radius: 10px;
+      font-family: Fredoka; font-weight: 700; font-size: 13.5px;
+      text-decoration: none; white-space: nowrap;
+    }
+
+    .next {
+      margin-top: 12mm; font-size: 13px; color: var(--ink-mid); line-height: 1.6; max-width: 165mm;
+    }
+    .next strong { color: var(--ink); font-weight: 600; }
+
+  </style>
+</head>
+<body>
+
+  <!-- ===== PAGE 1 — COVER ===== -->
+  <section class="page cover">
+    <img class="hero" src="../../assets/brand/photos/hero-pierre-piscine.jpg" alt="">
+    <div class="overlay"></div>
+    <div class="inner">
+      <div class="brand-row">
+        <svg width="32" height="38" viewBox="0 0 28 34" fill="none"><path d="M14 1.5C14 1.5 3.5 13.5 3.5 22a10.5 10.5 0 0 0 21 0C24.5 13.5 14 1.5 14 1.5Z" fill="oklch(0.702 0.176 256)"/><path d="M8.4 21.4c1.6-2.3 3.8-2.3 5.6 0s4 2.3 5.6 0" stroke="oklch(0.232 0.052 251)" stroke-width="1.8" stroke-linecap="round"/></svg>
+        <div>
+          <div class="brand">Dlo Azur</div>
+          <div class="tag">Piscines</div>
+        </div>
+      </div>
+      <h1>Votre nouvelle<br>plateforme.</h1>
+      <p class="lede">Aperçu visuel de la <strong>vitrine refondue</strong> et de l'<strong>outil de suivi des passages</strong>, prêts à montrer avant la mise en ligne.</p>
+      <div class="cover-foot">
+        <div>
+          <div class="name">Pierre ADAM · pisciniste</div>
+          <div>0696 94 00 54 · contact@dloazurpiscines.com · Martinique</div>
+        </div>
+        <div style="text-align:right">
+          <div>28 mai 2026</div>
+          <div>Aperçu v1</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== PAGE 2 — SIX ECRANS ===== -->
+  <section class="page">
+    <div class="inner">
+      <p class="kicker">Ce que la plateforme contient</p>
+      <h2 class="section">Six écrans, deux univers.</h2>
+      <p class="lead">Une <strong>vitrine</strong> que vos visiteurs voient sur le site, et un <strong>outil métier</strong> que vous utilisez sur le terrain. Tout est visible en vrai dans le navigateur (ordinateur et téléphone) ; les captures ci-dessous sont des extraits.</p>
+
+      <div class="grid split" style="margin-top:9mm;">
+        <div class="screen tall">
+          <img src="../../mockups/v1/previews/vitrine.png" alt="">
+          <div class="meta">
+            <span class="pill brand">Vitrine · public</span>
+            <h3>Accueil vitrine</h3>
+            <p>Photo authentique, services, section dédiée aux <strong>conciergeries et villas de location</strong>, vos réalisations, votre histoire, l'appel WhatsApp partout.</p>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-rows:1fr 1fr;gap:8mm;">
+          <div class="screen">
+            <img src="../../mockups/v1/previews/passage.png" alt="">
+            <div class="meta">
+              <span class="pill product">App · terrain</span>
+              <h3>Saisie d'un passage</h3>
+              <p>Pour vous, sur le terrain. <strong>Marche hors ligne.</strong> Mesures + actions + photos en moins de 2 minutes.</p>
+            </div>
+          </div>
+          <div class="screen">
+            <img src="../../mockups/v1/previews/portail.png" alt="">
+            <div class="meta">
+              <span class="pill brand">Portail · client</span>
+              <h3>Espace client</h3>
+              <p>Vos clients voient le dernier passage, les mesures et les photos. <strong>Lien direct, sans mot de passe.</strong></p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid three" style="margin-top:8mm;">
+        <div class="screen">
+          <img src="../../mockups/v1/previews/dashboard.png" alt="">
+          <div class="meta">
+            <span class="pill product">App · pro</span>
+            <h3>Tableau de bord</h3>
+            <p>Votre vue quotidienne : tournée du jour, clients à recontacter, derniers comptes-rendus.</p>
+          </div>
+        </div>
+        <div class="screen">
+          <img src="../../mockups/v1/previews/styleguide.png" alt="">
+          <div class="meta">
+            <span class="pill found">Fondations</span>
+            <h3>Design system</h3>
+            <p>Les couleurs, les polices et les composants en une page. Pour aller plus vite par la suite.</p>
+          </div>
+        </div>
+        <div class="screen" style="background: var(--marine); color: white;">
+          <div class="meta" style="padding:14px 12px; display:flex; flex-direction:column; height:100%; justify-content:center;">
+            <span class="pill" style="background: rgba(255,255,255,0.12); color: oklch(0.940 0.030 256); align-self: flex-start;">Aussi</span>
+            <h3 style="color: white;">Connexion</h3>
+            <p style="color: oklch(0.908 0.025 246);">Login pro classique d'un côté, lien magique sans mot de passe pour les clients de l'autre.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="pagefoot"><span>aperçu plateforme</span><span>2 · 3</span></div>
+  </section>
+
+  <!-- ===== PAGE 3 — IDENTITE + PROCHAINE ETAPE ===== -->
+  <section class="page">
+    <div class="inner">
+      <p class="kicker">Identité visuelle</p>
+      <h2 class="section">Tirée de vos vrais supports.</h2>
+      <p class="lead">Pas de couleurs inventées : on a extrait l'<strong>azur exact de votre logo</strong>, le <strong>bleu marine</strong> de fond de votre carte de visite, et le <strong>turquoise</strong> du texte. Les photos sont les vôtres : vous au travail, vos villas, la mer.</p>
+
+      <div class="palette">
+        <div class="sw"><div class="chip" style="background:#0080ff"></div><div class="name">Azur</div><div class="hex">#0080ff</div><div class="note">votre logo</div></div>
+        <div class="sw"><div class="chip" style="background:#154c79"></div><div class="name">Marine</div><div class="hex">#154c79</div><div class="note">votre carte de visite</div></div>
+        <div class="sw"><div class="chip" style="background:#2fb8c8"></div><div class="name">Lagon</div><div class="hex">#2fb8c8</div><div class="note">accent eau</div></div>
+        <div class="sw"><div class="chip" style="background:oklch(0.760 0.150 72)"></div><div class="name">Soleil</div><div class="hex">accent rare</div><div class="note">touches chaudes</div></div>
+      </div>
+
+      <div class="twocol">
+        <div class="col">
+          <p class="kicker">Typographie</p>
+          <div style="font-family:Fredoka;font-weight:700;font-size:34px;line-height:1.05;color:var(--ink);margin-top:2px;">Votre piscine, claire.</div>
+          <p>Fredoka pour les titres : sa rondeur répond directement au mot « AZUR » de votre logo, dessiné à la main.</p>
+          <p style="margin-top:8px;font-size:13px;line-height:1.6;color:var(--ink-mid);font-family:Inter;">
+            Inter pour le corps. C'est la police que vous lisez sur cette page, choisie pour rester nette à petite taille et lisible en plein soleil sur le terrain.
+          </p>
+        </div>
+        <div class="col">
+          <p class="kicker">Photographie</p>
+          <h3>Vraies, jamais du stock.</h3>
+          <p>Vous au travail, la baie de Martinique, vos villas, vos chantiers. Plus crédible que n'importe quelle photo de banque d'images, surtout face à un gestionnaire de villas exigeant.</p>
+          <img src="../../assets/brand/photos/entretien-dos-logo.jpg" alt="">
+        </div>
+      </div>
+
+      <div class="band" style="margin-top:14mm;">
+        <div>
+          <h3>Pour voir le tout en vrai</h3>
+          <p>Une URL d'aperçu va être déployée (hébergement gratuit, ordinateur et téléphone). Vous pourrez naviguer entre les six écrans et tester WhatsApp d'un clic.</p>
+        </div>
+        <a class="cta" href="#">À recevoir →</a>
+      </div>
+
+      <p class="next">
+        <strong>Prochaine étape :</strong> votre validation visuelle. Une fois le visuel acté, on remplace votre site Hostinger par la vitrine en vrai code (Laravel), puis on déploie l'outil de suivi des passages, l'écran le plus important : <strong>il marche hors ligne</strong> et photographie chaque intervention.
+      </p>
+    </div>
+    <div class="pagefoot"><span>aperçu plateforme</span><span>3 · 3</span></div>
+  </section>
+
+</body>
+</html>
