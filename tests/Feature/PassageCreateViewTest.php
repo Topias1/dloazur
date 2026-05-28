@@ -30,10 +30,11 @@ it('GET /admin/passages/create returns 200 for authenticated operator', function
     $response = $this->actingAs($pierre)->get('/admin/passages/create');
 
     $response->assertStatus(200);
-    $response->assertSee("Mesures de l'eau");
-    $response->assertSee('Actions menées');
-    $response->assertSee('Enregistrer le passage');
-    $response->assertSee('Brouillon sauvegardé automatiquement');
+    // assertSeeText strips HTML + decodes entities (Blade escapes apostrophe → &#39;)
+    $response->assertSeeText("Mesures de l'eau");
+    $response->assertSeeText('Actions menées');
+    $response->assertSeeText('Enregistrer le passage');
+    $response->assertSeeText('Brouillon sauvegardé automatiquement');
 });
 
 // ---------------------------------------------------------------------------
