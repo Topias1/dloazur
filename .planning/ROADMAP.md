@@ -33,7 +33,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
   4. L'opérateur se connecte avec email + mot de passe et accède au back-office
   5. Le schéma de base de données complet est déployé (inclut `client_uuid`, `odoo_id`, `signature_path`)
 
-**Plans:** 1/6 plans executed
+**Plans:** 4/6 plans executed
 Plans:
 **Wave 1**
 
@@ -41,9 +41,9 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 01-02-PLAN.md — Business schema: 9 migrations (clients, piscines, produits, contrats, passages, photos_meta, factures, signatures, diagnostics) + Eloquent models + factories + env-gated DevDataSeeder (D-07, D-08, D-09)
-- [ ] 01-03-PLAN.md — Vitrine pages + SEO: home/services/realisations/contact-shell/legal pages transposed 1:1 from mockups + LocalBusiness JSON-LD + sitemap.xml + OG/meta (SITE-01, SITE-02, SITE-03, SITE-06, SITE-07)
-- [ ] 01-04-PLAN.md — Blog markdown-in-repo + Contact Livewire form: routes /blog, /blog/{slug}, /contact + honeypot + rate-limit 5/min + Mailgun EU (SITE-04, SITE-05)
+- [x] 01-02-PLAN.md — Business schema: 9 migrations (clients, piscines, produits, contrats, passages, photos_meta, factures, signatures, diagnostics) + Eloquent models + factories + env-gated DevDataSeeder (D-07, D-08, D-09)
+- [x] 01-03-PLAN.md — Vitrine pages + SEO: home/services/realisations/contact-shell/legal pages transposed 1:1 from mockups + LocalBusiness JSON-LD + sitemap.xml + OG/meta (SITE-01, SITE-02, SITE-03, SITE-06, SITE-07)
+- [x] 01-04-PLAN.md — Blog markdown-in-repo + Contact Livewire form: routes /blog, /blog/{slug}, /contact + honeypot + rate-limit 5/min + Mailgun EU (SITE-04, SITE-05)
 - [ ] 01-05-PLAN.md — Auth Fortify + admin shell: /login transposed from mockups/v1/auth.html + /admin dashboard stub from dashboard.html + PierreSeeder + greyed Phase 2/3 nav (AUTH-01, D-17..D-20)
 
 **Wave 3** *(blocked on Wave 2 completion)*
@@ -122,7 +122,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vitrine & Fondations | 1/6 | In Progress|  |
+| 1. Vitrine & Fondations | 4/6 | In Progress|  |
 | 2. MVP Suivi Offline-First | 0/? | Not started | - |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
