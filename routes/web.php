@@ -40,6 +40,9 @@ Route::redirect('/services-et-nettoyage', '/services', 301);
 Route::redirect('/nos-realisations', '/realisations', 301);
 Route::redirect('/blog-list-nettoyage-piscine-professionnel', '/blog', 301);
 Route::redirect('/page-article-blog-vierge', '/blog', 301);
-Route::redirect('/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscines', '/blog', 301);
-Route::redirect('/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscine', '/blog', 301);
-Route::redirect('/les-3-etapes-indispensables-pour-un-entretien-de-piscine-parfait-en-martinique', '/blog', 301);
+// Typo variant (missing trailing 's') → canonical article slug (SEO recovery, D-24)
+Route::redirect(
+    '/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscine',
+    '/blog/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscines',
+    301
+);
