@@ -28,9 +28,9 @@
         <div class="relative">
             <img loading="lazy" decoding="async"
                 src="{{ asset('assets/brand/photos/villa-hospitality.jpg') }}"
-                alt="Villa de standing en Martinique avec piscine turquoise entretenue par Dlo Azur"
+                alt="Piscine de villa en Martinique entretenue par Dlo Azur — suivi régulier et compte-rendu photo"
+                width="2880" height="2160"
                 class="rounded-3xl shadow-lg w-full object-cover aspect-[4/3] photo-grade">
-            {{-- TODO: replace placeholder above with real villa photo from Pierre --}}
             <div class="absolute -bottom-5 -left-3 sm:left-6 rounded-2xl bg-white text-ink-900 shadow-lg px-5 py-4 max-w-[15rem]">
                 <p class="font-display font-bold text-2xl text-azure-600">12 villas</p>
                 <p class="text-sm text-ink-500 leading-snug">suivies en continu pour des conciergeries du sud de l'île</p>

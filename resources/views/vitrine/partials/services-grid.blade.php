@@ -10,9 +10,9 @@
         <article class="lg:row-span-2 group relative overflow-hidden rounded-3xl bg-navy-800 text-white min-h-[22rem] flex flex-col justify-end">
             <img loading="lazy" decoding="async"
                 src="{{ asset('assets/brand/photos/entretien-dos-logo.jpg') }}"
-                alt="Entretien hebdomadaire d'une piscine par Dlo Azur"
+                alt="Entretien hebdomadaire d'une piscine par Pierre ADAM, Dlo Azur"
+                width="1620" height="2160"
                 class="absolute inset-0 h-full w-full object-cover photo-grade opacity-65 group-hover:opacity-75 group-hover:scale-[1.03] transition duration-700 ease-out-quint">
-            {{-- TODO: replace placeholder above with real photo from Pierre before cutover --}}
             <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/40 to-transparent"></div>
             <div class="relative p-7">
                 <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-azure-500 text-white shadow-md mb-4">
