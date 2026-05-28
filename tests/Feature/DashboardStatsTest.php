@@ -50,8 +50,8 @@ it('dashboard affiche un compteur Passages cette semaine qui matche les passages
     $response->assertStatus(200);
     $content = $response->content();
 
-    // La valeur "2" doit apparaître dans les stat cards
-    expect($content)->toContain('>2<');
+    // La valeur "2" doit apparaître dans les stat cards (avec éventuels espaces/newlines autour)
+    expect(preg_match('/>\s*2\s*</', $content))->toBe(1);
 });
 
 // ---------------------------------------------------------------------------
@@ -73,8 +73,8 @@ it('dashboard affiche Clients actifs = nombre total de clients', function () {
     $response->assertStatus(200);
     $content = $response->content();
 
-    // 5 clients visibles dans les stat cards
-    expect($content)->toContain('>5<');
+    // 5 clients visibles dans les stat cards (avec éventuels espaces/newlines autour)
+    expect(preg_match('/>\s*5\s*</', $content))->toBe(1);
 });
 
 // ---------------------------------------------------------------------------
@@ -110,7 +110,8 @@ it('dashboard affiche Eau à surveiller = passages dont au moins une mesure hors
     $response->assertStatus(200);
     $content = $response->content();
 
-    expect($content)->toContain('>1<');
+    // 1 passage hors plage (avec éventuels espaces/newlines autour)
+    expect(preg_match('/>\s*1\s*</', $content))->toBe(1);
 });
 
 // ---------------------------------------------------------------------------

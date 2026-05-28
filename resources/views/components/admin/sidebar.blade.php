@@ -55,15 +55,19 @@
             Clients
         </a>
 
-        {{-- Greyed: Passages (Phase 2) --}}
-        <span aria-disabled="true" tabindex="-1"
-            class="flex items-center gap-3 h-11 px-3 rounded-xl text-navy-300 opacity-60 cursor-default">
+        {{-- Active: Passages (Plan 02-03) --}}
+        <a href="{{ route('admin.passages.index') }}"
+            @class([
+                'flex items-center gap-3 h-11 px-3 rounded-xl transition-colors',
+                'bg-white/10 text-white'             => request()->routeIs('admin.passages.*'),
+                'hover:bg-white/8 hover:text-white'  => !request()->routeIs('admin.passages.*'),
+            ])
+            @if(request()->routeIs('admin.passages.*')) aria-current="page" @endif>
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
             </svg>
             Passages
-            <span class="ml-auto text-[10px] font-semibold px-2 py-0.5 rounded-full bg-white/8 text-navy-200">bientôt</span>
-        </span>
+        </a>
 
         {{-- Greyed: Factures (Phase 3) --}}
         <span aria-disabled="true" tabindex="-1"

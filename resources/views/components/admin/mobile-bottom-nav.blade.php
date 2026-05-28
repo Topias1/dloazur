@@ -29,14 +29,15 @@
         <span class="text-[11px] font-semibold">Clients</span>
     </a>
 
-    {{-- Greyed: Passages --}}
-    <span aria-disabled="true"
-        class="flex flex-col items-center justify-center gap-1 text-ink-400 opacity-60 cursor-default">
+    {{-- Active: Passages (Plan 02-03) --}}
+    <a href="{{ route('admin.passages.index') }}"
+        class="flex flex-col items-center justify-center gap-1 {{ request()->routeIs('admin.passages.*') ? 'text-azure-600' : 'text-ink-400' }}"
+        @if(request()->routeIs('admin.passages.*')) aria-current="page" @endif>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
         </svg>
-        <span class="text-[11px] font-medium">Passages</span>
-    </span>
+        <span class="text-[11px] font-semibold">Passages</span>
+    </a>
 
     {{-- Greyed: Factures --}}
     <span aria-disabled="true"
