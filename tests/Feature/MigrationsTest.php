@@ -49,10 +49,20 @@ it('asserts passages.client_uuid is unique and indexed', function () {
         'status'      => 'draft',
     ]);
 
-    expect(fn () => DB::table('passages')->insert([
-        'client_uuid' => $uuid,
-        'status'      => 'draft',
-    ]))->toThrow(UniqueConstraintViolationException::class);
+    // Use a savepoint so PostgreSQL transaction state recovers after the exception
+    try {
+        DB::statement('SAVEPOINT before_unique_test');
+        DB::table('passages')->insert([
+            'client_uuid' => $uuid,
+            'status'      => 'draft',
+        ]);
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(false)->toBeTrue('Expected unique constraint violation but insert succeeded');
+    } catch (UniqueConstraintViolationException $e) {
+        DB::statement('ROLLBACK TO SAVEPOINT before_unique_test');
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(true)->toBeTrue();
+    }
 });
 
 // ---------------------------------------------------------------------------
@@ -102,11 +112,21 @@ it('asserts factures.numero is nullable unique string distinct from id', functio
     ]);
 
     // Second facture with same numero → unique violation
-    expect(fn () => DB::table('factures')->insert([
-        'uuid'      => (string) Str::uuid(),
-        'numero'    => 'F2026-0001',
-        'client_id' => $clientId,
-    ]))->toThrow(UniqueConstraintViolationException::class);
+    // Use a savepoint so PostgreSQL transaction state recovers after the exception
+    try {
+        DB::statement('SAVEPOINT before_unique_test');
+        DB::table('factures')->insert([
+            'uuid'      => (string) Str::uuid(),
+            'numero'    => 'F2026-0001',
+            'client_id' => $clientId,
+        ]);
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(false)->toBeTrue('Expected unique constraint violation but insert succeeded');
+    } catch (UniqueConstraintViolationException $e) {
+        DB::statement('ROLLBACK TO SAVEPOINT before_unique_test');
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(true)->toBeTrue();
+    }
 
     // Two factures with numero=null → both succeed (null is never "equal" in SQL unique)
     DB::table('factures')->insert([
@@ -181,10 +201,20 @@ it('asserts clients.uuid is unique and is UUID v4 valid', function () {
         'name' => 'First Client',
     ]);
 
-    expect(fn () => DB::table('clients')->insert([
-        'uuid' => $uuid,
-        'name' => 'Duplicate UUID Client',
-    ]))->toThrow(UniqueConstraintViolationException::class);
+    // Use savepoint so PostgreSQL transaction state recovers after the exception
+    try {
+        DB::statement('SAVEPOINT before_unique_test');
+        DB::table('clients')->insert([
+            'uuid' => $uuid,
+            'name' => 'Duplicate UUID Client',
+        ]);
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(false)->toBeTrue('Expected unique constraint violation but insert succeeded');
+    } catch (UniqueConstraintViolationException $e) {
+        DB::statement('ROLLBACK TO SAVEPOINT before_unique_test');
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(true)->toBeTrue();
+    }
 });
 
 // ---------------------------------------------------------------------------
@@ -305,35 +335,45 @@ it('asserts google_reviews table and critical columns for D-28 amended', functio
 
     // Insert a review
     DB::table('google_reviews')->insert([
-        'google_review_id'         => 'review_abc123',
-        'author_name'              => 'Jean Dupont',
-        'rating'                   => 5,
-        'relative_time_description'=> 'il y a 2 mois',
-        'language'                 => 'fr',
-        'reviewed_at'              => now(),
-        'fetched_at'               => now(),
+        'google_review_id'          => 'review_abc123',
+        'author_name'               => 'Jean Dupont',
+        'rating'                    => 5,
+        'relative_time_description' => 'il y a 2 mois',
+        'language'                  => 'fr',
+        'reviewed_at'               => now(),
+        'fetched_at'                => now(),
     ]);
 
     // Duplicate google_review_id → unique violation
-    expect(fn () => DB::table('google_reviews')->insert([
-        'google_review_id'         => 'review_abc123',
-        'author_name'              => 'Marie Martin',
-        'rating'                   => 4,
-        'relative_time_description'=> 'il y a 1 mois',
-        'language'                 => 'fr',
-        'reviewed_at'              => now(),
-        'fetched_at'               => now(),
-    ]))->toThrow(UniqueConstraintViolationException::class);
+    // Use savepoint so PostgreSQL transaction state recovers after the exception
+    try {
+        DB::statement('SAVEPOINT before_unique_test');
+        DB::table('google_reviews')->insert([
+            'google_review_id'          => 'review_abc123',
+            'author_name'               => 'Marie Martin',
+            'rating'                    => 4,
+            'relative_time_description' => 'il y a 1 mois',
+            'language'                  => 'fr',
+            'reviewed_at'               => now(),
+            'fetched_at'                => now(),
+        ]);
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(false)->toBeTrue('Expected unique constraint violation but insert succeeded');
+    } catch (UniqueConstraintViolationException $e) {
+        DB::statement('ROLLBACK TO SAVEPOINT before_unique_test');
+        DB::statement('RELEASE SAVEPOINT before_unique_test');
+        expect(true)->toBeTrue();
+    }
 
     // Insert with rating=5 succeeds
     DB::table('google_reviews')->insert([
-        'google_review_id'         => 'review_def456',
-        'author_name'              => 'Marie Martin',
-        'rating'                   => 5,
-        'relative_time_description'=> 'il y a 1 mois',
-        'language'                 => 'fr',
-        'reviewed_at'              => now(),
-        'fetched_at'               => now(),
+        'google_review_id'          => 'review_def456',
+        'author_name'               => 'Marie Martin',
+        'rating'                    => 5,
+        'relative_time_description' => 'il y a 1 mois',
+        'language'                  => 'fr',
+        'reviewed_at'               => now(),
+        'fetched_at'                => now(),
     ]);
     expect(DB::table('google_reviews')->where('rating', 5)->count())->toBe(2);
 });
