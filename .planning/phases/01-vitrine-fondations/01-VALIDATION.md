@@ -49,7 +49,7 @@ updated: 2026-05-28
 | 01-01-T3a | 01-01 | 1 | SITE-01, SITE-06 | T-1-07 | CSS @theme + Vite + tokens compile without errors | feature | `npm run build && grep -q '@theme' resources/css/app.css` | ❌ W0 | ⬜ pending |
 | 01-01-T3b | 01-01 | 1 | SITE-01, AUTH-01 | T-1-01, T-1-07 | Skeleton smoke + health check return styled 200 + db:ok JSON | feature | `./vendor/bin/pest --filter='SkeletonSmokeTest\|HealthCheckTest'` | ❌ W0 | ⬜ pending |
 | 01-01-T4 | 01-01 | 1 | SITE-01 | T-1-02, T-1-03 | CI workflow exists + env templates ready + CLAUDE/PROJECT/CONTEXT updated to Laravel 13 | unit | `test -f .github/workflows/tests.yml && grep -q "'8.3'" .github/workflows/tests.yml && grep -q 'Laravel 13' CLAUDE.md && grep -q 'Laravel 13' .planning/PROJECT.md && grep -q 'Laravel 13' .planning/phases/01-vitrine-fondations/01-CONTEXT.md` | ❌ W0 | ⬜ pending |
-| 01-01-T5 | 01-01 | 1 | SITE-01, SITE-07 | T-1-03 | Laravel Cloud staging + Scaleway + Mailgun provisioned (human-only) | manual | — (checkpoint:human-verify) | ❌ W0 | ⬜ pending |
+| 01-01-T5 | 01-01 | 1 | SITE-01, SITE-07 | T-1-03 | Laravel Cloud staging + Scaleway + Brevo sender provisioned (human-only) | manual | — (checkpoint:human-verify) | ❌ W0 | ⬜ pending |
 
 ### Plan 01-02 — Business schema (D-07/D-08/D-09)
 
@@ -70,7 +70,7 @@ updated: 2026-05-28
 | Task ID | Plan | Wave | Requirement | Threat Ref | Secure Behavior | Test Type | Automated Command | File Exists | Status |
 |---------|------|------|-------------|------------|-----------------|-----------|-------------------|-------------|--------|
 | 01-04-T1 | 01-04 | 2 | SITE-04, SITE-05 | T-4-01, T-4-02, T-4-04 | RED: BlogTest+ContactFormTest cover 16 assertions (honeypot, throttle, markdown safe_mode) | feature | `./vendor/bin/pest tests/Feature/BlogTest.php tests/Feature/ContactFormTest.php 2>&1 \| grep -qE 'Tests:.+(failed\|errors)'` | ❌ W0 | ⬜ pending |
-| 01-04-T2 | 01-04 | 2 | SITE-04, SITE-05 | T-4-01..T-4-10 | GREEN: blog index/show + ContactForm Livewire + Mailgun EU + sitemap blog seam | feature | `./vendor/bin/pest tests/Feature/BlogTest.php tests/Feature/ContactFormTest.php tests/Feature/SeoTest.php --ci` | ❌ W0 | ⬜ pending |
+| 01-04-T2 | 01-04 | 2 | SITE-04, SITE-05 | T-4-01..T-4-10 | GREEN: blog index/show + ContactForm Livewire + Brevo (Paris, FR) + sitemap blog seam | feature | `./vendor/bin/pest tests/Feature/BlogTest.php tests/Feature/ContactFormTest.php tests/Feature/SeoTest.php --ci` | ❌ W0 | ⬜ pending |
 
 ### Plan 01-05 — Fortify auth + admin shell
 
@@ -110,7 +110,7 @@ updated: 2026-05-28
 | Structured data LocalBusiness valide | SITE-06 | Validator externe Schema.org | Tester sur https://validator.schema.org/ et Google Rich Results Test |
 | OG preview correct (Facebook + WhatsApp) | SITE-06 | Pas testable en local | Debugger Facebook (https://developers.facebook.com/tools/debug/) sur URL staging |
 | WhatsApp CTA ouvre conversation réelle | SITE-01, SITE-05 | Nécessite mobile + WhatsApp | Tap `wa.me/596696940054` sur mobile, vérifier ouverture WhatsApp avec numéro pré-rempli |
-| Email contact reçu (Mailgun EU) | SITE-05 | Délivrabilité réelle | Submit form, vérifier réception sur `contact@dloazurpiscines.com` |
+| Email contact reçu (Brevo (Paris, FR)) | SITE-05 | Délivrabilité réelle | Submit form, vérifier réception sur `contact@dloazurpiscines.com` |
 | Laravel Cloud deploy + migration auto-run | SITE-07 | Plateforme externe | `git push origin main` + observer logs Laravel Cloud dashboard, vérifier migrations exécutées |
 | DNS cutover Zyro → Laravel Cloud | SITE-07 | Acte opérationnel manuel par Pierre | TTL DNS baissé 24h avant, switch CNAME, validation curl post-switch (déclenché par Pierre, voir D-25) |
 | Login Fortify réel | AUTH-01 | UX flow complet à observer | Login `pierre@dloazurpiscines.com` → redirect dashboard, vérifier session, vérifier logout |
