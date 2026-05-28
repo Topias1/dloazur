@@ -2,24 +2,26 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
 {
-    use WithoutModelEvents;
-
     /**
      * Seed the application's database.
+     *
+     * D-09: only runs DevDataSeeder in local/testing environments.
+     * Production is a strict no-op — PierreSeeder (Plan 05) is called
+     * explicitly via the deploy hook, never through this entrypoint.
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        if (! app()->environment(['local', 'testing'])) {
+            if (isset($this->command)) {
+                $this->command->info('DatabaseSeeder skipped — production environment');
+            }
+            return;
+        }
 
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-        ]);
+        $this->call(DevDataSeeder::class);
     }
 }
