@@ -20,8 +20,9 @@
 {{-- Theme color anchors the browser UI on the azure-500 brand value. --}}
 <meta name="theme-color" content="#0080ff">
 
-{{-- Favicon — Plan 03 replaces the placeholder. --}}
+{{-- Favicon — Logo vecto.svg officiel Dlo Azur. PNG fallback: assets/brand/logo.png --}}
 <link rel="icon" type="image/svg+xml" href="{{ asset('assets/brand/favicon.svg') }}">
+<link rel="icon" type="image/png" href="{{ asset('assets/brand/logo.png') }}" sizes="any">
 
 {{-- Open Graph --}}
 <meta property="og:type" content="{{ $type }}">

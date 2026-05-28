@@ -27,15 +27,15 @@
                     <img loading="lazy" decoding="async"
                         src="{{ asset('assets/brand/photos/avant-apres.jpg') }}"
                         alt="Piscine avec eau verte avant traitement par Dlo Azur"
+                        width="1440" height="1908"
                         class="h-full w-full object-cover photo-grade">
-                    {{-- TODO: replace with real before/after photo from Pierre --}}
                 </div>
                 <div class="rounded-2xl overflow-hidden aspect-square bg-navy-900/5 flex items-center justify-center">
                     <img loading="lazy" decoding="async"
                         src="{{ asset('assets/brand/photos/piscine-propre.jpg') }}"
                         alt="Piscine eau claire et limpide après traitement d'urgence Dlo Azur"
+                        width="3840" height="2160"
                         class="h-full w-full object-cover photo-grade">
-                    {{-- TODO: replace with real after photo from Pierre --}}
                 </div>
             </div>
             <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-sun-500 text-navy-950 text-xs font-bold px-3 py-1.5 shadow-sm">

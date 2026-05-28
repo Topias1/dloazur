@@ -5,8 +5,8 @@
             <img loading="lazy" decoding="async"
                 src="{{ asset('assets/brand/photos/pierre-portrait.jpg') }}"
                 alt="Pierre ADAM, fondateur de Dlo Azur Piscines, pisciniste en Martinique"
+                width="1215" height="2160"
                 class="rounded-3xl shadow-lg w-full object-cover aspect-[4/5] photo-grade">
-            {{-- TODO: replace placeholder above with real portrait from Pierre --}}
             <span class="absolute -top-4 -right-2 sm:right-6 text-azure-500 drop-shadow" aria-hidden="true">
                 <svg width="64" height="78" viewBox="0 0 28 34" fill="none"><path d="M14 1.5C14 1.5 3.5 13.5 3.5 22a10.5 10.5 0 0 0 21 0C24.5 13.5 14 1.5 14 1.5Z" fill="currentColor"/><path d="M8.4 21.4c1.6-2.3 3.8-2.3 5.6 0s4 2.3 5.6 0" stroke="oklch(0.987 0.005 85)" stroke-width="1.7" stroke-linecap="round"/></svg>
             </span>
@@ -21,9 +21,9 @@
                 <p class="font-display font-semibold text-2xl text-ink-950 leading-snug flex-1">Une dizaine de clients à l'année,<br>un seul interlocuteur, toujours.</p>
                 <img loading="lazy" decoding="async"
                     src="{{ asset('assets/brand/photos/entretien-dos-logo.jpg') }}"
-                    alt="Pierre en intervention, logo Dlo Azur dans le dos"
+                    alt="Pierre ADAM en intervention d'entretien hebdomadaire d'une piscine"
+                    width="1620" height="2160"
                     class="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl object-cover shadow-sm shrink-0 photo-grade">
-                {{-- TODO: replace with real action photo from Pierre --}}
             </div>
         </div>
     </div>

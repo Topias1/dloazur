@@ -55,15 +55,15 @@
             </div>
         </section>
 
-        {{-- Photo gallery placeholder --}}
+        {{-- Photo gallery --}}
         <section class="mx-auto max-w-content px-5 sm:px-8 pb-16">
             <div class="grid grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[16rem]">
                 <figure class="col-span-2 lg:col-span-2 rounded-3xl overflow-hidden relative group">
                     <img loading="lazy" decoding="async"
                         src="{{ asset('assets/brand/photos/avant-apres.jpg') }}"
                         alt="Avant / après traitement eau verte par Dlo Azur Piscines en Martinique"
+                        width="1440" height="1908"
                         class="h-full w-full object-cover group-hover:scale-[1.03] transition duration-700 photo-grade">
-                    {{-- TODO: replace with real before/after photo from Pierre --}}
                     <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy-950/85 to-transparent p-5 text-white">
                         <span class="inline-flex items-center gap-1.5 rounded-full bg-sun-500 text-navy-950 text-xs font-bold px-2.5 py-1">Avant / après</span>
                         <p class="mt-2 font-display font-semibold">D'une eau verte à une eau de baignade en 48 h</p>
@@ -73,8 +73,8 @@
                     <img loading="lazy" decoding="async"
                         src="{{ asset('assets/brand/photos/piscine-propre.jpg') }}"
                         alt="Piscine traitée avec succès — eau cristalline après intervention Dlo Azur"
+                        width="3840" height="2160"
                         class="h-full w-full object-cover group-hover:scale-[1.04] transition duration-700 photo-grade">
-                    {{-- TODO: replace with real after-treatment photo from Pierre --}}
                 </figure>
             </div>
         </section>
