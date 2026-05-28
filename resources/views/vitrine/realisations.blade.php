@@ -2,6 +2,8 @@
 
 @section('content')
     {{-- Réalisations page — SITE-03 --}}
+    {{-- h1 sr-only pour a11y (Plan 01-06) : le titre visuel de la section est un h2 --}}
+    <h1 class="sr-only">Réalisations — Piscines traitées par Dlo Azur Piscines</h1>
     <div class="pt-24">
         @include('vitrine.partials.realisations-grid')
 

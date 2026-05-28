@@ -10,11 +10,12 @@ use Illuminate\Support\Facades\Route;
 |
 | Blog index + individual post routes. Filled by Plan 04.
 |
-| NOTE: Plan 06 will wrap these routes in a cache.headers middleware group
-| to add Cache-Control: public, max-age=300, must-revalidate + Vary headers.
-| Plan 06 surgically wraps the Route::get() calls below without changing them.
+| Plan 06 : routes enveloppées dans cache.headers:vitrine (public, max-age=300)
+| conformément à RESEARCH Pitfall 11 — trafic solo-opérateur, scale-to-zero.
 |
 */
 
-Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
-Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9-]+');
+Route::middleware('cache.headers:vitrine')->group(function () {
+    Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+    Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show')->where('slug', '[a-z0-9-]+');
+});
