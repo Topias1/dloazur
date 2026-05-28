@@ -377,3 +377,67 @@ it('asserts google_reviews table and critical columns for D-28 amended', functio
     ]);
     expect(DB::table('google_reviews')->where('rating', 5)->count())->toBe(2);
 });
+
+// ---------------------------------------------------------------------------
+// Test 14 — D-42: photos_meta has a client_uuid UUID nullable column
+// ---------------------------------------------------------------------------
+
+it('asserts photos_meta has a client_uuid UUID nullable column', function () {
+    expect(Schema::hasColumn('photos_meta', 'client_uuid'))->toBeTrue();
+
+    // Verify column is nullable: inserting a row without client_uuid must succeed
+    $passageId = DB::table('passages')->insertGetId([
+        'client_uuid' => (string) Str::uuid(),
+        'status'      => 'draft',
+    ]);
+
+    $id = DB::table('photos_meta')->insertGetId([
+        'passage_id' => $passageId,
+        'path'       => 'photos/2026/nullable-test.jpg',
+        // client_uuid intentionally omitted — must accept NULL
+    ]);
+
+    $row = DB::table('photos_meta')->find($id);
+    expect($row->client_uuid)->toBeNull('client_uuid column must be nullable');
+});
+
+// ---------------------------------------------------------------------------
+// Test 15 — D-42: photos_meta.client_uuid is unique (SAVEPOINT pattern)
+// ---------------------------------------------------------------------------
+
+it('asserts photos_meta.client_uuid unique constraint prevents duplicate UUIDs', function () {
+    // Insert a passage first (FK required)
+    $passageId = DB::table('passages')->insertGetId([
+        'client_uuid' => (string) Str::uuid(),
+        'status'      => 'draft',
+    ]);
+
+    $uuid = (string) Str::uuid();
+
+    // First insert succeeds
+    DB::table('photos_meta')->insert([
+        'passage_id'  => $passageId,
+        'path'        => 'photos/2026/first.jpg',
+        'client_uuid' => $uuid,
+    ]);
+
+    // Second insert with same client_uuid must fail
+    $caught = false;
+
+    DB::statement('SAVEPOINT before_dup');
+    try {
+        DB::table('photos_meta')->insert([
+            'passage_id'  => $passageId,
+            'path'        => 'photos/2026/second.jpg',
+            'client_uuid' => $uuid,
+        ]);
+        DB::statement('RELEASE SAVEPOINT before_dup');
+        expect(false)->toBeTrue('Expected unique constraint violation but insert succeeded');
+    } catch (\Throwable $e) {
+        DB::statement('ROLLBACK TO SAVEPOINT before_dup');
+        DB::statement('RELEASE SAVEPOINT before_dup');
+        $caught = true;
+    }
+
+    expect($caught)->toBeTrue();
+});
