@@ -11,6 +11,7 @@ class PhotoMeta extends Model
     protected $table = 'photos_meta';
 
     protected $fillable = [
+        'client_uuid',
         'passage_id',
         'disk',
         'path',
@@ -22,6 +23,7 @@ class PhotoMeta extends Model
     ];
 
     protected $casts = [
+        'client_uuid' => 'string',
         'captured_at' => 'datetime',
         'size_bytes'  => 'integer',
         'width'       => 'integer',

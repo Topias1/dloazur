@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use App\Models\PhotoMeta;
 
 class Passage extends Model
 {
@@ -64,5 +65,10 @@ class Passage extends Model
     public function signature(): HasOne
     {
         return $this->hasOne(Signature::class);
+    }
+
+    public function latestPhoto(): HasOne
+    {
+        return $this->hasOne(PhotoMeta::class)->latestOfMany('captured_at');
     }
 }
