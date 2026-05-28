@@ -123,7 +123,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Vitrine & Fondations | 9/6 | Complete   | 2026-05-28 |
-| 2. MVP Suivi Offline-First | 1/7 | In Progress|  |
+| 2. MVP Suivi Offline-First | 5/7 | In Progress|  |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 0/? | Not started | - |
