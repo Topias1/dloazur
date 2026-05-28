@@ -1,9 +1,173 @@
-@import 'tailwindcss';
+@import "tailwindcss";
 
-@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
-@source '../../storage/framework/views/*.php';
+/*
+ * Dlo Azur Piscines — design tokens (Tailwind v4 CSS-first @theme).
+ * Sources of truth: mockups/v1/theme.js (Tailwind v3 config — frozen),
+ * mockups/v1/app.css (custom utilities). DESIGN.md + PRODUCT.md context.
+ *
+ * Brand anchors: azure-500 = #0080ff (logo), navy-600 = #154c79 (carte de
+ * visite), lagon = turquoise "live water" (#2fb8c8). OKLCH only — no #000, no #fff.
+ */
+
+@source "../views/**/*.blade.php";
+@source "../js/**/*.js";
+@source "../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php";
+@source "../../storage/framework/views/*.php";
+
+@plugin "@tailwindcss/typography";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    /* Typography */
+    --font-display: "Fredoka", system-ui, sans-serif;
+    --font-sans: "Inter", system-ui, sans-serif;
+
+    /* Brand — Azur (logo) */
+    --color-azure-50: oklch(0.965 0.022 256);
+    --color-azure-100: oklch(0.930 0.045 256);
+    --color-azure-200: oklch(0.872 0.085 256);
+    --color-azure-300: oklch(0.788 0.130 256);
+    --color-azure-400: oklch(0.702 0.176 256);
+    --color-azure-500: oklch(0.615 0.211 256);
+    --color-azure-600: oklch(0.545 0.205 257);
+    --color-azure-700: oklch(0.470 0.176 256);
+    --color-azure-800: oklch(0.400 0.140 252);
+    --color-azure-900: oklch(0.340 0.105 250);
+    --color-azure-950: oklch(0.262 0.078 252);
+
+    /* Brand — Marine (carte de visite + dark surfaces) */
+    --color-navy-50: oklch(0.955 0.013 246);
+    --color-navy-100: oklch(0.908 0.025 246);
+    --color-navy-200: oklch(0.820 0.044 247);
+    --color-navy-300: oklch(0.708 0.060 247);
+    --color-navy-400: oklch(0.560 0.080 248);
+    --color-navy-500: oklch(0.470 0.092 248);
+    --color-navy-600: oklch(0.405 0.094 248);
+    --color-navy-700: oklch(0.345 0.082 249);
+    --color-navy-800: oklch(0.288 0.066 250);
+    --color-navy-900: oklch(0.232 0.052 251);
+    --color-navy-950: oklch(0.182 0.040 252);
+
+    /* Accent — Lagon (turquoise) */
+    --color-lagon-300: oklch(0.852 0.090 202);
+    --color-lagon-400: oklch(0.788 0.110 204);
+    --color-lagon-500: oklch(0.720 0.113 207);
+    --color-lagon-600: oklch(0.620 0.100 209);
+    --color-lagon-700: oklch(0.520 0.085 211);
+
+    /* Accent — Soleil (rare, human CTA) */
+    --color-sun-300: oklch(0.890 0.085 85);
+    --color-sun-400: oklch(0.825 0.130 80);
+    --color-sun-500: oklch(0.760 0.150 72);
+
+    /* Surfaces — Sable (warm near-white, never pure white) */
+    --color-sand-50: oklch(0.987 0.005 85);
+    --color-sand-100: oklch(0.967 0.008 84);
+    --color-sand-200: oklch(0.928 0.011 80);
+    --color-sand-300: oklch(0.875 0.013 75);
+
+    /* Text — Encre (tinted toward marine) */
+    --color-ink-400: oklch(0.690 0.018 250);
+    --color-ink-500: oklch(0.585 0.024 250);
+    --color-ink-700: oklch(0.445 0.030 250);
+    --color-ink-900: oklch(0.310 0.045 250);
+    --color-ink-950: oklch(0.255 0.045 250);
+
+    /* Semantic */
+    --color-success: oklch(0.700 0.150 155);
+    --color-warn: oklch(0.800 0.130 80);
+    --color-danger: oklch(0.620 0.210 25);
+    --color-whatsapp: #25d366;
+
+    /* Spacing scale extensions (UI-SPEC §Spacing) */
+    --spacing-13: 3.25rem;
+    --spacing-15: 3.75rem;
+    --spacing-18: 4.5rem;
+
+    /* Breakpoint */
+    --breakpoint-xs: 400px;
+
+    /* Container */
+    --container-content: 75rem;
+
+    /* Border radius overrides (more "rounded brand" voice) */
+    --radius-xl: 0.875rem;
+    --radius-2xl: 1.25rem;
+    --radius-3xl: 1.75rem;
+
+    /* Shadows — tinted toward marine navy, never neutral grey */
+    --shadow-xs: 0 1px 2px oklch(0.29 0.07 250 / 0.06);
+    --shadow-sm: 0 1px 2px oklch(0.29 0.07 250 / 0.05), 0 4px 12px -6px oklch(0.29 0.07 250 / 0.10);
+    --shadow-md: 0 2px 4px oklch(0.29 0.07 250 / 0.05), 0 14px 30px -10px oklch(0.29 0.07 250 / 0.16);
+    --shadow-lg: 0 4px 8px oklch(0.29 0.07 250 / 0.06), 0 30px 60px -16px oklch(0.29 0.07 250 / 0.24);
+
+    /* Motion easing */
+    --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
+
+/*
+ * Additional CSS vars not exposed as Tailwind utilities but still consumed
+ * by hand-rolled rules below. Keeps a single declaration site for warn-bg.
+ */
+:root {
+    --warn-bg: oklch(0.965 0.045 85);
+}
+
+@layer base {
+    * { -webkit-tap-highlight-color: transparent; }
+    html { scroll-behavior: smooth; }
+
+    body {
+        background: var(--color-sand-50);
+        color: var(--color-ink-700);
+        font-family: "Inter", system-ui, sans-serif;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+    }
+
+    ::selection {
+        background: var(--color-lagon-300);
+        color: var(--color-navy-900);
+    }
+
+    :focus-visible {
+        outline: 2px solid var(--color-azure-500);
+        outline-offset: 2px;
+        border-radius: 6px;
+    }
+
+    /* Fredoka carries the brand voice; echoes the rounded logo wordmark */
+    h1, h2, h3, .brand, .font-display {
+        font-family: "Fredoka", system-ui, sans-serif;
+        color: var(--color-ink-950);
+        letter-spacing: -0.005em;
+        font-weight: 600;
+    }
+
+    /* Photo treatments — unify mixed-source photos under one cool grade */
+    .photo-grade { filter: saturate(1.05) contrast(1.02); }
+    .photo-duotone { filter: saturate(0.9) brightness(0.96); }
+
+    @media (prefers-reduced-motion: reduce) {
+        *, *::before, *::after {
+            animation-duration: 0.001ms !important;
+            transition-duration: 0.001ms !important;
+            scroll-behavior: auto !important;
+        }
+    }
+}
+
+@layer components {
+    /* Wave / drop motif, from the logo */
+    .ripple {
+        background-image:
+            radial-gradient(130% 90% at 50% -20%, oklch(1 0 0 / 0.12), transparent 60%),
+            repeating-linear-gradient(118deg, oklch(1 0 0 / 0.03) 0 2px, transparent 2px 24px);
+    }
+}
+
+/* Rise entrance animation — used by hero, cards on first paint */
+@keyframes rise {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+.rise { animation: rise 0.7s var(--ease-out-quint) both; }
