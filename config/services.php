@@ -35,4 +35,15 @@ return [
         ],
     ],
 
+    /*
+     * Brevo (ex-Sendinblue) — transactional mail provider hosted in Paris (FR).
+     * Free tier 300/day covers Phase 1 contact-form volume. Symfony transport
+     * registered in AppServiceProvider via `Mail::extend('brevo', …)`.
+     * Endpoint reference: https://api.brevo.com
+     */
+    'brevo' => [
+        'key' => env('BREVO_API_KEY'),
+        'endpoint' => env('BREVO_ENDPOINT', 'https://api.brevo.com'),
+    ],
+
 ];

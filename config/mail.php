@@ -79,6 +79,15 @@ return [
             'transport' => 'array',
         ],
 
+        /*
+         * Brevo API transport — registered as a Symfony mailer transport in
+         * AppServiceProvider::boot(). DSN syntax: brevo+api://KEY@default.
+         * Plan 04 wires the contact form Mail::to()->send() to this mailer.
+         */
+        'brevo' => [
+            'transport' => 'brevo',
+        ],
+
         'failover' => [
             'transport' => 'failover',
             'mailers' => [

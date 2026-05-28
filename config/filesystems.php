@@ -60,6 +60,25 @@ return [
             'report' => false,
         ],
 
+        /*
+         * Cloudflare R2 — S3-compatible object storage hosted in the EU.
+         * Wired Phase 1, photo uploads land here in Phase 2 via
+         * spatie/laravel-medialibrary `->useDisk('r2')`. Credentials live in
+         * Laravel Cloud secrets only — see CLOUD-PROVISIONING.md.
+         */
+        'r2' => [
+            'driver' => 's3',
+            'key' => env('R2_ACCESS_KEY_ID'),
+            'secret' => env('R2_SECRET_ACCESS_KEY'),
+            'region' => env('R2_ACCOUNT_ID', 'fr-par'),
+            'bucket' => env('R2_BUCKET'),
+            'endpoint' => env('R2_ENDPOINT', 'https://r2.cloudflarestorage.com'),
+            'use_path_style_endpoint' => true,
+            'visibility' => 'private',
+            'throw' => false,
+            'report' => false,
+        ],
+
     ],
 
     /*
