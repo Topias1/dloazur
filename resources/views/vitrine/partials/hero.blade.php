@@ -5,10 +5,10 @@
     <img
         fetchpriority="high"
         src="{{ asset('assets/brand/photos/hero-pierre-piscine.jpg') }}"
-        alt="Pierre, de Dlo Azur Piscines, nettoyant une piscine devant une baie de Martinique"
+        alt="Pierre ADAM, pisciniste Dlo Azur, en intervention face à la baie de Martinique"
+        width="1215" height="2160"
         class="absolute inset-0 h-full w-full object-cover photo-grade"
     >
-    {{-- TODO: replace placeholder above with real photo from Pierre before cutover --}}
     <div class="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-900/55 to-navy-900/20"></div>
     <div class="absolute inset-0 bg-gradient-to-r from-navy-950/70 to-transparent"></div>
 
