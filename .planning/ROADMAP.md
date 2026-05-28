@@ -12,7 +12,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - Decimal phases (2.1, 2.2) : insertions urgentes (marquées INSERTED)
 
 - [x] **Phase 1: Vitrine & Fondations** - Scaffold Laravel Cloud, auth pro, migrations complètes, vitrine SEO remplaçant Zyro (completed 2026-05-28)
-- [ ] **Phase 2: MVP Suivi Offline-First** - Saisie passage offline + photos, clients/piscines, portail client — coeur de valeur
+- [x] **Phase 2: MVP Suivi Offline-First** - Saisie passage offline + photos, clients/piscines, portail client — coeur de valeur (completed 2026-05-28)
 - [ ] **Phase 3: Facturation & Odoo** - POC Odoo, catalogue, contrats, factures TVA 8,5 %, PDF, signature
 - [ ] **Phase 4: Notifications** - Email compte-rendu + rappel J-1, option WhatsApp
 - [ ] **Phase 5: Diagnostic Commercialisable** - Wizard eau verte, doses serveur, disclaimer, Stripe A+B
@@ -123,7 +123,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Vitrine & Fondations | 9/6 | Complete   | 2026-05-28 |
-| 2. MVP Suivi Offline-First | 5/7 | In Progress|  |
+| 2. MVP Suivi Offline-First | 7/7 | Complete   | 2026-05-28 |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 0/? | Not started | - |
