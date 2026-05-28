@@ -24,3 +24,7 @@ Route::get('clients', [ClientController::class, 'index'])->name('clients.index')
 Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::get('clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 Route::get('clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+
+// Passages — historique (PASS-05, Plan 02-03)
+// Write actions (store/create) handled by Plan 02-05 (saisie offline Alpine).
+Route::view('passages', 'admin.passages.index')->name('passages.index');

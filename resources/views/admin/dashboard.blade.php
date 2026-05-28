@@ -11,14 +11,6 @@
 @endsection
 
 @section('main')
-    {{--
-        Dashboard stub (D-19):
-        - Greeting: "Bonjour Pierre," (first name extracted from user name)
-        - Sub: "Tableau de bord opérationnel en Phase 2."
-        - 4 stat cards with '—' values (Phase 1 placeholder)
-        Phase 2 will replace '—' values with real queries.
-    --}}
-
     <div class="px-5 sm:px-8 py-7 space-y-7">
 
         {{-- Greeting --}}
@@ -29,19 +21,31 @@
             <p class="text-ink-500 mt-1">Tableau de bord opérationnel en Phase 2.</p>
         </div>
 
-        {{-- Stat cards (Phase 1 stub — all values '—') --}}
+        {{-- Stat cards (Plan 02-03 — valeurs réelles D-62, D-63) --}}
+        {{--
+            Règle couleurs stat-cards (UI-SPEC §Dashboard admin Stat cards — Règle ambre, PATTERNS.md Critical Flag #5) :
+            - "À synchroniser" : state="offline" → AMBRE oklch(0.5_0.11_72) — jamais text-danger
+            - "Eau à surveiller" : state="warn" si > 0 → ROUGE text-danger — jamais ambre
+        --}}
         <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
-            <x-admin.stat-card label="Clients actifs" value="—" />
-            <x-admin.stat-card label="Passages cette semaine" value="—" />
-            <x-admin.stat-card label="À synchroniser" value="—" />
-            <x-admin.stat-card label="Factures en attente" value="—" />
-        </div>
-
-        {{-- Phase 2 placeholder hint --}}
-        <div class="rounded-2xl bg-azure-50 ring-1 ring-azure-200/60 p-6 text-center">
-            <p class="text-sm text-azure-700 font-medium">
-                Les données opérationnelles arrivent en Phase 2 — clients, passages, suivi de l'eau.
-            </p>
+            <x-admin.stat-card
+                label="Passages cette semaine"
+                :value="$passagesThisWeek"
+            />
+            <x-admin.stat-card
+                label="À synchroniser"
+                :value="$aSynchroniser"
+                state="offline"
+            />
+            <x-admin.stat-card
+                label="Clients actifs"
+                :value="$clientsCount"
+            />
+            <x-admin.stat-card
+                label="Eau à surveiller"
+                :value="$eauASurveiller"
+                :state="$eauASurveiller > 0 ? 'warn' : 'default'"
+            />
         </div>
 
     </div>

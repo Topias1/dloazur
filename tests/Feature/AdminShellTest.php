@@ -42,10 +42,8 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
     $response->assertSee('Clients actifs');
     $response->assertSee('Passages cette semaine');
     $response->assertSee('À synchroniser');
-    $response->assertSee('Factures en attente');
-    // 4 em-dash values (stat placeholders)
-    $content = $response->content();
-    expect(substr_count($content, '—'))->toBeGreaterThanOrEqual(4);
+    // Plan 02-03: "Factures en attente" remplacé par "Eau à surveiller" (UI-SPEC §Dashboard admin Stat cards)
+    $response->assertSee('Eau à surveiller');
 });
 
 // ---------------------------------------------------------------------------
@@ -53,7 +51,7 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
 // Plan 02-02: Clients is now ACTIVE (no longer greyed). Passages/Factures/Catalogue remain greyed.
 // ---------------------------------------------------------------------------
 
-it('admin sidebar has greyed nav items for Passages/Factures/Catalogue with aria-disabled', function () {
+it('admin sidebar has greyed nav items for Factures/Catalogue with aria-disabled', function () {
     putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
     (new PierreSeeder())->run();
 
@@ -63,14 +61,15 @@ it('admin sidebar has greyed nav items for Passages/Factures/Catalogue with aria
 
     $response->assertStatus(200);
 
-    // At least 3 greyed items remain (Passages, Factures, Catalogue)
+    // Plan 02-03: Passages is now ACTIVE. At least 2 greyed items remain (Factures, Catalogue).
+    // Note: mobile bottom-nav also has aria-disabled="true" on Factures, so count ≥ 2.
     $content = $response->content();
-    expect(substr_count($content, 'aria-disabled="true"'))->toBeGreaterThanOrEqual(3);
+    expect(substr_count($content, 'aria-disabled="true"'))->toBeGreaterThanOrEqual(2);
 
-    // bientôt badge appears at least 3 times (Passages, Factures, Catalogue)
-    expect(substr_count($content, 'bientôt'))->toBeGreaterThanOrEqual(3);
+    // bientôt badge appears at least 2 times (Factures + Catalogue in sidebar)
+    expect(substr_count($content, 'bientôt'))->toBeGreaterThanOrEqual(2);
 
-    // Nav items still present (Clients is active, others are greyed)
+    // Nav items still present (Clients + Passages are active, Factures + Catalogue greyed)
     $response->assertSee('Clients');
     $response->assertSee('Passages');
     $response->assertSee('Factures');
