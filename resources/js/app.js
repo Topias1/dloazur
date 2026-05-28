@@ -1,5 +1,9 @@
 import Alpine from 'alpinejs';
 
+// Passage form + sync drawer (Plan 02-05)
+import { passageForm } from './passage-form.js';
+import { syncDrawerStore } from './sync-drawer.js';
+
 // PWA SW registration — D-56 'prompt' (pas autoUpdate, protège la saisie en cours)
 import { registerSW } from 'virtual:pwa-register';
 
@@ -33,8 +37,27 @@ Alpine.store('offlineQueue', {
 // PWA update store (initialisé null tant que onNeedRefresh n'a pas été déclenché)
 Alpine.store('pwaUpdate', { available: false, apply: () => {} });
 
+// Sync drawer store (Plan 02-05) — partagé entre topbar badge et composant drawer
+Alpine.store('syncDrawer', syncDrawerStore());
+
+// Alpine.data factories (Plan 02-05)
+Alpine.data('passageForm', passageForm);
+
 window.Alpine = Alpine;
 Alpine.start();
+
+// Initialiser le store syncDrawer une fois Alpine démarré
+document.addEventListener('alpine:initialized', () => {
+    Alpine.store('syncDrawer').init().catch(() => {});
+});
+
+// Event relay : le sync-drawer dispatch 'passage-form:flush' → si passageForm n'est pas
+// monté sur la page courante, le store global rafraîchit juste le badge.
+window.addEventListener('passage-form:flush', async () => {
+    if (window.Alpine?.store('offlineQueue')) {
+        window.Alpine.store('offlineQueue').refresh().catch(() => {});
+    }
+});
 
 // Refresh initial du badge au boot (lit IDB si présent — sinon stay à 0)
 document.addEventListener('alpine:initialized', () => {
