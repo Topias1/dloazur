@@ -116,9 +116,20 @@ function walk(target) {
   return out;
 }
 
+// Files may opt out of specific rules with:
+//   <!-- impeccable-allow: rule-id, other-rule-id -->
+// (e.g. a product dashboard legitimately uses stat cards; the hero-metric
+// ban is a brand-register concern, not a universal one.)
+const ALLOW_RE = /<!--\s*impeccable-allow:\s*([^>]+?)\s*-->/g;
+
 function scanFile(filePath) {
   const txt = fs.readFileSync(filePath, 'utf8');
+  const allowed = new Set();
+  for (const m of txt.matchAll(ALLOW_RE)) {
+    m[1].split(/[,\s]+/).filter(Boolean).forEach((r) => allowed.add(r));
+  }
   return RULES.flatMap((rule) => {
+    if (allowed.has(rule.id)) return [];
     const hits = rule.match(txt);
     return hits.length
       ? [{
