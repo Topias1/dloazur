@@ -54,4 +54,15 @@ return Application::configure(basePath: dirname(__DIR__))
         $exceptions->shouldRenderJsonWhen(
             fn (Request $request) => $request->is('api/*'),
         );
+
+        // Redirige le guard 'clients' vers /auth/magic au lieu de /login (D-53)
+        // Sans ça, auth:clients renvoie vers /login (guard web) — fuite inter-guard
+        $exceptions->render(function (
+            \Illuminate\Auth\AuthenticationException $e,
+            Request $request
+        ) {
+            if (in_array('clients', $e->guards(), true) && ! $request->expectsJson()) {
+                return redirect()->route('portail.magic-link.request');
+            }
+        });
     })->create();

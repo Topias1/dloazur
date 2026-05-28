@@ -48,5 +48,15 @@ class FortifyServiceProvider extends ServiceProvider
         RateLimiter::for('two-factor', function (Request $request) {
             return Limit::perMinute(5)->by($request->session()->get('login.id'));
         });
+
+        // Magic link rate limiter (D-52) :
+        // - 5 tentatives/heure par IP
+        // - 3 tentatives/24h par adresse email
+        RateLimiter::for('magic-link', function (Request $request) {
+            return [
+                Limit::perHour(5)->by($request->ip()),
+                Limit::perDay(3)->by(strtolower((string) $request->input('email', ''))),
+            ];
+        });
     }
 }
