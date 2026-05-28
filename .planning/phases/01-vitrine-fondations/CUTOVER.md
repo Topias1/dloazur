@@ -48,15 +48,15 @@ Vérifier ces points AVANT d'exécuter les phases A..D :
 
 ---
 
-## Phase B — Inventaire URLs Zyro (D-24)
+## Phase B — Inventaire URLs Zyro (D-24) — ✅ Pré-validée le 2026-05-28
 
-10. - [ ] Se connecter à Google Search Console pour `dloazurpiscines.com`
-11. - [ ] Aller dans **Indexation → Pages** → noter toutes les URLs indexées
-12. - [ ] Remplir `.planning/phases/01-vitrine-fondations/ZYRO-URL-INVENTORY.md` avec la liste complète
-13. - [ ] **Décision redirections** :
-    - Si ≤ 3 URLs indexées (probablement juste `/`) → **aucune redirection nécessaire** ; noter « pas de redirections » dans ZYRO-URL-INVENTORY.md
-    - Si > 3 URLs avec du trafic → ajouter dans `routes/web.php` : `Route::redirect('/ancienne-url', '/nouvelle-url', 301);` pour chaque URL, commit + push → redéploiement automatique
-    - Vérifier chaque redirect avec `curl -I -L ${STAGING_URL}/ancienne-url` → attendre un `HTTP/2 301` → location vers la nouvelle URL
+> **Statut :** automatisée pendant `--auto` autonome. Sitemap Zyro capturé via `curl https://dloazurpiscines.com/sitemap.xml` → 8 URLs trouvées → 7 redirections 301 ajoutées à `routes/web.php` → test Pest `ZyroRedirectTest` valide chaque mapping. Plus rien à faire ici manuellement avant la bascule DNS.
+
+10. - [x] **Inventaire capturé** : voir `ZYRO-URL-INVENTORY.md` (8 URLs depuis le sitemap live, 7 redirects nécessaires)
+11. - [x] **Décision redirections** : map 301 appliquée (`services-et-nettoyage → /services`, `nos-realisations → /realisations`, 5 articles blog → `/blog`)
+12. - [x] **Tests automatisés** : `./vendor/bin/pest --filter=ZyroRedirect` → 7/7 ✓
+13. - [ ] **(optionnel)** Confirmation Google Search Console : se connecter à GSC pour vérifier qu'aucune URL indexée n'a été oubliée du sitemap. Si oui, ajouter à `ZYRO-URL-INVENTORY.md` + nouvelle `Route::redirect()` dans `routes/web.php` + commit.
+14. - [ ] **Post-DNS** : exécuter le script de vérification live (voir `ZYRO-URL-INVENTORY.md` §Vérification post-DNS) après la bascule.
 
 ---
 

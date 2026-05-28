@@ -25,3 +25,21 @@ Route::get('/robots.txt', function () {
         'Content-Type' => 'text/plain',
     ]);
 })->name('robots');
+
+/*
+|--------------------------------------------------------------------------
+| Zyro legacy 301 redirects (D-24 — Plan 01-06)
+|--------------------------------------------------------------------------
+|
+| Captured from https://dloazurpiscines.com/sitemap.xml on 2026-05-28.
+| See .planning/phases/01-vitrine-fondations/ZYRO-URL-INVENTORY.md for the
+| full mapping table and SEO recovery options for the 3 legacy blog articles.
+|
+*/
+Route::redirect('/services-et-nettoyage', '/services', 301);
+Route::redirect('/nos-realisations', '/realisations', 301);
+Route::redirect('/blog-list-nettoyage-piscine-professionnel', '/blog', 301);
+Route::redirect('/page-article-blog-vierge', '/blog', 301);
+Route::redirect('/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscines', '/blog', 301);
+Route::redirect('/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscine', '/blog', 301);
+Route::redirect('/les-3-etapes-indispensables-pour-un-entretien-de-piscine-parfait-en-martinique', '/blog', 301);
