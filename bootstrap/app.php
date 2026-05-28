@@ -19,12 +19,28 @@ return Application::configure(basePath: dirname(__DIR__))
                 ->prefix('admin')
                 ->name('admin.')
                 ->group(base_path('routes/admin.php'));
+
+            Route::middleware(['web', 'auth'])
+                ->prefix('api')
+                ->name('api.')
+                ->group(base_path('routes/api.php'));
+
+            Route::middleware('web')
+                ->group(base_path('routes/portail.php'));
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->alias([
             'cache.headers' => \App\Http\Middleware\CacheHeaders::class,
         ]);
+
+        // Exempte /api/* du CSRF. Compensé par le middleware auth (session cookie).
+        // Le PWA est same-domain donc le cookie est envoyé automatiquement (T-2-03, Pitfall 5).
+        $middleware->validateCsrfTokens(except: ['api/*']);
+
+        // ServiceWorkerHeaders ajoute Service-Worker-Allowed: / sur /build/sw.js (D-60, Pitfall 2).
+        // Sans ce header le SW est scopé à /build/ et n'intercepte rien sur /admin/*, /portail/*.
+        $middleware->append(\App\Http\Middleware\ServiceWorkerHeaders::class);
 
         // CacheHeaders est ajouté EN FIN de la pile globale (après les middlewares
         // Livewire) afin de surcharger l'en-tête no-cache posé par
