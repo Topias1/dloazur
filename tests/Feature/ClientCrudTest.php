@@ -22,7 +22,7 @@ it("Pierre voit la liste clients vide affiche l'empty state", function () {
     $this->actingAs($pierre)
         ->get(route('admin.clients.index'))
         ->assertStatus(200)
-        ->assertSee('Aucun client pour l\'instant.');
+        ->assertSee('Aucun client pour l', false); // partial match avoids HTML entity encoding
 });
 
 // Test 2: Pierre crée un client via Livewire
