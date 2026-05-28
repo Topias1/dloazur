@@ -10,7 +10,8 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 
 ### Constraints
 
-- **Tech stack**: Laravel 11 + Livewire + Alpine.js + Tailwind + PostgreSQL — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
+- **Tech stack**: Laravel 13 + Livewire 3 + Alpine.js 3 + Tailwind 4 (CSS-first @theme) + PostgreSQL 16 — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
+  - Stack override 2026-05-28 : Laravel 11 EOL passé (sécurité 2026-03-12), Laravel 13 retenu (sécurité jusqu'en 2028-03-17). Tailwind v4 supprime tailwind.config.js — tokens dans resources/css/app.css via @theme.
 - **Offline**: saisie d'un passage offline-first (IndexedDB + Service Worker + Alpine ; **pas Livewire**, qui exige le réseau)
 - **Hébergement**: Laravel Cloud région **EU/Francfort** (scale-to-zero, ~4-7 €/mois, Postgres managé) ; photos sur **Scaleway Object Storage (Paris)**
 - **RGPD**: données clients hébergées en EU ; AWS + SCCs acceptable car données peu sensibles
@@ -29,10 +30,10 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 
 | Technology | Version | Purpose | Why |
 |------------|---------|---------|-----|
-| Laravel | 11.x | Backend framework | Stack decision — fluence PHP, CRUD/portal/SEO |
+| Laravel | 13.x | Backend framework | D-01 stack lock (2026-05-28 override) — L11 EOL 2026-03-12, fluence PHP, CRUD/portal/SEO |
 | Livewire | 3.x | Server-rendered reactive UI | Stacks with Laravel, zéro JS pour les vues pro |
 | Alpine.js | 3.x | Micro-interactivité + PWA offline controller | Seul framework JS pour la saisie offline (Livewire exige le réseau) |
-| Tailwind CSS | 4.x | Utility CSS | Cohérence avec Livewire ecosystem |
+| Tailwind CSS | 4.x | Utility CSS, design tokens via @theme CSS-first | D-05 stack lock; v4 supprime tailwind.config.js (tokens dans resources/css/app.css) |
 | PostgreSQL | 16 | Base de données | Managé par Laravel Cloud, JSONB pour données offline queue |
 | Laravel Cloud | EU (Frankfurt) | Hébergement | Scale-to-zero ~4-7€/mois, Postgres managé, RGPD |
 | Scaleway Object Storage | Paris | Médias photos | S3-compatible, EU, pas cher (~0,01€/Go) |

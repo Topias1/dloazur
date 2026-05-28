@@ -50,7 +50,8 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 
 ## Constraints
 
-- **Tech stack**: Laravel 11 + Livewire + Alpine.js + Tailwind + PostgreSQL — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
+- **Tech stack**: Laravel 13 + Livewire 3 + Alpine.js 3 + Tailwind 4 (CSS-first @theme) + PostgreSQL 16 — fluence PHP du dev, maintenance solo durable, profil CRUD/portail/SEO
+  - Stack override 2026-05-28 : Laravel 11 EOL passé (sécurité 2026-03-12), Laravel 13 retenu (sécurité jusqu'en 2028-03-17). Tailwind v4 supprime tailwind.config.js — tokens dans resources/css/app.css via @theme.
 - **Offline**: saisie d'un passage offline-first (IndexedDB + Service Worker + Alpine ; **pas Livewire**, qui exige le réseau)
 - **Hébergement**: Laravel Cloud région **EU/Francfort** (scale-to-zero, ~4-7 €/mois, Postgres managé) ; photos sur **Scaleway Object Storage (Paris)**
 - **RGPD**: données clients hébergées en EU ; AWS + SCCs acceptable car données peu sensibles
@@ -69,6 +70,8 @@ Application web unifiée (Laravel) pour **Dlo Azur Piscines**, pisciniste d'entr
 | Odoo : POC d'abord, puis API ou pont CSV selon le plan | API réservée au plan Custom (vérifié) | — Pending |
 | Design UI via le skill **impeccable** (in-repo, Claude Code) | Génère/itère de l'UI Tailwind implémentable, intégré au repo ; alimenté par le design-system. Claude Design (externe) reste optionnel pour des maquettes standalone | — Pending |
 | Palette **« Eau/Caraïbes »** — bleu azur (sky-500, aligné au logo), turquoise en accent | Logo bleu azur + nom « Azur » ; turquoise reste un accent | — Pending |
+| Laravel 13 (stack override 2026-05-28) | Laravel 11 EOL passé, packages cibles supportent 13 indifféremment | Validated — Phase 1 |
+| Tailwind 4 CSS-first @theme (override 2026-05-28) | Tailwind v4 supprime tailwind.config.js — tokens dans resources/css/app.css via @theme | Validated — Phase 1 |
 
 ## Evolution
 
