@@ -18,15 +18,16 @@
         <span class="text-[11px] font-semibold">Accueil</span>
     </a>
 
-    {{-- Greyed: Clients --}}
-    <span aria-disabled="true"
-        class="flex flex-col items-center justify-center gap-1 text-ink-400 opacity-60 cursor-default">
+    {{-- Active: Clients (Plan 02-02) --}}
+    <a href="{{ route('admin.clients.index') }}"
+        class="flex flex-col items-center justify-center gap-1 {{ request()->routeIs('admin.clients.*') ? 'text-azure-600' : 'text-ink-400' }}"
+        @if(request()->routeIs('admin.clients.*')) aria-current="page" @endif>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
             <circle cx="9" cy="7" r="4"/>
         </svg>
-        <span class="text-[11px] font-medium">Clients</span>
-    </span>
+        <span class="text-[11px] font-semibold">Clients</span>
+    </a>
 
     {{-- Greyed: Passages --}}
     <span aria-disabled="true"

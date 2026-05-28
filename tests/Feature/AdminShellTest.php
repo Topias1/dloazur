@@ -49,10 +49,11 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
 });
 
 // ---------------------------------------------------------------------------
-// Test 14 — admin sidebar has 4 greyed nav items with bientôt badges
+// Test 14 — admin sidebar has greyed nav items with bientôt badges
+// Plan 02-02: Clients is now ACTIVE (no longer greyed). Passages/Factures/Catalogue remain greyed.
 // ---------------------------------------------------------------------------
 
-it('admin sidebar has 4 greyed nav items with bientôt badges and aria-disabled', function () {
+it('admin sidebar has greyed nav items for Passages/Factures/Catalogue with aria-disabled', function () {
     putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
     (new PierreSeeder())->run();
 
@@ -62,14 +63,14 @@ it('admin sidebar has 4 greyed nav items with bientôt badges and aria-disabled'
 
     $response->assertStatus(200);
 
-    // Each greyed item must have aria-disabled="true"
+    // At least 3 greyed items remain (Passages, Factures, Catalogue)
     $content = $response->content();
-    expect(substr_count($content, 'aria-disabled="true"'))->toBeGreaterThanOrEqual(4);
+    expect(substr_count($content, 'aria-disabled="true"'))->toBeGreaterThanOrEqual(3);
 
-    // bientôt badge appears at least 4 times (one per greyed item)
-    expect(substr_count($content, 'bientôt'))->toBeGreaterThanOrEqual(4);
+    // bientôt badge appears at least 3 times (Passages, Factures, Catalogue)
+    expect(substr_count($content, 'bientôt'))->toBeGreaterThanOrEqual(3);
 
-    // Greyed nav items present
+    // Nav items still present (Clients is active, others are greyed)
     $response->assertSee('Clients');
     $response->assertSee('Passages');
     $response->assertSee('Factures');
