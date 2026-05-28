@@ -22,7 +22,17 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'cache.headers' => \App\Http\Middleware\CacheHeaders::class,
+        ]);
+
+        // CacheHeaders est ajouté EN FIN de la pile globale (après les middlewares
+        // Livewire) afin de surcharger l'en-tête no-cache posé par
+        // Livewire\DisableBackButtonCacheMiddleware sur les pages avec composants.
+        // Il utilise l'attribut _cache_profile posé par le route middleware
+        // cache.headers:vitrine|sitemap|health ; si l'attribut est absent,
+        // le middleware est no-op (routes admin, login, etc.).
+        $middleware->append(\App\Http\Middleware\CacheHeaders::class);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         $exceptions->shouldRenderJsonWhen(

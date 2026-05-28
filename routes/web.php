@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/up', [HealthController::class, 'ping'])->name('health');
+// /up — health check : jamais mis en cache (Plan 06 cache.headers:health)
+Route::middleware('cache.headers:health')->get('/up', [HealthController::class, 'ping'])->name('health');
 
 // robots.txt — served as static file in production (public/robots.txt);
 // this route ensures the test suite can assert it, since the Laravel test
