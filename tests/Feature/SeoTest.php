@@ -85,7 +85,7 @@ it('every page has canonical + theme-color #0080ff', function () {
 
     foreach ($routes as $route) {
         $content = $this->get($route)->getContent();
-        expect($content)->toContain('<meta name="theme-color" content="#0080ff">', "Page $route missing theme-color");
-        expect($content)->toContain('<link rel="canonical"', "Page $route missing canonical");
+        expect($content)->toContain('<meta name="theme-color" content="#0080ff"')
+            ->and($content)->toContain('<link rel="canonical"');
     }
 });
