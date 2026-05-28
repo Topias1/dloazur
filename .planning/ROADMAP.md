@@ -62,7 +62,7 @@ Plans:
 **Success Criteria** (what must be TRUE):
 
   1. Le pro crée/modifie une fiche client avec piscine et la retrouve via recherche/filtre
-  2. Le pro saisit mesures + actions + notes + photos sur smartphone sans réseau et voit le badge « N passages en attente »
+  2. Le pro saisit mesures + actions + notes + photos sur iPhone sans réseau et voit le badge « N passages en attente »
   3. À la reconnexion, les passages se synchronisent sans doublon (idempotence `client_uuid`) et les photos passent via file résiliente
   4. Le client reçoit un magic link, se connecte et consulte l'historique de ses passages avec mesures et photos en lecture seule
   5. La PWA est installable en Home Screen avec `storage.persist()` actif (résistance à l'éviction iOS)
@@ -123,7 +123,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
 | 1. Vitrine & Fondations | 9/6 | Complete   | 2026-05-28 |
-| 2. MVP Suivi Offline-First | 0/? | Not started | - |
+| 2. MVP Suivi Offline-First | 1/7 | In Progress|  |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 0/? | Not started | - |
