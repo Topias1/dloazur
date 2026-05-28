@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: planning
-stopped_at: Phase 1 context gathered
-last_updated: "2026-05-28T09:03:21.539Z"
-last_activity: 2026-05-27 — Roadmap créée, phases dérivées des 37 requirements v1
+status: executing
+stopped_at: Phase 1 UI-SPEC approved
+last_updated: "2026-05-28T11:20:08.216Z"
+last_activity: 2026-05-28 -- Phase 1 planning complete
 progress:
   total_phases: 5
   completed_phases: 0
-  total_plans: 0
+  total_plans: 6
   completed_plans: 0
   percent: 0
 ---
@@ -27,8 +27,8 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 Phase: 1 of 5 (Vitrine & Fondations)
 Plan: 0 of ? in current phase
-Status: Ready to plan
-Last activity: 2026-05-27 — Roadmap créée, phases dérivées des 37 requirements v1
+Status: Ready to execute
+Last activity: 2026-05-28 -- Phase 1 planning complete
 
 Progress: [░░░░░░░░░░] 0%
 
@@ -86,6 +86,15 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-28T09:03:21.410Z
-Stopped at: Phase 1 context gathered
-Resume file: .planning/phases/01-vitrine-fondations/01-CONTEXT.md
+Last session: 2026-05-28T10:00:57.686Z
+Stopped at: Phase 1 UI-SPEC approved
+Resume file: .planning/phases/01-vitrine-fondations/01-UI-SPEC.md
+
+## Decision Coverage Override (Phase 1)
+
+Date: 2026-05-28
+Phase: 1 (vitrine-fondations)
+Decision: User selected "Proceed anyway" on the decision-coverage gate.
+Reason: 14 of 31 D-IDs lack literal citations in plan `must_haves`/`truths` but the plan-checker (semantic) verified all decisions are implemented. Gap is citation hygiene only, not substance.
+Uncovered D-IDs (substantively covered, citation missing): D-02, D-03, D-04, D-06, D-11, D-13, D-15, D-20, D-21, D-27, D-28, D-29, D-30, D-31.
+Action: verify-phase will re-surface this gap for re-evaluation against the executed code.
