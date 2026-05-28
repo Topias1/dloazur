@@ -19,7 +19,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 ## Phase Details
 
 ### Phase 1: Vitrine & Fondations
-**Goal**: Le site public est en ligne sur Laravel Cloud, l'opérateur peut se connecter, et toutes les migrations sont déployées — la vitrine remplace Zyro.
+**Goal**: **As a** visiteur ou opérateur Dlo Azur, **I want to** consulter le site public en ligne sur Laravel Cloud (vitrine SEO + blog + contact) et permettre à l'opérateur de se connecter à un back-office stub, **so that** la vitrine Zyro est remplacée et l'infrastructure (auth, migrations métier complètes, schéma forward-compat) est posée pour les Phases 2-5.
 **Mode:** mvp
 **Depends on**: Nothing (first phase)
 **Requirements**: SITE-01, SITE-02, SITE-03, SITE-04, SITE-05, SITE-06, SITE-07, AUTH-01
@@ -29,8 +29,16 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
   3. Les balises meta, sitemap XML et données structurées LocalBusiness sont présents et valides
   4. L'opérateur se connecte avec email + mot de passe et accède au back-office
   5. Le schéma de base de données complet est déployé (inclut `client_uuid`, `odoo_id`, `signature_path`)
-**Plans**: TBD
+**Plans:** 6 plans (Walking Skeleton + 4 parallel slices + cutover gate)
+Plans:
+- [ ] 01-01-PLAN.md — Walking Skeleton: Laravel 13 scaffold + Tailwind 4 @theme + Pest 4 + CI + base layouts + route partitions + Laravel Cloud staging + CLAUDE.md/PROJECT.md Laravel 13 override
+- [ ] 01-02-PLAN.md — Business schema: 9 migrations (clients, piscines, produits, contrats, passages, photos_meta, factures, signatures, diagnostics) + Eloquent models + factories + env-gated DevDataSeeder (D-07, D-08, D-09)
+- [ ] 01-03-PLAN.md — Vitrine pages + SEO: home/services/realisations/contact-shell/legal pages transposed 1:1 from mockups + LocalBusiness JSON-LD + sitemap.xml + OG/meta (SITE-01, SITE-02, SITE-03, SITE-06, SITE-07)
+- [ ] 01-04-PLAN.md — Blog markdown-in-repo + Contact Livewire form: routes /blog, /blog/{slug}, /contact + honeypot + rate-limit 5/min + Mailgun EU (SITE-04, SITE-05)
+- [ ] 01-05-PLAN.md — Auth Fortify + admin shell: /login transposed from mockups/v1/auth.html + /admin dashboard stub from dashboard.html + PierreSeeder + greyed Phase 2/3 nav (AUTH-01, D-17..D-20)
+- [ ] 01-06-PLAN.md — Cutover gate: CacheHeaders middleware + Lighthouse/Schema.org/OG/Mailgun/login validation + CUTOVER.md playbook + Zyro URL inventory + DNS switch handoff (SITE-07 final gate)
 **UI hint**: yes
+**Walking Skeleton**: yes (greenfield + MVP — SKELETON.md committed alongside PLAN files)
 
 ### Phase 2: MVP Suivi Offline-First
 **Goal**: L'opérateur saisit un passage sur le terrain sans réseau, les données se synchronisent à la reconnexion sans doublon, et le client consulte son historique via magic link.
@@ -89,7 +97,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Vitrine & Fondations | 0/? | Not started | - |
+| 1. Vitrine & Fondations | 0/6 | Planned | - |
 | 2. MVP Suivi Offline-First | 0/? | Not started | - |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
