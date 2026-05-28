@@ -6,6 +6,7 @@
 
     <title>@yield('title', 'Administration') · Dlo Azur Piscines</title>
     <meta name="robots" content="noindex,nofollow">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     @stack('head')
