@@ -1,0 +1,259 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-05-28T00:00:00Z",
+  "title": "Design System: Dlo Azur Piscines",
+  "extensions": {
+    "colorMeta": {
+      "azure-500": {
+        "role": "primary",
+        "displayName": "Azur Logo",
+        "canonical": "oklch(0.615 0.211 256)",
+        "hexApprox": "#0080ff",
+        "tonalRamp": [
+          "oklch(0.262 0.078 252)",
+          "oklch(0.340 0.105 250)",
+          "oklch(0.470 0.176 256)",
+          "oklch(0.545 0.205 257)",
+          "oklch(0.615 0.211 256)",
+          "oklch(0.702 0.176 256)",
+          "oklch(0.788 0.130 256)",
+          "oklch(0.965 0.022 256)"
+        ]
+      },
+      "navy-700": {
+        "role": "secondary",
+        "displayName": "Marine de Quai",
+        "canonical": "oklch(0.345 0.082 249)",
+        "hexApprox": "#154c79",
+        "tonalRamp": [
+          "oklch(0.182 0.040 252)",
+          "oklch(0.232 0.052 251)",
+          "oklch(0.288 0.066 250)",
+          "oklch(0.345 0.082 249)",
+          "oklch(0.470 0.092 248)",
+          "oklch(0.708 0.060 247)",
+          "oklch(0.908 0.025 246)",
+          "oklch(0.955 0.013 246)"
+        ]
+      },
+      "lagon-500": {
+        "role": "tertiary",
+        "displayName": "Turquoise du Lagon",
+        "canonical": "oklch(0.720 0.113 207)",
+        "hexApprox": "#2fb8c8",
+        "tonalRamp": [
+          "oklch(0.290 0.060 211)",
+          "oklch(0.520 0.085 211)",
+          "oklch(0.620 0.100 209)",
+          "oklch(0.720 0.113 207)",
+          "oklch(0.788 0.110 204)",
+          "oklch(0.852 0.090 202)",
+          "oklch(0.930 0.045 202)",
+          "oklch(0.975 0.018 200)"
+        ]
+      },
+      "sun-500": {
+        "role": "tertiary",
+        "displayName": "Or de Midi",
+        "canonical": "oklch(0.760 0.150 72)",
+        "tonalRamp": [
+          "oklch(0.380 0.075 70)",
+          "oklch(0.520 0.110 71)",
+          "oklch(0.640 0.140 72)",
+          "oklch(0.760 0.150 72)",
+          "oklch(0.825 0.130 80)",
+          "oklch(0.890 0.085 85)",
+          "oklch(0.948 0.038 88)",
+          "oklch(0.985 0.012 90)"
+        ]
+      },
+      "sand-50": {
+        "role": "neutral",
+        "displayName": "Sable Tiède",
+        "canonical": "oklch(0.987 0.005 85)",
+        "tonalRamp": [
+          "oklch(0.300 0.012 82)",
+          "oklch(0.450 0.012 82)",
+          "oklch(0.620 0.013 80)",
+          "oklch(0.755 0.014 78)",
+          "oklch(0.875 0.013 75)",
+          "oklch(0.928 0.011 80)",
+          "oklch(0.967 0.008 84)",
+          "oklch(0.987 0.005 85)"
+        ]
+      },
+      "ink-950": {
+        "role": "neutral",
+        "displayName": "Encre Marine",
+        "canonical": "oklch(0.255 0.045 250)",
+        "tonalRamp": [
+          "oklch(0.182 0.040 252)",
+          "oklch(0.255 0.045 250)",
+          "oklch(0.310 0.045 250)",
+          "oklch(0.445 0.030 250)",
+          "oklch(0.585 0.024 250)",
+          "oklch(0.690 0.018 250)",
+          "oklch(0.820 0.012 250)",
+          "oklch(0.940 0.006 250)"
+        ]
+      },
+      "success": {
+        "role": "tertiary",
+        "displayName": "Vert Eau Saine",
+        "canonical": "oklch(0.700 0.150 155)"
+      },
+      "warn": {
+        "role": "tertiary",
+        "displayName": "Ambre Hors-ligne",
+        "canonical": "oklch(0.800 0.130 80)"
+      },
+      "danger": {
+        "role": "tertiary",
+        "displayName": "Rouge Critique",
+        "canonical": "oklch(0.620 0.210 25)"
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display (Fredoka)", "purpose": "Titre de héros, une seule occurrence par page." },
+      "headline": { "displayName": "Headline", "purpose": "Titres de section principaux." },
+      "title": { "displayName": "Title", "purpose": "Titres de cartes et sous-sections." },
+      "body": { "displayName": "Body (Inter)", "purpose": "Corps de texte ; plafonné 65-75ch ; tabular-nums sur les valeurs." },
+      "label": { "displayName": "Label kicker", "purpose": "Petits libellés en uppercase tracking 0.18em, en lagon-600 au-dessus des titres." }
+    },
+    "shadows": [
+      { "name": "xs", "value": "0 1px 2px oklch(0.29 0.07 250 / 0.06)", "purpose": "Présence minimale : stats du dashboard, micro-élévation." },
+      { "name": "sm", "value": "0 1px 2px oklch(0.29 0.07 250 / 0.05), 0 4px 12px -6px oklch(0.29 0.07 250 / 0.10)", "purpose": "Cartes au repos." },
+      { "name": "md", "value": "0 2px 4px oklch(0.29 0.07 250 / 0.05), 0 14px 30px -10px oklch(0.29 0.07 250 / 0.16)", "purpose": "Hover et flottants (bouton WhatsApp mobile, badge '12 villas')." },
+      { "name": "lg", "value": "0 4px 8px oklch(0.29 0.07 250 / 0.06), 0 30px 60px -16px oklch(0.29 0.07 250 / 0.24)", "purpose": "Éléments lévitants : téléphone-mockup, modales." }
+    ],
+    "motion": [
+      { "name": "ease-out-quint", "value": "cubic-bezier(0.22, 1, 0.36, 1)", "purpose": "Easing par défaut pour transitions et entrées subtiles." },
+      { "name": "duration-state", "value": "200ms", "purpose": "Durée standard des changements d'état (bg-color, opacity)." },
+      { "name": "duration-rise", "value": "700ms", "purpose": "Entrées (.rise) sur sections marketing ; transform+opacity only." }
+    ],
+    "breakpoints": [
+      { "name": "xs", "value": "400px" },
+      { "name": "sm", "value": "640px" },
+      { "name": "md", "value": "768px" },
+      { "name": "lg", "value": "1024px" },
+      { "name": "xl", "value": "1280px" }
+    ]
+  },
+  "components": [
+    {
+      "name": "Bouton Primaire (Azur)",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Action principale partout : devis, enregistrer, se connecter.",
+      "html": "<button class=\"ds-btn-primary\">Demander un devis <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;gap:.5rem;height:3.25rem;padding:0 1.5rem;border:0;border-radius:.875rem;background:oklch(0.615 0.211 256);color:oklch(0.987 0.005 85);font-family:Inter,system-ui,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:background-color 200ms cubic-bezier(0.22,1,0.36,1);box-shadow:0 1px 2px oklch(0.29 0.07 250 /.05),0 4px 12px -6px oklch(0.29 0.07 250 /.10)} .ds-btn-primary:hover{background:oklch(0.545 0.205 257)} .ds-btn-primary:focus-visible{outline:2px solid oklch(0.615 0.211 256);outline-offset:2px}"
+    },
+    {
+      "name": "Bouton Sombre (Marine)",
+      "kind": "button",
+      "refersTo": "button-dark",
+      "description": "Bouton de confiance secondaire, posé sur clair : Devenir partenaire.",
+      "html": "<button class=\"ds-btn-dark\">Devenir partenaire <svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14M13 6l6 6-6 6\"/></svg></button>",
+      "css": ".ds-btn-dark{display:inline-flex;align-items:center;gap:.5rem;height:3.25rem;padding:0 1.5rem;border:0;border-radius:.875rem;background:oklch(0.232 0.052 251);color:oklch(0.987 0.005 85);font-family:Inter,system-ui,sans-serif;font-weight:700;font-size:1rem;cursor:pointer;transition:background-color 200ms cubic-bezier(0.22,1,0.36,1);box-shadow:0 1px 2px oklch(0.29 0.07 250 /.05),0 4px 12px -6px oklch(0.29 0.07 250 /.10)} .ds-btn-dark:hover{background:oklch(0.288 0.066 250)} .ds-btn-dark:focus-visible{outline:2px solid oklch(0.615 0.211 256);outline-offset:2px}"
+    },
+    {
+      "name": "Bouton WhatsApp",
+      "kind": "button",
+      "refersTo": "button-whatsapp",
+      "description": "Couleur officielle WhatsApp #25D366 et glyphe Simple Icons. Canal direct, omniprésent.",
+      "html": "<a class=\"ds-btn-whatsapp\" href=\"https://wa.me/596696940054\"><svg viewBox=\"0 0 24 24\" width=\"18\" height=\"18\" fill=\"currentColor\" aria-hidden=\"true\"><path d=\"M.057 24l1.687-6.163a11.867 11.867 0 01-1.587-5.945C.16 5.335 5.495 0 12.05 0a11.817 11.817 0 018.413 3.488 11.824 11.824 0 013.48 8.414c-.003 6.557-5.338 11.892-11.893 11.892a11.9 11.9 0 01-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884a9.86 9.86 0 001.518 5.26l-.999 3.648 3.97-1.041zm11.387-5.464c-.074-.124-.272-.198-.57-.347-.297-.149-1.758-.868-2.031-.967-.272-.099-.47-.149-.669.149-.198.297-.768.967-.941 1.165-.173.198-.347.223-.644.074-.297-.149-1.255-.462-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.297-.347.446-.521.151-.172.2-.296.3-.495.099-.198.05-.372-.025-.521-.075-.148-.669-1.611-.916-2.206-.242-.579-.487-.501-.669-.51l-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.095 3.2 5.076 4.487.709.306 1.263.489 1.694.626.712.226 1.36.194 1.872.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413z\"/></svg> WhatsApp</a>",
+      "css": ".ds-btn-whatsapp{display:inline-flex;align-items:center;gap:.5rem;height:3.25rem;padding:0 1.5rem;border-radius:.875rem;background:#25D366;color:oklch(0.987 0.005 85);font-family:Inter,system-ui,sans-serif;font-weight:700;font-size:1rem;text-decoration:none;cursor:pointer;transition:filter 200ms cubic-bezier(0.22,1,0.36,1);box-shadow:0 1px 2px oklch(0.29 0.07 250 /.05),0 4px 12px -6px oklch(0.29 0.07 250 /.10)} .ds-btn-whatsapp:hover{filter:brightness(.95)} .ds-btn-whatsapp:focus-visible{outline:2px solid oklch(0.615 0.211 256);outline-offset:2px}"
+    },
+    {
+      "name": "Chip Azur (kicker)",
+      "kind": "chip",
+      "refersTo": "chip-azure",
+      "description": "Étiquette discrète azur ; kickers, badges de section.",
+      "html": "<span class=\"ds-chip-azure\">Espace client</span>",
+      "css": ".ds-chip-azure{display:inline-flex;align-items:center;gap:.375rem;padding:.25rem .625rem;border-radius:9999px;background:oklch(0.965 0.022 256);color:oklch(0.470 0.176 256);font-family:Inter,system-ui,sans-serif;font-size:.875rem;font-weight:600}"
+    },
+    {
+      "name": "Badge Eau Saine",
+      "kind": "chip",
+      "refersTo": "chip-status-success",
+      "description": "Statut positif : eau saine, synchronisé.",
+      "html": "<span class=\"ds-chip-status-ok\"><span class=\"ds-dot\"></span> Eau saine</span>",
+      "css": ".ds-chip-status-ok{display:inline-flex;align-items:center;gap:.5rem;padding:.25rem .75rem;border-radius:9999px;background:oklch(0.700 0.150 155 /.12);color:oklch(0.700 0.150 155);font-family:Inter,system-ui,sans-serif;font-size:.875rem;font-weight:600;border:1px solid oklch(0.700 0.150 155 /.30)} .ds-chip-status-ok .ds-dot{width:.375rem;height:.375rem;border-radius:9999px;background:oklch(0.700 0.150 155)}"
+    },
+    {
+      "name": "Carte standard",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Surface portante claire : services, témoignages, comptes-rendus.",
+      "html": "<article class=\"ds-card\"><span class=\"ds-card-icon\"><svg viewBox=\"0 0 24 24\" width=\"22\" height=\"22\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.9\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M3 12c2-3 4-3 6 0s4 3 6 0 4-3 6 0\"/><path d=\"M3 18c2-3 4-3 6 0s4 3 6 0 4-3 6 0\"/></svg></span><h3>Entretien régulier</h3><p>Passages programmés : nettoyage, contrôle de la filtration, équilibre chimique.</p></article>",
+      "css": ".ds-card{display:block;background:oklch(0.987 0.005 85);border-radius:1.25rem;padding:1.75rem;font-family:Inter,system-ui,sans-serif;color:oklch(0.445 0.030 250);box-shadow:0 1px 2px oklch(0.29 0.07 250 /.05),0 4px 12px -6px oklch(0.29 0.07 250 /.10);outline:1px solid oklch(0.232 0.052 251 /.08);transition:box-shadow 200ms cubic-bezier(0.22,1,0.36,1),transform 200ms cubic-bezier(0.22,1,0.36,1)} .ds-card:hover{box-shadow:0 2px 4px oklch(0.29 0.07 250 /.05),0 14px 30px -10px oklch(0.29 0.07 250 /.16);transform:translateY(-2px)} .ds-card .ds-card-icon{display:inline-grid;place-items:center;width:2.75rem;height:2.75rem;border-radius:.875rem;background:oklch(0.965 0.022 256);color:oklch(0.545 0.205 257);margin-bottom:1rem} .ds-card h3{font-family:Fredoka,system-ui,sans-serif;font-weight:600;font-size:1.25rem;color:oklch(0.255 0.045 250);margin:0 0 .5rem;letter-spacing:-.005em} .ds-card p{margin:0;line-height:1.6}"
+    },
+    {
+      "name": "Champ de saisie",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Champ texte/email standard : fond sable, ring sable, focus azur.",
+      "html": "<label class=\"ds-field\"><span>Adresse e-mail</span><input class=\"ds-input\" type=\"email\" placeholder=\"vous@exemple.com\"></label>",
+      "css": ".ds-field{display:block;font-family:Inter,system-ui,sans-serif} .ds-field span{display:block;font-size:.875rem;font-weight:600;color:oklch(0.310 0.045 250);margin-bottom:.375rem} .ds-input{display:block;width:100%;height:3rem;padding:0 1rem;border:0;border-radius:.875rem;background:oklch(0.987 0.005 85);color:oklch(0.310 0.045 250);font-family:Inter,system-ui,sans-serif;font-size:1rem;outline:1px solid oklch(0.928 0.011 80);transition:outline-color 200ms cubic-bezier(0.22,1,0.36,1),background-color 200ms} .ds-input::placeholder{color:oklch(0.690 0.018 255)} .ds-input:focus-visible{outline:2px solid oklch(0.615 0.211 256);background:#ffffff}"
+    },
+    {
+      "name": "Stepper de mesure",
+      "kind": "custom",
+      "refersTo": "stepper-plus",
+      "description": "Saisie d'une mesure terrain (pH, chlore...). Boutons +/- au pouce, valeur centrale en Fredoka tabular-nums.",
+      "html": "<div class=\"ds-stepper\"><span class=\"ds-stepper-label\">pH</span><div class=\"ds-stepper-row\"><button class=\"ds-stepper-minus\" aria-label=\"Diminuer le pH\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M5 12h14\"/></svg></button><span class=\"ds-stepper-value\">7,2</span><button class=\"ds-stepper-plus\" aria-label=\"Augmenter le pH\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.4\" stroke-linecap=\"round\"><path d=\"M12 5v14M5 12h14\"/></svg></button></div></div>",
+      "css": ".ds-stepper{font-family:Inter,system-ui,sans-serif} .ds-stepper-label{display:block;font-size:.875rem;font-weight:600;color:oklch(0.310 0.045 250);margin-bottom:.5rem} .ds-stepper-row{display:flex;gap:.375rem;align-items:stretch} .ds-stepper-minus,.ds-stepper-plus{display:grid;place-items:center;height:3rem;width:3.5rem;border:0;border-radius:.875rem;cursor:pointer;transition:transform 150ms cubic-bezier(0.22,1,0.36,1),background-color 200ms} .ds-stepper-minus{background:oklch(0.967 0.008 84);color:oklch(0.445 0.030 250);outline:1px solid oklch(0.928 0.011 80)} .ds-stepper-plus{background:oklch(0.615 0.211 256);color:oklch(0.987 0.005 85)} .ds-stepper-minus:active,.ds-stepper-plus:active{transform:scale(.95)} .ds-stepper-value{flex:1;display:grid;place-items:center;height:3rem;border-radius:.875rem;background:#ffffff;outline:1px solid oklch(0.928 0.011 80);font-family:Fredoka,system-ui,sans-serif;font-weight:700;font-size:1.5rem;color:oklch(0.255 0.045 250);font-variant-numeric:tabular-nums}"
+    },
+    {
+      "name": "Bandeau hors-ligne",
+      "kind": "custom",
+      "refersTo": "offline-banner",
+      "description": "Hors-ligne en ambre, rassurant, jamais alarmiste. N'apparaît que hors-réseau.",
+      "html": "<div class=\"ds-offline\" role=\"status\"><span class=\"ds-offline-icon\"><svg viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12.55a11 11 0 0 1 14.08 0M1.42 9a16 16 0 0 1 21.16 0M8.53 16.11a6 6 0 0 1 6.95 0\"/><path d=\"m2 2 20 20\"/></svg></span><div><p class=\"ds-offline-title\">Hors ligne — ta saisie est sauvegardée</p><p class=\"ds-offline-sub\">Elle partira automatiquement au retour du réseau.</p></div></div>",
+      "css": ".ds-offline{display:flex;gap:.875rem;align-items:flex-start;padding:.875rem;border-radius:1.25rem;background:oklch(0.965 0.045 85);outline:1px solid oklch(0.85 0.09 82);font-family:Inter,system-ui,sans-serif} .ds-offline-icon{display:grid;place-items:center;width:2.25rem;height:2.25rem;border-radius:9999px;background:oklch(0.800 0.130 80 /.25);color:oklch(0.5 0.11 72);flex-shrink:0} .ds-offline-title{margin:0;font-size:.875rem;font-weight:600;color:oklch(0.42 0.10 70)} .ds-offline-sub{margin:.125rem 0 0;font-size:.75rem;color:oklch(0.5 0.08 72);line-height:1.4}"
+    }
+  ],
+  "narrative": {
+    "northStar": "L'artisan du lagon",
+    "overview": "Le système porte deux choses à la fois : la main d'un artisan unique (Pierre ADAM, pisciniste solo en Martinique) et la clarté de l'eau qu'il rend possible. Ce n'est pas un décor de carte postale ; c'est un savoir-faire qu'on voit à l'œuvre. Le toucher est franc et rassurant : boutons pleins, cibles généreuses, contrastes nets, photos réelles. La page assume des grands aplats colorés (azur, marine) plutôt que des dégradés génériques.",
+    "keyCharacteristics": [
+      "Engagé en couleur : l'azur du logo et le marine de carte de visite portent les grandes surfaces.",
+      "Typographie arrondie qui répond au logo (Fredoka), corps clinique (Inter).",
+      "Photos réelles de la marque, jamais de stock générique ; mer et palmiers assumés (c'est le décor réel).",
+      "Cibles tactiles ≥ 44px partout, lisibilité plein soleil ; thème clair par défaut.",
+      "Hors-ligne dit calmement en ambre, jamais en rouge.",
+      "Tout en OKLCH ; aucun #000 ni #fff purs."
+    ],
+    "rules": [
+      { "name": "La règle « rare et délibéré »", "body": "Le turquoise et le soleil ne sont jamais décoratifs : ils signalent quelque chose de vivant (eau active, synchro, lever du jour, avant/après).", "section": "colors" },
+      { "name": "La règle de l'engagement", "body": "L'azur et le marine portent les grandes surfaces ; on ne dilue jamais le bleu en pastel pour adoucir.", "section": "colors" },
+      { "name": "La règle anti-rouge pour le hors-ligne", "body": "Le hors-ligne se dit en ambre. Le rouge est réservé aux erreurs critiques, et seulement à elles.", "section": "colors" },
+      { "name": "La règle du grand contraste d'échelle", "body": "≥ 1.25× entre deux niveaux successifs. Pas d'échelle plate.", "section": "typography" },
+      { "name": "La règle « Fredoka pour les mots, Inter pour les chiffres »", "body": "Les valeurs numériques restent en Inter tabular-nums pour rester alignées en grille.", "section": "typography" },
+      { "name": "La règle « teinté marine, jamais gris »", "body": "Toutes les ombres utilisent une teinte marine (hue ≈ 250) en OKLCH avec opacité.", "section": "elevation" },
+      { "name": "La règle « plat sauf à l'état actif »", "body": "Au repos, ring 1px plutôt qu'ombre. L'ombre n'arrive qu'au hover ou pour les flottants structurels.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do utiliser l'azur #0080ff exact partout : c'est la couleur du logo, point.",
+      "Do porter l'azur ou le marine sur 30-60% d'au moins une surface forte par page.",
+      "Do dire le hors-ligne en ambre avec un texte rassurant.",
+      "Do garder toute photo en photographie réelle ; traitement uniforme .photo-grade.",
+      "Do caler chaque bouton à hauteur ≥ 3.25rem ou stepper ≥ 3rem ; cible tactile > 44px partout.",
+      "Do teinter chaque ombre vers le marine (hue 250) avec opacité.",
+      "Do plafonner le corps à 65-75ch ; tabular-nums sur toute valeur numérique.",
+      "Do respecter prefers-reduced-motion."
+    ],
+    "donts": [
+      "Don't retomber dans le stock tropical générique (palmiers vectoriels, fausses piscines turquoise).",
+      "Don't glisser vers le corporate glacial / SaaS impersonnel (dégradés bleus génériques, illustrations vectorielles abstraites).",
+      "Don't reproduire le rendu builder bas de gamme du site Zyro qu'on remplace.",
+      "Don't céder au surchargé / clinquant (glassmorphism décoratif, scroll-jacking, hover:scale qui décale).",
+      "Don't utiliser #000 ou #fff purs.",
+      "Don't mettre une bordure latérale colorée (border-left coloré) sur une carte ou un callout.",
+      "Don't faire du texte en dégradé.",
+      "Don't mettre du rouge sur le hors-ligne.",
+      "Don't dupliquer Pierre par son nom en hero/marketing copy.",
+      "Don't générer deux marques parce qu'on a deux publics."
+    ]
+  }
+}
