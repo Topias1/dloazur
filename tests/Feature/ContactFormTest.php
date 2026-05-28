@@ -69,13 +69,14 @@ it('submission with invalid email shows email validation error', function () {
 it('honeypot trip silently swallows submission', function () {
     Mail::fake();
 
-    // The honeypot aborts with 403, so we expect the component not to send mail.
-    // We test by setting the honeypot name field to a non-empty value.
-    // spatie/laravel-honeypot abort(403) behavior — we catch it gracefully in submit().
-    $component = Livewire::test(ContactForm::class)
+    // With HONEYPOT_RANDOMIZE=false the name field stays 'my_name'.
+    // Setting it to a non-empty value triggers SpamException -> abort(403)
+    // which ContactForm::submit() catches and swallows silently (no mail sent).
+    Livewire::test(ContactForm::class)
         ->set('name', 'Bot')
         ->set('email', 'bot@evil.com')
         ->set('message', 'Spammy text bypass.')
+        ->set('extraFields.my_name', 'I am a bot')
         ->call('submit');
 
     Mail::assertNothingSent();

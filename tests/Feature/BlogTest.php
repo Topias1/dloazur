@@ -59,8 +59,10 @@ it('spatie/laravel-markdown safe_mode is on — raw HTML in markdown is stripped
     $response = $this->get('/blog/test-post');
 
     $response->assertStatus(200);
+    // XSS tag should be stripped by commonmark safe_mode html_input=strip
     $response->assertDontSee('<script>alert(1)</script>', false);
-    $response->assertDontSee('<script>', false);
+    // The malicious inline <script> tag content should not appear as literal text
+    $response->assertDontSee('alert(1)', false);
 
     // Restore normal binding after test
     app()->forgetInstance(BlogRepository::class);
