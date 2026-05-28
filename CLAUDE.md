@@ -249,3 +249,20 @@ Do not make direct repo edits outside a GSD workflow unless the user explicitly 
 > Profile not yet configured. Run `/gsd-profile-user` to generate your developer profile.
 > This section is managed by `generate-claude-profile` -- do not edit manually.
 <!-- GSD:profile-end -->
+
+<!-- Design context (impeccable). Not GSD-managed; safe to edit. -->
+
+## Design Context
+
+Le projet a un système de design établi via le skill [`impeccable`](.claude/skills/impeccable/SKILL.md). Deux fichiers à la racine portent le contexte stratégique et visuel ; tout agent qui touche à l'UI doit les lire avant.
+
+- **[PRODUCT.md](PRODUCT.md)** — stratégique : registre, utilisateurs, raison d'être, personnalité, anti-références, 5 principes, accessibilité.
+- **[DESIGN.md](DESIGN.md)** — visuel : système de tokens OKLCH, typographie (Fredoka + Inter), élévation, composants, do's/don'ts. Format Stitch (frontmatter YAML + 6 sections). Sidecar `.impeccable/design.json` (rampes tonales, ombres, motion, breakpoints, primitives de composants rendues).
+
+**Registre :** `product` par défaut (l'app métier est le cœur). La **vitrine** (`mockups/vitrine.html`, futures pages marketing) bascule en `brand` au cas par cas.
+
+**Étoile polaire :** *« L'artisan du lagon »*. Couleurs de marque ancrées sur les supports imprimés réels : azur `#0080ff` (logo), marine `#154c79` (carte de visite), turquoise lagon `#2fb8c8`, soleil ; OKLCH partout, jamais `#000`/`#fff`.
+
+**Maquettes prêtes** : `mockups/index.html` (galerie : vitrine, passage offline, dashboard pro, espace client, auth, styleguide). Tokens dans `mockups/theme.js` + `mockups/app.css`, transposables directement dans le `tailwind.config` du projet Laravel à venir.
+
+Lancement local des maquettes : `python3 -m http.server` à la racine, puis `http://localhost:8000/mockups/`.
