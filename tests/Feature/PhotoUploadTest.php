@@ -194,20 +194,21 @@ it('Photo passage_uuid inexistant retourne 404', function () {
 });
 
 // ---------------------------------------------------------------------------
-// Test 7 — Sans auth retourne redirect /login
+// Test 7 — Sans auth retourne 401 (api/* returns JSON 401 via shouldRenderJsonWhen)
 // ---------------------------------------------------------------------------
 
-it('Photo sans auth retourne redirect /login', function () {
+it('Photo sans auth retourne 401 (api/* returns JSON 401 via shouldRenderJsonWhen)', function () {
     Storage::fake('r2');
 
     $passageUuid = (string) Str::uuid();
     $fakeFile    = UploadedFile::fake()->image('photo.jpg', 640, 480)->size(100);
 
+    // bootstrap/app.php shouldRenderJsonWhen(api/*) → 401 JSON
     $this->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $fakeFile,
              'client_uuid' => (string) Str::uuid(),
          ])
-         ->assertRedirect('/login');
+         ->assertStatus(401);
 });
 
 // ---------------------------------------------------------------------------

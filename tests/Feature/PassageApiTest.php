@@ -127,14 +127,15 @@ it('POST /api/passages avec client_uuid non-UUID retourne 422', function () {
 });
 
 // ---------------------------------------------------------------------------
-// Test 6 — POST sans auth retourne redirect /login (web guard)
+// Test 6 — POST sans auth retourne 401 (web guard + shouldRenderJsonWhen api/*)
 // ---------------------------------------------------------------------------
 
-it('POST /api/passages sans auth retourne redirect /login (web guard)', function () {
+it('POST /api/passages sans auth retourne 401 (api/* returns JSON 401 via shouldRenderJsonWhen)', function () {
     $uuid = (string) Str::uuid();
 
+    // bootstrap/app.php shouldRenderJsonWhen(api/*) → 401 JSON (pas de redirect pour les requêtes JSON)
     $this->postJson('/api/passages', passagePayload($uuid))
-         ->assertRedirect('/login');
+         ->assertStatus(401);
 });
 
 // ---------------------------------------------------------------------------
@@ -172,15 +173,17 @@ it("Le passage UPSERT met à jour synced_at à NOW()", function () {
 // Test 9 — CSRF token absent ne bloque pas (api/* exempt — Pitfall 5)
 // ---------------------------------------------------------------------------
 
-it('CSRF token absent ne bloque pas /api/passages (api/* exempté)', function () {
+it('CSRF token absent ne bloque pas /api/passages (api/* exempté — pas de 419)', function () {
     $pierre = makePierre();
     $uuid   = (string) Str::uuid();
 
-    // Utiliser post() classique (pas postJson) sans csrf pour tester l'exemption
-    $this->actingAs($pierre)
-         ->post('/api/passages', passagePayload($uuid), [
-             'Accept'       => 'application/json',
-             'Content-Type' => 'application/json',
-         ])
-         ->assertStatus(200);
+    // postJson n'envoie pas de X-CSRF-TOKEN — vérifie qu'on ne reçoit pas 419 (CSRF mismatch)
+    // L'exemption validateCsrfTokens(except: ['api/*']) dans bootstrap/app.php doit être active.
+    $response = $this->actingAs($pierre)
+                     ->postJson('/api/passages', passagePayload($uuid));
+
+    // Vérifier que ce n'est PAS un 419 (CSRF token mismatch)
+    expect($response->status())->not->toBe(419);
+    // Doit retourner 200 (succès UPSERT)
+    $response->assertStatus(200);
 });
