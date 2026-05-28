@@ -985,7 +985,9 @@ public function storePhoto(Request $request, string $passageUuid): JsonResponse
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> Les 3 questions ouvertes ci-dessous ont chacune une recommandation explicite. Marquage formel `(RESOLVED)` ajouté après plan-checker Phase 2 (Dimension 11).
 
 1. **`league/flysystem-aws-s3-v3` est-il déjà installé ?**
    - Ce qu'on sait : `spatie/laravel-medialibrary` le requiert. R2 était configuré en Phase 1.
