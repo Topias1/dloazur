@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\PassageCreateController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,3 +25,7 @@ Route::get('clients', [ClientController::class, 'index'])->name('clients.index')
 Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::get('clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 Route::get('clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+
+// Passages — saisie offline-first (Plan 02-05, PASS-01..03, PASS-06)
+// Vue rendue par Blade, logique côté client via Alpine + IndexedDB (pas Livewire — CF-02).
+Route::get('passages/create', [PassageCreateController::class, 'create'])->name('passages.create');

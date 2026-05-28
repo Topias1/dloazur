@@ -34,6 +34,9 @@
 
         {{-- Action buttons --}}
         <div class="flex items-center gap-2">
+            {{-- Badge sync "N en attente" (Plan 02-05, PASS-06) — visible si pendingCount > 0 --}}
+            <x-admin.sync-badge />
+
             {{-- Nouveau client — visible uniquement sur les pages clients --}}
             @if(request()->routeIs('admin.clients.*'))
                 <a href="{{ route('admin.clients.create') }}"
@@ -47,17 +50,16 @@
                 </a>
             @endif
 
-            {{-- Nouveau passage CTA — disabled (Plan 02-05 activera) --}}
-            <button type="button" disabled aria-disabled="true"
-                class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500/40 text-white font-semibold cursor-not-allowed opacity-50"
-                title="Disponible bientôt — saisie passage en cours d'activation">
+            {{-- Nouveau passage CTA — actif (Plan 02-05) --}}
+            <a href="{{ route('admin.passages.create') }}"
+                class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors shadow-sm">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none"
                     stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                     <path d="M12 5v14M5 12h14"/>
                 </svg>
                 <span class="hidden sm:inline">Nouveau passage</span>
                 <span class="sm:hidden">Passage</span>
-            </button>
+            </a>
         </div>
 
     </div>
