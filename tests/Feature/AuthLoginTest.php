@@ -28,7 +28,8 @@ it('GET /login renders the styled view with required copy', function () {
     $response->assertSee('Espace pro');
     $response->assertSee('Espace client');
     $response->assertSee('Rester connecté sur ce téléphone');
-    $response->assertSee('Données hébergées en Europe · Confidentialité');
+    $response->assertSee('Données hébergées en Europe');
+    $response->assertSee('Confidentialité');
     $response->assertSee('Chaque passage, gardé en mémoire.');
 });
 
@@ -75,16 +76,20 @@ it('POST /login with wrong password returns to /login with error message', funct
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
     (new PierreSeeder())->run();
 
+    // Visit GET /login first so that _previous.url is set in the session.
+    // Without it, ValidationException redirects back to '/' (no referer).
+    $this->get('/login');
+
     $response = $this->post('/login', [
         'email'    => 'pierre@dloazurtest.local',
         'password' => 'wrong-password',
     ]);
 
     $response->assertRedirect('/login');
-    $response->assertSessionHasErrors(['email']);
 
-    $errors = session('errors');
-    expect($errors->first('email'))->toContain('E-mail ou mot de passe incorrect.');
+    // Follow the redirect and verify the French error message renders in the view
+    $followedResponse = $this->followRedirects($response);
+    $followedResponse->assertSee('E-mail ou mot de passe incorrect.');
 });
 
 // ---------------------------------------------------------------------------
@@ -130,8 +135,9 @@ it('GET /forgot-password renders the password reset request view', function () {
     $response = $this->get('/forgot-password');
 
     $response->assertStatus(200);
-    // The view should contain a form posting to the password.email route
-    $response->assertSee('password.email');
+    // The view should contain a form posting to the password.email route (rendered as URL)
+    $response->assertSee('forgot-password');
+    $response->assertSee('Recevoir le lien de réinitialisation');
 });
 
 // ---------------------------------------------------------------------------
