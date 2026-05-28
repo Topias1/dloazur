@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('google_review_id')->unique()->comment('Fingerprint: author_url#time — used for upsert idempotency (D-28 amended)');
             $table->string('author_name');
-            $table->string('author_url');
+            $table->string('author_url')->nullable();
             $table->string('profile_photo_url')->nullable();
             $table->unsignedTinyInteger('rating');
             $table->text('comment')->nullable();

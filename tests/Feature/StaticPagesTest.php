@@ -32,10 +32,12 @@ it('contact page renders 200 with form shell ready for Plan 04', function () {
     // until Plan 04 registers the component it renders the fallback placeholder.
     // Assert either the actual livewire tag OR the fallback text is visible.
     $content = $response->getContent();
-    $hasLivewire   = str_contains($content, 'livewire:contact-form');
-    $hasFallback   = str_contains($content, 'Formulaire en cours de chargement');
+    // Either: (a) Plan 04 registered the component → Livewire emits wire:submit / wire:id
+    // or (b) ContactForm class missing → fallback placeholder "Formulaire en cours de chargement"
+    $hasLivewire = str_contains($content, 'wire:submit') || str_contains($content, 'wire:id=');
+    $hasFallback = str_contains($content, 'Formulaire en cours de chargement');
     expect($hasLivewire || $hasFallback)->toBeTrue(
-        'contact page must render either the livewire:contact-form component or its fallback placeholder'
+        'contact page must render either the wired Livewire form (wire:submit) or its fallback placeholder'
     );
 });
 

@@ -18,7 +18,6 @@
         </include>
     </source>
     <php>
-        <env name="APP_BASE_PATH" value="/Users/amnesia/dev/dloazur/.claude/worktrees/agent-a8541cf656dbf0e5d"/>
         <env name="APP_ENV" value="testing"/>
         <env name="APP_MAINTENANCE_DRIVER" value="file"/>
         <env name="BCRYPT_ROUNDS" value="4"/>
