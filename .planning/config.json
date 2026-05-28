@@ -64,7 +64,6 @@
   "phase_naming": "sequential",
   "agent_skills": {},
   "features": {},
-  "branching_strategy": "none",
   "mode": "interactive",
   "granularity": "standard"
 }

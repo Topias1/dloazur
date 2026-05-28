@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 1 UI-SPEC approved
-last_updated: "2026-05-28T11:20:08.216Z"
-last_activity: 2026-05-28 -- Phase 1 planning complete
+last_updated: "2026-05-28T12:24:48.266Z"
+last_activity: 2026-05-28 -- Phase 01 execution started
 progress:
   total_phases: 5
   completed_phases: 0
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 1 — Vitrine & Fondations
+**Current focus:** Phase 01 — vitrine-fondations
 
 ## Current Position
 
-Phase: 1 of 5 (Vitrine & Fondations)
-Plan: 0 of ? in current phase
-Status: Ready to execute
-Last activity: 2026-05-28 -- Phase 1 planning complete
+Phase: 01 (vitrine-fondations) — EXECUTING
+Plan: 1 of 6
+Status: Executing Phase 01
+Last activity: 2026-05-28 -- Phase 01 execution started
 
 Progress: [░░░░░░░░░░] 0%
 
