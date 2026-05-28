@@ -1,0 +1,59 @@
+{
+  "status": "OK",
+  "result": {
+    "rating": 4.8,
+    "user_ratings_total": 47,
+    "reviews": [
+      {
+        "author_name": "Marie Dupont",
+        "author_url": "https://www.google.com/maps/contrib/100000000000000001",
+        "language": "fr",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a/AAcHTtd1",
+        "rating": 5,
+        "relative_time_description": "il y a 2 semaines",
+        "text": "Excellent service ! Pierre est très professionnel et ponctuel. L'eau de notre piscine est cristalline depuis qu'il s'en occupe. Je recommande vivement Dlo Azur.",
+        "time": 1716508800
+      },
+      {
+        "author_name": "Jean-Claude Martin",
+        "author_url": "https://www.google.com/maps/contrib/100000000000000002",
+        "language": "fr",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a/AAcHTtd2",
+        "rating": 5,
+        "relative_time_description": "il y a 1 mois",
+        "text": "Très satisfait du suivi régulier. Les rapports de passage sont très détaillés et on peut voir l'historique en ligne. Un vrai plus pour suivre l'état de sa piscine.",
+        "time": 1713830400
+      },
+      {
+        "author_name": "Sophie Leblanc",
+        "author_url": "https://www.google.com/maps/contrib/100000000000000003",
+        "language": "fr",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a/AAcHTtd3",
+        "rating": 4,
+        "relative_time_description": "il y a 2 mois",
+        "text": "Bon service d'entretien. Pierre connaît bien son métier et explique clairement ce qu'il fait. Quelques petits délais de réponse mais dans l'ensemble très bien.",
+        "time": 1711065600
+      },
+      {
+        "author_name": "Robert Chérubin",
+        "author_url": "https://www.google.com/maps/contrib/100000000000000004",
+        "language": "fr",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a/AAcHTtd4",
+        "rating": 5,
+        "relative_time_description": "il y a 3 mois",
+        "text": "Top ! On voit tout de suite que Pierre maîtrise parfaitement son métier. La piscine est toujours impeccable et les traitements sont bien expliqués. Service irréprochable.",
+        "time": 1708473600
+      },
+      {
+        "author_name": "Isabelle Fortuné",
+        "author_url": "https://www.google.com/maps/contrib/100000000000000005",
+        "language": "fr",
+        "profile_photo_url": "https://lh3.googleusercontent.com/a/AAcHTtd5",
+        "rating": 4,
+        "relative_time_description": "il y a 4 mois",
+        "text": "Pierre est sérieux et compétent. Il nous a aidés à résoudre un problème d'algues récurrent. La piscine est désormais nickel. Je recommande ses services sans hésitation.",
+        "time": 1705795200
+      }
+    ]
+  }
+}
