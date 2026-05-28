@@ -25,8 +25,8 @@ register: brand (vitrine) / product (admin shell)
 | Preset | not applicable | greenfield — no components.json |
 | Component library | none (Blade components + Livewire) | CONTEXT.md D-01 |
 | Icon library | inline SVG (extracted to `<x-icon::*>` Blade components) | vitrine.html pattern |
-| Display font | Fredoka (Google Fonts, weights 500/600/700) | DESIGN.md, theme.js |
-| Body / UI font | Inter (Google Fonts, weights 400/600/700) | DESIGN.md, theme.js |
+| Display font | Fredoka (Google Fonts, weights 600/700) | DESIGN.md, theme.js |
+| Body / UI font | Inter (Google Fonts, weights 400 + 600 — two weights) | DESIGN.md, theme.js |
 | Token format | OKLCH throughout — no `#000` or `#fff` anywhere | DESIGN.md rule |
 
 **shadcn gate:** Not applicable. Stack is Laravel + Tailwind 4 (not React/Next.js/Vite SPA).
@@ -67,17 +67,24 @@ Tailwind custom spacing tokens (from `theme.js`), plus the standard Tailwind 4/8
 
 ## Typography
 
-Four levels exactly. Two weights per font (Fredoka: 600/700; Inter: 400/600).
+Four levels exactly. Two weights per font: Fredoka 600 + 700; Inter 400 + 600.
 
 | Role | Family | Size | Weight | Line Height | Letter Spacing | Usage |
 |------|--------|------|--------|-------------|----------------|-------|
-| Display | Fredoka | `clamp(2.6rem, 5vw, 4rem)` | 700 | 1.04–1.05 | -0.005em | Hero H1 only — one per page |
 | Headline | Fredoka | `clamp(1.875rem, 3vw, 2.5rem)` | 700 | 1.1 | -0.005em | Section H2 titles |
 | Title | Fredoka | 1.25rem (20px) | 600 | 1.3 | -0.005em | Card H3, sub-section titles, nav |
 | Body | Inter | 1rem (16px) | 400 | 1.6 | normal | Running text, descriptions, footer |
-| Small body | Inter | 0.875rem (14px) | 400 | 1.5 | normal | Testimonial attributions, footer nav, form hints |
-| Label / kicker | Inter | 0.75rem (12px) | 700 | 1.2 | 0.18em + uppercase | Section kickers above headlines, status badges |
-| UI small | Inter | 0.6875rem (11px) | 600 | 1.2 | normal | Bottom-nav labels on mobile only |
+| Label | Inter | 0.75rem (12px) | 600 | 1.2 | 0.18em + uppercase | Section kickers above headlines, status badges |
+
+### One-off type utilities (outside the scale)
+
+These are NOT named scale levels. They appear at most once per context and are implemented as utility classes or one-off inline styles, not as reusable type tokens.
+
+| Utility | Family | Size | Weight | Context | Class / note |
+|---------|--------|------|--------|---------|--------------|
+| `display-hero` | Fredoka | `clamp(2.6rem, 5vw, 4rem)` | 700 | Hero H1 only — one per page | One-off; never reused |
+| `text-sm` footer | Inter | 0.875rem (14px) | 400 | Testimonial attributions, footer nav, form hints | Tailwind utility `text-sm` — not a scale step |
+| `nav-label` | Inter | 0.6875rem (11px) | 600 | Mobile bottom-nav labels only | One-off utility class; one context only |
 
 **Rules (from DESIGN.md):**
 - ≥ 1.25× scale between consecutive levels — no flat hierarchy.
@@ -85,6 +92,8 @@ Four levels exactly. Two weights per font (Fredoka: 600/700; Inter: 400/600).
 - Fredoka for words; Inter for figures and UI controls.
 - Body text lines capped at 65–75ch (`max-w-xl` / `max-w-2xl` where needed).
 - No text gradients (`background-clip: text`). Color emphasis via weight or size only.
+- Inter: exactly 2 weights — 400 (regular) + 600 (semibold). No Inter 700 anywhere.
+- Fredoka: exactly 2 weights — 600 (semibold) + 700 (bold). No other Fredoka weights loaded.
 
 ---
 
@@ -168,11 +177,11 @@ Components required for Phase 1, with their visual contract.
 
 - **Structure:** `fixed top-0`, `mt-3`, `max-w-content` container, `rounded-2xl`, `h-15` (60px)
 - **Background:** `sand-50/85 backdrop-blur-md ring-1 ring-navy-900/10 shadow-sm`
-- **Logo:** SVG drop icon `azure-500` + wordmark Fredoka 700 `ink-950` / kicker Inter 700 uppercase tracking-[0.22em] `azure-600`
+- **Logo:** SVG drop icon `azure-500` + wordmark Fredoka 700 `ink-950` / kicker Inter 600 uppercase tracking-[0.22em] `azure-600`
 - **Desktop nav links:** Inter 600 14px `ink-700`, hover `azure-600`, `transition-colors`
 - **"Espace client" button:** `h-10 px-3.5 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5`
-- **WhatsApp button:** `h-10 px-4 rounded-xl bg-[#25D366] text-white text-sm font-bold shadow-sm hover:brightness-95`
-- **Mobile anchor strip:** scrollable row of `rounded-full` pills (`bg-sand-50 ring-1 ring-navy-900/10 shadow-xs`), "Espace client" pill `bg-azure-500 text-white font-bold`
+- **WhatsApp button:** `h-10 px-4 rounded-xl bg-[#25D366] text-white text-sm font-semibold shadow-sm hover:brightness-95`
+- **Mobile anchor strip:** scrollable row of `rounded-full` pills (`bg-sand-50 ring-1 ring-navy-900/10 shadow-xs`), "Espace client" pill `bg-azure-500 text-white font-semibold`
 
 ### Hero section
 
@@ -180,13 +189,13 @@ Components required for Phase 1, with their visual contract.
 - **Photo:** `absolute inset-0 h-full w-full object-cover .photo-grade`, `fetchpriority="high"`
 - **Overlay:** `bg-gradient-to-t from-navy-950 via-navy-900/55 to-navy-900/20` + `bg-gradient-to-r from-navy-950/70 to-transparent`
 - **Kicker chip:** `bg-lagon-500/15 ring-1 ring-lagon-400/30 px-3 py-1 rounded-full`, text `lagon-300`, dot `bg-lagon-400`
-- **H1:** Fredoka 700 `clamp(2.6rem, 5vw, 4rem)` white, line-height 1.04, class `.rise` animation
+- **H1:** Fredoka 700 `clamp(2.6rem, 5vw, 4rem)` white, line-height 1.04, class `.rise` animation — uses `display-hero` one-off utility
 - **Sub-copy:** Inter 400 `text-lg sm:text-xl text-navy-100`
-- **Primary CTA:** `h-13 px-6 rounded-xl bg-azure-500 text-white font-bold shadow-md hover:bg-azure-400`
+- **Primary CTA:** `h-13 px-6 rounded-xl bg-azure-500 text-white font-semibold shadow-md hover:bg-azure-400`
 - **Secondary CTA:** `h-13 px-6 rounded-xl bg-white/10 ring-1 ring-white/25 backdrop-blur hover:bg-white/15`
 - **Trust bullets:** `text-sm text-navy-100/90`, check icon `text-lagon-400`
 - **Wave divider:** SVG `text-sand-50` at `absolute bottom-0`
-- **Mobile floating WhatsApp:** `fixed bottom-5 right-5 h-14 w-14 rounded-full bg-[#25D366] shadow-lg`
+- **Mobile floating WhatsApp FAB:** `fixed bottom-5 right-5 h-14 w-14 rounded-full bg-[#25D366] shadow-lg md:hidden`
 
 ### Service cards
 
@@ -202,15 +211,15 @@ Components required for Phase 1, with their visual contract.
 - **Grid:** `lg:grid-cols-2 gap-12 items-center`
 - **Kicker:** `bg-white/10 ring-1 ring-white/15 text-lagon-300`
 - **Photo:** `rounded-3xl shadow-lg aspect-[4/3] .photo-grade`
-- **Proof card (floating):** `absolute -bottom-5`, `rounded-2xl bg-white shadow-lg px-5 py-4`, stat `font-display font-700 text-2xl text-azure-600`
-- **CTA "Devenir partenaire":** `h-13 px-6 rounded-xl bg-white text-navy-900 font-bold shadow-md hover:bg-navy-50`
+- **Proof card (floating):** `absolute -bottom-5`, `rounded-2xl bg-white shadow-lg px-5 py-4`, stat `font-display font-semibold text-2xl text-azure-600`
+- **CTA "Devenir partenaire":** `h-13 px-6 rounded-xl bg-white text-navy-900 font-semibold shadow-md hover:bg-navy-50`
 
 ### Réalisations grid
 
 - **Grid:** `grid-cols-2 lg:grid-cols-4 auto-rows-[12rem]`
 - **Featured:** `col-span-2 row-span-2 rounded-3xl`, hover `scale-[1.04] duration-700 ease-out-quint`
 - **Supporting:** `rounded-2xl`, hover `scale-[1.05] duration-700 ease-out-quint`
-- **"Avant/après" badge:** `bg-sun-500 text-navy-950 text-xs font-bold px-2.5 py-1 rounded-full`
+- **"Avant/après" badge:** `bg-sun-500 text-navy-950 text-xs font-semibold px-2.5 py-1 rounded-full`
 
 ### "Le pisciniste" section
 
@@ -232,12 +241,12 @@ Components required for Phase 1, with their visual contract.
 - **Cards:** `rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-7`
 - **Stars:** `text-sun-500`
 - **Quote text:** Inter 400 `text-lg text-ink-900 leading-relaxed`
-- **Attribution:** Inter 600 14px `text-ink-500`
+- **Attribution:** Inter 600 14px `text-ink-500` — uses `text-sm` utility (outside scale)
 
 ### Final CTA section
 
 - **Background:** `bg-azure-600`, `.ripple` decoration
-- **CTA primary:** `h-14 px-7 rounded-xl bg-[#25D366] font-bold text-lg shadow-lg hover:brightness-95` (WhatsApp)
+- **CTA primary:** `h-14 px-7 rounded-xl bg-[#25D366] font-semibold text-lg shadow-lg hover:brightness-95` (WhatsApp)
 - **CTA secondary:** `h-14 px-7 rounded-xl bg-white/15 ring-1 ring-white/30 hover:bg-white/25`
 
 ### Contact form (SITE-05 — Livewire component)
@@ -247,7 +256,7 @@ Phase 1 delivers this as a Livewire form component at `/contact`. Contract:
 - **Layout:** centered single-column, `max-w-lg`, embedded in a `sand-50` section or standalone page
 - **Fields:** Prénom + Nom, E-mail, Téléphone (optional), Message (textarea min 3 rows)
 - **Input style:** `h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 focus:ring-2 focus:ring-azure-500 focus:bg-white` — matches auth.html inputs exactly
-- **Submit button:** `h-12 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600` — "Envoyer mon message"
+- **Submit button:** `h-12 px-6 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600` — "Envoyer mon message"
 - **WhatsApp fallback:** below form, `text-sm text-ink-500` + whatsapp link styled as `text-[#25D366] font-semibold`
 - **Honeypot:** visually hidden field `aria-hidden="true"` — no CAPTCHA per D-14
 - **Success state:** replace form with confirmation card (see Copywriting below)
@@ -259,7 +268,7 @@ Phase 1 delivers this as a Livewire form component at `/contact`. Contract:
 - **Grid:** `md:grid-cols-[1.4fr_1fr_1fr_auto]`
 - **Social icons:** `h-10 w-10 rounded-xl bg-white/8 hover:bg-white/15`
 - **QR code panel:** `rounded-2xl bg-white p-2.5 shadow-md` containing 96×96px QR image
-- **Legal bar:** `border-t border-white/10`, Inter 12px `text-navy-300`
+- **Legal bar:** `border-t border-white/10`, Inter 400 12px `text-navy-300` — uses `text-sm` utility (outside scale)
 - **Links required:** Mentions légales · CGV · Confidentialité (static Blade pages, D-CONTEXT)
 
 ### Auth page — Login (AUTH-01, Fortify views)
@@ -282,15 +291,15 @@ Reference: `mockups/v1/dashboard.html`. Phase 1 ships the layout + stub content.
 - **Sidebar:** `bg-navy-900 text-navy-100 px-4 py-6 sticky top-0 h-screen`
   - Active item: `bg-white/10 text-white rounded-xl h-11 px-3`
   - Inactive items: `hover:bg-white/8 hover:text-white rounded-xl h-11 px-3` — in Phase 1, Clients/Passages/Factures are non-clickable (`aria-disabled="true"`, cursor-default, opacity-60) with "bientôt" label
-  - User avatar: `h-9 w-9 rounded-full bg-azure-500 text-white font-display font-700` (initial "P")
+  - User avatar: `h-9 w-9 rounded-full bg-azure-500 text-white font-display font-semibold` (initial "P")
 - **Mobile bottom nav:** `fixed bottom-0 h-18 bg-sand-50/95 backdrop-blur border-t border-navy-900/10`
-  - Active: `text-azure-600`, inactive: `text-ink-400`, icon 22px + label Inter 600 11px
+  - Active: `text-azure-600`, inactive: `text-ink-400`, icon 22px + label Inter 600 11px (`nav-label` one-off utility)
 - **Top bar:** `sticky top-0 bg-sand-100/90 backdrop-blur border-b border-navy-900/8 h-16`
 - **Dashboard body background:** `bg-sand-100`
 - **Stat cards (Phase 1 stub):** `rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-5`
   - Values display `—` (em-dash) in Phase 1 — no live data yet
   - Four cards: "Clients actifs", "Passages cette semaine", "En attente de sync", "Factures en attente"
-- **"Nouveau passage" button in topbar:** `h-11 px-5 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600` — greyed out (disabled) in Phase 1
+- **"Nouveau passage" button in topbar:** `h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold shadow-sm hover:bg-azure-600` — greyed out (disabled) in Phase 1
 
 ---
 
@@ -496,6 +505,7 @@ Minimum WCAG AA throughout.
 | Disabled nav items | `aria-disabled="true"` + `tabindex="-1"` on greyed sidebar items |
 | lang attribute | `<html lang="fr">` on all pages |
 | Sunlight legibility | Thème clair par défaut; `ink-950`/`ink-900` on `sand-50` for all body text |
+| WhatsApp FAB | `aria-label="Nous écrire sur WhatsApp"` on `fixed bottom-5 right-5 h-14 w-14 rounded-full` floating button |
 
 ---
 
