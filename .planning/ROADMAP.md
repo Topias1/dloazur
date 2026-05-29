@@ -135,12 +135,12 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 **Goal:** Make the vitrine actually rank once it cuts over to `dloazurpiscines.com`. Source: full `/seo audit` of staging `dloazur-main-s8e8er.laravel.cloud` (2026-05-29). Staging is `noindex` today, so these are launch-gated, not live. See memory `seo-cutover-gotchas`.
 **Requirements:** SITE-07 (deepened beyond Phase 1 baseline — multi-type schema, content depth, service/city pages, image perf, BreadcrumbList, sitemap lastmod, llms.txt)
 **Scope note:** Post-cutover GROWTH only. The 5 CRITICAL cutover-blockers moved to Phase 1's cutover checklist (D-07).
-**Plans:** 6 plans (4 waves)
+**Plans:** 3/6 plans executed
 
 Plans:
-- [ ] 999.1-01-PLAN.md — Schema: rewrite LocalBusinessSchema to MultiTypedEntity (LocalBusiness+HomeAndConstructionBusiness) + founder + email; no rating/street (D-01..D-05) [wave 1]
-- [ ] 999.1-02-PLAN.md — Zyro content harvest: read-only crawl for body copy, services (incl. spa), testimonials, NAP, URL inventory + Pierre-fact gap list (D-08, D-09) [wave 1]
-- [ ] 999.1-05-PLAN.md — Image optimization: images:optimize Artisan command (spatie/image) + <x-picture> source-set component + generated .webp/.avif siblings [wave 1]
+- [x] 999.1-01-PLAN.md — Schema: rewrite LocalBusinessSchema to MultiTypedEntity (LocalBusiness+HomeAndConstructionBusiness) + founder + email; no rating/street (D-01..D-05) [wave 1]
+- [x] 999.1-02-PLAN.md — Zyro content harvest: read-only crawl for body copy, services (incl. spa), testimonials, NAP, URL inventory + Pierre-fact gap list (D-08, D-09) [wave 1]
+- [x] 999.1-05-PLAN.md — Image optimization: images:optimize Artisan command (spatie/image) + <x-picture> source-set component + generated .webp/.avif siblings [wave 1]
 - [ ] 999.1-03-PLAN.md — Service pages: BreadcrumbSchema + layout wiring + 3 new service pages (entretien-recurrent, analyse-eau, spa) + eau-verte expansion to 450w+ FAQ (D-10, D-11, D-13) [wave 2]
 - [ ] 999.1-04-PLAN.md — City hubs: 4 hand-written, fact-gated commune pages (Fort-de-France, Le Lamentin, Schoelcher, Les Trois-Îlets) linking city→service (D-12) [wave 3]
 - [ ] 999.1-06-PLAN.md — Discoverability: llms.txt + blog og:type/Article schema + real dates + sitemap lastmod/new URLs + realisations case studies + nav devis CTA [wave 4]

@@ -4,8 +4,8 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 999.1 UI-SPEC approved
-last_updated: "2026-05-29T16:16:49.932Z"
-last_activity: 2026-05-29 -- Phase 999.1 planning complete
+last_updated: "2026-05-29T16:21:56.327Z"
+last_activity: 2026-05-29 -- Phase 999.1 execution started
 progress:
   total_phases: 6
   completed_phases: 2
@@ -21,14 +21,14 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 01 — vitrine-fondations
+**Current focus:** Phase 999.1 — seo-launch-readiness-post-cutover-optimization
 
 ## Current Position
 
-Phase: 01 (vitrine-fondations) — EXECUTING
+Phase: 999.1 (seo-launch-readiness-post-cutover-optimization) — EXECUTING
 Plan: 1 of 6
-Status: Ready to execute
-Last activity: 2026-05-29 -- Phase 999.1 planning complete
+Status: Executing Phase 999.1
+Last activity: 2026-05-29 -- Phase 999.1 execution started
 
 Progress: [██░░░░░░░░] 17%
 
