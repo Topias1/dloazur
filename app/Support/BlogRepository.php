@@ -26,7 +26,12 @@ class BlogRepository
             return $this->loadPosts($dir);
         }
 
-        return Cache::remember('blog.index', 60 * 60, fn () => $this->loadPosts($dir));
+        // Store only plain scalars in the cache (no Carbon objects) to survive
+        // PHP unserialize() with serializable_classes = false (database cache store).
+        // hydrateDates() re-wraps the ISO-8601 string back into Carbon on read.
+        return $this->hydrateDates(
+            Cache::remember('blog.index', 60 * 60, fn () => $this->serializablePosts($dir))
+        );
     }
 
     /**
@@ -37,6 +42,34 @@ class BlogRepository
     public function find(string $slug): ?array
     {
         return $this->all()->firstWhere('slug', $slug);
+    }
+
+    /**
+     * Load posts and replace Carbon dates with ISO-8601 strings for cache storage.
+     * This avoids __PHP_Incomplete_Class when the database cache store deserializes
+     * the payload with serializable_classes = false.
+     */
+    private function serializablePosts(string $dir): Collection
+    {
+        return $this->loadPosts($dir)->map(function (array $post): array {
+            $post['date'] = $post['date']->toIso8601String();
+
+            return $post;
+        });
+    }
+
+    /**
+     * Re-hydrate ISO-8601 date strings back into Carbon instances after a cache read.
+     */
+    private function hydrateDates(Collection $posts): Collection
+    {
+        return $posts->map(function (array $post): array {
+            if (is_string($post['date'])) {
+                $post['date'] = Carbon::parse($post['date']);
+            }
+
+            return $post;
+        });
     }
 
     private function loadPosts(string $dir): Collection
