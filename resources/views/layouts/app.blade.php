@@ -44,10 +44,10 @@
                 </a>
 
                 <div class="hidden md:flex items-center gap-7 text-sm font-semibold text-ink-700">
+                    <a href="{{ route('home') }}" class="hover:text-azure-600 transition-colors">Accueil</a>
                     <a href="{{ route('services') }}" class="hover:text-azure-600 transition-colors">Services</a>
-                    <a href="{{ route('home') }}#hospitality" class="hover:text-azure-600 transition-colors">Hospitalité</a>
-                    <a href="{{ route('realisations') }}" class="hover:text-azure-600 transition-colors">Réalisations</a>
-                    <a href="{{ route('home') }}#pierre" class="hover:text-azure-600 transition-colors">Le pisciniste</a>
+                    <a href="{{ route('realisations') }}" class="hover:text-azure-600 transition-colors">Nos réalisations</a>
+                    <a href="{{ route('blog.index') }}" class="hover:text-azure-600 transition-colors">Blog</a>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -86,10 +86,10 @@
                 @click.outside="open = false"
             >
                 <ul class="flex flex-col p-2 text-base font-semibold text-ink-800">
+                    <li><a href="{{ route('home') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Accueil</a></li>
                     <li><a href="{{ route('services') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Services</a></li>
-                    <li><a href="{{ route('home') }}#hospitality" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Hospitalité</a></li>
-                    <li><a href="{{ route('realisations') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Réalisations</a></li>
-                    <li><a href="{{ route('home') }}#pierre" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Le pisciniste</a></li>
+                    <li><a href="{{ route('realisations') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Nos réalisations</a></li>
+                    <li><a href="{{ route('blog.index') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Blog</a></li>
                     <li class="mt-1 pt-1 border-t border-navy-900/10">
                         <a href="tel:+596696940054" @click="open = false" aria-label="Appeler Dlo Azur" class="flex items-center gap-3 h-12 px-4 rounded-xl text-navy-700 hover:bg-navy-900/5 hover:text-azure-700 transition-colors">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.31 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.22 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.99 6l1.79-1.79a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.05Z"/></svg>
