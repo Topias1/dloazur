@@ -4,14 +4,14 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Completed 999.1-04-PLAN.md
-last_updated: "2026-05-29T16:53:19.637Z"
+last_updated: "2026-05-29T16:59:17.291Z"
 last_activity: 2026-05-29
 progress:
   total_phases: 6
-  completed_phases: 2
+  completed_phases: 3
   total_plans: 19
-  completed_plans: 21
-  percent: 33
+  completed_plans: 22
+  percent: 50
 ---
 
 # Project State
@@ -26,7 +26,7 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 ## Current Position
 
 Phase: 999.1 (seo-launch-readiness-post-cutover-optimization) — EXECUTING
-Plan: 3 of 6
+Plan: 4 of 6
 Status: Ready to execute
 Last activity: 2026-05-29
 
@@ -54,6 +54,7 @@ Progress: [██████████] 100%
 *Updated after each plan completion*
 | Phase 999.1 P03 | 20 | 3 tasks | 10 files |
 | Phase 999.1 P04 | 10m | 2 tasks | 7 files |
+| Phase 999.1 P06 | 25 | 4 tasks | 9 files |
 
 ## Accumulated Context
 
@@ -67,6 +68,9 @@ Recent decisions affecting current work:
 - Roadmap: Phase 3 démarre obligatoirement par le POC Odoo (gate technique — détermine API vs CSV)
 - Roadmap: Phase 5 dépend de Phase 2 seulement, peut démarrer en parallèle de 3-4 si besoin
 - [Phase ?]: 2-level breadcrumb trail for city hubs (Accueil > Commune) — pages not under /services
+- [Phase ?]: datePublished emitted unconditionally in buildArticleSchema — show_date:false controls display only, not structured data validity
+- [Phase ?]: Espace client demoted visually in nav (text-ink-500 quiet link) but retained in both desktop and mobile
+- [Phase ?]: Case study cards fact-gated with CHANTIER RÉEL REQUIS placeholders — before/after measures never fabricated per D-13
 
 ### Pending Todos
 
@@ -95,7 +99,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-29T16:53:19.633Z
+Last session: 2026-05-29T16:59:06.717Z
 Stopped at: Completed 999.1-04-PLAN.md
 Resume file: None
 
