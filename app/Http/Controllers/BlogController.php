@@ -34,25 +34,24 @@ class BlogController
             'morePosts'     => $morePosts,
             'title'         => $post['title'] . ' · Dlo Azur Piscines',
             'description'   => $post['excerpt'],
+            'type'          => 'article',
             'articleJsonLd' => $this->buildArticleSchema($post),
         ]);
     }
 
     /**
-     * @param  array{title: string, date: \Carbon\Carbon, show_date: bool, excerpt: string, author: string, slug: string}  $post
+     * @param  array{title: string, date: \Carbon\Carbon, show_date: bool, excerpt: string, author: string, slug: string, cover: string|null}  $post
      */
     private function buildArticleSchema(array $post): string
     {
         $article = Schema::article()
             ->headline($post['title'])
-            ->author(Schema::person()->name($post['author']));
-
-        // Only assert a publish date when it is reliable. Legacy imports carry an
-        // unknown date (show_date: false); emitting a placeholder would be a false
-        // structured-data signal.
-        if ($post['show_date']) {
-            $article->datePublished($post['date']->toIso8601String());
-        }
+            ->datePublished($post['date']->toIso8601String())
+            ->dateModified($post['date']->toIso8601String())
+            ->author(Schema::person()->name($post['author']))
+            ->image($post['cover'] ?? asset('assets/brand/og-default.jpg'))
+            ->mainEntityOfPage(url('/blog/' . $post['slug']))
+            ->publisher(Schema::organization()->name('Dlo Azur Piscines'));
 
         return $article->toScript();
     }

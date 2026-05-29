@@ -77,6 +77,38 @@ it('sitemap.xml includes blog URLs after Plan 04 ships', function () {
     $response->assertSee('/blog/bienvenue-dlo-azur', false);
 });
 
+it('blog show emits og:type article', function () {
+    $response = $this->get('/blog/bienvenue-dlo-azur');
+
+    $response->assertStatus(200);
+    $response->assertSee('og:type', false);
+    $response->assertSee('article', false);
+    // Specifically the og:type meta tag content is "article"
+    expect($response->content())->toContain('content="article"');
+});
+
+it('blog show Article JSON-LD contains publisher and dateModified', function () {
+    $response = $this->get('/blog/bienvenue-dlo-azur');
+
+    $response->assertStatus(200);
+    $response->assertSee('"publisher"', false);
+    $response->assertSee('"dateModified"', false);
+});
+
+it('no blog markdown frontmatter contains placeholder date 2025-01-01', function () {
+    $blogDir = resource_path('content/blog');
+    $files = glob($blogDir . '/*.md');
+
+    expect($files)->not->toBeEmpty();
+
+    foreach ($files as $file) {
+        $content = file_get_contents($file);
+        expect($content)->not->toContain('date: 2025-01-01',
+            "Blog file {$file} still contains placeholder date 2025-01-01"
+        );
+    }
+});
+
 it('cached blog payload survives serializable_classes=false (no objects leak to cache)', function () {
     // config/cache.php sets serializable_classes => false, so the database cache
     // store calls unserialize(..., ['allowed_classes' => false]) on read — turning
