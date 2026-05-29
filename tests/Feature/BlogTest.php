@@ -76,3 +76,27 @@ it('sitemap.xml includes blog URLs after Plan 04 ships', function () {
     $response->assertSee('/blog', false);
     $response->assertSee('/blog/bienvenue-dlo-azur', false);
 });
+
+it('cached blog payload survives serializable_classes=false (no objects leak to cache)', function () {
+    // config/cache.php sets serializable_classes => false, so the database cache
+    // store calls unserialize(..., ['allowed_classes' => false]) on read — turning
+    // ANY cached object (Carbon, and Illuminate\Support\Collection itself) into
+    // __PHP_Incomplete_Class. This caused /blog and /sitemap.xml to 500 on the
+    // second request. The normal all() path skips the cache under testing, so we
+    // assert the cacheable payload directly survives that exact round-trip.
+    $payload = (new BlogRepository())->cacheablePayload();
+
+    expect($payload)->toBeArray()->not->toBeEmpty();
+
+    $roundTripped = unserialize(serialize($payload), ['allowed_classes' => false]);
+
+    // A surviving object would become __PHP_Incomplete_Class and break equality.
+    expect($roundTripped)->toEqual($payload);
+
+    foreach ($roundTripped as $post) {
+        expect($post)->toBeArray();
+        expect($post['date'])->toBeString();                 // Carbon flattened to scalar
+        expect($post)->toHaveKey('cover');                   // cover carried through cache
+        expect($post['cover'] === null || is_string($post['cover']))->toBeTrue();
+    }
+});

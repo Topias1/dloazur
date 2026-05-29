@@ -26,12 +26,15 @@ class BlogRepository
             return $this->loadPosts($dir);
         }
 
-        // Store only plain scalars in the cache (no Carbon objects) to survive
-        // PHP unserialize() with serializable_classes = false (database cache store).
-        // hydrateDates() re-wraps the ISO-8601 string back into Carbon on read.
-        return $this->hydrateDates(
-            Cache::remember('blog.index', 60 * 60, fn () => $this->serializablePosts($dir))
-        );
+        // Cache a PLAIN ARRAY of scalar-only post arrays — never a Collection or
+        // Carbon object. config/cache.php has serializable_classes => false, which
+        // passes allowed_classes=false to unserialize() and turns EVERY object
+        // (including Illuminate\Support\Collection itself) into __PHP_Incomplete_Class
+        // on read. collect() + hydrateDates() rebuild the Collection and Carbon
+        // dates after the cache read. (#blog-cache-incomplete-class)
+        return $this->hydrateDates(collect(
+            Cache::remember('blog.index', 60 * 60, fn () => $this->cacheablePayload($dir))
+        ));
     }
 
     /**
@@ -45,17 +48,28 @@ class BlogRepository
     }
 
     /**
-     * Load posts and replace Carbon dates with ISO-8601 strings for cache storage.
-     * This avoids __PHP_Incomplete_Class when the database cache store deserializes
-     * the payload with serializable_classes = false.
+     * Build the value stored in the cache: a PLAIN ARRAY of scalar-only post
+     * arrays (Carbon dates flattened to ISO-8601 strings). Crucially this is an
+     * array, not a Collection — with serializable_classes => false, a cached
+     * Collection object would itself deserialize to __PHP_Incomplete_Class.
+     * Arrays and scalars are always allowed by unserialize(allowed_classes=false).
+     *
+     * Public so the cache round-trip can be regression-tested directly (the
+     * normal `all()` path skips the cache under the testing environment).
+     *
+     * @return array<int, array<string, scalar|null>>
      */
-    private function serializablePosts(string $dir): Collection
+    public function cacheablePayload(?string $dir = null): array
     {
-        return $this->loadPosts($dir)->map(function (array $post): array {
-            $post['date'] = $post['date']->toIso8601String();
+        $dir ??= $this->dir ?? resource_path('content/blog');
 
-            return $post;
-        });
+        return $this->loadPosts($dir)
+            ->map(function (array $post): array {
+                $post['date'] = $post['date']->toIso8601String();
+
+                return $post;
+            })
+            ->all();
     }
 
     /**
