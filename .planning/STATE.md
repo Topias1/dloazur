@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 Phase: 01 (vitrine-fondations) — EXECUTING
 Plan: 1 of 6
 Status: Executing Phase 01
-Last activity: 2026-05-28 -- Phase 01 execution started
+Last activity: 2026-05-29 - Completed quick task 260529-o92: fix liens Espace client vers portail magic-link
 
 Progress: [██░░░░░░░░] 17%
 
@@ -75,6 +75,12 @@ None yet.
 - **Phase 3**: Plan Odoo de l'opérateur non confirmé → POC obligatoire en 1er ticket
 - **Phase 3**: TVA 8,5 % à valider par comptable local avant premières factures
 - **Phase 4**: Templates WhatsApp Business : approval 1-5 j → ne pas bloquer sur l'approval
+
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260529-o92 | fix liens Espace client vers portail magic-link au lieu du contact | 2026-05-29 | 7ac4404 | [260529-o92-fix-liens-espace-client-vers-portail-mag](./quick/260529-o92-fix-liens-espace-client-vers-portail-mag/) |
 
 ## Deferred Items
 
