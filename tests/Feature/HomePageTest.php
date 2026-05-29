@@ -83,16 +83,37 @@ it('home includes the footer wordmark', function () {
         ->assertSeeText('© 2026 Dlo Azur Piscines · Pierre ADAM');
 });
 
-it('home tarif indicatif is config-driven and shown in hero (D-32)', function () {
+it('shows no public price in the hero (owner decision: no public price)', function () {
     $response = $this->get('/');
-    $response->assertSeeText('À partir de');
-    $response->assertSee('€/passage', false);
+    $response->assertOk();
+    $response->assertDontSee('À partir de', false);
+    $response->assertDontSee('€/passage', false);
 });
 
-it('home has secondary CTA Diagnostic gratuit linking to /contact?subject=diagnostic-gratuit (D-33)', function () {
+it('drops the AI-filler kicker badge from the hero', function () {
+    $this->get('/')->assertDontSee('Pisciniste en Martinique', false);
+});
+
+it('hero keeps one primary (devis) + one secondary (WhatsApp) CTA', function () {
     $response = $this->get('/');
-    $response->assertSeeText('Diagnostic gratuit');
-    $response->assertSee('/contact?subject=diagnostic-gratuit', false);
+    // Hero block only: primary devis + WhatsApp, the third "Diagnostic gratuit"
+    // button was trimmed from the hero (it still exists in the urgence section).
+    $hero = \Illuminate\Support\Str::between($response->getContent(), 'photo-grade', '</section>');
+    expect($hero)->toContain('Demander un devis gratuit');
+    expect($hero)->toContain('wa.me/596696940054');
+    expect($hero)->not->toContain('diagnostic-gratuit');
+});
+
+it('exposes a real mobile menu (hamburger) instead of a clipped nav strip', function () {
+    $response = $this->get('/');
+    $response->assertSee('aria-controls="mobile-menu"', false);
+    $response->assertSee('id="mobile-menu"', false);
+});
+
+it('links the footer QR to WhatsApp and drops the QR/TODO placeholder', function () {
+    $response = $this->get('/');
+    $response->assertSee('assets/brand/qr.png', false);
+    $response->assertDontSee('QR<br>TODO', false);
 });
 
 it('home renders Urgence eau verte section between services and how-it-works (D-34)', function () {
