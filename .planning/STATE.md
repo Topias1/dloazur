@@ -28,7 +28,7 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 Phase: 999.1
 Plan: Not started
 Status: Milestone complete
-Last activity: 2026-05-29
+Last activity: 2026-05-29 - Completed quick task 260529-qac: login démo dev-only sur /auth/magic
 
 Progress: [██████████] 100%
 
@@ -88,6 +88,7 @@ None yet.
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260529-o92 | fix liens Espace client vers portail magic-link au lieu du contact | 2026-05-29 | 7ac4404 | [260529-o92-fix-liens-espace-client-vers-portail-mag](./quick/260529-o92-fix-liens-espace-client-vers-portail-mag/) |
+| 260529-qac | login démo dev-only sur /auth/magic (Démo Client + Démo Admin, gated config app.demo_login) | 2026-05-29 | 57a2182 | [260529-qac-demo-login-auth-magic](./quick/260529-qac-demo-login-auth-magic/) |
 
 ## Deferred Items
 
