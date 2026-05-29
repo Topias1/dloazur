@@ -13,7 +13,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 
 - [x] **Phase 1: Vitrine & Fondations** - Scaffold Laravel Cloud, auth pro, migrations complètes, vitrine SEO remplaçant Zyro (completed 2026-05-28)
 - [x] **Phase 2: MVP Suivi Offline-First** - Saisie passage offline + photos, clients/piscines, portail client — coeur de valeur (completed 2026-05-28)
-- [ ] **Phase 3: Facturation & Odoo** - POC Odoo, catalogue, contrats, factures TVA 8,5 %, PDF, signature
+- [ ] **Phase 3: Facturation & Odoo** - POC Odoo, catalogue, contrats, factures en franchise de TVA (art. 293 B CGI), PDF, signature
 - [ ] **Phase 4: Notifications** - Email compte-rendu + rappel J-1, option WhatsApp
 - [ ] **Phase 5: Diagnostic Commercialisable** - Wizard eau verte, doses serveur, disclaimer, Stripe A+B
 
@@ -72,7 +72,7 @@ Plans:
 
 ### Phase 3: Facturation & Odoo
 
-**Goal**: L'opérateur génère des factures conformes (TVA 8,5 %, numérotation séquentielle CGI), les pousse vers Odoo ou en CSV, et le client signe le passage sur le téléphone du pro.
+**Goal**: L'opérateur génère des factures conformes (franchise en base de TVA — mention « TVA non applicable, art. 293 B du CGI », numérotation séquentielle CGI), les pousse vers Odoo ou en CSV, et le client signe le passage sur le téléphone du pro.
 **Mode:** mvp
 **Depends on**: Phase 2
 **Requirements**: FACT-01, FACT-02, FACT-03, FACT-04, FACT-05, FACT-06, FACT-07
@@ -80,7 +80,7 @@ Plans:
 
   1. Le POC Odoo est terminé : le mode API ou CSV est déterminé et configuré via `ODOO_MODE`
   2. Le pro gère un catalogue produits/services et des contrats ponctuel/forfait
-  3. Le pro génère une facture avec TVA 8,5 % et numérotation séquentielle sans trou (conforme CGI art. 242 nonies A)
+  3. Le pro génère une facture en franchise de TVA (mention « TVA non applicable, art. 293 B du CGI », pas de colonne TVA) avec numérotation séquentielle sans trou (conforme CGI art. 242 nonies A)
   4. La facture est poussée vers Odoo (XML-RPC) ou exportée en CSV selon le plan ; le statut de paiement s'affiche côté client
   5. Un PDF de compte-rendu est généré et le client peut signer électroniquement sur le téléphone du pro
 
@@ -127,3 +127,49 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 0/? | Not started | - |
+
+## Backlog
+
+### Phase 999.1: SEO launch-readiness & post-cutover optimization (BACKLOG)
+
+**Goal:** Make the vitrine actually rank once it cuts over to `dloazurpiscines.com`. Source: full `/seo audit` of staging `dloazur-main-s8e8er.laravel.cloud` (2026-05-29). Staging is `noindex` today, so these are launch-gated, not live. See memory `seo-cutover-gotchas`.
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+**Findings (by severity):**
+
+CRITICAL — cutover blockers (overlap with Phase 1 cutover carry-overs):
+- [ ] Production env must emit NO `x-robots-tag: noindex` (staging noindex is env-driven; if prod inherits it the live site is invisible). Verify `curl -I https://dloazurpiscines.com`.
+- [ ] `public/robots.txt` has literal `Sitemap: ${APP_URL}/sitemap.xml` (uninterpolated) — fix via route/`url()` or hardcode.
+- [ ] `/mentions-legales` SIRET/RCS show `[À compléter par Pierre ADAM avant lancement]` — Pierre supplies 14-digit SIRET.
+- [ ] Canonical + og:url + schema `url`/`@id`/`image` hardcoded to staging host — drive from `config('app.url')`, set `APP_URL=https://dloazurpiscines.com` in prod.
+- [ ] No Google Business Profile (`sameAs: []`) — create GBP (SAB/service-area, hide address, categories Pool cleaning service + Swimming pool contractor), link in `sameAs`, seed 5 reviews. Highest local ROI, zero-dev.
+
+HIGH:
+- [ ] Schema `@type: Plumber` wrong → `["LocalBusiness","HomeAndConstructionBusiness"]`; add email, streetAddress, postalCode, founder (Pierre), hasOfferCatalog, AggregateRating.
+- [ ] No customer reviews anywhere — solicit 5–10 Google reviews, display with rating schema.
+- [ ] `/realisations` thin (~108–145 words) — add 2–3 written case studies (commune, problem, protocol, before/after params).
+- [ ] `/services/eau-verte-urgence` only 222 words vs SERP norm 1500–3000 — expand to real guide (causes, DIY checklist, when to call pro, 5-step protocol, FAQ).
+- [ ] Page-type mismatch: single-URL vitrine for transactional + urgency + recurring intents — add dedicated service/city pages.
+- [ ] Missing security headers (HSTS, X-Content-Type-Options, X-Frame-Options/CSP frame-ancestors, Permissions-Policy).
+
+MEDIUM:
+- [ ] Add FAQ content to Services + eau-verte (PAA questions) — copy value over rich-result value (commercial site, post-Aug-2023).
+- [ ] Add 3–4 city-slug pages (Fort-de-France, Le Lamentin, Schoelcher, Les Trois-Îlets), 400+ unique words each. Quality gate: keep to a handful, no thin doorway pages.
+- [ ] Serve images as WebP/AVIF (14/15 are .jpg; hero is also og:image).
+- [ ] Add price-range signal ("à partir de X€ / devis selon volume").
+- [ ] Blog posts dated placeholder `2025-01-01` — set real dates; add `lastmod` to static sitemap URLs.
+- [ ] Add `BreadcrumbList` on sub-pages; fix `og:type: website` → `article` on blog articles.
+- [ ] "Espace client" in primary nav reads as member-gate to first-timers — demote; promote "Demander un devis" CTA.
+
+LOW:
+- [ ] Add `llms.txt` (currently 404; AI crawlers are allowed).
+- [ ] Add `twitter:card`, `og:image:width/height` (WhatsApp share previews = conversion channel).
+- [ ] Replace generic AI-filler paragraph with Martinique-specific copy.
+- [ ] Cite operator credentials/years of experience.
+- [ ] Add before/after video to eau-verte page.
+
+**Health score at audit:** 61/100 (cutover-readiness; live = 0 while noindex). Perf excellent warm (TTFB ~100ms).
