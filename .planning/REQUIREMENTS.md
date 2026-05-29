@@ -15,7 +15,7 @@ Périmètre du milestone initial. Chaque requirement est mappé à une phase (vo
 - [ ] **SITE-04**: Un visiteur lit le blog (liste d'articles + article)
 - [ ] **SITE-05**: Un visiteur envoie un message via un formulaire de contact
 - [ ] **SITE-06**: Un visiteur contacte l'entreprise via WhatsApp en un tap
-- [ ] **SITE-07**: Les pages publiques sont optimisées SEO local Martinique (balises meta, sitemap, données structurées)
+- [x] **SITE-07**: Les pages publiques sont optimisées SEO local Martinique (balises meta, sitemap, données structurées)
 
 ### Authentification (AUTH)
 
@@ -107,7 +107,7 @@ Mapping finalisé par la roadmap. Chaque requirement → une phase.
 | SITE-04 | Phase 1 — Vitrine & Fondations | Pending |
 | SITE-05 | Phase 1 — Vitrine & Fondations | Pending |
 | SITE-06 | Phase 1 — Vitrine & Fondations | Pending |
-| SITE-07 | Phase 1 — Vitrine & Fondations | Pending |
+| SITE-07 | Phase 1 — Vitrine & Fondations | Complete |
 | AUTH-01 | Phase 1 — Vitrine & Fondations | Pending |
 | AUTH-02 | Phase 2 — MVP Suivi Offline-First | Pending |
 | AUTH-03 | Phase 2 — MVP Suivi Offline-First | Pending |
