@@ -55,7 +55,7 @@ it('home JSON-LD has founder Pierre ADAM (D-02)', function () {
     $json = getHomeJsonLd();
 
     expect($json)->not->toBeEmpty();
-    expect($json)->toHaveKey('founder', 'D-02: founder key must be present');
+    expect($json)->toHaveKey('founder');
     expect($json['founder']['name'])->toBe('Pierre ADAM');
 });
 
@@ -63,7 +63,7 @@ it('home JSON-LD has email contact@dloazurpiscines.com (D-03)', function () {
     $json = getHomeJsonLd();
 
     expect($json)->not->toBeEmpty();
-    expect($json)->toHaveKey('email', 'D-03: email key must be present');
+    expect($json)->toHaveKey('email');
     expect($json['email'])->toBe('contact@dloazurpiscines.com');
 });
 
