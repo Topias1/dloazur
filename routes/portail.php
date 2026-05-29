@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Portail\DemoLoginController;
 use App\Http\Controllers\Portail\MagicLinkController;
 use Illuminate\Support\Facades\Route;
 
@@ -46,3 +47,18 @@ Route::middleware('auth:clients')->prefix('portail')->group(function () {
     Route::post('/logout', [MagicLinkController::class, 'logout'])
         ->name('portail.logout');
 });
+
+/*
+|--------------------------------------------------------------------------
+| Connexion démo (DEV-ONLY) — gardée par config('app.demo_login')
+|--------------------------------------------------------------------------
+|
+| Hors des groupes guest:clients / auth:clients : l'admin démo doit fonctionner
+| même si une session client existe. La garde réelle (abort_unless 404) est dans
+| le contrôleur ; ces routes n'apparaissent que là où DEMO_LOGIN_ENABLED est vrai.
+|
+*/
+Route::post('/auth/demo/client', [DemoLoginController::class, 'client'])
+    ->name('portail.demo.client');
+Route::post('/auth/demo/admin', [DemoLoginController::class, 'admin'])
+    ->name('portail.demo.admin');

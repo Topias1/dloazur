@@ -68,6 +68,37 @@
                 <p class="text-sm text-danger mt-2">{{ $message }}</p>
             @enderror
 
+            {{-- Connexion démo (DEV-ONLY) — visible uniquement si le flag est actif --}}
+            @if (config('app.demo_login'))
+                <div class="flex items-center gap-3 mt-6">
+                    <span class="h-px flex-1 bg-sand-200"></span>
+                    <span class="text-xs uppercase tracking-wide text-ink-400">Serveur de démo</span>
+                    <span class="h-px flex-1 bg-sand-200"></span>
+                </div>
+
+                <div class="flex flex-col gap-3 mt-4">
+                    <form method="POST" action="{{ route('portail.demo.client') }}">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 transition-colors"
+                        >
+                            Démo Client
+                        </button>
+                    </form>
+
+                    <form method="POST" action="{{ route('portail.demo.admin') }}">
+                        @csrf
+                        <button
+                            type="submit"
+                            class="w-full h-12 rounded-xl bg-white text-navy-900 font-semibold ring-1 ring-navy-900/15 hover:bg-sand-50 transition-colors"
+                        >
+                            Démo Admin
+                        </button>
+                    </form>
+                </div>
+            @endif
+
         </div>
 
         {{-- Fallback WhatsApp --}}
