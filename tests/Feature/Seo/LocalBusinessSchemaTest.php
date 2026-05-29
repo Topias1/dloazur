@@ -10,10 +10,6 @@
 
 use function Pest\Laravel\get;
 
-// Worktree: ->extend() in Pest.php uses relative ->in('Feature') which doesn't cover subdirs
-// in worktree invocation contexts. Explicit uses() ensures the Laravel TestCase is applied.
-uses(\Tests\TestCase::class);
-
 /**
  * Helper: fetch home page JSON-LD, extract the script block containing "Dlo Azur Piscines",
  * and return the decoded array.

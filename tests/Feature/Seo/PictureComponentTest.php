@@ -7,8 +7,6 @@
  * and that the generated .webp / .avif siblings exist on disk.
  */
 
-uses(Tests\TestCase::class);
-
 use Illuminate\Support\Facades\Blade;
 
 it('renders avif source before webp source before img fallback', function () {
