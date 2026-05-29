@@ -58,8 +58,11 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('portail.magic-link.request') }}" class="hidden sm:inline-flex items-center h-11 px-3.5 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5 transition-colors">Espace client</a>
-                    <a href="tel:+596696940054" aria-label="Appeler Dlo Azur" class="hidden sm:inline-flex items-center gap-1.5 h-11 px-3 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5 transition-colors">
+                    {{-- Demander un devis — primary CTA, promoted per D-13 --}}
+                    <a href="{{ route('contact') }}" class="hidden sm:inline-flex items-center min-h-[44px] px-4 rounded-xl bg-azure-500 text-white text-sm font-bold shadow-sm hover:bg-azure-600 transition-colors">Demander un devis</a>
+                    {{-- Espace client — demoted to quiet text link (clients still need it) --}}
+                    <a href="{{ route('portail.magic-link.request') }}" class="hidden md:inline-flex items-center h-11 px-3 rounded-xl text-xs font-medium text-ink-500 hover:text-navy-700 hover:bg-navy-900/5 transition-colors">Espace client</a>
+                    <a href="tel:+596696940054" aria-label="Appeler Dlo Azur" class="hidden lg:inline-flex items-center gap-1.5 h-11 px-3 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5 transition-colors">
                         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.31 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.22 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.99 6l1.79-1.79a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.05Z"/></svg>
                         <span class="hidden sm:inline">0696 94 00 54</span>
                     </a>
@@ -98,12 +101,17 @@
                     <li><a href="{{ route('realisations') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Nos réalisations</a></li>
                     <li><a href="{{ route('blog.index') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Blog</a></li>
                     <li class="mt-1 pt-1 border-t border-navy-900/10">
+                        {{-- Demander un devis — primary CTA promoted in mobile nav --}}
+                        <a href="{{ route('contact') }}" @click="open = false" class="flex items-center min-h-[44px] px-4 rounded-xl bg-azure-500 text-white font-bold">Demander un devis</a>
+                    </li>
+                    <li>
                         <a href="tel:+596696940054" @click="open = false" aria-label="Appeler Dlo Azur" class="flex items-center gap-3 h-12 px-4 rounded-xl text-navy-700 hover:bg-navy-900/5 hover:text-azure-700 transition-colors">
                             <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 5.31 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.22 1.18h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 8.91a16 16 0 0 0 5.99 6l1.79-1.79a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7a2 2 0 0 1 1.72 2.05Z"/></svg>
                             0696 94 00 54
                         </a>
                     </li>
-                    <li><a href="{{ route('portail.magic-link.request') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl bg-azure-500 text-white">Espace client</a></li>
+                    {{-- Espace client — demoted to quiet secondary item (clients still need it) --}}
+                    <li><a href="{{ route('portail.magic-link.request') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl text-ink-500 text-sm hover:bg-navy-900/5 hover:text-navy-700 transition-colors">Espace client</a></li>
                 </ul>
             </nav>
         </div>

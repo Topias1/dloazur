@@ -56,6 +56,55 @@
             </div>
         </section>
 
+        {{-- Case studies section (D-13: 2-3 written case studies — fact-gated, Pierre-supplied) --}}
+        <section class="mx-auto max-w-content px-5 sm:px-8 py-16">
+            <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">CHANTIERS</p>
+            <h2 class="font-display font-bold text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.1] tracking-[-0.005em] text-ink-950 mb-10">
+                Réalisations récentes
+            </h2>
+
+            <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune, type, mesures avant/après] -->
+
+            {{-- Case study 1 --}}
+            <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4 mb-6">
+                <h3 class="font-display font-bold text-xl text-ink-950">
+                    Piscine liner · Fort-de-France — Eau verte persistante malgré traitement hebdomadaire
+                </h3>
+                <p class="text-ink-700 leading-relaxed max-w-[65ch]">
+                    <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures pH/chlore/TAC avant] -->
+                    Propriétaire à Fort-de-France confronté à une eau verte depuis plusieurs semaines malgré un entretien régulier. Diagnostic : stabilisant saturé bloquant l'efficacité du chlore. Protocole appliqué : vidange partielle (30 %), choc chlore, ajustement pH, traitement anti-algues curatif.
+                    <!-- [MESURES AVANT/APRÈS REQUISES — Pierre ADAM doit fournir: pH, chlore libre, TAC mesurés] -->
+                </p>
+                <p class="text-sm font-semibold" style="color: var(--color-success);">Résultat : eau saine</p>
+            </article>
+
+            {{-- Case study 2 --}}
+            <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4 mb-6">
+                <h3 class="font-display font-bold text-xl text-ink-950">
+                    Spa hors sol · Schoelcher — Mousse persistante et eau laiteuse après usage intensif
+                </h3>
+                <p class="text-ink-700 leading-relaxed max-w-[65ch]">
+                    <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures avant] -->
+                    Spa hors sol à Schoelcher : eau laiteuse avec mousse en surface après réception en famille. Cause identifiée : surcharge organique (cosmétiques, crème solaire) et pH trop bas favorisant la prolifération bactérienne. Protocole : choc oxygène actif, nettoyage filtre cartouche, rééquilibrage TAC et pH.
+                    <!-- [MESURES AVANT/APRÈS REQUISES — Pierre ADAM doit fournir: pH, TAC, aspect visuel avant/après] -->
+                </p>
+                <p class="text-sm font-semibold" style="color: var(--color-success);">Résultat : eau saine</p>
+            </article>
+
+            {{-- Case study 3 --}}
+            <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4">
+                <h3 class="font-display font-bold text-xl text-ink-950">
+                    Piscine béton · Le Lamentin — Remise en état après 6 semaines d'inactivité saison humide
+                </h3>
+                <p class="text-ink-700 leading-relaxed max-w-[65ch]">
+                    <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures avant] -->
+                    Bassin béton au Lamentin laissé sans entretien pendant la saison des pluies : dépôt de boue au fond, parois recouvertes d'algues noires, filtre encrassé. Intervention en 2 passages : premier passage chimie et brossage intensif, second passage aspiration fond et révision complète filtre/pompe.
+                    <!-- [MESURES AVANT/APRÈS REQUISES — Pierre ADAM doit fournir: pH, chlore, TAC mesurés avant/après] -->
+                </p>
+                <p class="text-sm font-semibold" style="color: var(--color-success);">Résultat : eau saine</p>
+            </article>
+        </section>
+
         @include('vitrine.partials.final-cta')
     </div>
 @endsection
