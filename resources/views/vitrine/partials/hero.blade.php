@@ -14,22 +14,12 @@
 
     <div class="relative mx-auto max-w-content w-full px-5 sm:px-8 pb-28 pt-32">
         <div class="max-w-2xl rise">
-            <span class="inline-flex items-center gap-2 rounded-full bg-lagon-500/15 ring-1 ring-lagon-400/30 px-3 py-1 text-sm font-semibold text-lagon-300">
-                <span class="h-1.5 w-1.5 rounded-full bg-lagon-400"></span> Pisciniste en Martinique
-            </span>
-
-            <h1 class="mt-5 font-display font-bold text-white text-[2.6rem] leading-[1.04] sm:text-6xl sm:leading-[1.02]">
+            <h1 class="font-display font-bold text-white text-[2.6rem] leading-[1.04] sm:text-6xl sm:leading-[1.02]">
                 Votre piscine,<br>claire toute l'année.
             </h1>
 
             <p class="mt-5 text-lg sm:text-xl text-navy-100 max-w-xl leading-relaxed">
                 Entretien régulier, dépannage et analyse de l'eau. Un service personnalisé, à taille humaine, partout sur l'île.
-            </p>
-
-            {{-- D-32: tarif indicatif --}}
-            <p class="mt-3 text-sm text-navy-100/80">
-                À partir de <span class="font-semibold text-white">{{ config('pricing.passage_starting') }}€/passage</span>
-                <span class="text-navy-200"> — {{ config('pricing.disclaimer') }}</span>
             </p>
 
             {{-- D-33: deux CTAs côte à côte --}}
