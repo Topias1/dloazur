@@ -1,11 +1,13 @@
 @props(['size' => 30])
 {{-- Logo motif — the drop wordmark behind the "Dlo Azur" ligature.
-     Extracted from mockups/v1/vitrine.html topbar SVG. --}}
+     Extracted from mockups/v1/vitrine.html topbar SVG.
+     viewBox height is 38 (not 34) so the drop's rounded base (max y≈37) fits
+     inside the viewport instead of being clipped flat. --}}
 <svg
     {{ $attributes->merge(['class' => 'inline-block']) }}
     width="{{ $size }}"
-    height="{{ (int) round($size * 36 / 30) }}"
-    viewBox="0 0 28 34"
+    height="{{ (int) round($size * 38 / 28) }}"
+    viewBox="0 0 28 38"
     fill="currentColor"
     aria-hidden="true"
     focusable="false"
