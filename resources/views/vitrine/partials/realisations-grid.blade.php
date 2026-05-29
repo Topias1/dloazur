@@ -28,9 +28,9 @@
         {{-- Tuiles secondaires : scrim discret au survol pour la profondeur --}}
         <figure class="relative rounded-2xl overflow-hidden group ring-1 ring-navy-950/5">
             <img loading="lazy" decoding="async"
-                src="{{ asset('assets/brand/photos/piscine-propre.jpg') }}"
-                alt="Piscine hors-sol à Sainte-Anne, eau limpide et claire, entretenue par Dlo Azur"
-                width="3840" height="2160"
+                src="{{ asset('assets/brand/photos/villa-hospitality.jpg') }}"
+                alt="Bassin d'une villa de standing, terrasse bois et vue sur les hauteurs, suivi par Dlo Azur"
+                width="2880" height="2160"
                 class="h-full w-full object-cover group-hover:scale-[1.05] transition duration-700 ease-out-quint photo-grade">
             <div class="absolute inset-0 bg-navy-950/0 group-hover:bg-navy-950/15 transition-colors duration-500"></div>
         </figure>
