@@ -1,4 +1,9 @@
-import Alpine from 'alpinejs';
+// Bundle Livewire + its own Alpine through Vite so there is a SINGLE Alpine
+// instance (kills the "multiple instances of Alpine running" warning) and so
+// Livewire/Alpine ship inside the precached PWA build instead of the
+// /livewire/livewire.js route (unavailable offline). Pairs with
+// inject_assets=false + @livewireScriptConfig in the layout.
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm';
 
 // Passage form + sync drawer (Plan 02-05)
 import { passageForm } from './passage-form.js';
@@ -44,7 +49,8 @@ Alpine.store('syncDrawer', syncDrawerStore());
 Alpine.data('passageForm', passageForm);
 
 window.Alpine = Alpine;
-Alpine.start();
+// Livewire.start() boots its bundled Alpine — do NOT call Alpine.start() too.
+Livewire.start();
 
 // Initialiser le store syncDrawer une fois Alpine démarré
 document.addEventListener('alpine:initialized', () => {
