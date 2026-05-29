@@ -52,8 +52,8 @@
             <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-white/15 text-white mb-4">
                 <x-icon.sparkle :size="22" />
             </span>
-            <h3 class="font-display font-semibold text-xl">Ma piscine est verte ?</h3>
-            <p class="mt-2 leading-relaxed text-azure-50">Diagnostic de rattrapage : on rend l'eau limpide et on vous laisse un plan clair pour qu'elle le reste.</p>
+            <h3 class="font-display font-semibold text-xl text-white">Ma piscine est verte ?</h3>
+            <p class="mt-2 leading-relaxed text-white/90">Diagnostic de rattrapage : on rend l'eau limpide et on vous laisse un plan clair pour qu'elle le reste.</p>
         </article>
     </div>
 </section>
