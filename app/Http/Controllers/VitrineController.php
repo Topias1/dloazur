@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Support\SchemaOrg\BreadcrumbSchema;
 use App\Support\SchemaOrg\LocalBusinessSchema;
 use Illuminate\Contracts\View\View;
 
@@ -84,13 +85,63 @@ final class VitrineController extends Controller
         ]);
     }
 
-    public function eauVerteUrgence(): View
+    public function eauVerteUrgence(BreadcrumbSchema $breadcrumb): View
     {
         return view('vitrine.services.eau-verte-urgence', [
-            'title'       => "Traitement eau verte d'urgence · Dlo Azur Piscines",
-            'description' => "Votre piscine est verte ? Intervention sous 48h en Martinique. Eau claire garantie en 5 à 7 jours. Devis gratuit sur WhatsApp.",
-            'canonical'   => url('/services/eau-verte-urgence'),
-            'ogImage'     => asset('assets/brand/photos/avant-apres.jpg'),
+            'title'            => "Traitement eau verte d'urgence · Dlo Azur Piscines",
+            'description'      => "Votre piscine est verte ? Intervention sous 48h en Martinique. Eau claire garantie en 5 à 7 jours. Devis gratuit sur WhatsApp.",
+            'canonical'        => url('/services/eau-verte-urgence'),
+            'ogImage'          => asset('assets/brand/photos/avant-apres.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',          'url' => url('/')],
+                ['name' => 'Services',         'url' => url('/services')],
+                ['name' => 'Eau verte urgence','url' => url('/services/eau-verte-urgence')],
+            ]),
+        ]);
+    }
+
+    public function entretienRecurrent(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.services.entretien-recurrent', [
+            'title'            => 'Entretien régulier de piscine en Martinique · Dlo Azur Piscines',
+            'description'      => "Forfaits d'entretien hebdomadaire, bimensuel ou à la demande pour votre piscine en Martinique. Eau saine, équipements vérifiés, zéro contrainte.",
+            'canonical'        => url('/services/entretien-recurrent'),
+            'ogImage'          => asset('assets/brand/photos/entretien-dos-logo.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',            'url' => url('/')],
+                ['name' => 'Services',           'url' => url('/services')],
+                ['name' => 'Entretien récurrent','url' => url('/services/entretien-recurrent')],
+            ]),
+        ]);
+    }
+
+    public function analyseEau(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.services.analyse-eau', [
+            'title'            => "Analyse de l'eau de piscine en Martinique · Dlo Azur Piscines",
+            'description'      => "Analyse complète de l'eau de votre piscine en Martinique : pH, chlore, TAC, sel, alcalinité. Ajustement professionnel pour une eau saine et cristalline.",
+            'canonical'        => url('/services/analyse-eau'),
+            'ogImage'          => asset('assets/brand/photos/hero-pierre-piscine.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',         'url' => url('/')],
+                ['name' => 'Services',        'url' => url('/services')],
+                ['name' => "Analyse de l'eau",'url' => url('/services/analyse-eau')],
+            ]),
+        ]);
+    }
+
+    public function spa(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.services.spa', [
+            'title'            => 'Entretien de spa en Martinique · Dlo Azur Piscines',
+            'description'      => 'Entretien et dépannage de spa et jacuzzi en Martinique. Traitement de l\'eau, vérification des équipements, eau saine garantie. Service sur mesure.',
+            'canonical'        => url('/services/spa'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil', 'url' => url('/')],
+                ['name' => 'Services','url' => url('/services')],
+                ['name' => 'Spa',     'url' => url('/services/spa')],
+            ]),
         ]);
     }
 }

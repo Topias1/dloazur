@@ -22,7 +22,10 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('cache.headers:vitrine')->group(function () {
     Route::get('/', [VitrineController::class, 'home'])->name('home');
     Route::get('/services', [VitrineController::class, 'services'])->name('services');
-    Route::get('/services/eau-verte-urgence', [VitrineController::class, 'eauVerteUrgence'])->name('services.eau-verte-urgence');
+    Route::get('/services/eau-verte-urgence',    [VitrineController::class, 'eauVerteUrgence'])->name('services.eau-verte-urgence');
+    Route::get('/services/entretien-recurrent', [VitrineController::class, 'entretienRecurrent'])->name('services.entretien-recurrent');
+    Route::get('/services/analyse-eau',         [VitrineController::class, 'analyseEau'])->name('services.analyse-eau');
+    Route::get('/services/spa',                 [VitrineController::class, 'spa'])->name('services.spa');
     Route::get('/realisations', [VitrineController::class, 'realisations'])->name('realisations');
     Route::get('/mentions-legales', [VitrineController::class, 'mentionsLegales'])->name('legal.mentions');
     Route::get('/cgv', [VitrineController::class, 'cgv'])->name('legal.cgv');
