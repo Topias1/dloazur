@@ -9,11 +9,18 @@
         :description="$description ?? null"
         :image="$ogImage ?? $image ?? null"
         :canonical="$canonical ?? null"
+        :type="$type ?? 'website'"
     />
 
-    {{-- JSON-LD structured data (home page only, LocalBusiness Plumber schema) --}}
+    {{-- JSON-LD structured data (home page only, LocalBusiness schema) --}}
     @if(isset($jsonLd) && $jsonLd)
         {!! $jsonLd !!}
+    @endif
+
+    {{-- BreadcrumbList JSON-LD (sub-pages: service, city, blog) — SINGLE emission point.
+         Controllers pass $breadcrumbJsonLd; Blade pages MUST NOT @push it themselves. --}}
+    @if(isset($breadcrumbJsonLd) && $breadcrumbJsonLd)
+        {!! $breadcrumbJsonLd !!}
     @endif
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
