@@ -30,7 +30,7 @@
     </a>
 
     {{-- ===== Top bar (transposed from mockups/v1/vitrine.html topbar) ===== --}}
-    <header class="fixed top-0 inset-x-0 z-40">
+    <header class="fixed top-0 inset-x-0 z-40" x-data="{ open: false }" @keydown.escape.window="open = false">
         <div class="mx-auto max-w-content px-4 sm:px-6 mt-3">
             <nav class="flex items-center justify-between gap-4 rounded-2xl bg-sand-50/85 backdrop-blur-md ring-1 ring-navy-900/10 shadow-sm px-4 sm:px-5 h-15 py-2.5">
                 <a href="{{ route('home') }}" class="flex items-center gap-2.5 shrink-0">
@@ -51,22 +51,42 @@
                 </div>
 
                 <div class="flex items-center gap-2">
-                    <a href="{{ route('contact') }}" class="hidden sm:inline-flex items-center h-10 px-3.5 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5 transition-colors">Espace client</a>
-                    <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-10 px-4 rounded-xl bg-[#25D366] text-white text-sm font-bold shadow-sm hover:brightness-95 transition cursor-pointer">
+                    <a href="{{ route('contact') }}" class="hidden sm:inline-flex items-center h-11 px-3.5 rounded-xl text-sm font-semibold text-navy-700 hover:bg-navy-900/5 transition-colors">Espace client</a>
+                    <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-11 px-4 rounded-xl bg-[#25D366] text-white text-sm font-bold shadow-sm hover:brightness-95 transition cursor-pointer">
                         <x-icon.whatsapp :size="17" />
                         <span class="hidden xs:inline sm:inline">WhatsApp</span>
                     </a>
+                    {{-- Mobile hamburger --}}
+                    <button
+                        type="button"
+                        class="md:hidden grid place-items-center h-11 w-11 -mr-1 rounded-xl text-ink-900 hover:bg-navy-900/5 transition-colors"
+                        :aria-expanded="open ? 'true' : 'false'"
+                        aria-controls="mobile-menu"
+                        @click="open = !open"
+                    >
+                        <span class="sr-only">Menu</span>
+                        <svg x-show="!open" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                        <svg x-show="open" x-cloak width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6L6 18"/></svg>
+                    </button>
                 </div>
             </nav>
 
-            {{-- Mobile: anchor strip --}}
-            <nav aria-label="Sections" class="md:hidden mt-2 -mx-1">
-                <ul class="flex gap-1.5 overflow-x-auto px-1 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
-                    <li><a href="{{ route('services') }}" class="inline-block whitespace-nowrap px-3.5 py-1.5 rounded-full bg-sand-50 ring-1 ring-navy-900/10 shadow-xs text-sm font-semibold text-ink-700 hover:text-azure-700 transition-colors">Services</a></li>
-                    <li><a href="{{ route('home') }}#hospitality" class="inline-block whitespace-nowrap px-3.5 py-1.5 rounded-full bg-sand-50 ring-1 ring-navy-900/10 shadow-xs text-sm font-semibold text-ink-700 hover:text-azure-700 transition-colors">Hospitalité</a></li>
-                    <li><a href="{{ route('realisations') }}" class="inline-block whitespace-nowrap px-3.5 py-1.5 rounded-full bg-sand-50 ring-1 ring-navy-900/10 shadow-xs text-sm font-semibold text-ink-700 hover:text-azure-700 transition-colors">Réalisations</a></li>
-                    <li><a href="{{ route('home') }}#pierre" class="inline-block whitespace-nowrap px-3.5 py-1.5 rounded-full bg-sand-50 ring-1 ring-navy-900/10 shadow-xs text-sm font-semibold text-ink-700 hover:text-azure-700 transition-colors">Le pisciniste</a></li>
-                    <li><a href="{{ route('contact') }}" class="inline-block whitespace-nowrap px-3.5 py-1.5 rounded-full bg-azure-500 text-white text-sm font-bold shadow-sm">Espace client</a></li>
+            {{-- Mobile menu sheet --}}
+            <nav
+                id="mobile-menu"
+                aria-label="Menu principal"
+                class="md:hidden mt-2 origin-top rounded-2xl bg-sand-50/95 backdrop-blur-md ring-1 ring-navy-900/10 shadow-md overflow-hidden"
+                x-show="open"
+                x-cloak
+                x-transition.origin.top
+                @click.outside="open = false"
+            >
+                <ul class="flex flex-col p-2 text-base font-semibold text-ink-800">
+                    <li><a href="{{ route('services') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Services</a></li>
+                    <li><a href="{{ route('home') }}#hospitality" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Hospitalité</a></li>
+                    <li><a href="{{ route('realisations') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Réalisations</a></li>
+                    <li><a href="{{ route('home') }}#pierre" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Le pisciniste</a></li>
+                    <li class="mt-1 pt-1 border-t border-navy-900/10"><a href="{{ route('contact') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl bg-azure-500 text-white">Espace client</a></li>
                 </ul>
             </nav>
         </div>
@@ -123,12 +143,10 @@
             </div>
 
             <div class="text-center">
-                <div class="inline-block rounded-2xl bg-white p-2.5 shadow-md">
-                    {{-- TODO: replace with real QR code image from Pierre before cutover (Plan 01-06) --}}
-                    <img loading="lazy" src="{{ asset('assets/brand/qr.png') }}" alt="QR code vers les coordonnées de Dlo Azur Piscines" class="h-24 w-24" onerror="this.style.display='none';this.nextElementSibling.style.display='grid'">
-                    <div class="h-24 w-24 hidden place-items-center text-azure-600 font-display font-bold text-xs text-center" aria-hidden="true">QR<br>TODO</div>
-                </div>
-                <p class="mt-2 text-xs text-navy-300">Scannez la carte</p>
+                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-block rounded-2xl bg-white p-2.5 shadow-md hover:brightness-95 transition" aria-label="Écrire à Dlo Azur sur WhatsApp">
+                    <img loading="lazy" src="{{ asset('assets/brand/qr.png') }}" alt="QR code WhatsApp de Dlo Azur Piscines" width="96" height="96" class="h-24 w-24">
+                </a>
+                <p class="mt-2 text-xs text-navy-300">Scannez pour WhatsApp</p>
             </div>
         </div>
 

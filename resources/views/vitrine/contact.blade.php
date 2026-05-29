@@ -24,13 +24,6 @@
                     </div>
                 @endif
             </div>
-
-            <div class="mt-10 flex items-center gap-4">
-                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-[#25D366] font-semibold hover:brightness-90 transition">
-                    <x-icon.whatsapp :size="18" />
-                    Ou directement sur WhatsApp
-                </a>
-            </div>
         </div>
     </div>
 @endsection

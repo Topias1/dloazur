@@ -8,7 +8,7 @@
 
             <h2 class="font-display font-semibold text-xl text-ink-950 mt-8">Responsable du traitement</h2>
             <p class="text-ink-700">
-                <strong>Dlo Azur Piscines</strong> — Pierre ADAM<br>
+                <strong>Dlo Azur Piscines</strong>, Pierre ADAM<br>
                 Martinique (972)<br>
                 E-mail : <a href="mailto:contact@dloazurpiscines.com" class="text-azure-600 hover:text-azure-700">contact@dloazurpiscines.com</a>
             </p>
@@ -26,8 +26,8 @@
                 Toutes les données sont hébergées dans l'Union Européenne :
             </p>
             <ul class="text-ink-700">
-                <li><strong>Application et base de données :</strong> Laravel Cloud / Neon — région EU/Francfort, Allemagne</li>
-                <li><strong>Photos et médias :</strong> Scaleway Object Storage — région Paris, France</li>
+                <li><strong>Application et base de données :</strong> Laravel Cloud / Neon (région EU/Francfort, Allemagne)</li>
+                <li><strong>Photos et médias :</strong> Scaleway Object Storage (région Paris, France)</li>
             </ul>
             <p class="text-ink-700">
                 La communication est chiffrée par TLS (HTTPS). Aucune donnée n'est transmise à des tiers à des fins commerciales.

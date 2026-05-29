@@ -22,14 +22,11 @@
                 Entretien régulier, dépannage et analyse de l'eau. Un service personnalisé, à taille humaine, partout sur l'île.
             </p>
 
-            {{-- D-33: deux CTAs côte à côte --}}
+            {{-- Un primaire (devis) + un secondaire (WhatsApp) --}}
             <div class="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#contact" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-azure-500 text-white font-bold text-base shadow-md hover:bg-azure-400 transition-colors cursor-pointer">
                     Demander un devis gratuit
                     <x-icon.arrow-right :size="18" />
-                </a>
-                <a href="{{ route('contact', ['subject' => 'diagnostic-gratuit']) }}" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-white/10 ring-1 ring-white/30 text-white font-semibold text-base backdrop-blur hover:bg-white/20 transition-colors cursor-pointer">
-                    Diagnostic gratuit
                 </a>
                 <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-white/10 ring-1 ring-white/25 text-white font-bold text-base backdrop-blur hover:bg-white/15 transition-colors cursor-pointer">
                     <x-icon.whatsapp :size="18" />

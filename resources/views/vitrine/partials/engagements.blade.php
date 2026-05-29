@@ -41,7 +41,7 @@
                 <x-icon.sun :size="22" />
             </span>
             <div>
-                <h3 class="font-display font-semibold text-xl text-ink-950">Solo artisanal — pas un call-center</h3>
+                <h3 class="font-display font-semibold text-xl text-ink-950">Solo artisanal, pas un call-center</h3>
                 <p class="mt-2 text-ink-700 leading-relaxed">Vous parlez toujours à Pierre. Pas de sous-traitance, pas de rotation de techniciens anonymes.</p>
             </div>
         </div>

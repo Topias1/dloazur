@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="absolute -bottom-3 left-1/2 -translate-x-1/2 whitespace-nowrap rounded-full bg-sun-500 text-navy-950 text-xs font-bold px-3 py-1.5 shadow-sm">
-                Avant / après — 48h chrono
+                Avant / après : 48h chrono
             </div>
         </div>
     </div>

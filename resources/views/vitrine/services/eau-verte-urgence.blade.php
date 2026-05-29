@@ -35,7 +35,7 @@
         <section class="mx-auto max-w-content px-5 sm:px-8 pb-16">
             <div class="max-w-2xl">
                 <span class="inline-flex items-center gap-2 rounded-full bg-azure-50 ring-1 ring-azure-200 px-3 py-1 text-sm font-semibold text-azure-700 mb-4">
-                    Urgence piscine — Intervention rapide
+                    Urgence piscine : intervention rapide
                 </span>
                 <h1 class="font-display font-bold text-3xl sm:text-5xl text-ink-950 leading-tight">
                     Traitement eau verte d'urgence
@@ -72,7 +72,7 @@
                 <figure class="rounded-3xl overflow-hidden group">
                     <img loading="lazy" decoding="async"
                         src="{{ asset('assets/brand/photos/piscine-propre.jpg') }}"
-                        alt="Piscine traitée avec succès — eau cristalline après intervention Dlo Azur"
+                        alt="Piscine traitée avec succès : eau cristalline après intervention Dlo Azur"
                         width="3840" height="2160"
                         class="h-full w-full object-cover group-hover:scale-[1.04] transition duration-700 photo-grade">
                 </figure>
@@ -108,7 +108,7 @@
             <div class="absolute inset-0 ripple" aria-hidden="true"></div>
             <div class="relative mx-auto max-w-content px-5 sm:px-8 py-16 sm:py-20 text-center">
                 <h2 class="font-display font-bold text-3xl sm:text-4xl text-white max-w-2xl mx-auto">Votre piscine verte peut redevenir limpide.</h2>
-                <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">Écrivez-nous maintenant sur WhatsApp — on vous répond rapidement et on vient évaluer sous 48 h.</p>
+                <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">Écrivez-nous maintenant sur WhatsApp : on vous répond rapidement et on vient évaluer sous 48 h.</p>
                 <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                     <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-14 px-7 rounded-xl bg-[#25D366] text-white font-bold text-lg shadow-lg hover:brightness-95 transition">
                         <x-icon.whatsapp :size="22" />

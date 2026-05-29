@@ -10,7 +10,7 @@
             <h2 class="font-display font-semibold text-xl text-ink-950 mt-8">Identité du prestataire</h2>
             <p class="text-ink-700">
                 <strong>DLO AZUR EI</strong> (entreprise individuelle)<br>
-                Pierre ADAM — Pisciniste indépendant<br>
+                Pierre ADAM, pisciniste indépendant<br>
                 29 montée du Clapotage, 97231 Le Robert, Martinique<br>
                 SIRET : 934 053 281 000 10<br>
                 Téléphone : <a href="tel:+596696940054" class="text-azure-600 hover:text-azure-700">0696 94 00 54</a><br>
@@ -35,7 +35,7 @@
             {{-- Tarifs --}}
             <h2 class="font-display font-semibold text-xl text-ink-950 mt-8">Tarifs</h2>
             <p class="text-ink-700">
-                Les prix sont exprimés en euros (€). En application de l'article 293 B du Code général des impôts, Pierre ADAM bénéficie de la franchise en base de TVA : <strong>TVA non applicable — art. 293 B du CGI</strong>. Les prix indiqués sur les devis sont les prix définitifs, sans TVA à ajouter. Ils peuvent être révisés sans préavis pour les nouvelles commandes.
+                Les prix sont exprimés en euros (€). En application de l'article 293 B du Code général des impôts, Pierre ADAM bénéficie de la franchise en base de TVA : <strong>TVA non applicable, art. 293 B du CGI</strong>. Les prix indiqués sur les devis sont les prix définitifs, sans TVA à ajouter. Ils peuvent être révisés sans préavis pour les nouvelles commandes.
             </p>
 
             {{-- Paiement --}}

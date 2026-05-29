@@ -7,7 +7,7 @@
         <div class="max-w-2xl mb-16">
             <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink-950">Nos prestations en détail</h2>
             <p class="mt-4 text-lg leading-relaxed text-ink-700">
-                Expertise locale adaptée au climat antillais — humidité, brume de sable, ensoleillement toute l'année. Solutions sur mesure pour chaque besoin, ponctuel ou régulier.
+                Expertise locale adaptée au climat antillais : humidité, brume de sable, ensoleillement toute l'année. Solutions sur mesure pour chaque besoin, ponctuel ou régulier.
             </p>
         </div>
 
@@ -22,7 +22,7 @@
                     </span>
                     <h3 class="font-display font-bold text-2xl sm:text-3xl text-ink-950">Nettoyage &amp; remise en état</h3>
                     <p class="mt-4 leading-relaxed text-ink-700">
-                        Le climat tropical de la Martinique — fort taux d'humidité, pluies intenses, brume de sable et ensoleillement permanent — peut rapidement détériorer l'état d'une piscine. Feuilles, algues, eau trouble : Dlo Azur transforme même les bassins les plus oubliés en plans d'eau limpides et accueillants.
+                        Le climat tropical de la Martinique (fort taux d'humidité, pluies intenses, brume de sable et ensoleillement permanent) peut rapidement détériorer l'état d'une piscine. Feuilles, algues, eau trouble : Dlo Azur transforme même les bassins les plus oubliés en plans d'eau limpides et accueillants.
                     </p>
                     <p class="mt-3 leading-relaxed text-ink-700">
                         Les remises en état se déroulent souvent en plusieurs passages : un premier pour gérer la chimie de l'eau et brosser les parois, les suivants pour aspirer le fond et nettoyer les équipements (skimmer, refoulement, éclairages, pompe, filtration).
@@ -204,7 +204,7 @@
                 <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 text-center hover:shadow-md hover:-translate-y-0.5 transition duration-300">
                     <span class="text-3xl block mb-3" aria-hidden="true">🎯</span>
                     <h3 class="font-display font-semibold text-lg text-ink-950 mb-2">Prestations sur-mesure</h3>
-                    <p class="text-ink-700 leading-relaxed text-sm">Nettoyage ponctuel, entretien régulier ou installation complète — nous avons la solution adaptée à chaque piscine et chaque budget.</p>
+                    <p class="text-ink-700 leading-relaxed text-sm">Nettoyage ponctuel, entretien régulier ou installation complète : nous avons la solution adaptée à chaque piscine et chaque budget.</p>
                 </div>
             </div>
         </div>
