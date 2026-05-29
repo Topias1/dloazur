@@ -14,6 +14,9 @@
 
     <div class="relative mx-auto max-w-content w-full px-5 sm:px-8 pb-28 pt-32">
         <div class="max-w-2xl rise">
+            <p class="mb-4 text-xs font-bold uppercase tracking-[0.18em] text-lagon-300">
+                Parce que votre piscine doit être que du plaisir
+            </p>
             <h1 class="font-display font-bold text-white text-[2.6rem] leading-[1.04] sm:text-6xl sm:leading-[1.02]">
                 Votre piscine,<br>claire toute l'année.
             </h1>
