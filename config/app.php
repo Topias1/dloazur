@@ -43,6 +43,21 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Demo Login (DEV-ONLY)
+    |--------------------------------------------------------------------------
+    |
+    | Active les boutons de connexion démo (« Démo Client » / « Démo Admin »)
+    | sur /auth/magic. Sur Laravel Cloud, chaque environnement tourne en
+    | APP_ENV=production : le nom d'environnement ne peut donc PAS servir de
+    | garde. CE FLAG est l'unique garde. La vraie production ne définit jamais
+    | DEMO_LOGIN_ENABLED — la valeur par défaut DOIT rester false.
+    |
+    */
+
+    'demo_login' => env('DEMO_LOGIN_ENABLED', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |
