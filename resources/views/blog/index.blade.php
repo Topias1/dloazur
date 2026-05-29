@@ -8,6 +8,16 @@
 
     @forelse ($posts as $post)
     <article class="mb-10 pb-10 border-b border-sand-200 last:border-0 last:mb-0 last:pb-0">
+        @if (! empty($post['cover']))
+        <a href="{{ route('blog.show', ['slug' => $post['slug']]) }}" class="group block mb-4 overflow-hidden rounded-xl">
+            <img
+                src="{{ $post['cover'] }}"
+                alt="{{ $post['title'] }}"
+                loading="lazy"
+                class="w-full aspect-[16/9] object-cover transition-transform duration-300 group-hover:scale-105"
+            >
+        </a>
+        @endif
         <time class="text-sm text-ink-500 tabular-nums" datetime="{{ $post['date']->toIso8601String() }}">
             {{ $post['date']->locale('fr')->isoFormat('LL') }}
         </time>

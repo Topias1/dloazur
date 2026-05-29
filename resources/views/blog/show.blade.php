@@ -20,6 +20,14 @@
             </p>
         </header>
 
+        @if (! empty($post['cover']))
+        <img
+            src="{{ $post['cover'] }}"
+            alt="{{ $post['title'] }}"
+            class="not-prose w-full aspect-[21/9] object-cover rounded-2xl mb-8"
+        >
+        @endif
+
         <x-markdown>{!! $post['body'] !!}</x-markdown>
     </article>
 </div>

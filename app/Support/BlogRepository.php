@@ -37,7 +37,7 @@ class BlogRepository
     /**
      * Find a post by slug. Returns null if not found.
      *
-     * @return array{title: string, slug: string, date: Carbon, excerpt: string, author: string, body: string, filepath: string}|null
+     * @return array{title: string, slug: string, date: Carbon, excerpt: string, author: string, cover: string|null, body: string, filepath: string}|null
      */
     public function find(string $slug): ?array
     {
@@ -89,7 +89,7 @@ class BlogRepository
     /**
      * Parse a markdown file with YAML front matter.
      *
-     * @return array{title: string, slug: string, date: Carbon, excerpt: string, author: string, body: string, filepath: string}
+     * @return array{title: string, slug: string, date: Carbon, excerpt: string, author: string, cover: string|null, body: string, filepath: string}
      */
     private function parse(string $path): array
     {
@@ -104,12 +104,16 @@ class BlogRepository
         $rawDate = $document->matter('date');
         $date = $rawDate ? Carbon::parse($rawDate) : Carbon::now();
 
+        // Cover image: optional front-matter path (e.g. /assets/blog/<slug>.jpg)
+        $cover = $document->matter('cover');
+
         return [
             'title'    => (string) $document->matter('title', ''),
             'slug'     => (string) $slug,
             'date'     => $date,
             'excerpt'  => (string) $document->matter('excerpt', ''),
             'author'   => (string) ($document->matter('author') ?: 'Pierre ADAM'),
+            'cover'    => $cover ? (string) $cover : null,
             'body'     => (string) $document->body(),
             'filepath' => $path,
         ];
