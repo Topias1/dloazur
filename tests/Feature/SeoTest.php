@@ -24,7 +24,7 @@ it('sitemap contains all vitrine routes', function () {
     expect($content)->toContain(url('/confidentialite'));
 });
 
-it('home embeds LocalBusiness JSON-LD with Plumber type', function () {
+it('home embeds LocalBusiness JSON-LD with multi-type array (D-01, supersedes D-26)', function () {
     $content = $this->get('/')->getContent();
     expect($content)->toContain('<script type="application/ld+json">');
 
@@ -34,7 +34,10 @@ it('home embeds LocalBusiness JSON-LD with Plumber type', function () {
     $json = json_decode($m[1], true);
     expect($json)->not->toBeNull('JSON-LD must be valid JSON');
     expect($json['@context'])->toBe('https://schema.org');
-    expect($json['@type'])->toBe('Plumber');
+    // D-01: multi-type array replaces single "Plumber" string (D-26 superseded)
+    expect($json['@type'])->toBeArray('D-01: @type must be an array');
+    expect($json['@type'])->toContain('LocalBusiness');
+    expect($json['@type'])->toContain('HomeAndConstructionBusiness');
 });
 
 it('LocalBusiness JSON-LD has required fields', function () {
