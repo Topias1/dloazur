@@ -36,7 +36,7 @@
     </header>
 
     {{-- ===== Article body ===== --}}
-    <div class="prose prose-lg max-w-none
+    <article class="prose prose-lg max-w-none
         prose-headings:font-display prose-headings:text-ink-950
         prose-h2:text-2xl prose-h2:mt-12 prose-h2:mb-4
         prose-h3:text-lg prose-h3:font-semibold prose-h3:text-ink-900 prose-h3:mt-8
@@ -46,7 +46,7 @@
         prose-li:text-ink-700 prose-li:marker:text-azure-500
         prose-img:rounded-2xl">
         <x-markdown>{!! $post['body'] !!}</x-markdown>
-    </div>
+    </article>
 
     {{-- ===== Footer: CTA + à lire aussi ===== --}}
     <footer class="mt-16 space-y-12">
