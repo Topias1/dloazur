@@ -11,7 +11,7 @@ use App\Livewire\PassageIndex;
 use App\Models\Client;
 use App\Models\Passage;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Livewire\Livewire;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -21,14 +21,14 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 // ---------------------------------------------------------------------------
 
 it('Pierre voit la liste passages vide affiche l\'empty state', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get(route('admin.passages.index'));
+    $response = $this->actingAs($admin)->get(route('admin.passages.index'));
 
     $response->assertStatus(200);
     $response->assertSee('Aucun passage enregistr');

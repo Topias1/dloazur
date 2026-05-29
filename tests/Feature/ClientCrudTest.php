@@ -9,17 +9,17 @@
 use App\Livewire\ClientForm;
 use App\Models\Client;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 // Test 1: Pierre voit la liste clients vide avec l'empty state
 it("Pierre voit la liste clients vide affiche l'empty state", function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
         ->get(route('admin.clients.index'))
         ->assertStatus(200)
         ->assertSee('Aucun client pour l', false); // partial match avoids HTML entity encoding

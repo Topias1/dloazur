@@ -48,7 +48,7 @@ Périmètre du milestone initial. Chaque requirement est mappé à une phase (vo
 
 - [ ] **FACT-01**: Le pro gère un catalogue de produits/services facturables
 - [ ] **FACT-02**: Le pro gère des contrats client (ponctuel / forfait mensuel / forfait saisonnier)
-- [ ] **FACT-03**: Le pro génère une facture à la clôture d'un passage, avec TVA Martinique (8,5 %) et numérotation séquentielle conforme (CGI art. 242 nonies A)
+- [ ] **FACT-03**: Le pro génère une facture à la clôture d'un passage, en franchise de TVA (mention obligatoire « TVA non applicable, art. 293 B du CGI », pas de colonne TVA — Pierre est auto-entrepreneur) et numérotation séquentielle conforme (CGI art. 242 nonies A)
 - [ ] **FACT-04**: La facture est poussée vers Odoo (API XML-RPC) **ou** exportée en CSV selon le plan Odoo (déterminé par le POC)
 - [ ] **FACT-05**: Le statut de paiement est récupéré (Odoo) et affiché au client
 - [ ] **FACT-06**: Un compte-rendu PDF est généré après chaque passage

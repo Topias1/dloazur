@@ -11,7 +11,7 @@
  */
 
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -20,14 +20,14 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 // ---------------------------------------------------------------------------
 
 it('GET /admin/passages/create returns 200 for authenticated operator', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin/passages/create');
+    $response = $this->actingAs($admin)->get('/admin/passages/create');
 
     $response->assertStatus(200);
     // assertSeeText strips HTML + decodes entities (Blade escapes apostrophe → &#39;)
@@ -52,14 +52,14 @@ it('GET /admin/passages/create redirects anonymous to /login', function () {
 // ---------------------------------------------------------------------------
 
 it('GET /admin/passages/create exposes Alpine passageForm binding and csrf-token meta', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin/passages/create');
+    $response = $this->actingAs($admin)->get('/admin/passages/create');
 
     $response->assertStatus(200);
     // Alpine binding présent (false = non-escaped search)
@@ -79,16 +79,16 @@ it('GET /admin/passages/create exposes Alpine passageForm binding and csrf-token
 // ---------------------------------------------------------------------------
 
 it('GET /admin/passages/create with ?client_id pre-fills the client context', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $client = \App\Models\Client::factory()->create(['name' => 'Famille Durand']);
 
-    $response = $this->actingAs($pierre)->get('/admin/passages/create?client_id=' . $client->id);
+    $response = $this->actingAs($admin)->get('/admin/passages/create?client_id=' . $client->id);
 
     $response->assertStatus(200);
     $response->assertSee('Famille Durand');

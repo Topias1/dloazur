@@ -9,7 +9,7 @@
  */
 
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\RateLimiter;
 
@@ -23,7 +23,7 @@ it('GET /login renders the styled view with required copy', function () {
     $response = $this->get('/login');
 
     $response->assertStatus(200);
-    $response->assertSee('Bon retour, Pierre.');
+    $response->assertSee('Bon retour.');
     $response->assertSee('Se connecter');
     $response->assertSee('Espace pro');
     $response->assertSee('Espace client');
@@ -52,19 +52,19 @@ it('login form posts to the Fortify route with CSRF token', function () {
 // ---------------------------------------------------------------------------
 
 it('POST /login with valid Pierre credentials redirects to /admin', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $response = $this->post('/login', [
-        'email'    => 'pierre@dloazurtest.local',
+        'email'    => 'admin@dloazurtest.local',
         'password' => 'correct-horse-battery-staple',
     ]);
 
     $response->assertRedirect('/admin');
-    $this->assertAuthenticatedAs($pierre);
+    $this->assertAuthenticatedAs($admin);
 });
 
 // ---------------------------------------------------------------------------
@@ -72,16 +72,16 @@ it('POST /login with valid Pierre credentials redirects to /admin', function () 
 // ---------------------------------------------------------------------------
 
 it('POST /login with wrong password returns to /login with error message', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
     // Visit GET /login first so that _previous.url is set in the session.
     // Without it, ValidationException redirects back to '/' (no referer).
     $this->get('/login');
 
     $response = $this->post('/login', [
-        'email'    => 'pierre@dloazurtest.local',
+        'email'    => 'admin@dloazurtest.local',
         'password' => 'wrong-password',
     ]);
 
@@ -97,11 +97,11 @@ it('POST /login with wrong password returns to /login with error message', funct
 // ---------------------------------------------------------------------------
 
 it('login throttle kicks in after 5 failed attempts', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $email = 'pierre@dloazurtest.local';
+    $email = 'admin@dloazurtest.local';
     $ip    = '127.0.0.1';
 
     // Clear any pre-existing throttle keys
@@ -145,14 +145,14 @@ it('GET /forgot-password renders the password reset request view', function () {
 // ---------------------------------------------------------------------------
 
 it('POST /logout destroys the session and redirects to /', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     // Login first
-    $this->actingAs($pierre);
+    $this->actingAs($admin);
 
     // Logout
     $response = $this->post('/logout');

@@ -11,7 +11,7 @@
 use App\Models\Client;
 use App\Models\Passage;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Carbon;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -21,12 +21,12 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 // ---------------------------------------------------------------------------
 
 it('dashboard affiche un compteur Passages cette semaine qui matche les passages de la semaine courante', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $client = Client::factory()->create();
 
@@ -45,7 +45,7 @@ it('dashboard affiche un compteur Passages cette semaine qui matche les passages
         'visited_at' => Carbon::now()->subWeek()->startOfWeek()->addDay(1),
     ]);
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $content = $response->content();
@@ -59,16 +59,16 @@ it('dashboard affiche un compteur Passages cette semaine qui matche les passages
 // ---------------------------------------------------------------------------
 
 it('dashboard affiche Clients actifs = nombre total de clients', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     Client::factory()->count(5)->create();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $content = $response->content();
@@ -82,12 +82,12 @@ it('dashboard affiche Clients actifs = nombre total de clients', function () {
 // ---------------------------------------------------------------------------
 
 it('dashboard affiche Eau à surveiller = passages dont au moins une mesure hors plage', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $client = Client::factory()->create();
 
@@ -105,7 +105,7 @@ it('dashboard affiche Eau à surveiller = passages dont au moins une mesure hors
         'visited_at' => Carbon::now()->subDays(3),
     ]);
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $content = $response->content();
@@ -119,14 +119,14 @@ it('dashboard affiche Eau à surveiller = passages dont au moins une mesure hors
 // ---------------------------------------------------------------------------
 
 it('stat-card state offline applique la classe ambre oklch', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     // La stat-card "À synchroniser" utilise state="offline" → classe OKLCH ambre
@@ -138,12 +138,12 @@ it('stat-card state offline applique la classe ambre oklch', function () {
 // ---------------------------------------------------------------------------
 
 it('stat-card state warn applique text-danger', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $client = Client::factory()->create();
     // Créer un passage hors plage pour forcer state='warn' sur Eau à surveiller
@@ -153,7 +153,7 @@ it('stat-card state warn applique text-danger', function () {
         'visited_at' => Carbon::now()->subDays(5),
     ]);
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('text-danger', false);
@@ -164,14 +164,14 @@ it('stat-card state warn applique text-danger', function () {
 // ---------------------------------------------------------------------------
 
 it('stat-card state default applique text-ink-950', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('text-ink-950', false);

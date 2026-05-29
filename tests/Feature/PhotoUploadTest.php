@@ -11,7 +11,7 @@
 use App\Models\Passage;
 use App\Models\PhotoMeta;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
@@ -22,13 +22,13 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 // Setup commun
 // ---------------------------------------------------------------------------
 
-function makePierreForPhoto(): User
+function makeAdminForPhoto(): User
 {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    return User::where('email', 'pierre@dloazurtest.local')->first();
+    return User::where('email', 'admin@dloazurtest.local')->first();
 }
 
 // ---------------------------------------------------------------------------
@@ -38,7 +38,7 @@ function makePierreForPhoto(): User
 it('POST /api/passages/{uuid}/photos avec un JPEG et un photo client_uuid frais retourne 200, crée un fichier sur r2 et une ligne photos_meta', function () {
     Storage::fake('r2');
 
-    $pierre       = makePierreForPhoto();
+    $admin       = makeAdminForPhoto();
     $passageUuid  = (string) Str::uuid();
     $photoUuid    = (string) Str::uuid();
 
@@ -46,7 +46,7 @@ it('POST /api/passages/{uuid}/photos avec un JPEG et un photo client_uuid frais 
 
     $fakeFile = UploadedFile::fake()->image('photo.jpg', 1024, 768)->size(500);
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $fakeFile,
              'client_uuid' => $photoUuid,
@@ -67,7 +67,7 @@ it('POST /api/passages/{uuid}/photos avec un JPEG et un photo client_uuid frais 
 it('Photo upload idempotent : le même client_uuid photo POSTé 2x reste 1 ligne photos_meta', function () {
     Storage::fake('r2');
 
-    $pierre      = makePierreForPhoto();
+    $admin      = makeAdminForPhoto();
     $passageUuid = (string) Str::uuid();
     $photoUuid   = (string) Str::uuid();
 
@@ -76,7 +76,7 @@ it('Photo upload idempotent : le même client_uuid photo POSTé 2x reste 1 ligne
     $fakeFile1 = UploadedFile::fake()->image('photo.jpg', 800, 600)->size(200);
     $fakeFile2 = UploadedFile::fake()->image('photo2.jpg', 640, 480)->size(150);
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $fakeFile1,
              'client_uuid' => $photoUuid,
@@ -85,7 +85,7 @@ it('Photo upload idempotent : le même client_uuid photo POSTé 2x reste 1 ligne
          ->assertStatus(200);
 
     // Deuxième POST — même photo_uuid
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $fakeFile2,
              'client_uuid' => $photoUuid,
@@ -103,13 +103,13 @@ it('Photo upload idempotent : le même client_uuid photo POSTé 2x reste 1 ligne
 it("Photo sans 'photo' ou avec mime non-JPEG retourne 422", function () {
     Storage::fake('r2');
 
-    $pierre      = makePierreForPhoto();
+    $admin      = makeAdminForPhoto();
     $passageUuid = (string) Str::uuid();
 
     Passage::factory()->create(['client_uuid' => $passageUuid, 'status' => 'draft']);
 
     // Sous-test 1 : champ photo absent
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'client_uuid' => (string) Str::uuid(),
          ])
@@ -119,7 +119,7 @@ it("Photo sans 'photo' ou avec mime non-JPEG retourne 422", function () {
     // Sous-test 2 : PDF uploadé (mime = application/pdf)
     $pdfFile = UploadedFile::fake()->create('document.pdf', 100, 'application/pdf');
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $pdfFile,
              'client_uuid' => (string) Str::uuid(),
@@ -135,14 +135,14 @@ it("Photo sans 'photo' ou avec mime non-JPEG retourne 422", function () {
 it('Photo > 10 MB retourne 422 (D-48)', function () {
     Storage::fake('r2');
 
-    $pierre      = makePierreForPhoto();
+    $admin      = makeAdminForPhoto();
     $passageUuid = (string) Str::uuid();
 
     Passage::factory()->create(['client_uuid' => $passageUuid, 'status' => 'draft']);
 
     $bigFile = UploadedFile::fake()->create('big.jpg', 11000, 'image/jpeg');
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $bigFile,
              'client_uuid' => (string) Str::uuid(),
@@ -158,14 +158,14 @@ it('Photo > 10 MB retourne 422 (D-48)', function () {
 it('Photo client_uuid manquant retourne 422', function () {
     Storage::fake('r2');
 
-    $pierre      = makePierreForPhoto();
+    $admin      = makeAdminForPhoto();
     $passageUuid = (string) Str::uuid();
 
     Passage::factory()->create(['client_uuid' => $passageUuid, 'status' => 'draft']);
 
     $fakeFile = UploadedFile::fake()->image('photo.jpg', 640, 480)->size(100);
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo' => $fakeFile,
              // pas de client_uuid
@@ -181,11 +181,11 @@ it('Photo client_uuid manquant retourne 422', function () {
 it('Photo passage_uuid inexistant retourne 404', function () {
     Storage::fake('r2');
 
-    $pierre    = makePierreForPhoto();
+    $admin    = makeAdminForPhoto();
     $fakeFile  = UploadedFile::fake()->image('photo.jpg', 640, 480)->size(100);
     $wrongUuid = (string) Str::uuid();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$wrongUuid}/photos", [
              'photo'       => $fakeFile,
              'client_uuid' => (string) Str::uuid(),
@@ -218,7 +218,7 @@ it('Photo sans auth retourne 401 (api/* returns JSON 401 via shouldRenderJsonWhe
 it('Le path stocké suit le pattern passages/{passage_uuid}/photos/{random}.jpg', function () {
     Storage::fake('r2');
 
-    $pierre      = makePierreForPhoto();
+    $admin      = makeAdminForPhoto();
     $passageUuid = (string) Str::uuid();
     $photoUuid   = (string) Str::uuid();
 
@@ -226,7 +226,7 @@ it('Le path stocké suit le pattern passages/{passage_uuid}/photos/{random}.jpg'
 
     $fakeFile = UploadedFile::fake()->image('photo.jpg', 800, 600)->size(200);
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson("/api/passages/{$passageUuid}/photos", [
              'photo'       => $fakeFile,
              'client_uuid' => $photoUuid,

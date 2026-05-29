@@ -23,8 +23,15 @@ class BlogController
 
         abort_unless($post, 404);
 
+        // Sibling articles for the "à lire aussi" footer (and internal linking).
+        $morePosts = $blog->all()
+            ->reject(fn (array $p): bool => $p['slug'] === $slug)
+            ->take(2)
+            ->values();
+
         return view('blog.show', [
             'post'          => $post,
+            'morePosts'     => $morePosts,
             'title'         => $post['title'] . ' · Dlo Azur Piscines',
             'description'   => $post['excerpt'],
             'articleJsonLd' => $this->buildArticleSchema($post),
@@ -32,14 +39,21 @@ class BlogController
     }
 
     /**
-     * @param  array{title: string, date: \Carbon\Carbon, excerpt: string, author: string, slug: string}  $post
+     * @param  array{title: string, date: \Carbon\Carbon, show_date: bool, excerpt: string, author: string, slug: string}  $post
      */
     private function buildArticleSchema(array $post): string
     {
-        return Schema::article()
+        $article = Schema::article()
             ->headline($post['title'])
-            ->datePublished($post['date']->toIso8601String())
-            ->author(Schema::person()->name($post['author']))
-            ->toScript();
+            ->author(Schema::person()->name($post['author']));
+
+        // Only assert a publish date when it is reliable. Legacy imports carry an
+        // unknown date (show_date: false); emitting a placeholder would be a false
+        // structured-data signal.
+        if ($post['show_date']) {
+            $article->datePublished($post['date']->toIso8601String());
+        }
+
+        return $article->toScript();
     }
 }

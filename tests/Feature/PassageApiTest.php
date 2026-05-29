@@ -12,7 +12,7 @@
 
 use App\Models\Passage;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Str;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -21,13 +21,13 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 // Helpers locaux
 // ---------------------------------------------------------------------------
 
-function makePierre(): User
+function makeAdmin(): User
 {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_INITIAL_PASSWORD=correct-horse-battery-staple');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    return User::where('email', 'pierre@dloazurtest.local')->first();
+    return User::where('email', 'admin@dloazurtest.local')->first();
 }
 
 function passagePayload(string $uuid, array $overrides = []): array
@@ -46,10 +46,10 @@ function passagePayload(string $uuid, array $overrides = []): array
 // ---------------------------------------------------------------------------
 
 it('POST /api/passages avec un client_uuid frais crée le passage et retourne 200 ok=true', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
     $uuid   = (string) Str::uuid();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', passagePayload($uuid))
          ->assertStatus(200)
          ->assertJson(['ok' => true]);
@@ -62,16 +62,16 @@ it('POST /api/passages avec un client_uuid frais crée le passage et retourne 20
 // ---------------------------------------------------------------------------
 
 it('POST /api/passages 2x avec le même client_uuid retourne 200 (UPSERT) et ne crée pas de doublon', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
     $uuid   = (string) Str::uuid();
 
     // Premier POST
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', passagePayload($uuid, ['ph_avant' => 7.2]))
          ->assertStatus(200);
 
     // Deuxième POST — ph_avant mis à jour
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', passagePayload($uuid, ['ph_avant' => 7.5]))
          ->assertStatus(200);
 
@@ -84,7 +84,7 @@ it('POST /api/passages 2x avec le même client_uuid retourne 200 (UPSERT) et ne 
 // ---------------------------------------------------------------------------
 
 it("POST /api/passages sur un passage avec status != 'draft' retourne 409 avec error=already_closed", function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
     $uuid   = (string) Str::uuid();
 
     // Insérer directement un passage clos
@@ -93,7 +93,7 @@ it("POST /api/passages sur un passage avec status != 'draft' retourne 409 avec e
         'status'      => 'closed',
     ]);
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', passagePayload($uuid))
          ->assertStatus(409)
          ->assertJson(['error' => 'already_closed'])
@@ -105,9 +105,9 @@ it("POST /api/passages sur un passage avec status != 'draft' retourne 409 avec e
 // ---------------------------------------------------------------------------
 
 it('POST /api/passages sans client_uuid retourne 422', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', ['ph_avant' => 7.2])
          ->assertStatus(422)
          ->assertJsonValidationErrors(['client_uuid']);
@@ -118,9 +118,9 @@ it('POST /api/passages sans client_uuid retourne 422', function () {
 // ---------------------------------------------------------------------------
 
 it('POST /api/passages avec client_uuid non-UUID retourne 422', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', ['client_uuid' => 'not-a-uuid'])
          ->assertStatus(422)
          ->assertJsonValidationErrors(['client_uuid']);
@@ -143,9 +143,9 @@ it('POST /api/passages sans auth retourne 401 (api/* returns JSON 401 via should
 // ---------------------------------------------------------------------------
 
 it('POST /api/passages valide actions comme array si présent', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', [
              'client_uuid' => (string) Str::uuid(),
              'actions'     => 'not-array',
@@ -159,10 +159,10 @@ it('POST /api/passages valide actions comme array si présent', function () {
 // ---------------------------------------------------------------------------
 
 it("Le passage UPSERT met à jour synced_at à NOW()", function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
     $uuid   = (string) Str::uuid();
 
-    $this->actingAs($pierre)
+    $this->actingAs($admin)
          ->postJson('/api/passages', passagePayload($uuid))
          ->assertStatus(200);
 
@@ -174,12 +174,12 @@ it("Le passage UPSERT met à jour synced_at à NOW()", function () {
 // ---------------------------------------------------------------------------
 
 it('CSRF token absent ne bloque pas /api/passages (api/* exempté — pas de 419)', function () {
-    $pierre = makePierre();
+    $admin = makeAdmin();
     $uuid   = (string) Str::uuid();
 
     // postJson n'envoie pas de X-CSRF-TOKEN — vérifie qu'on ne reçoit pas 419 (CSRF mismatch)
     // L'exemption validateCsrfTokens(except: ['api/*']) dans bootstrap/app.php doit être active.
-    $response = $this->actingAs($pierre)
+    $response = $this->actingAs($admin)
                      ->postJson('/api/passages', passagePayload($uuid));
 
     // Vérifier que ce n'est PAS un 419 (CSRF token mismatch)

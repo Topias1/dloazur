@@ -239,7 +239,6 @@ export function passageForm(initialData = {}) {
         async _saveToIDB(status = 'draft') {
             const payload = this._toPayload();
             const record = {
-                id:              this.idbId ?? undefined,
                 client_uuid:     this.clientUuid,
                 payload_json:    JSON.stringify(payload),
                 status,
@@ -247,6 +246,10 @@ export function passageForm(initialData = {}) {
                 created_at:      payload.visited_at,
                 last_attempt_at: null,
             };
+            // Only attach the inline keyPath when we already have one. An autoIncrement
+            // store generates the key when `id` is ABSENT; a present-but-undefined `id`
+            // throws DataError ("not a valid key"), so never include it on first save.
+            if (this.idbId != null) record.id = this.idbId;
             const id = await upsertPassage(record);
             if (!this.idbId) this.idbId = id;
             await this.$store.offlineQueue.refresh();

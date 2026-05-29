@@ -17,7 +17,7 @@ class DevDataSeeder extends Seeder
 {
     public function run(): void
     {
-        // 3 demo clients Pierre would use for local development
+        // 3 demo clients the admin would use for local development
         $clients = Client::factory()->count(3)->create();
 
         foreach ($clients as $client) {

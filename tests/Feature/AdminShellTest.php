@@ -8,7 +8,7 @@
  */
 
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -27,14 +27,14 @@ it('GET /admin without auth redirects to login', function () {
 // ---------------------------------------------------------------------------
 
 it('GET /admin while authenticated returns 200 with the dashboard stub content', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('Bonjour Pierre,');
@@ -52,12 +52,12 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
 // ---------------------------------------------------------------------------
 
 it('admin sidebar has greyed nav items for Factures/Catalogue with aria-disabled', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
 
@@ -81,12 +81,12 @@ it('admin sidebar has greyed nav items for Factures/Catalogue with aria-disabled
 // ---------------------------------------------------------------------------
 
 it('admin sidebar Tableau de bord is the active item with active state class', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('Tableau de bord');
@@ -101,12 +101,12 @@ it('admin sidebar Tableau de bord is the active item with active state class', f
 // ---------------------------------------------------------------------------
 
 it('admin topbar shows a disabled Nouveau passage button', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('Nouveau passage');
@@ -125,12 +125,12 @@ it('admin topbar shows a disabled Nouveau passage button', function () {
 // ---------------------------------------------------------------------------
 
 it('admin shell renders the lg:grid lg:grid-cols-[16rem_1fr] layout from admin.blade.php', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('lg:grid lg:grid-cols-[16rem_1fr]', false);
@@ -141,13 +141,13 @@ it('admin shell renders the lg:grid lg:grid-cols-[16rem_1fr] layout from admin.b
 // ---------------------------------------------------------------------------
 
 it('admin shell has user pill with Pierre ADAM and Pisciniste role', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $response = $this->actingAs($pierre)->get('/admin');
+    $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
     $response->assertSee('Pierre ADAM');

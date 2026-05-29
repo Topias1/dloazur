@@ -25,7 +25,7 @@ class FortifyServiceProvider extends ServiceProvider
      * Per RESEARCH §Pattern 2 + Pitfall 8:
      * - Binds the 3 Blade views (login, forgot-password, reset-password)
      * - Defines the login rate limiter (5 attempts/min by lowercased email + IP)
-     * - Only resetPasswords action is wired — no CreateNewUser (D-09: Pierre seeded)
+     * - Only resetPasswords action is wired — no CreateNewUser (D-09: admin seeded)
      */
     public function boot(): void
     {

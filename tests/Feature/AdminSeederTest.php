@@ -1,7 +1,7 @@
 <?php
 
 /**
- * PierreSeederTest — Plan 01-05 Task 1 behavior contract (RED).
+ * AdminSeederTest — Plan 01-05 Task 1 behavior contract (RED).
  *
  * Verifies AUTH-01 + D-09 production-safe seeder:
  * - Idempotent upsert keyed on OPERATOR_EMAIL
@@ -10,7 +10,7 @@
  */
 
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Facades\Hash;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
@@ -21,15 +21,15 @@ uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 it('pierre seeder creates exactly one user with the env credentials', function () {
     config(['app.env' => 'testing']);
-    putenv('OPERATOR_EMAIL=pierre@test.local');
+    putenv('OPERATOR_EMAIL=admin@test.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret123');
 
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
     $this->assertDatabaseCount('users', 1);
     $this->assertDatabaseHas('users', [
-        'email' => 'pierre@test.local',
+        'email' => 'admin@test.local',
         'name'  => 'Pierre ADAM',
     ]);
 
@@ -42,12 +42,12 @@ it('pierre seeder creates exactly one user with the env credentials', function (
 // ---------------------------------------------------------------------------
 
 it('pierre seeder is idempotent — running twice yields exactly 1 user', function () {
-    putenv('OPERATOR_EMAIL=pierre@test.local');
+    putenv('OPERATOR_EMAIL=admin@test.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret123');
 
-    (new PierreSeeder())->run();
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
+    (new AdminSeeder())->run();
 
     $this->assertDatabaseCount('users', 1);
 });
@@ -57,31 +57,31 @@ it('pierre seeder is idempotent — running twice yields exactly 1 user', functi
 // ---------------------------------------------------------------------------
 
 it('pierre seeder sets email_verified_at to a non-null timestamp', function () {
-    putenv('OPERATOR_EMAIL=pierre@test.local');
+    putenv('OPERATOR_EMAIL=admin@test.local');
 
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $user = User::where('email', 'pierre@test.local')->first();
+    $user = User::where('email', 'admin@test.local')->first();
     expect($user->email_verified_at)->not->toBeNull();
 });
 
 // ---------------------------------------------------------------------------
-// Test 4 — callable in production env (PierreSeeder is NOT env-gated)
+// Test 4 — callable in production env (AdminSeeder is NOT env-gated)
 // ---------------------------------------------------------------------------
 
 it('pierre seeder runs in production env without env gate', function () {
-    putenv('OPERATOR_EMAIL=pierre@test.local');
+    putenv('OPERATOR_EMAIL=admin@test.local');
 
     // Temporarily fake production environment for this assertion only
     $originalEnv = app()->environment();
 
     app()->detectEnvironment(fn () => 'production');
 
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
     // Restore testing env
     app()->detectEnvironment(fn () => $originalEnv);
 
     $this->assertDatabaseCount('users', 1);
-    $this->assertDatabaseHas('users', ['email' => 'pierre@test.local']);
+    $this->assertDatabaseHas('users', ['email' => 'admin@test.local']);
 });

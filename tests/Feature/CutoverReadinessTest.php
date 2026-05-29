@@ -9,7 +9,7 @@
  */
 
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
 // Test 3 nécessite la BDD (seeder Pierre) — RefreshDatabase appliqué
@@ -54,14 +54,14 @@ it('admin route redirects anonymous to login', function () {
 // ---------------------------------------------------------------------------
 
 it('admin route returns 200 when authenticated', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
-    (new PierreSeeder())->run();
+    (new AdminSeeder())->run();
 
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
-    $this->actingAs($pierre)->get('/admin')->assertOk();
+    $this->actingAs($admin)->get('/admin')->assertOk();
 });
 
 // ---------------------------------------------------------------------------

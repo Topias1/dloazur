@@ -9,7 +9,7 @@
 use App\Livewire\ClientIndex;
 use App\Models\Client;
 use App\Models\User;
-use Database\Seeders\PierreSeeder;
+use Database\Seeders\AdminSeeder;
 
 uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
@@ -45,9 +45,9 @@ it('Recherche sans résultat affiche le message empty avec terme exact', functio
 
 // Test 4: Tri par défaut updated_at DESC
 it('Tri par défaut updated_at DESC', function () {
-    putenv('OPERATOR_EMAIL=pierre@dloazurtest.local');
-    (new PierreSeeder())->run();
-    $pierre = User::where('email', 'pierre@dloazurtest.local')->first();
+    putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
+    (new AdminSeeder())->run();
+    $admin = User::where('email', 'admin@dloazurtest.local')->first();
 
     $clientA = Client::factory()->create(['name' => 'Client Alpha']);
     $clientB = Client::factory()->create(['name' => 'Client Beta']);
@@ -57,7 +57,7 @@ it('Tri par défaut updated_at DESC', function () {
     sleep(1);
     $clientB->touch();
 
-    $response = $this->actingAs($pierre)->get(route('admin.clients.index'));
+    $response = $this->actingAs($admin)->get(route('admin.clients.index'));
     $response->assertStatus(200);
 
     $content = $response->getContent();

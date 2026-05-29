@@ -35,7 +35,7 @@
             @csrf
 
             <div>
-                <h1 class="font-display font-semibold text-2xl text-ink-950">Bon retour, Pierre.</h1>
+                <h1 class="font-display font-semibold text-2xl text-ink-950">Bon retour.</h1>
                 <p class="text-ink-500 mt-1 text-sm">Connectez-vous pour gérer vos passages.</p>
             </div>
 
@@ -58,7 +58,7 @@
                     autocomplete="email"
                     autofocus
                     class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 text-ink-900 placeholder:text-ink-400 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
-                    placeholder="pierre@dloazurpiscines.com"
+                    placeholder="admin@dloazurpiscines.com"
                 >
             </div>
 

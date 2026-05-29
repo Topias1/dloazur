@@ -146,8 +146,8 @@ return [
     'features' => [
         Features::resetPasswords(),
         // DELIBERATELY absent (per CONTEXT.md <deferred>):
-        // Features::registration()              — Pierre seeded, no public signup (D-09)
-        // Features::emailVerification()         — Pierre seeded with email_verified_at
+        // Features::registration()              — admin seeded, no public signup (D-09)
+        // Features::emailVerification()         — admin seeded with email_verified_at
         // Features::updateProfileInformation()  — not needed Phase 1
         // Features::updatePasswords()           — not needed Phase 1
         // Features::twoFactorAuthentication()   — Phase 2+ concern

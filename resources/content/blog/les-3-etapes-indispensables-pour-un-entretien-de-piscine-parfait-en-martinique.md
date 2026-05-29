@@ -1,9 +1,9 @@
 ---
 title: "Les 3 étapes indispensables pour un entretien de piscine parfait en Martinique"
-date: 2025-01-01
+date: 2025-03-15
+show_date: false
 author: "Pierre ADAM"
 excerpt: "Avoir une piscine propre et saine toute l'année en Martinique n'est pas une simple affaire ! Entre la chaleur, l'humidité et les fréquentes pluies tropicales, l'eau de votre bassin peut rapidement se troubler, devenir verte ou accumuler des impuretés. Heureusement, avec un entretien régulier et bien structuré, vous pouvez profiter d'une piscine éclatante sans tracas."
-cover: "/assets/blog/les-3-etapes-indispensables-pour-un-entretien-de-piscine-parfait-en-martinique.jpg"
 ---
 
 Avoir une piscine propre et saine toute l'année en Martinique n'est pas une simple affaire ! Entre la chaleur, l'humidité et les fréquentes pluies tropicales, l'eau de votre bassin peut rapidement se troubler, devenir verte ou accumuler des impuretés. Heureusement, avec un entretien régulier et bien structuré, vous pouvez profiter d'une piscine éclatante sans tracas.

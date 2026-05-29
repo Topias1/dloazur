@@ -1,9 +1,9 @@
 ---
 title: "De la passion à l'entrepreneuriat : l'histoire de Dlo Azur piscines"
-date: 2025-01-01
+date: 2025-02-10
+show_date: false
 author: "Pierre ADAM"
 excerpt: "Découvrez l'histoire de Dlo Azur Piscine : de la passion aux défis de l'entrepreneuriat. Parcours, obstacles, réussites et témoignages clients, suivez mon aventure pour offrir des piscines éclatantes toute l'année !"
-cover: "/assets/blog/de-la-passion-a-lentrepreneuriat-lhistoire-de-dlo-azur-piscines.jpg"
 ---
 
 ## L'eau, le bleu, et moi : une histoire de longue date

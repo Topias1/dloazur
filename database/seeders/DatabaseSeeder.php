@@ -10,7 +10,7 @@ class DatabaseSeeder extends Seeder
      * Seed the application's database.
      *
      * D-09: only runs DevDataSeeder in local/testing environments.
-     * Production is a strict no-op — PierreSeeder (Plan 05) is called
+     * Production is a strict no-op — AdminSeeder (Plan 05) is called
      * explicitly via the deploy hook, never through this entrypoint.
      */
     public function run(): void

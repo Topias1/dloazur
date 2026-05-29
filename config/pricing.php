@@ -6,7 +6,7 @@ return [
     | Tarif indicatif — D-32
     |--------------------------------------------------------------------------
     |
-    | Pierre met à jour PRICING_PASSAGE_STARTING dans les env vars Laravel Cloud
+    | L'admin met à jour PRICING_PASSAGE_STARTING dans les env vars Laravel Cloud
     | sans toucher au code. Valeur par défaut : 80€ (placeholder à confirmer).
     |
     */
