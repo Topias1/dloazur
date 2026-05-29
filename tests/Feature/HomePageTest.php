@@ -96,9 +96,13 @@ it('drops the AI-filler kicker badge from the hero', function () {
 
 it('hero keeps one primary (devis) + one secondary (WhatsApp) CTA', function () {
     $response = $this->get('/');
-    // Hero block only: primary devis + WhatsApp, the third "Diagnostic gratuit"
-    // button was trimmed from the hero (it still exists in the urgence section).
-    $hero = \Illuminate\Support\Str::between($response->getContent(), 'photo-grade', '</section>');
+    // Isolate the hero <section> (it ends at the wave SVG's </section>); the third
+    // "Diagnostic gratuit" CTA was trimmed from the hero but still lives in the
+    // final-cta section, which is fine.
+    $hero = \Illuminate\Support\Str::before(
+        \Illuminate\Support\Str::after($response->getContent(), 'min-h-[92vh]'),
+        '</section>'
+    );
     expect($hero)->toContain('Demander un devis gratuit');
     expect($hero)->toContain('wa.me/596696940054');
     expect($hero)->not->toContain('diagnostic-gratuit');
