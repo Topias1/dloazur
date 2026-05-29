@@ -29,6 +29,13 @@ Route::get('/robots.txt', function () {
     ]);
 })->name('robots');
 
+// llms.txt — AI-crawler discoverability file (public marketing URLs only; no auth/admin paths)
+Route::get('/llms.txt', function () {
+    return response(file_get_contents(public_path('llms.txt')), 200, [
+        'Content-Type' => 'text/plain; charset=UTF-8',
+    ]);
+})->name('llms');
+
 /*
 |--------------------------------------------------------------------------
 | Zyro legacy 301 redirects (D-24 — Plan 01-06)
