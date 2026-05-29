@@ -144,4 +144,65 @@ final class VitrineController extends Controller
             ]),
         ]);
     }
+
+    // ───────────────────────────────────────────────────────────
+    // City hub pages — Plan 999.1-04 (D-12)
+    // 2-level breadcrumb: Accueil › [Commune]
+    // ───────────────────────────────────────────────────────────
+
+    public function fortDeFrance(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.zones.fort-de-france', [
+            'title'            => 'Pisciniste à Fort-de-France · Dlo Azur Piscines',
+            'description'      => 'Entretien et dépannage de piscines à Fort-de-France, Martinique. Intervention rapide, eau saine garantie. Devis gratuit pour particuliers et villas.',
+            'canonical'        => url('/zones/fort-de-france'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',        'url' => url('/')],
+                ['name' => 'Fort-de-France', 'url' => url('/zones/fort-de-france')],
+            ]),
+        ]);
+    }
+
+    public function leLamentin(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.zones.le-lamentin', [
+            'title'            => 'Pisciniste au Lamentin · Dlo Azur Piscines',
+            'description'      => 'Entretien et dépannage de piscines au Lamentin, Martinique. Service sur mesure pour particuliers, villas et résidences. Devis gratuit.',
+            'canonical'        => url('/zones/le-lamentin'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',    'url' => url('/')],
+                ['name' => 'Le Lamentin','url' => url('/zones/le-lamentin')],
+            ]),
+        ]);
+    }
+
+    public function schoelcher(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.zones.schoelcher', [
+            'title'            => 'Pisciniste à Schoelcher · Dlo Azur Piscines',
+            'description'      => 'Entretien et dépannage de piscines à Schoelcher, Martinique. Traitement de l\'eau, maintenance et dépannage équipements. Devis gratuit.',
+            'canonical'        => url('/zones/schoelcher'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',   'url' => url('/')],
+                ['name' => 'Schoelcher','url' => url('/zones/schoelcher')],
+            ]),
+        ]);
+    }
+
+    public function lesTroisIlets(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.zones.les-trois-ilets', [
+            'title'            => 'Pisciniste aux Trois-Îlets · Dlo Azur Piscines',
+            'description'      => 'Entretien et dépannage de piscines aux Trois-Îlets, Martinique. Service premium pour villas et propriétés de prestige. Devis gratuit.',
+            'canonical'        => url('/zones/les-trois-ilets'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',      'url' => url('/')],
+                ['name' => 'Les Trois-Îlets','url' => url('/zones/les-trois-ilets')],
+            ]),
+        ]);
+    }
 }

@@ -27,6 +27,12 @@ Route::middleware('cache.headers:vitrine')->group(function () {
     Route::get('/services/analyse-eau',         [VitrineController::class, 'analyseEau'])->name('services.analyse-eau');
     Route::get('/services/spa',                 [VitrineController::class, 'spa'])->name('services.spa');
     Route::get('/realisations', [VitrineController::class, 'realisations'])->name('realisations');
+
+    // City hub pages — Plan 999.1-04 (D-12)
+    Route::get('/zones/fort-de-france',  [VitrineController::class, 'fortDeFrance'])->name('zones.fort-de-france');
+    Route::get('/zones/le-lamentin',     [VitrineController::class, 'leLamentin'])->name('zones.le-lamentin');
+    Route::get('/zones/schoelcher',      [VitrineController::class, 'schoelcher'])->name('zones.schoelcher');
+    Route::get('/zones/les-trois-ilets', [VitrineController::class, 'lesTroisIlets'])->name('zones.les-trois-ilets');
     Route::get('/mentions-legales', [VitrineController::class, 'mentionsLegales'])->name('legal.mentions');
     Route::get('/cgv', [VitrineController::class, 'cgv'])->name('legal.cgv');
     Route::get('/confidentialite', [VitrineController::class, 'confidentialite'])->name('legal.confidentialite');
