@@ -157,6 +157,11 @@
             } catch { return isoDate; }
         },
 
+        // Libellé lisible du niveau de confiance (carnet, DIAG-07)
+        confidenceLabel(level) {
+            return ({ eleve: 'Confiance élevée', moyen: 'Confiance moyenne', indicatif: 'Indicatif' })[level] || 'Indicatif';
+        },
+
         // Efface tout le carnet
         clearCarnet() {
             if (!window.diagnosticCarnet) return;
@@ -182,7 +187,7 @@
         retestShown: false,   // le prompt re-test est visible
         retestAnswered: false, // l'utilisateur a répondu
 
-        // Affiche le prompt re-test (appelé depuis un bouton "J'ai appliqué le plan")
+        // Affiche le prompt re-test (appelé depuis un bouton « J'ai appliqué le plan »)
         showRetestPrompt() {
             this.retestShown = true;
         },

@@ -21,6 +21,29 @@ it('/diagnostic page renders the wizard component', function () {
         ->assertSee('Trouver mon problème');
 });
 
+it('wizard x-data is complete and not truncated by a raw quote (regression: client crash)', function () {
+    // Guard for the bug where a literal " inside a JS comment in the inline Alpine
+    // x-data closed the HTML attribute early, truncating the object literal and
+    // killing the whole client-side wizard (32 console errors, nothing rendered).
+    // Server-side surrogate for a browser smoke test — PHP tests never exercise
+    // the rendered Alpine, which is exactly how this shipped despite 400+ tests.
+    $html = Livewire::test(DiagnosticWizard::class)->html();
+
+    // Capture the wizard-root x-data: from x-data=" to the next RAW double-quote.
+    // @js() payload quotes are HTML-escaped to &quot;, so the closing " is the real
+    // end of the object literal — a truncating raw " would cut the capture short.
+    expect(preg_match('/x-data="(.*?)"\s+wire:ignore\.self/s', $html, $m))->toBe(1);
+    $xdata = $m[1];
+
+    // Methods declared AFTER the previously-truncating comment must survive,
+    expect($xdata)->toContain('showRetestPrompt');
+    expect($xdata)->toContain('onRetestNon');
+    // confidenceLabel() (used by the carnet view) must exist in this scope,
+    expect($xdata)->toContain('confidenceLabel');
+    // and the object literal must be brace-balanced (complete, not cut off).
+    expect(substr_count($xdata, '{'))->toBe(substr_count($xdata, '}'));
+});
+
 // ──────────────────────────────────────────────────────────────────────────────
 // DIAG-03 — Disclaimer gate (server-side enforcement)
 // ──────────────────────────────────────────────────────────────────────────────
