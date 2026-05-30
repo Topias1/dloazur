@@ -659,6 +659,11 @@ return [
             'analyse'    => "Le calcaire se dépose sur les plaques de la cellule et réduit la production de chlore. Commencer par du vinaigre blanc (sécurisé). L'acide chlorhydrique n'est à utiliser qu'en dernier recours, avec des EPI complets, en extérieur.",
             'confidence' => 'eleve',
             'safety'     => true,
+            // Escalade : contient l'étape acide chlorhydrique — hors-DIY (audit §6, hard-stop particulier)
+            'escalade'   => [
+                'niveau'  => 'preemptif',
+                'raison'  => 'acide-chlorhydrique',
+            ],
             'plan'       => [
                 'Couper l\'alimentation électrique de l\'électrolyseur et arrêter la pompe',
                 'Fermer les vannes de part et d\'autre de la cellule, démonter délicatement',
@@ -686,6 +691,11 @@ return [
             'analyse'    => "Les plaques de la cellule sont abîmées, noircies ou rongées : la cellule ne peut plus produire de chlore correctement. Remplacement nécessaire.",
             'confidence' => 'eleve',
             'safety'     => false,
+            // Escalade : remplacement de cellule = intervention équipement hors-DIY (audit §6)
+            'escalade'   => [
+                'niveau'  => 'preemptif',
+                'raison'  => 'electro-usee',
+            ],
             'plan'       => [
                 'Relever la référence exacte de la cellule (modèle + référence fabricant)',
                 'Commander une cellule compatible (durée de vie typique : 3-7 ans selon l\'entretien)',
@@ -703,6 +713,11 @@ return [
             'analyse'    => "La cellule semble propre et fonctionnelle, mais l'électrolyseur ne produit pas. Le problème vient du coffret électronique (alimentation, carte de contrôle).",
             'confidence' => 'moyen',
             'safety'     => false,
+            // Escalade : coffret 230 V = hors-DIY particulier (audit §6 — diagnostic pro requis)
+            'escalade'   => [
+                'niveau'  => 'preemptif',
+                'raison'  => '230V',
+            ],
             'plan'       => [
                 'Vérifier l\'alimentation électrique du coffret (disjoncteur, câbles)',
                 'Tester avec une autre cellule si tu en as une disponible',

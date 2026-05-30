@@ -81,6 +81,43 @@ final class DiagnosticWizard extends Component
      */
     public bool $leadSent = false;
 
+    /**
+     * Nœud/feuille atteint dans l'arbre de décision symptôme.
+     * Défini quand l'utilisateur navigue via le parcours symptôme.
+     * Utilisé par l'escalade préemptive basée sur les flags de l'arbre.
+     */
+    public ?string $symptomResultId = null;
+
+    /**
+     * Niveau d'escalade calculé : 'preemptif' | 'reactif' | 'aucun'.
+     * Calculé dans computeEscalade() ou après computeAndPersist().
+     */
+    public string $escaladeNiveau = 'aucun';
+
+    /**
+     * Raison de l'escalade (pour l'affichage et le test).
+     * Ex: 'acide-chlorhydrique', '230V', 'electro-usee', 'echec-retest'.
+     */
+    public ?string $escaladeRaison = null;
+
+    /**
+     * Hook réactif : Plan 06 peut mettre ce flag à true après un re-test
+     * infructueux pour déclencher l'escalade réactive.
+     */
+    public bool $retestFailed = false;
+
+    /**
+     * Indice de confiance calculé : 'eleve' | 'moyen' | 'indicatif'.
+     * Calculé dans computeConfidence().
+     */
+    public string $confidenceIndex = 'indicatif';
+
+    /**
+     * Coordonnées optionnelles fournies par l'utilisateur (commune).
+     * Intégré dans le payload WhatsApp riche.
+     */
+    public ?string $coordonnees = null;
+
     // ── Champs du wizard chimie — Step 1 : infos piscine ────────────────────
 
     /**
@@ -198,6 +235,216 @@ final class DiagnosticWizard extends Component
         }
     }
 
+    // ── Escalade + Confiance ──────────────────────────────────────────────────
+
+    /**
+     * Classifie le niveau d'escalade : 'preemptif' | 'reactif' | 'aucun'.
+     *
+     * Règles (BLUEPRINT §5, audit §6, CDC guard-rail 2) :
+     *   1. Préemptif : la feuille d'arbre porte un flag escalade.niveau = 'preemptif'
+     *      (acide chlorhydrique, 230V, cellule usée — hors-DIY particulier).
+     *   2. Réactif  : le flag retestFailed a été mis à true (hook Plan 06).
+     *   3. Aucun    : cas DIY facile — guard anti sur-escalade (CDC guard-rail 2).
+     *
+     * DIAG-02 invariant : classification pure, aucune formule de dose.
+     */
+    public function computeEscalade(): void
+    {
+        // Hook réactif (Plan 06 peut activer ce flag après un re-test raté)
+        if ($this->retestFailed) {
+            $this->escaladeNiveau = 'reactif';
+            $this->escaladeRaison = 'echec-retest';
+            return;
+        }
+
+        // Escalade préemptive basée sur le flag de la feuille de l'arbre
+        if ($this->symptomResultId) {
+            $results = config('diagnostic-tree.results', []);
+            $feuille = $results[$this->symptomResultId] ?? null;
+            if ($feuille && isset($feuille['escalade']['niveau']) && $feuille['escalade']['niveau'] === 'preemptif') {
+                $this->escaladeNiveau = 'preemptif';
+                $this->escaladeRaison = $feuille['escalade']['raison'] ?? null;
+                return;
+            }
+        }
+
+        // Aucune escalade — cas DIY standard (guard anti sur-escalade CDC guard-rail 2)
+        $this->escaladeNiveau = 'aucun';
+        $this->escaladeRaison = null;
+    }
+
+    /**
+     * Retourne le niveau d'escalade courant en relançant le calcul.
+     * Utilisé pour exposer l'état à la vue.
+     */
+    public function getEscalade(): string
+    {
+        return $this->escaladeNiveau;
+    }
+
+    /**
+     * Calcule l'indice de confiance (CDC §5.5).
+     *
+     * Niveaux :
+     *   élevé      = mesures complètes (pH + chlore + TAC fournies)
+     *   moyen      = mesures partielles (pH ou chlore présent, mais manque stabilisant/TAC)
+     *   indicatif  = aucune mesure chiffrée (diagnostic purement visuel/symptôme)
+     *
+     * DIAG-02 : classification sémantique, aucune arithmétique de dose.
+     */
+    public function computeConfidence(): void
+    {
+        $hasPh        = $this->ph !== '';
+        $hasChlorine  = $this->chlore !== '';
+        $hasTac       = $this->alcalinite !== '';
+        $hasStab      = $this->stabilisant !== '';
+
+        if ($hasPh && $hasChlorine && $hasTac) {
+            // Élevé : mesures chimiques clés complètes
+            $this->confidenceIndex = 'eleve';
+        } elseif ($hasPh || $hasChlorine) {
+            // Moyen : mesures partielles — affine en mesurant le stabilisant/TAC
+            $this->confidenceIndex = 'moyen';
+        } else {
+            // Indicatif : parcours purement visuel/symptôme sans mesure
+            $this->confidenceIndex = 'indicatif';
+        }
+    }
+
+    /**
+     * Synchronise le résultat d'arbre atteint côté Alpine pour l'escalade préemptive.
+     * Appelé par Alpine quand l'utilisateur atteint une feuille de l'arbre symptôme.
+     */
+    public function setSymptomResult(string $resultId): void
+    {
+        $this->symptomResultId = $resultId;
+        $this->computeEscalade();
+    }
+
+    /**
+     * Active l'escalade réactive (hook Plan 06 — re-test infructueux).
+     */
+    public function triggerRetestFailed(): void
+    {
+        $this->retestFailed = true;
+        $this->computeEscalade();
+    }
+
+    /**
+     * Assemble le payload de contexte riche pour le lien WhatsApp (DIAG-06).
+     *
+     * Inclut (BLUEPRINT §5) : symptôme, mesures + fiabilité, filtre + volume,
+     * actions tentées + résultats, diagnostic, confiance, coordonnées si fournies.
+     *
+     * Retourne un tableau — la vue Blade assemble la chaîne via implode("\n", ...).
+     * DIAG-02 invariant : aucun coefficient de dosage dans ce payload.
+     */
+    public function richContextPayload(): array
+    {
+        $lines = [];
+        $lines[] = "Bonjour Pierre, j'ai utilisé l'outil diagnostic de Dlo Azur Piscines.";
+        $lines[] = '';
+
+        // Symptôme / mode
+        if ($this->mode === 'chemistry') {
+            $lines[] = 'Parcours : Analyse chimique';
+        } elseif ($this->mode === 'symptom') {
+            $lines[] = 'Parcours : Diagnostic par symptôme';
+        }
+
+        // Diagnostic atteint (arbre symptôme)
+        if ($this->symptomResultId) {
+            $results = config('diagnostic-tree.results', []);
+            $feuille = $results[$this->symptomResultId] ?? null;
+            if ($feuille && !empty($feuille['diagnostic'])) {
+                $lines[] = 'Diagnostic : ' . $feuille['diagnostic'];
+            }
+        }
+
+        // Volume + filtre
+        $vol = $this->volumeEffectif();
+        if ($vol > 0) {
+            $lines[] = 'Volume : ' . round($vol, 1) . ' m³';
+        }
+        if ($this->filtration) {
+            $lines[] = 'Filtre : ' . $this->filtration;
+        }
+
+        // Mesures + fiabilité
+        $mesures = $this->mesures();
+        if (!empty($mesures)) {
+            $lines[] = '';
+            $lines[] = 'Mesures :';
+            if (isset($mesures['ph'])) {
+                $lines[] = '  pH : ' . $mesures['ph'];
+            }
+            if (isset($mesures['chlore'])) {
+                $lines[] = '  Chlore libre : ' . $mesures['chlore'] . ' mg/L';
+            }
+            if (isset($mesures['alcalinite'])) {
+                $lines[] = '  TAC : ' . $mesures['alcalinite'] . ' mg/L';
+            }
+            if (isset($mesures['stabilisant'])) {
+                $lines[] = '  Stabilisant : ' . $mesures['stabilisant'] . ' mg/L';
+            }
+            if (!empty($mesures['sel']) && isset($mesures['selPpm'])) {
+                $lines[] = '  Sel : ' . $mesures['selPpm'] . ' ppm';
+            }
+            // Note de fiabilité basée sur la confiance
+            $fiabilite = match ($this->confidenceIndex) {
+                'eleve'     => '(mesures complètes — fiabilité élevée)',
+                'moyen'     => '(mesures partielles — fiabilité moyenne, affiner avec stabilisant/TAC)',
+                default     => '(diagnostic visuel — mesures non fournies)',
+            };
+            $lines[] = '  ' . $fiabilite;
+        } else {
+            $lines[] = 'Mesures : aucune fournie (diagnostic visuel)';
+        }
+
+        // Actions tentées + résultats
+        if (!empty($this->triedActions)) {
+            $lines[] = '';
+            $lines[] = 'Déjà tenté (sans succès) : ' . implode(', ', $this->triedActions);
+        }
+
+        // Recommandations (plan chimique)
+        if (!empty($this->recommandations)) {
+            $lines[] = '';
+            $lines[] = 'Plan calculé : ' . count($this->recommandations) . ' correction(s) identifiée(s)';
+        }
+
+        // Confiance
+        $confLabel = match ($this->confidenceIndex) {
+            'eleve'     => 'Confiance élevée',
+            'moyen'     => 'Confiance moyenne',
+            default     => 'Indicatif',
+        };
+        $lines[] = '';
+        $lines[] = 'Indice de confiance : ' . $confLabel;
+
+        // Coordonnées si fournies
+        if ($this->coordonnees) {
+            $lines[] = 'Localisation : ' . $this->coordonnees;
+        } elseif ($this->commune !== '') {
+            $lines[] = 'Commune : ' . $this->commune;
+        }
+
+        $lines[] = '';
+        $lines[] = "Peux-tu m'aider ou intervenir ?";
+
+        return $lines;
+    }
+
+    /**
+     * Résumé riche du diagnostic pour WhatsApp (DIAG-06 enrichi).
+     * Remplace whatsappSummary() basique (Plan 03) — utilise richContextPayload().
+     * Construit côté serveur ; aucun coefficient de dose dans ce résumé.
+     */
+    public function whatsappSummary(): string
+    {
+        return implode("\n", $this->richContextPayload());
+    }
+
     // ── Helpers ──────────────────────────────────────────────────────────────
 
     /**
@@ -235,67 +482,6 @@ final class DiagnosticWizard extends Component
             'selPpm'      => $this->selPpm !== '' ? $this->selPpm : null,
             'th'          => $this->th !== '' ? $this->th : null,
         ], fn ($v) => $v !== null);
-    }
-
-    /**
-     * Résumé texte du diagnostic pour le pré-remplissage WhatsApp (DIAG-06 basique).
-     * Construit côté serveur puis exposé à Alpine via @js — aucun coefficient dedans.
-     */
-    public function whatsappSummary(): string
-    {
-        $lines = [];
-        $lines[] = 'Bonjour Pierre, j\'ai utilisé l\'outil diagnostic de Dlo Azur Piscines.';
-        $lines[] = '';
-
-        if ($this->mode === 'chemistry') {
-            $lines[] = '📊 Mode : Analyse chimique';
-        } elseif ($this->mode === 'symptom') {
-            $lines[] = '🔍 Mode : Diagnostic symptôme';
-        }
-
-        $vol = $this->volumeEffectif();
-        if ($vol > 0) {
-            $lines[] = '🏊 Volume : ' . round($vol, 1) . ' m³';
-        }
-        if ($this->filtration) {
-            $lines[] = '🔧 Filtre : ' . $this->filtration;
-        }
-
-        $mesures = $this->mesures();
-        if (! empty($mesures)) {
-            $lines[] = '';
-            $lines[] = '📋 Mesures :';
-            if (isset($mesures['ph'])) {
-                $lines[] = '  pH : ' . $mesures['ph'];
-            }
-            if (isset($mesures['chlore'])) {
-                $lines[] = '  Chlore libre : ' . $mesures['chlore'] . ' mg/L';
-            }
-            if (isset($mesures['alcalinite'])) {
-                $lines[] = '  TAC : ' . $mesures['alcalinite'] . ' mg/L';
-            }
-            if (isset($mesures['stabilisant'])) {
-                $lines[] = '  Stabilisant : ' . $mesures['stabilisant'] . ' mg/L';
-            }
-            if (! empty($mesures['sel']) && isset($mesures['selPpm'])) {
-                $lines[] = '  Sel : ' . $mesures['selPpm'] . ' ppm';
-            }
-        }
-
-        if (! empty($this->triedActions)) {
-            $lines[] = '';
-            $lines[] = '⚠️ Déjà tenté (sans succès) : ' . implode(', ', $this->triedActions);
-        }
-
-        if (! empty($this->recommandations)) {
-            $lines[] = '';
-            $lines[] = '💡 Recommandations (' . count($this->recommandations) . ' correction(s) identifiée(s))';
-        }
-
-        $lines[] = '';
-        $lines[] = 'Peux-tu m\'aider ou intervenir ?';
-
-        return implode("\n", $lines);
     }
 
     // ── Actions serveur ───────────────────────────────────────────────────────
@@ -385,6 +571,10 @@ final class DiagnosticWizard extends Component
             // 6. Succès — conserver l'ID pour le lien PDF (D-06)
             $this->savedDiagnosticId = $diagnostic->id;
             $this->recommandations   = $recs;
+
+            // 7. Calculer confiance + escalade (classification, pas dose — DIAG-02)
+            $this->computeConfidence();
+            $this->computeEscalade();
 
             // Seed de la session pour le gate PDF anonyme (D-06, Plan 05-05)
             session()->put(
@@ -488,6 +678,9 @@ final class DiagnosticWizard extends Component
             'tree'             => config('diagnostic-tree', []),
             'filtrationHint'   => $this->filtrationHint,
             'whatsappSummary'  => $this->whatsappSummary(),
+            'escaladeNiveau'   => $this->escaladeNiveau,
+            'escaladeRaison'   => $this->escaladeRaison,
+            'confidenceIndex'  => $this->confidenceIndex,
         ]);
     }
 }
