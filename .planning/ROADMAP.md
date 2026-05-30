@@ -16,6 +16,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - [ ] **Phase 3: Facturation & Odoo** - POC Odoo, catalogue, contrats, factures en franchise de TVA (art. 293 B CGI), PDF, signature
 - [ ] **Phase 4: Notifications** - Email compte-rendu + rappel J-1, option WhatsApp
 - [ ] **Phase 5: Diagnostic Commercialisable** - Diagnostic gratuit (symptôme + « déjà tenté ? » + doses serveur), escalade WhatsApp contextualisée → leads qualifiés (hybride ; Stripe + carnet différés V2)
+- [ ] **Phase 6: Blog admin CRUD** - Autonomie de publication pour Pierre (`/admin/blog`) — modèle Post + DB, CRUD, éditeur Markdown, migration des 3 articles, préservation SEO 999.1
 
 ## Phase Details
 
@@ -138,6 +139,22 @@ Plans:
 
 - [x] 05-06-PLAN.md — Bricks 6+7: light in-session re-test loop (feeds reactive escalation, no push) + carnet local-only on-device store (S9, IndexedDB/localStorage, 0 server/0 sync) + « Mes diagnostics passés » list + CarnetLocalTest (DIAG-07, DIAG-06) *(Task 3 launch-gate Pierre = pending)*
 
+### Phase 6: Blog admin CRUD — autonomie de publication
+
+**Goal:** Permettre à Pierre (non-dev) de créer/éditer/dépublier des articles de blog depuis `/admin/blog`, sans toucher au code ni à git. Aujourd'hui le blog est fichiers-Markdown (`resources/content/blog/*.md`) → publier exige commit+push. Cette phase introduit un modèle `Post` + migration Postgres, un CRUD admin (liste, créer, éditer, dépublier), un éditeur Markdown, et bascule `BlogRepository` de fichiers→DB en migrant les 3 articles existants. Doit préserver les acquis SEO de la phase 999.1 : `og:type=article`, Article JSON-LD, dates réelles, et entrées sitemap.
+**Mode:** mvp
+**Depends on:** Phase 999.1 (blog SEO : Article schema, og:type, sitemap, dates)
+**Requirements**: SITE-07 *(dériver candidat CONTENT-xx au planning)*
+**Success Criteria** (what must be TRUE):
+
+  1. Pierre crée, édite et dépublie un article depuis `/admin/blog` sans toucher au code ni à git
+  2. Le corps d'article est édité en Markdown (éditeur EasyMDE, stockage raw Markdown) ; cover image uploadée vers Scaleway S3 via medialibrary
+  3. Les 3 articles existants sont migrés (slugs canoniques, dates réelles, `show_date`, auteur) sans régression SEO ; `BlogRepository` lit depuis la DB derrière un flag de cutover
+  4. Un article publié est visible publiquement ; un brouillon ne l'est pas ; une URL dépubliée précédemment indexée renvoie 410, un slug jamais publié 404
+  5. Les acquis SEO 999.1 sont préservés : `og:type=article`, Article JSON-LD, dates réelles, entrées sitemap (published only)
+
+**Plans:** 0 plans (run /gsd:plan-phase 06)
+
 ## Progress
 
 **Execution Order:**
@@ -150,6 +167,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 6/6 | Code complet · lancement gaté Pierre |  |
+| 6. Blog admin CRUD | 0/? | Not started | - |
 
 ## Backlog
 
@@ -203,12 +221,3 @@ LOW:
 
 **Health score at audit:** 61/100 (cutover-readiness; live = 0 while noindex). Perf excellent warm (TTFB ~100ms).
 
-### Phase 6: Blog admin CRUD — autonomie de publication
-
-**Goal:** Permettre à Pierre (non-dev) de créer/éditer/dépublier des articles de blog depuis `/admin/blog`, sans toucher au code ni à git. Aujourd'hui le blog est fichiers-Markdown (`resources/content/blog/*.md`) → publier exige commit+push. Cette phase introduit un modèle `Post` + migration Postgres, un CRUD admin (liste, créer, éditer, dépublier), un éditeur Markdown, et bascule `BlogRepository` de fichiers→DB en migrant les 3 articles existants. Doit préserver les acquis SEO de la phase 999.1 : `og:type=article`, Article JSON-LD, dates réelles, et entrées sitemap.
-**Requirements**: TBD (dériver au planning — candidat nouveau req CONTENT-xx ; lien SITE-07)
-**Depends on:** Phase 999.1 (blog SEO : Article schema, og:type, sitemap, dates)
-**Plans:** 0 plans
-
-Plans:
-- [ ] TBD (run /gsd-plan-phase 6 to break down)
