@@ -115,7 +115,7 @@
             </button>
 
             <p class="text-sm text-ink-500 text-center">
-                Disponible dès l'arrivée des fiches clients (Phase 2).
+                Disponible dès l'arrivée des fiches clients (bientôt).
             </p>
         </div>
     </div>

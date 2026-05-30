@@ -2,7 +2,11 @@
 .agents/
 
 # Bindings Claude Code locaux (symlinks .claude/skills → .agents, settings perso)
-.claude/
+# Exception : la skill projet dloazur-frontend-stack est versionnée (négation ci-dessous)
+.claude/*
+!.claude/skills/
+.claude/skills/*
+!.claude/skills/dloazur-frontend-stack/
 
 # macOS
 .DS_Store

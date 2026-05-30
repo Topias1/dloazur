@@ -38,7 +38,7 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
 
     $response->assertStatus(200);
     $response->assertSee('Bonjour Pierre,');
-    $response->assertSee('Tableau de bord opérationnel en Phase 2.');
+    $response->assertSee("Ta semaine en un coup d'œil.", false);
     $response->assertSee('Clients actifs');
     $response->assertSee('Passages cette semaine');
     $response->assertSee('À synchroniser');

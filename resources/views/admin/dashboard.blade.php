@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Tableau de bord · Dlo Azur')
+@section('title', 'Tableau de bord')
 
 @section('sidebar')
     <x-admin.sidebar :user="$user" />
@@ -18,7 +18,7 @@
             <h1 class="font-display font-semibold text-2xl sm:text-3xl text-ink-950">
                 Bonjour {{ Str::of($user->name)->before(' ') }},
             </h1>
-            <p class="text-ink-500 mt-1">Tableau de bord opérationnel en Phase 2.</p>
+            <p class="text-ink-500 mt-1">Ta semaine en un coup d'œil.</p>
         </div>
 
         {{-- Stat cards (Plan 02-03 — valeurs réelles D-62, D-63) --}}

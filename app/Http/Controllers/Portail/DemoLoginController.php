@@ -64,14 +64,23 @@ class DemoLoginController extends Controller
         $user = User::firstOrCreate(
             ['email' => 'demo-admin@dloazur.test'],
             [
-                'name'     => 'Démo Admin',
+                'name'     => 'Pierre ADAM',
                 'password' => Hash::make(Str::random(32)),
             ]
         );
 
-        // email_verified_at via forceFill (seuls name/email/password sont $fillable, cf. AdminSeeder).
+        // email_verified_at + nom normalisé via forceFill. firstOrCreate ne met pas à jour
+        // un compte démo déjà provisionné : on force "Pierre ADAM" pour que le tableau de
+        // bord affiche "Bonjour Pierre" plutôt que "Bonjour Démo" pendant la démo.
+        $patch = [];
         if ($user->email_verified_at === null) {
-            $user->forceFill(['email_verified_at' => now()])->save();
+            $patch['email_verified_at'] = now();
+        }
+        if ($user->name !== 'Pierre ADAM') {
+            $patch['name'] = 'Pierre ADAM';
+        }
+        if ($patch !== []) {
+            $user->forceFill($patch)->save();
         }
 
         Auth::guard('web')->login($user);
