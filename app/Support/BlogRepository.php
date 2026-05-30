@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Post;
 use Carbon\Carbon;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -16,9 +17,18 @@ class BlogRepository
 
     /**
      * Return all blog posts sorted by date DESC.
+     *
+     * D-06: Routes to DB path (allFromDb) or file path based on config('blog.source').
+     * Default is 'db' (Phase 6). Set BLOG_SOURCE=files to rollback to flat Markdown.
      */
     public function all(): Collection
     {
+        // D-06: DB path — returns only published posts from the DB.
+        if (config('blog.source') === 'db') {
+            return $this->allFromDb();
+        }
+
+        // ---- File path (unchanged) ----
         $dir = $this->dir ?? resource_path('content/blog');
 
         // Skip cache in testing env so fixture swaps propagate immediately.
@@ -34,6 +44,25 @@ class BlogRepository
         // dates after the cache read. (#blog-cache-incomplete-class)
         return $this->hydrateDates(collect(
             Cache::remember('blog.index', 60 * 60, fn () => $this->cacheablePayload($dir))
+        ));
+    }
+
+    /**
+     * DB read path — returns published posts ordered by date DESC.
+     *
+     * Mirrors the cache discipline of the file path: in testing env skip the cache
+     * so DB fixture changes propagate immediately; in production use Cache::remember
+     * with a plain scalar array payload (no objects, no Carbon).
+     */
+    private function allFromDb(): Collection
+    {
+        // Skip cache in testing env (same discipline as the file path).
+        if (app()->environment('testing')) {
+            return $this->loadFromDb();
+        }
+
+        return $this->hydrateDates(collect(
+            Cache::remember('blog.index', 60 * 60, fn () => $this->cacheablePayloadFromDb())
         ));
     }
 
@@ -70,6 +99,62 @@ class BlogRepository
                 return $post;
             })
             ->all();
+    }
+
+    /**
+     * Build the DB-backed cacheable payload — a PLAIN ARRAY of scalar-only post arrays.
+     *
+     * Mirrors the shape and cache discipline of cacheablePayload() exactly:
+     * - Carbon dates flattened to ISO-8601 strings (never Carbon in cache).
+     * - ->all() at the end returns a plain PHP array, never a Collection.
+     * - filepath is null (no file on disk for DB-backed posts).
+     *
+     * Public so the cache round-trip can be regression-tested directly
+     * (config/cache.php serializable_classes=false — see #blog-cache-incomplete-class).
+     *
+     * @return array<int, array<string, scalar|null>>
+     */
+    public function cacheablePayloadFromDb(): array
+    {
+        return Post::published()
+            ->orderByDesc('date')
+            ->get()
+            ->map(fn (Post $p): array => [
+                'title'        => (string) $p->title,
+                'slug'         => (string) $p->slug,
+                'date'         => $p->date?->toIso8601String() ?? now()->toIso8601String(),
+                'show_date'    => (bool) $p->show_date,
+                'excerpt'      => (string) $p->excerpt,
+                'author'       => (string) $p->author,
+                'cover'        => $p->getFirstMediaUrl('cover', 'thumbnail') ?: null,
+                'body'         => (string) $p->body,
+                'reading_time' => max(1, (int) round(str_word_count(strip_tags((string) $p->body)) / 200)),
+                'filepath'     => null, // no file on the DB path
+            ])
+            ->all(); // plain PHP array — never Collection (serializable_classes=false)
+    }
+
+    /**
+     * Load DB posts for the testing environment — returns a hydrated Collection
+     * (date as Carbon) mirroring loadPosts() for the file path.
+     */
+    private function loadFromDb(): Collection
+    {
+        return Post::published()
+            ->orderByDesc('date')
+            ->get()
+            ->map(fn (Post $p): array => [
+                'title'        => (string) $p->title,
+                'slug'         => (string) $p->slug,
+                'date'         => $p->date ?? now(), // Carbon instance (hydrated)
+                'show_date'    => (bool) $p->show_date,
+                'excerpt'      => (string) $p->excerpt,
+                'author'       => (string) $p->author,
+                'cover'        => $p->getFirstMediaUrl('cover', 'thumbnail') ?: null,
+                'body'         => (string) $p->body,
+                'reading_time' => max(1, (int) round(str_word_count(strip_tags((string) $p->body)) / 200)),
+                'filepath'     => null,
+            ]);
     }
 
     /**

@@ -133,7 +133,7 @@ it('cacheablePayloadFromDb array keys exactly match the file-path shape (title..
     $expectedKeys = ['title', 'slug', 'date', 'show_date', 'excerpt', 'author', 'cover', 'body', 'reading_time', 'filepath'];
 
     foreach ($expectedKeys as $key) {
-        expect($post)->toHaveKey($key, "Missing key: {$key}");
+        expect($post)->toHaveKey($key);
     }
 
     // filepath must be null on the DB path (no file on disk)
