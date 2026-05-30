@@ -43,11 +43,9 @@ Downstream agents MUST read `05-SPEC.md` before planning or implementing. Requir
 
 ### Decision-tree leaf content (resolved from mockup)
 - **D-07:** Re-extraction of `mockups/diagnostic-dloazur.html` confirms only the `floculant` leaf has an empty `plan: []`. `odeur-forte` and `irritation-yeux` already carry complete, chemically sound plans in the mockup — transcribe them verbatim, no Pierre input needed.
-- **D-08:** `floculant` leaf gets a **generic default plan** (decision 2026-05-30 — "remplir pour que le site ait l'air complet"), pending Pierre's chemistry sign-off (logged in QUESTIONS-PIERRE Drive doc for the Sunday call):
-  1. Verser un floculant clarifiant (~1 L pour 100 m³, selon notice produit)
-  2. Laisser la filtration tourner en continu 24 h
-  3. Lavage du filtre (backwash) puis rinçage après traitement
-  4. Aspirer les dépôts au fond, doucement, à l'égout si nécessaire
+- **D-08 (SUPERSEDED 2026-05-30):** The interim generic floculant plan is **replaced** by an expert-validated branching sub-tree. The `cloudy-1 → floculant` leaf is no longer a static plan — it becomes a sub-branch keyed on **filter type** (sable/verre → floculant choc, cartouche → clarifiant, DE → nettoyage + clarifiant) with a **blocking pH precondition** and a salt/electrolysis warning. The word "floculant" must never appear in the cartridge path. **Full spec (authoritative, planner MUST implement):** `05-FLOCULANT-BRANCH-SPEC.md`.
+  - **Wizard implication:** the anonymous wizard must add a *filter-type* question node before any product recommendation; for logged-in clients, pre-fill from the pool's `filtration` field (Phase 2) with override allowed.
+  - Pierre sign-off no longer needed for floculant — expert resolved it. The QUESTIONS-PIERRE Drive doc entry can be marked answered.
 
 ### Claude's Discretion
 - Exact column names, service namespace layout, route/component naming, and PDF Blade layout left to the planner, consistent with existing conventions.
@@ -68,8 +66,11 @@ Downstream agents MUST read `05-SPEC.md` before planning or implementing. Requir
 - `app/Models/Diagnostic.php` — Eloquent model; fillable + casts (`mesures`/`recommandations` → array, `disclaimer_accepted_at` → datetime); `client()`/`piscine()` relations. Reuse as-is.
 - `database/migrations/2026_05_28_000009_create_diagnostics_table.php` — existing table shape (nullable `client_id`/`piscine_id`, `volume_m3`, `type_probleme`, JSON `mesures`/`recommandations`, `disclaimer_accepted_at`, `created_via`).
 
-### UX/feature reference — GAP
-- ⚠ **`diagnostic-dloazur (2).html`** (the SPEC's authoritative UX + dose-formula + decision-tree reference) is **NOT present in the repo** — not at root, `mockups/`, or elsewhere (only the Diagnostic model + migration exist). The dose baseline formulas and tree leaves are partially transcribed in `05-SPEC.md` Req 2–4, but the planner/researcher MUST obtain the actual mockup file before implementing dose formulas and the full tree. Flag to user if still missing at plan time.
+### Decision-tree expert spec
+- `.planning/phases/05-diagnostic-commercialisable/05-FLOCULANT-BRANCH-SPEC.md` — **Authoritative** expert-validated branch for "eau trouble / floculant" (filter-type routing, pH precondition, choc-vs-clarifiant, contre-indications). Supersedes CONTEXT D-08. MUST implement.
+
+### UX/feature reference
+- ✅ **`mockups/diagnostic-dloazur.html`** is present (the earlier "GAP" note was stale — confirmed by RESEARCH re-extraction 2026-05-30). All dose formulas + the full decision tree (10 question nodes, 15+ result leaves, electrolyser 5-fault sub-tree) were extracted from its JS bundle into `05-RESEARCH.md`. Only the `floculant` leaf was empty in the mockup — now resolved by `05-FLOCULANT-BRANCH-SPEC.md`.
 
 ### Existing patterns to follow
 - `app/Livewire/ContactForm.php` — Livewire form with `#[Validate]`, honeypot spam protection, rate limiting, Mail notification. Pattern for lead-capture + Pierre notification.
