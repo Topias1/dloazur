@@ -80,7 +80,7 @@ Accueil
 - **5.5 Indice de confiance** : élevé / moyen / indicatif ; « indicatif » → invite à mesurer ou contacter Pierre. *(Ajout CDC vs SPEC — V0.)*
 - **5.6 Garde-fous sécurité** (transversaux, non contournables) : bloc EPI + « ne jamais mélanger », délais de baignade, hard stops/opt-in/redirection (acide, électricité, gros équipement), doses « indicatives, vérifier la notice ».
 - **5.7 Capture & qualification de lead** : diagnostic + 2-3 gestes offerts immédiatement, contact ensuite (plan PDF / dosage perso / RDV) ; qualification auto : (a) DIY, (b) achat produit, (c) intervention/équipement, (d) suivi récurrent ; cas risqués/hors-DIY → « contacter Pierre ».
-- **5.8 Carnet de suivi** (rétention, multi-bassins B2B) — **Phase ultérieure** (= DIAG-05 différé).
+- **5.8 Carnet de suivi** : **(a) carnet LOCAL-ONLY en V0** (DIAG-07) — historique des diagnostics/mesures sur l'appareil (IndexedDB, 0 serveur/0 sync/0 compte), vue « mes diagnostics passés », continuité du re-test ; pur front = whaou + rétention sans infra. **(b) carnet synchronisé multi-appareils + courbes/évolution = V2** (DIAG-05 différé).
 - **5.9 Espace Pierre** (back-office léger : leads taggés, photo/contexte, rappel/planif) — **Phase ultérieure**.
 
 ---

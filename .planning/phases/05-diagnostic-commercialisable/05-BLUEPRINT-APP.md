@@ -102,7 +102,7 @@ Ces cas recoupent les manques de l'audit (chlore-lock, eau laiteuse calcaire, br
 5. **Plan d'action** : bloc sécurité, étapes ordonnées, doses si mesures, « re-tester avant la dose suivante ».
 6. **Suivi / re-test** : « as-tu re-testé ? ça a marché ? » *(déclenché par notification — phase ultérieure ; en V0, accessible manuellement / via le PDF / retour sur le site).*
 7. **Escalade Dloazur** : récap contexte + bouton unique de contact.
-8. **Carnet (connecté)** : historique mesures/traitements par bassin, multi-bassins *(phase ultérieure — DIAG-05)*.
+8. **Carnet** : **local-only en V0** (DIAG-07) — historique sur l'appareil (IndexedDB, 0 serveur/0 sync), « mes diagnostics passés », continuité du re-test. *(Synchronisé multi-appareils + courbes + multi-bassins = V2, DIAG-05.)*
 
 États transverses : sécurité avant chaque geste chimique ; escalade accessible depuis n'importe quel écran de plan.
 
@@ -110,7 +110,7 @@ Ces cas recoupent les manques de l'audit (chlore-lock, eau laiteuse calcaire, br
 
 ## 8. Exigences mobiles *(majoritairement phase ultérieure — voir réconciliation)*
 - **Push** : rappels de re-test. PWA push OK Android + iOS récent ; sinon wrapper natif. **→ phase mobile/rétention.**
-- **Persistance locale + offline** : carnet + reprise sans réseau. **→ phase ultérieure** (SPEC Phase 5 = online-only).
+- **Persistance locale** : carnet local-only sur l'appareil (IndexedDB) + reprise de session. **← Phase 5 V0** (DIAG-07). La **synchro multi-appareils** reste V2 ; le calcul d'un nouveau diagnostic reste online (doses serveur).
 - **Caméra** : photo de l'eau optionnelle, en aide au lead (pas de diagnostic auto). Peut entrer en Phase 5 (upload simple) ou plus tard.
 - **Plein soleil** : fort contraste, gros boutons, lisibilité extérieure. **← Phase 5 (CSS/UX).**
 - **Contact en un geste** : appeler / demander Dloazur sans ressaisie. **← Phase 5.**

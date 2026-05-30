@@ -104,9 +104,9 @@ Plans:
 
 **Goal**: Un visiteur (anonyme ou client) au persona « compétent mais bloqué » lance un diagnostic **gratuit** (parcours symptôme + « qu'as-tu déjà essayé ? » + wizard chimie à doses serveur), reçoit un plan d'action **sûr**, et — quand le cas dépasse le DIY ou échoue au re-test — est redirigé **en un geste vers Pierre (WhatsApp à contexte riche)**. **Objectif n°1 : générer des leads qualifiés** (hybride A+B, arbitré par l'expert). Stripe et l'historique multi-mesures différés en V2.
 **Mode:** mvp
-**Scope:** hybride (voir `phases/05-.../05-EXPERT-ARBITRATION.md`) — V0/V1 = briques 1-6 ; **V2 différé** = push, carnet offline, courbes, multi-bassins, espace Pierre, natif.
+**Scope:** hybride (voir `phases/05-.../05-EXPERT-ARBITRATION.md`) — briques 1-7 incl. **carnet local-only** (front, 0 infra) ; **V2 différé** = push, carnet **synchronisé**/courbes, multi-bassins, espace Pierre, natif. Contrainte directrice : **infra mini × whaou maxi**.
 **Depends on**: Phase 2
-**Requirements**: DIAG-01, DIAG-02, DIAG-03  *(DIAG-04 Stripe + DIAG-05 multi-mesures → différés V2)*
+**Requirements**: DIAG-01, DIAG-02, DIAG-03, DIAG-06, DIAG-07  *(DIAG-04 Stripe + DIAG-05 carnet synchronisé/courbes → différés V2)*
 **Success Criteria** (what must be TRUE):
 
   1. Le disclaimer légal s'affiche avant tout conseil de dosage ; acceptation explicite requise (DIAG-03)
@@ -114,6 +114,7 @@ Plans:
   3. Le diagnostic est **conscient des actions déjà tentées** (un geste raté n'est jamais re-proposé ; oriente vers chlore-lock/métaux/calcaire) + affiche un **indice de confiance**
   4. L'**escalade contextualisée en un geste** vers Pierre (WhatsApp pré-rempli : symptôme, mesures, actions tentées, diagnostic, photo) se déclenche au pic d'intention (hors-DIY préemptif / re-test échoué réactif)
   5. **Route `/diagnostic` publique indexée** (vitrine + `/services/eau-verte-urgence` + pages communes) + capture de lead + PDF téléchargeable
+  6. **Carnet local-only** (DIAG-07) : l'historique des diagnostics/mesures est conservé **sur l'appareil** (0 serveur/0 sync), consultable, et permet de reprendre/re-tester
 
 **Plans**: TBD
 
