@@ -56,6 +56,8 @@
             if (next.kind === 'result') {
                 this.resultId = next.id;
                 this.step = 'result';
+                // Synchronise la feuille atteinte côté serveur pour l'escalade préemptive (Plan 05-04)
+                $wire.setSymptomResult(next.id);
             } else if (next.kind === 'question') {
                 this.nodeId = next.id;
                 this.step = 'tree';
@@ -107,6 +109,99 @@
         // Retour au step 1
         backToStep1() {
             this.wizardStep = 1;
+        },
+
+        // ── Carnet local-only — DIAG-07 (Plan 05-06) ────────────────
+        // 0 réseau, 0 synchro, 0 compte. Stocke uniquement le texte du résultat.
+        // DIAG-02 : aucune formule de dose ici.
+
+        carnetSaved: false,       // true dès que l'entrée courante est dans le carnet
+        carnetEntryId: null,      // id de l'entrée carnet courante
+        showCarnet: false,        // bascule l'affichage S9
+        showClearConfirm: false,  // confirm inline destructif
+        carnetEntries: [],        // liste chargée depuis localStorage
+
+        // Sauvegarde l'entrée courante dans le carnet (appelé à la fin de computeAndPersist)
+        saveToCarnet(serverId, symptome, diagnostic, confidence, mesuresCles, resultText) {
+            if (this.carnetSaved) return; // évite les doublons
+            if (!window.diagnosticCarnet) return;
+            const id = serverId ? String(serverId) : 'local_' + Date.now();
+            this.carnetEntryId = id;
+            window.diagnosticCarnet.save({
+                id,
+                date:        new Date().toISOString(),
+                symptome:    symptome || 'Diagnostic',
+                diagnostic:  diagnostic || '',
+                confidence:  confidence || 'indicatif',
+                mesuresCles: mesuresCles || '',
+                resultText:  resultText || '',
+                serverId:    serverId ?? null,
+                retested:    false,
+                retestOk:    null,
+            });
+            this.carnetSaved = true;
+        },
+
+        // Charge les entrées du carnet depuis localStorage
+        loadCarnetEntries() {
+            if (!window.diagnosticCarnet) { this.carnetEntries = []; return; }
+            this.carnetEntries = window.diagnosticCarnet.all();
+        },
+
+        // Formate une date ISO en lisible
+        formatCarnetDate(isoDate) {
+            try {
+                return new Date(isoDate).toLocaleDateString('fr-FR', {
+                    day: '2-digit', month: 'short', year: 'numeric'
+                });
+            } catch { return isoDate; }
+        },
+
+        // Efface tout le carnet
+        clearCarnet() {
+            if (!window.diagnosticCarnet) return;
+            window.diagnosticCarnet.clear();
+            this.carnetEntries = [];
+            this.showClearConfirm = false;
+        },
+
+        // Reprend un diagnostic passé (re-hydrate les données pour le parcours)
+        resumeFromCarnet(entry) {
+            // On retourne au mode de sélection avec l'entrée visible
+            // (la re-saisie d'un nouveau diagnostic est en ligne — DIAG-02)
+            this.showCarnet = false;
+            this.step = 'mode';
+            this.nodeId = 'start';
+            this.history = [];
+            this.resultId = null;
+        },
+
+        // ── Boucle de re-test (DIAG-06 réactif, Plan 05-06) ─────────
+        // En session, in-browser, 0 push, 0 scheduler (V0)
+
+        retestShown: false,   // le prompt re-test est visible
+        retestAnswered: false, // l'utilisateur a répondu
+
+        // Affiche le prompt re-test (appelé depuis un bouton "J'ai appliqué le plan")
+        showRetestPrompt() {
+            this.retestShown = true;
+        },
+
+        // Re-test réussi : marque l'entrée carnet, note visuelle positive
+        onRetestOui() {
+            this.retestAnswered = true;
+            if (this.carnetEntryId && window.diagnosticCarnet) {
+                window.diagnosticCarnet.markRetested(this.carnetEntryId, true);
+            }
+        },
+
+        // Re-test raté : déclenche l'escalade réactive via le hook Livewire (BLUEPRINT §4.2)
+        onRetestNon() {
+            this.retestAnswered = true;
+            $wire.triggerRetestFailed(); // hook Plan 04 — déclenche escaladeNiveau = 'reactif'
+            if (this.carnetEntryId && window.diagnosticCarnet) {
+                window.diagnosticCarnet.markRetested(this.carnetEntryId, false);
+            }
         }
     }"
     wire:ignore.self
@@ -159,6 +254,26 @@
                         <span class="block text-sm text-ink-500">pH, chlore, TAC, sel... calcul de doses côté serveur</span>
                     </span>
                     <x-icon.arrow-right :size="16" class="ml-auto text-ink-400 group-hover:text-azure-600 group-hover:translate-x-0.5 transition-all shrink-0" />
+                </button>
+
+                {{-- S9 — Carnet local : accès depuis la sélection mode --}}
+                <button
+                    type="button"
+                    data-mode-carnet
+                    x-init="loadCarnetEntries()"
+                    x-show="carnetEntries.length > 0"
+                    @click="loadCarnetEntries(); showCarnet = true;"
+                    class="group flex items-center gap-4 min-h-[52px] h-13 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-lagon-500 hover:bg-lagon-50/30 active:bg-lagon-100/20 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lagon-500"
+                    aria-label="Mes diagnostics passés — carnet local"
+                >
+                    <span class="shrink-0 h-10 w-10 rounded-xl grid place-items-center" style="background: oklch(0.720 0.113 207 / 0.12); color: oklch(0.620 0.100 209);">
+                        <x-icon.calendar :size="20" />
+                    </span>
+                    <span>
+                        <span class="block font-display font-semibold text-ink-950 text-base">Mes diagnostics passés</span>
+                        <span class="block text-sm" style="color: oklch(0.500 0.060 209);" x-text="carnetEntries.length + ' diagnostic' + (carnetEntries.length > 1 ? 's' : '') + ' enregistré' + (carnetEntries.length > 1 ? 's' : '') + ' sur cet appareil'"></span>
+                    </span>
+                    <x-icon.arrow-right :size="16" class="ml-auto text-ink-400 group-hover:translate-x-0.5 transition-all shrink-0" style="color: oklch(0.620 0.100 209);" />
                 </button>
             </div>
         </div>
@@ -714,24 +829,77 @@
          Affiché après computeAndPersist réussi (savedDiagnosticId non null)
     ═══════════════════════════════════════════════════════════ --}}
     @if ($savedDiagnosticId)
-    <div x-show="step === 'wizard'" x-transition.opacity.duration.300ms>
+    <div
+        x-show="step === 'wizard'"
+        x-transition.opacity.duration.300ms
+        x-init="
+            // Sauvegarde automatique dans le carnet au premier affichage (DIAG-07)
+            // DIAG-02 : on stocke le texte du résultat, jamais les formules
+            saveToCarnet(
+                @js($savedDiagnosticId),
+                @js($mode === 'chemistry' ? 'Analyse chimique' : 'Diagnostic symptôme'),
+                @js(empty($recommandations) ? 'Eau équilibrée — aucune correction' : count($recommandations) . ' correction(s) identifiée(s)'),
+                @js($confidenceIndex ?? 'indicatif'),
+                @js(collect($recommandations)->map(fn($r) => ($r['param'] ?? '') . ($r['current'] ? ' : ' . $r['current'] : ''))->filter()->join(', ')),
+                @js(empty($recommandations) ? 'Ton eau est équilibrée.' : count($recommandations) . ' correction(s) : ' . collect($recommandations)->pluck('param')->filter()->join(', '))
+            )
+        "
+    >
         <div class="py-6">
 
-            {{-- ① Titre + confidence --}}
+            {{-- ① Titre + confidence chip (S5, register: product) --}}
             <div class="mb-6">
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">RÉSULTATS DE L'ANALYSE</p>
-                <h2 class="font-display font-bold text-ink-950 mb-2" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
+                <h2 class="font-display font-bold text-ink-950 mb-3" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
                     @if (empty($recommandations))
                         Ton eau est équilibrée
                     @else
                         {{ count($recommandations) }} correction{{ count($recommandations) > 1 ? 's' : '' }} identifiée{{ count($recommandations) > 1 ? 's' : '' }}
                     @endif
                 </h2>
+
+                {{-- Confidence chip (S5 — register: product — CDC §5.5) --}}
                 @if (empty($recommandations))
                     <div class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold" style="background: oklch(0.700 0.150 155 / 0.12); border-color: oklch(0.700 0.150 155 / 0.25); color: oklch(0.700 0.150 155);">
                         <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.700 0.150 155);"></span>
                         Eau saine
                     </div>
+                @else
+                    {{-- Chip confiance (CDC §5.5 : success pour élevé, warn pour moyen/indicatif) --}}
+                    @if ($confidenceIndex === 'eleve')
+                        <div
+                            class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold mb-1"
+                            style="background: oklch(0.700 0.150 155 / 0.12); border-color: oklch(0.700 0.150 155 / 0.30); color: oklch(0.700 0.150 155);"
+                            role="status"
+                            aria-label="Confiance élevée"
+                        >
+                            <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.700 0.150 155);"></span>
+                            Confiance élevée
+                        </div>
+                        <p class="text-xs text-ink-500 mt-1">basé sur tes mesures.</p>
+                    @elseif ($confidenceIndex === 'moyen')
+                        <div
+                            class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold mb-1"
+                            style="background: oklch(0.965 0.045 85); border-color: oklch(0.800 0.130 80 / 0.30); color: oklch(0.800 0.130 80);"
+                            role="status"
+                            aria-label="Confiance moyenne"
+                        >
+                            <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.800 0.130 80);"></span>
+                            Confiance moyenne
+                        </div>
+                        <p class="text-xs text-ink-500 mt-1">affine en mesurant le stabilisant / le TAC.</p>
+                    @else
+                        <div
+                            class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold mb-1"
+                            style="background: oklch(0.965 0.045 85); border-color: oklch(0.800 0.130 80 / 0.30); color: oklch(0.800 0.130 80);"
+                            role="status"
+                            aria-label="Indicatif"
+                        >
+                            <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.800 0.130 80);"></span>
+                            Indicatif
+                        </div>
+                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure — pour confirmer, mesure ton eau ou demande à Pierre.</p>
+                    @endif
                 @endif
             </div>
 
@@ -800,24 +968,103 @@
                 </p>
             @endif
 
-            {{-- ⑤ S6 — Escalade WhatsApp (register: brand) --}}
-            <div class="rounded-2xl bg-navy-900 p-5 mb-8">
-                <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-400 mb-2">DEMANDER UNE INTERVENTION</p>
-                <h3 class="font-display font-semibold text-sand-50 text-lg mb-1">Pierre peut intervenir rapidement</h3>
-                <p class="text-sm text-sand-100/70 mb-4 leading-relaxed">
-                    Un plan ne suffit pas ou tu préfères être accompagné ?
-                    Pierre (Dlo Azur Piscines) intervient en Martinique — envoie-lui ton diagnostic directement sur WhatsApp.
-                </p>
+            {{-- ⑤ PDF téléchargeable (guarded — Plan 05-05 crée la route) --}}
+            @if(Route::has('diagnostic.pdf'))
+            <div class="mb-4">
                 <a
-                    href="https://wa.me/596696940054?text={{ urlencode($whatsappSummary) }}"
+                    href="{{ route('diagnostic.pdf', $savedDiagnosticId) }}"
                     target="_blank"
                     rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:brightness-95 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-azure-600 hover:text-azure-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
+                >
+                    <x-icon.arrow-right :size="14" class="shrink-0" />
+                    Télécharger le rapport (PDF)
+                </a>
+            </div>
+            @endif
+
+            {{-- ⑥ S6 — Pic d'escalade WhatsApp (register: brand, UI-SPEC S6) --}}
+            @if ($escaladeNiveau === 'preemptif')
+                {{-- Hard-stop callout pour acide chlorhydrique / 230V (full ring, pas de side-stripe — UI-SPEC S6) --}}
+                @if (in_array($escaladeRaison, ['acide-chlorhydrique', '230V']))
+                <div
+                    class="mb-4 rounded-2xl p-4 ring-2 flex items-start gap-3"
+                    style="background: oklch(0.620 0.210 25 / 0.07); border-color: oklch(0.620 0.210 25 / 0.40);"
+                    role="alert"
+                    aria-live="assertive"
+                >
+                    <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
+                    <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
+                        <strong>Cette étape est risquée pour un particulier.</strong>
+                        On te recommande de faire appel à Pierre plutôt que de la tenter seul.
+                    </p>
+                </div>
+                @endif
+            @endif
+
+            {{-- Carte d'escalade (BRAND register — marine, one-gesture CTA WhatsApp vert) --}}
+            <div
+                class="rounded-2xl p-5 mb-8 escalade-card"
+                style="background: oklch(0.232 0.052 251);"
+            >
+                <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.720 0.113 207);">DEMANDER UNE INTERVENTION</p>
+                @if ($escaladeNiveau === 'preemptif')
+                    <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
+                        Ce cas dépasse le DIY — Pierre est là
+                    </h3>
+                    <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
+                        Envoie ton diagnostic à Pierre sur WhatsApp — il arrive avec le contexte complet :
+                        symptôme, mesures, filtre, ce que tu as déjà tenté, et le niveau de confiance.
+                    </p>
+                @else
+                    <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
+                        Pierre peut intervenir rapidement
+                    </h3>
+                    <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
+                        Un plan ne suffit pas ou tu préfères être accompagné ?
+                        Pierre (Dlo Azur Piscines) intervient en Martinique — envoie-lui ton diagnostic directement sur WhatsApp.
+                    </p>
+                @endif
+
+                {{-- Contexte récap (ce que Pierre reçoit) --}}
+                <div class="mb-4 text-xs leading-relaxed space-y-0.5" style="color: oklch(0.967 0.008 84 / 0.55);">
+                    <p>Pierre recevra : symptôme · mesures (+ fiabilité) · filtre + volume · actions tentées · diagnostic · confiance{{ $commune ? ' · ' . $commune : '' }}</p>
+                </div>
+
+                {{-- CTA WhatsApp — one gesture, pre-filled rich context (DIAG-06) --}}
+                {{-- Alpine encodeURIComponent encode le payload riche côté client (RESEARCH Pattern 5) --}}
+                <a
+                    href="https://wa.me/596696940054?text={{ urlencode($whatsappSummary) }}"
+                    x-on:click.prevent="window.open('https://wa.me/596696940054?text=' + encodeURIComponent(@js($whatsappSummary)), '_blank', 'noopener,noreferrer')"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl font-bold text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                    style="background-color: #25D366; color: oklch(0.987 0.005 85);"
+                    aria-label="Demander une intervention à Pierre sur WhatsApp"
                 >
                     <x-icon.whatsapp :size="18" />
                     Demander une intervention à Pierre
                 </a>
             </div>
+
+            {{-- Style bloom unique sur la carte escalade (non-looping, one-time reveal — UI-SPEC S6) --}}
+            @once
+            @push('head')
+            <style>
+            @keyframes escalade-bloom {
+                0%   { box-shadow: 0 0 0 0 oklch(0.232 0.052 251 / 0.0); }
+                40%  { box-shadow: 0 0 0 12px oklch(0.232 0.052 251 / 0.18); }
+                100% { box-shadow: 0 0 0 20px oklch(0.232 0.052 251 / 0.00); }
+            }
+            .escalade-card {
+                animation: escalade-bloom 900ms ease-out 150ms 1 forwards;
+            }
+            @media (prefers-reduced-motion: reduce) {
+                .escalade-card { animation: none; }
+            }
+            </style>
+            @endpush
+            @endonce
 
             {{-- ⑥ S7 — Lead capture (register: product) —————————————————————————— --}}
             @if ($leadSent)
@@ -1065,30 +1312,71 @@
                     <span x-text="getResult(resultId)?.retest_reminder ?? ''"></span>
                 </p>
 
-                {{-- S6 — Escalade WhatsApp (register: brand) --}}
-                <div class="rounded-2xl bg-navy-900 p-5">
-                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-400 mb-2">DEMANDER UNE INTERVENTION</p>
-                    <h3 class="font-display font-semibold text-sand-50 text-lg mb-1">Pierre peut intervenir rapidement</h3>
-                    <p class="text-sm text-sand-100/70 mb-4 leading-relaxed">
-                        Un plan ne suffit pas ou tu préfères être accompagné ?
-                        Pierre (Dlo Azur Piscines) intervient en Martinique — envoie-lui ton diagnostic directement sur WhatsApp.
+                {{-- S6 — Pic d'escalade WhatsApp arbre symptôme (register: brand — UI-SPEC S6) --}}
+                {{-- Hard-stop callout si la feuille porte acide/230V --}}
+                <template x-if="getResult(resultId)?.escalade?.niveau === 'preemptif' && ['acide-chlorhydrique','230V'].includes(getResult(resultId)?.escalade?.raison)">
+                    <div
+                        class="mb-4 rounded-2xl p-4 ring-2 flex items-start gap-3"
+                        style="background: oklch(0.620 0.210 25 / 0.07); border-color: oklch(0.620 0.210 25 / 0.40);"
+                        role="alert"
+                        aria-live="assertive"
+                    >
+                        <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
+                        <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
+                            <strong>Cette étape est risquée pour un particulier.</strong>
+                            On te recommande de faire appel à Pierre plutôt que de la tenter seul.
+                        </p>
+                    </div>
+                </template>
+
+                <div
+                    class="rounded-2xl p-5 escalade-card-tree"
+                    style="background: oklch(0.232 0.052 251);"
+                >
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.720 0.113 207);">DEMANDER UNE INTERVENTION</p>
+                    <h3
+                        class="font-display font-semibold text-lg mb-1"
+                        style="color: oklch(0.987 0.005 85);"
+                        x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY — Pierre est là' : 'Pierre peut intervenir rapidement'"
+                    ></h3>
+                    <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
+                        Envoie ton diagnostic à Pierre sur WhatsApp — il arrive avec le contexte complet :
+                        symptôme, mesures, filtre, ce que tu as déjà tenté.
                     </p>
+
+                    {{-- CTA WhatsApp riche — Alpine encodeURIComponent (RESEARCH Pattern 5 / DIAG-06) --}}
                     <a
                         :href="'https://wa.me/596696940054?text=' + encodeURIComponent(
-                            'Bonjour Pierre, j\'ai fait un diagnostic sur le site Dlo Azur.\n\n'
-                            + 'Problème détecté : ' + (getResult(resultId)?.diagnostic ?? '') + '\n'
+                            'Bonjour Pierre, j\'ai utilisé l\'outil diagnostic de Dlo Azur Piscines.\n\n'
+                            + 'Parcours : Diagnostic par symptôme\n'
+                            + 'Diagnostic : ' + (getResult(resultId)?.diagnostic ?? '') + '\n'
                             + 'Analyse : ' + (getResult(resultId)?.analyse ?? '') + '\n'
-                            + (triedActions.length > 0 ? 'Déjà tenté : ' + triedActions.join(', ') + '\n' : '')
-                            + '\nPeux-tu m\'aider ?'
+                            + (triedActions.length > 0 ? '\nDéjà tenté (sans succès) : ' + triedActions.join(', ') + '\n' : '')
+                            + '\nPeux-tu m\'aider ou intervenir ?'
                         )"
                         target="_blank"
                         rel="noopener noreferrer"
-                        class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:brightness-95 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                        class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl font-bold text-sm hover:brightness-95 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                        style="background-color: #25D366; color: oklch(0.987 0.005 85);"
+                        aria-label="Demander une intervention à Pierre sur WhatsApp"
                     >
                         <x-icon.whatsapp :size="18" />
                         Demander une intervention à Pierre
                     </a>
                 </div>
+
+                @once
+                @push('head')
+                <style>
+                .escalade-card-tree {
+                    animation: escalade-bloom 900ms ease-out 150ms 1 forwards;
+                }
+                @media (prefers-reduced-motion: reduce) {
+                    .escalade-card-tree { animation: none; }
+                }
+                </style>
+                @endpush
+                @endonce
 
                 <div class="mt-6 text-center">
                     <button

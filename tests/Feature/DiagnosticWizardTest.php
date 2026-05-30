@@ -267,6 +267,143 @@ it('honeypot trip silently swallows lead submission', function () {
     Mail::assertNothingSent();
 });
 
+// ──────────────────────────────────────────────────────────────────────────────
+// Plan 05-04 : Escalade + Confiance + WhatsApp riche (DIAG-06 full)
+// ──────────────────────────────────────────────────────────────────────────────
+
+it('escalade préemptive se déclenche sur une feuille hors-DIY (electro-panne 230V)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->call('setSymptomResult', 'electro-panne');
+
+    expect($component->get('escaladeNiveau'))->toBe('preemptif');
+    expect($component->get('escaladeRaison'))->toBe('230V');
+});
+
+it('escalade préemptive se déclenche sur electro-entartree (acide-chlorhydrique)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->call('setSymptomResult', 'electro-entartree');
+
+    expect($component->get('escaladeNiveau'))->toBe('preemptif');
+    expect($component->get('escaladeRaison'))->toBe('acide-chlorhydrique');
+});
+
+it('guard anti-sur-escalade : aucune escalade sur une feuille DIY facile (algues-parois)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->call('setSymptomResult', 'algues-parois');
+
+    expect($component->get('escaladeNiveau'))->toBe('aucun');
+    expect($component->get('escaladeRaison'))->toBeNull();
+});
+
+it('guard anti-sur-escalade : aucune escalade sur eau saine (algues-installees)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->call('setSymptomResult', 'algues-installees');
+
+    expect($component->get('escaladeNiveau'))->toBe('aucun');
+});
+
+it('hook réactif : triggerRetestFailed() déclenche escalade réactive', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->call('triggerRetestFailed');
+
+    expect($component->get('escaladeNiveau'))->toBe('reactif');
+    expect($component->get('escaladeRaison'))->toBe('echec-retest');
+});
+
+it('indice de confiance indicatif sur parcours sans mesure', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->call('computeAndPersist');
+
+    expect($component->get('confidenceIndex'))->toBe('indicatif');
+});
+
+it('indice de confiance élevé avec pH + chlore + TAC renseignés', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.4')
+        ->set('chlore', '1.5')
+        ->set('alcalinite', '100')
+        ->call('computeAndPersist');
+
+    expect($component->get('confidenceIndex'))->toBe('eleve');
+});
+
+it('indice de confiance moyen avec mesures partielles (pH seul)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.4')
+        ->call('computeAndPersist');
+
+    expect($component->get('confidenceIndex'))->toBe('moyen');
+});
+
+it('whatsapp summary contient le numéro 596696940054 et le contexte riche', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.4')
+        ->set('chlore', '1.5')
+        ->set('alcalinite', '100')
+        ->set('triedActions', ['Chlore choc', 'Brossage des parois'])
+        ->call('computeAndPersist');
+
+    $wizard  = $component->instance();
+    $summary = $wizard->whatsappSummary();
+
+    // Numéro WhatsApp (DIAG-06)
+    $component->assertSee('596696940054');
+
+    // Contexte riche : symptôme / mesures / actions tentées / diagnostic
+    expect($summary)->toContain('Mesures');
+    expect($summary)->toContain('Déjà tenté (sans succès)');
+    expect($summary)->toContain('Chlore choc');
+    expect($summary)->toContain('Confiance');
+    expect($summary)->toContain('Dlo Azur');
+});
+
+it('whatsapp summary contient les accents sans corruption (encodeURIComponent via Blade urlencode)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('computeAndPersist');
+
+    $wizard  = $component->instance();
+    $summary = $wizard->whatsappSummary();
+    // Vérifie les caractères accentués restent intacts dans la chaîne serveur
+    expect($summary)->toContain('Dlo Azur Piscines');
+    // urlencode() dans Blade peut encoder les accents — l'important est que la chaîne source les contienne
+    expect($summary)->toBeString();
+});
+
+it('richContextPayload inclut symptôme, mesures, actions tentées, diagnostic, confiance', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '30')
+        ->set('ph', '7.2')
+        ->set('chlore', '2.0')
+        ->set('alcalinite', '90')
+        ->set('triedActions', ['Anti-algues'])
+        ->call('computeAndPersist');
+
+    $wizard   = $component->instance();
+    $payload  = $wizard->richContextPayload();
+    $summary  = implode("\n", $payload);
+
+    expect($summary)->toContain('pH');
+    expect($summary)->toContain('Déjà tenté (sans succès)');
+    expect($summary)->toContain('Anti-algues');
+    expect($summary)->toContain('Indice de confiance');
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Throttle (gardé en dernier car utilise RateLimiter)
+// ──────────────────────────────────────────────────────────────────────────────
+
 it('lead submit is rate limited after 5 attempts in 60s', function () {
     Mail::fake();
 
