@@ -1,14 +1,17 @@
 {{--
-    Diagnostic piscine — wizard Livewire / Alpine (Plan 05-01)
-    Surfaces : S2 (arbre symptôme), S4 (disclaimer gate), S5 minimal (feuille résultat)
+    Diagnostic piscine — wizard Livewire / Alpine (Plans 05-01 + 05-03)
+    Surfaces : S2 (arbre symptôme), S3 (wizard chimie), S4 (disclaimer gate),
+               S5 minimal (feuille résultat + dosage), S6 (escalade WhatsApp),
+               S7 (lead capture)
 
     Architecture (D-01) :
-    - Alpine    : navigation entre steps (step, mode, nodeId, tried) — jamais lié Livewire
-    - Livewire  : état serveur (disclaimerAccepted, triedActions) + actions (acceptDisclaimer)
+    - Alpine    : navigation entre steps (step, mode, nodeId, wizardStep, sizeMode) — jamais lié Livewire
+    - Livewire  : état serveur (disclaimerAccepted, champs mesures, lead, compute/persist)
     - wire:ignore.self sur la racine Alpine pour éviter le reset du step (Pitfall 1)
 
-    DIAG-02 invariant : aucune formule arithmétique dans ce fichier ni dans le JS emis.
+    DIAG-02 invariant : aucune formule arithmétique dans ce fichier ni dans le JS émis.
     L'arbre config est passé en Blade statique côté serveur (@js) — lecture seule pour Alpine.
+    La surface × profondeur est géométrie, pas dosage — elle est calculée côté serveur dans volumeEffectif().
 
     Tokens : @theme exclusivement (resources/css/app.css) — jamais #000/#fff, jamais px arbitraire.
     Seul hex autorisé : #25D366 (WhatsApp channel).
@@ -24,6 +27,12 @@
         history: [],
         triedActions: [],
         resultId: null,
+
+        // ── Wizard chimie (S3) ──────────────────────────────────
+        wizardStep: 1,
+        sizeMode: 'volume',    // 'volume' | 'surface'
+        derivedVolume: 0,      // surface × profondeur (display only — calcul serveur)
+        hasSel: false,
 
         // Récupère un nœud de question depuis le config
         getNode(id) {
@@ -42,6 +51,7 @@
             this.history.push({ step: this.step, nodeId: this.nodeId, mode: this.mode });
             if (this.step === 'mode') {
                 this.mode = option.value;
+                // Synchroniser le mode côté serveur (wire:model.live non utilisé volontairement)
             }
             if (next.kind === 'result') {
                 this.resultId = next.id;
@@ -49,6 +59,9 @@
             } else if (next.kind === 'question') {
                 this.nodeId = next.id;
                 this.step = 'tree';
+            } else if (next.kind === 'wizard') {
+                this.step = 'wizard';
+                this.wizardStep = 1;
             }
         },
 
@@ -70,11 +83,30 @@
             } else {
                 this.triedActions.push(val);
             }
+            // Synchroniser côté serveur pour la persistance
+            $wire.updateTriedActions(this.triedActions);
         },
 
         // Vérifier si une action est déjà tentée
         isTried(val) {
             return this.triedActions.includes(val);
+        },
+
+        // Mettre à jour le volume dérivé (affichage — calcul surface×profondeur purement géométrique)
+        updateDerivedVolume() {
+            const s = parseFloat(String($wire.surface ?? '').replace(',', '.')) || 0;
+            const p = parseFloat(String($wire.profondeur ?? '').replace(',', '.')) || 0;
+            this.derivedVolume = s && p ? Math.round(s * p * 10) / 10 : 0;
+        },
+
+        // Passer au step 2 du wizard chimie
+        goToStep2() {
+            this.wizardStep = 2;
+        },
+
+        // Retour au step 1
+        backToStep1() {
+            this.wizardStep = 1;
         }
     }"
     wire:ignore.self
@@ -84,7 +116,7 @@
 
     {{-- ═══════════════════════════════════════════════════════════
          S0 — Choix du mode (Symptôme / Chimie)
-         Affiché si step === 'mode' — reproduit les tuiles de la landing mais dans le wizard
+         Affiché si step === 'mode'
     ═══════════════════════════════════════════════════════════ --}}
     <div x-show="step === 'mode'" x-transition.opacity.duration.200ms>
         <div class="py-8">
@@ -116,7 +148,7 @@
                 <button
                     type="button"
                     data-mode-chemistry
-                    @click="advance({ value: 'chemistry', next: { kind: 'question', id: 'start' } })"
+                    @click="advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
                     class="group flex items-center gap-4 min-h-[60px] h-15 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-azure-500 hover:bg-azure-50 active:bg-azure-100 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
                 >
                     <span class="shrink-0 h-10 w-10 rounded-xl bg-sand-100 ring-1 ring-sand-200 grid place-items-center text-ink-600">
@@ -135,21 +167,18 @@
     {{-- ═══════════════════════════════════════════════════════════
          S4 — Disclaimer gate (register: product)
          Inline progressive step (jamais une modale — UI-SPEC S4)
-         Affiché au nœud 'start' avant que le visiteur commence
-         NB : pour la version MVP, le disclaimer est montré au tout début du parcours.
+         Affiché au nœud 'start' avant que le visiteur commence l'arbre
     ═══════════════════════════════════════════════════════════ --}}
-    {{-- Le disclaimer est affiché avant le premier nœud si non encore accepté --}}
     <div
         x-show="step === 'tree' && nodeId === 'start' && !$wire.disclaimerAccepted"
         x-transition.opacity.duration.200ms
     >
         <div class="py-6">
-            {{-- Card disclaimer — fond sand, pas de rouge alarmant (UI-SPEC S4) --}}
             <div class="rounded-2xl bg-white ring-1 ring-sand-200 overflow-hidden">
                 <div class="p-6">
                     <div class="flex items-start gap-3 mb-4">
-                        <span class="shrink-0 h-9 w-9 rounded-xl bg-warn-bg ring-1 ring-warn/30 grid place-items-center" style="background: oklch(0.965 0.045 85);">
-                            <x-icon.shield :size="18" class="text-warn" style="color: oklch(0.800 0.130 80);" />
+                        <span class="shrink-0 h-9 w-9 rounded-xl ring-1 grid place-items-center" style="background: oklch(0.965 0.045 85); border-color: oklch(0.800 0.130 80 / 0.3);">
+                            <x-icon.shield :size="18" style="color: oklch(0.800 0.130 80);" />
                         </span>
                         <div>
                             <h2 class="font-display font-semibold text-ink-950 text-lg">Avant de commencer</h2>
@@ -192,8 +221,6 @@
 
     {{-- ═══════════════════════════════════════════════════════════
          S2 — Arbre de décision symptôme (register: product)
-         Question par question, Alpine traverse le config PHP
-         Affiché si step === 'tree' ET disclaimer accepté
     ═══════════════════════════════════════════════════════════ --}}
     <div
         x-show="step === 'tree' && (nodeId !== 'start' || $wire.disclaimerAccepted)"
@@ -201,7 +228,6 @@
     >
         <template x-if="getNode(nodeId)">
             <div class="py-6">
-                {{-- Bouton retour --}}
                 <button
                     type="button"
                     x-show="history.length > 0"
@@ -213,7 +239,6 @@
                     Retour
                 </button>
 
-                {{-- Question --}}
                 <div class="mb-6">
                     <h2
                         class="font-display font-semibold text-ink-950"
@@ -227,30 +252,12 @@
                     ></p>
                 </div>
 
-                {{-- Options — grande tuile tactile ≥ h-13 (52px) --}}
-                <div class="flex flex-col gap-3">
-                    <template x-for="(option, idx) in (getNode(nodeId)?.options ?? [])" :key="idx">
-                        <button
-                            type="button"
-                            @click="advance(option)"
-                            class="group flex items-center gap-3 min-h-[52px] h-13 px-4 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-azure-500 hover:bg-azure-50 active:scale-[0.99] transition-all text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
-                        >
-                            {{-- Emoji anchor --}}
-                            <span class="shrink-0 text-xl leading-none w-8 text-center" x-text="option.emoji ?? ''"></span>
-                            {{-- Label --}}
-                            <span class="font-semibold text-ink-900 text-sm leading-snug" x-text="option.label"></span>
-                            {{-- Flèche --}}
-                            <x-icon.arrow-right :size="14" class="ml-auto text-ink-300 group-hover:text-azure-500 group-hover:translate-x-0.5 transition-all shrink-0" />
-                        </button>
-                    </template>
-                </div>
-
-                {{-- Nœud "tried" (multiselect chips) — déclenché par un nœud avec id='tried' --}}
-                <div x-show="nodeId === 'tried'" class="mt-6">
+                {{-- Nœud "tried" (multiselect chips) --}}
+                <div x-show="nodeId === 'tried'" class="mb-6">
                     <p class="text-sm font-semibold text-ink-700 mb-3">
                         Qu'as-tu déjà tenté ? <span class="font-normal text-ink-400">(pour ne pas te reproposer ce qui n'a pas marché)</span>
                     </p>
-                    <div class="flex flex-wrap gap-2">
+                    <div class="flex flex-wrap gap-2 mb-4">
                         <template x-for="action in ['Chlore choc', 'Brossage des parois', 'Anti-algues', 'Ajusté le pH', 'Backwash filtre', 'Rien encore']" :key="action">
                             <button
                                 type="button"
@@ -264,18 +271,705 @@
                         </template>
                     </div>
                 </div>
+
+                {{-- Options — grande tuile tactile ≥ h-13 (52px) --}}
+                <div class="flex flex-col gap-3">
+                    <template x-for="(option, idx) in (getNode(nodeId)?.options ?? [])" :key="idx">
+                        <button
+                            type="button"
+                            @click="advance(option)"
+                            class="group flex items-center gap-3 min-h-[52px] h-13 px-4 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-azure-500 hover:bg-azure-50 active:scale-[0.99] transition-all text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                        >
+                            <span class="shrink-0 text-xl leading-none w-8 text-center" x-text="option.emoji ?? ''"></span>
+                            <span class="font-semibold text-ink-900 text-sm leading-snug" x-text="option.label"></span>
+                            <x-icon.arrow-right :size="14" class="ml-auto text-ink-300 group-hover:text-azure-500 group-hover:translate-x-0.5 transition-all shrink-0" />
+                        </button>
+                    </template>
+                </div>
             </div>
         </template>
     </div>
 
     {{-- ═══════════════════════════════════════════════════════════
-         S5 minimal — Feuille résultat (register: product)
-         Gabarit fixe (CDC §7, UI-SPEC S5) :
-         1. Diagnostic statement (Fredoka headline) + confidence chip
-         2. Pourquoi (analyse)
-         3. Safety block (ambre, avant tout geste chimique)
-         4. Étapes ordonnées
-         5. Quand appeler Pierre (escalade WhatsApp)
+         S3 — Wizard chimie : saisie des mesures (register: product)
+         2 steps : 1 = infos piscine, 2 = mesures
+         Alpine drive step nav — wire:click uniquement pour "Calculer"
+    ═══════════════════════════════════════════════════════════ --}}
+    <div
+        x-show="step === 'wizard'"
+        x-transition.opacity.duration.200ms
+    >
+        <div class="py-6">
+
+            {{-- Bouton retour --}}
+            <button
+                type="button"
+                @click="back()"
+                class="mb-5 inline-flex items-center gap-1.5 h-9 px-3 -ml-1 rounded-xl text-sm text-ink-500 hover:text-ink-900 hover:bg-sand-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                aria-label="Retour"
+            >
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                Retour
+            </button>
+
+            {{-- Indicateur de step (1/2) --}}
+            <div class="flex items-center gap-2 mb-6">
+                <span
+                    :class="wizardStep === 1 ? 'bg-azure-500 text-white' : 'bg-sand-200 text-ink-500'"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-colors"
+                >1</span>
+                <span class="h-px w-6 bg-sand-200"></span>
+                <span
+                    :class="wizardStep === 2 ? 'bg-azure-500 text-white' : 'bg-sand-200 text-ink-500'"
+                    class="inline-flex h-7 w-7 items-center justify-center rounded-full text-xs font-bold transition-colors"
+                >2</span>
+                <span class="ml-2 text-xs text-ink-400" x-text="wizardStep === 1 ? 'Informations piscine' : 'Mesures de l\'eau'"></span>
+            </div>
+
+            {{-- ══ Step 1 : Infos piscine ══ --}}
+            <div x-show="wizardStep === 1" x-transition.opacity.duration.150ms>
+
+                <h2 class="font-display font-bold text-ink-950 mb-6" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
+                    Ta piscine
+                </h2>
+
+                {{-- Disclaimer requis avant le mode chimie --}}
+                <div x-show="!$wire.disclaimerAccepted" class="mb-6 rounded-xl p-4 ring-1" style="background: oklch(0.965 0.045 85); outline: 1px solid oklch(0.800 0.130 80 / 0.25);">
+                    <p class="text-sm font-semibold text-ink-800 mb-1">Avant de commencer</p>
+                    <p class="text-sm text-ink-700 mb-3">
+                        Ces recommandations sont indicatives — elles ne remplacent pas l'avis d'un pisciniste.
+                        Vérifie toujours la notice de tes produits.
+                    </p>
+                    <button
+                        type="button"
+                        wire:click="acceptDisclaimer"
+                        @click="$wire.disclaimerAccepted = true"
+                        class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
+                    >
+                        J'ai compris, voir les recommandations
+                    </button>
+                </div>
+
+                <div class="space-y-5">
+
+                    {{-- Toggle mode saisie volume --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-ink-700 mb-2">Volume de la piscine</label>
+                        <div class="flex rounded-xl ring-1 ring-sand-200 overflow-hidden mb-3">
+                            <button
+                                type="button"
+                                @click="sizeMode = 'volume'; $wire.set('sizeMode', 'volume')"
+                                :class="sizeMode === 'volume' ? 'bg-azure-500 text-white' : 'bg-white text-ink-700 hover:bg-sand-50'"
+                                class="flex-1 h-10 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                            >
+                                Volume en m³
+                            </button>
+                            <button
+                                type="button"
+                                @click="sizeMode = 'surface'; $wire.set('sizeMode', 'surface')"
+                                :class="sizeMode === 'surface' ? 'bg-azure-500 text-white' : 'bg-white text-ink-700 hover:bg-sand-50'"
+                                class="flex-1 h-10 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                            >
+                                Surface × profondeur
+                            </button>
+                        </div>
+
+                        {{-- Volume direct --}}
+                        <div x-show="sizeMode === 'volume'">
+                            <input
+                                wire:model.lazy="volume"
+                                type="number"
+                                inputmode="decimal"
+                                step="0.5"
+                                min="1"
+                                max="1000"
+                                class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('volume') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                                placeholder="ex: 25"
+                                aria-label="Volume en m³"
+                            >
+                            @error('volume')
+                                <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 25</p>
+                            @enderror
+                        </div>
+
+                        {{-- Surface + profondeur --}}
+                        <div x-show="sizeMode === 'surface'" class="space-y-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-ink-500 mb-1">Surface (m²)</label>
+                                <input
+                                    wire:model.lazy="surface"
+                                    type="number"
+                                    inputmode="decimal"
+                                    step="0.5"
+                                    min="1"
+                                    max="5000"
+                                    @input="updateDerivedVolume()"
+                                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('surface') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                                    placeholder="ex: 32"
+                                    aria-label="Surface en m²"
+                                >
+                                @error('surface')
+                                    <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 32</p>
+                                @enderror
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-ink-500 mb-1">Profondeur moyenne (m)</label>
+                                <input
+                                    wire:model.lazy="profondeur"
+                                    type="number"
+                                    inputmode="decimal"
+                                    step="0.1"
+                                    min="0.5"
+                                    max="5"
+                                    @input="updateDerivedVolume()"
+                                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('profondeur') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                                    placeholder="ex: 1,5"
+                                    aria-label="Profondeur en mètres"
+                                >
+                                @error('profondeur')
+                                    <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 1,5</p>
+                                @enderror
+                            </div>
+                            {{-- Volume dérivé (affichage) --}}
+                            <p
+                                x-show="derivedVolume > 0"
+                                class="text-sm text-ink-600"
+                            >
+                                Volume estimé : <strong class="text-ink-900 tabular-nums" x-text="derivedVolume + ' m³'"></strong>
+                            </p>
+                        </div>
+                    </div>
+
+                    {{-- Type de filtre — constrained select (FLOCULANT-BRANCH-SPEC §2) --}}
+                    <div>
+                        <label for="diag-filtration" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            Type de filtre <span class="text-danger" aria-hidden="true">*</span>
+                            <span class="font-normal text-ink-400 text-xs">(obligatoire avant toute recommandation produit)</span>
+                        </label>
+                        <select
+                            id="diag-filtration"
+                            wire:model="filtration"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('filtration') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 outline-none transition"
+                            aria-required="true"
+                        >
+                            <option value="">— Sélectionner —</option>
+                            <option value="sable">Sable</option>
+                            <option value="verre">Verre (média alternatif)</option>
+                            <option value="cartouche">Cartouche</option>
+                            <option value="diatomees">Diatomées</option>
+                        </select>
+                        @error('filtration')
+                            <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                        @enderror
+                        @if ($filtrationHint && ! in_array($filtrationHint, ['sable', 'verre', 'cartouche', 'diatomees']))
+                            <p class="mt-1 text-xs text-ink-400">Valeur de ta fiche piscine : « {{ $filtrationHint }} » — choisis la correspondance ci-dessus.</p>
+                        @endif
+                    </div>
+
+                    {{-- Piscine au sel --}}
+                    <div>
+                        <label class="block text-sm font-semibold text-ink-700 mb-2">Piscine traitée au sel ?</label>
+                        <div class="flex gap-3">
+                            <button
+                                type="button"
+                                @click="hasSel = true; $wire.set('sel', true)"
+                                :class="hasSel ? 'bg-azure-500 text-white ring-azure-600' : 'bg-white text-ink-700 ring-sand-200 hover:ring-azure-400'"
+                                class="flex-1 h-11 rounded-xl ring-1 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                            >
+                                Oui
+                            </button>
+                            <button
+                                type="button"
+                                @click="hasSel = false; $wire.set('sel', false)"
+                                :class="!hasSel ? 'bg-azure-500 text-white ring-azure-600' : 'bg-white text-ink-700 ring-sand-200 hover:ring-azure-400'"
+                                class="flex-1 h-11 rounded-xl ring-1 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                            >
+                                Non
+                            </button>
+                        </div>
+                    </div>
+
+                    {{-- CTA vers Step 2 --}}
+                    <button
+                        type="button"
+                        @click="goToStep2()"
+                        class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
+                    >
+                        Continuer
+                        <x-icon.arrow-right :size="16" />
+                    </button>
+                </div>
+            </div>
+
+            {{-- ══ Step 2 : Mesures ══ --}}
+            <div x-show="wizardStep === 2" x-transition.opacity.duration.150ms>
+
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="font-display font-bold text-ink-950" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
+                        Tes mesures
+                    </h2>
+                    <button
+                        type="button"
+                        @click="backToStep1()"
+                        class="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl text-sm text-ink-500 hover:text-ink-900 hover:bg-sand-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                        aria-label="Retour aux informations piscine"
+                    >
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                        Étape 1
+                    </button>
+                </div>
+
+                <p class="text-sm text-ink-500 mb-6 leading-relaxed">
+                    Laisse vide les valeurs que tu n'as pas mesurées — les recommandations s'adaptent.
+                </p>
+
+                {{-- Erreurs globales --}}
+                @error('throttle')
+                    <div class="mb-4 rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3">
+                        <p class="text-sm text-danger">{{ $message }}</p>
+                    </div>
+                @enderror
+                @error('compute')
+                    <div class="mb-4 rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3">
+                        <p class="text-sm text-danger">{{ $message }}</p>
+                    </div>
+                @enderror
+                @error('disclaimer')
+                    <div class="mb-4 rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3">
+                        <p class="text-sm text-danger">{{ $message }}</p>
+                    </div>
+                @enderror
+
+                <div class="space-y-5">
+
+                    {{-- pH --}}
+                    <div>
+                        <label for="diag-ph" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            pH <span class="font-normal text-ink-400 text-xs">(optimal : 7,2 – 7,4)</span>
+                        </label>
+                        <input
+                            id="diag-ph"
+                            wire:model.lazy="ph"
+                            type="number"
+                            inputmode="decimal"
+                            step="0.1"
+                            min="0"
+                            max="14"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('ph') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                            placeholder="ex: 7,4"
+                            aria-describedby="ph-hint"
+                        >
+                        <p id="ph-hint" class="mt-1 text-xs text-ink-400">ex: 7,4</p>
+                        @error('ph')
+                            <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 7,4</p>
+                        @enderror
+                    </div>
+
+                    {{-- Chlore libre --}}
+                    <div>
+                        <label for="diag-chlore" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            Chlore libre (mg/L) <span class="font-normal text-ink-400 text-xs">(optimal : 1 – 3)</span>
+                        </label>
+                        <input
+                            id="diag-chlore"
+                            wire:model.lazy="chlore"
+                            type="number"
+                            inputmode="decimal"
+                            step="0.1"
+                            min="0"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('chlore') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                            placeholder="ex: 1,2"
+                        >
+                        <p class="mt-1 text-xs text-ink-400">ex: 1,2</p>
+                        @error('chlore')
+                            <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 1,2</p>
+                        @enderror
+                    </div>
+
+                    {{-- TAC (alcalinité) --}}
+                    <div>
+                        <label for="diag-alcalinite" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            Alcalinité / TAC (mg/L) <span class="font-normal text-ink-400 text-xs">(optimal : 80 – 120)</span>
+                        </label>
+                        <input
+                            id="diag-alcalinite"
+                            wire:model.lazy="alcalinite"
+                            type="number"
+                            inputmode="decimal"
+                            step="1"
+                            min="0"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('alcalinite') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                            placeholder="ex: 100"
+                        >
+                        <p class="mt-1 text-xs text-ink-400">TAC = Titre Alcalimétrique Complet. ex: 100</p>
+                        @error('alcalinite')
+                            <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 100</p>
+                        @enderror
+                    </div>
+
+                    {{-- Stabilisant --}}
+                    <div>
+                        <label for="diag-stabilisant" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            Stabilisant / Acide cyanurique (mg/L) <span class="font-normal text-ink-400 text-xs">(optimal : 30 – 50)</span>
+                        </label>
+                        <input
+                            id="diag-stabilisant"
+                            wire:model.lazy="stabilisant"
+                            type="number"
+                            inputmode="decimal"
+                            step="1"
+                            min="0"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('stabilisant') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                            placeholder="ex: 40"
+                        >
+                        <p class="mt-1 text-xs text-ink-400">Protège le chlore des UV tropicaux. ex: 40</p>
+                        @error('stabilisant')
+                            <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 40</p>
+                        @enderror
+                    </div>
+
+                    {{-- Sel ppm (affiché uniquement si piscine au sel) --}}
+                    <div x-show="hasSel">
+                        <label for="diag-sel-ppm" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                            Taux de sel (ppm) <span class="font-normal text-ink-400 text-xs">(optimal : 3000 – 5000)</span>
+                        </label>
+                        <input
+                            id="diag-sel-ppm"
+                            wire:model.lazy="selPpm"
+                            type="number"
+                            inputmode="decimal"
+                            step="10"
+                            min="0"
+                            class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('selPpm') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                            placeholder="ex: 4000"
+                        >
+                        <p class="mt-1 text-xs text-ink-400">ex: 4000</p>
+                        @error('selPpm')
+                            <p class="mt-1 text-sm text-danger">La valeur doit être un nombre. Exemple : 4000</p>
+                        @enderror
+                    </div>
+
+                    {{-- Champs optionnels (audit P1 intake) --}}
+                    <details class="group">
+                        <summary class="cursor-pointer text-sm font-semibold text-ink-500 hover:text-ink-800 transition-colors list-none flex items-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded-lg">
+                            <svg class="group-open:rotate-90 transition-transform" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg>
+                            Mesures complémentaires (facultatif)
+                        </summary>
+                        <div class="mt-4 space-y-5">
+                            {{-- Chlore total --}}
+                            <div>
+                                <label for="diag-chlore-total" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                    Chlore total (mg/L)
+                                </label>
+                                <input
+                                    id="diag-chlore-total"
+                                    wire:model.lazy="chloreTotal"
+                                    type="number"
+                                    inputmode="decimal"
+                                    step="0.1"
+                                    min="0"
+                                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                                    placeholder="ex: 1,5"
+                                >
+                                <p class="mt-1 text-xs text-ink-400">Utile pour détecter les chloramines (odeur forte). ex: 1,5</p>
+                            </div>
+                            {{-- TH --}}
+                            <div>
+                                <label for="diag-th" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                    Dureté calcique / TH (mg/L)
+                                </label>
+                                <input
+                                    id="diag-th"
+                                    wire:model.lazy="th"
+                                    type="number"
+                                    inputmode="decimal"
+                                    step="1"
+                                    min="0"
+                                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
+                                    placeholder="ex: 200"
+                                >
+                                <p class="mt-1 text-xs text-ink-400">Dureté de l'eau — adapte le type de chlore recommandé. ex: 200</p>
+                            </div>
+                        </div>
+                    </details>
+
+                    {{-- CTA — « Calculer mon plan d'action » (seul wire:click du wizard) --}}
+                    <button
+                        type="button"
+                        wire:click="computeAndPersist"
+                        wire:loading.attr="disabled"
+                        wire:loading.class="opacity-60 cursor-not-allowed"
+                        class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
+                    >
+                        <span wire:loading.remove wire:target="computeAndPersist">Calculer mon plan d'action</span>
+                        <span wire:loading wire:target="computeAndPersist">Calcul de ton plan…</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ═══════════════════════════════════════════════════════════
+         S5 + S6 + S7 — Résultats chimie (dosage serveur)
+         Affiché après computeAndPersist réussi (savedDiagnosticId non null)
+    ═══════════════════════════════════════════════════════════ --}}
+    @if ($savedDiagnosticId)
+    <div x-show="step === 'wizard'" x-transition.opacity.duration.300ms>
+        <div class="py-6">
+
+            {{-- ① Titre + confidence --}}
+            <div class="mb-6">
+                <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">RÉSULTATS DE L'ANALYSE</p>
+                <h2 class="font-display font-bold text-ink-950 mb-2" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
+                    @if (empty($recommandations))
+                        Ton eau est équilibrée
+                    @else
+                        {{ count($recommandations) }} correction{{ count($recommandations) > 1 ? 's' : '' }} identifiée{{ count($recommandations) > 1 ? 's' : '' }}
+                    @endif
+                </h2>
+                @if (empty($recommandations))
+                    <div class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold" style="background: oklch(0.700 0.150 155 / 0.12); border-color: oklch(0.700 0.150 155 / 0.25); color: oklch(0.700 0.150 155);">
+                        <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.700 0.150 155);"></span>
+                        Eau saine
+                    </div>
+                @endif
+            </div>
+
+            {{-- Pas de correction --}}
+            @if (empty($recommandations))
+                <p class="text-ink-700 leading-relaxed mb-8">
+                    Aucune correction nécessaire d'après tes mesures. Continue ta filtration habituelle et re-teste dans quelques jours.
+                </p>
+            @else
+                {{-- ③ Safety block ambre --}}
+                <div class="mb-6 rounded-xl p-4 flex items-start gap-3" style="background: oklch(0.965 0.045 85); outline: 1px solid oklch(0.800 0.130 80 / 0.25);" role="status" aria-label="Bloc sécurité">
+                    <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.800 0.130 80);" />
+                    <div>
+                        <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité — avant de manipuler</p>
+                        <p class="text-sm leading-relaxed text-ink-800">
+                            Porte des gants et des lunettes. Ne mélange jamais deux produits chimiques. Verse toujours le produit dans l'eau, jamais l'inverse. Respecte le délai avant baignade indiqué sur chaque produit.
+                        </p>
+                    </div>
+                </div>
+
+                {{-- ④ Cards dosage (liste ordonnée différenciée) --}}
+                <div class="mb-6">
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">PLAN D'ACTION</p>
+                    <div class="rounded-3xl bg-white ring-1 ring-sand-200 overflow-hidden">
+                        @foreach ($recommandations as $idx => $card)
+                        <div class="{{ $idx > 0 ? 'border-t border-sand-100' : '' }} p-5">
+                            <div class="flex items-start gap-3 mb-3">
+                                <span class="shrink-0 inline-flex h-7 w-7 items-center justify-center rounded-full bg-azure-50 text-azure-600 text-xs font-bold tabular-nums mt-0.5">
+                                    {{ $idx + 1 }}
+                                </span>
+                                <div class="min-w-0">
+                                    <p class="font-display font-semibold text-ink-950 text-base">{{ $card['param'] ?? '' }}</p>
+                                    @if (!empty($card['current']))
+                                        <p class="text-sm text-ink-500 mt-0.5">Actuel : <span class="tabular-nums">{{ $card['current'] }}</span></p>
+                                    @endif
+                                    @if (!empty($card['target']))
+                                        <p class="text-sm text-ink-500">Cible : <span class="tabular-nums">{{ $card['target'] }}</span></p>
+                                    @endif
+                                </div>
+                            </div>
+                            @if (!empty($card['product']))
+                                <div class="ml-10">
+                                    <p class="text-xs font-bold uppercase tracking-wide text-ink-500 mb-1">PRODUIT</p>
+                                    <p class="text-sm font-semibold text-ink-900">{{ $card['product'] }}</p>
+                                </div>
+                            @endif
+                            @if (!empty($card['dose']))
+                                <div class="ml-10 mt-2">
+                                    <p class="text-xs font-bold uppercase tracking-wide text-ink-500 mb-1">DOSE</p>
+                                    <p class="text-sm font-bold text-azure-600 tabular-nums">{{ $card['dose'] }}</p>
+                                </div>
+                            @endif
+                            @if (!empty($card['note']))
+                                <div class="ml-10 mt-3 text-xs text-ink-500 leading-relaxed border-t border-sand-100 pt-3">
+                                    {{ $card['note'] }}
+                                </div>
+                            @endif
+                        </div>
+                        @endforeach
+                    </div>
+                </div>
+
+                <p class="text-sm font-semibold text-ink-600 mb-8 flex items-center gap-2">
+                    <x-icon.arrow-right :size="14" class="text-azure-500 shrink-0" />
+                    Re-teste avant la dose suivante.
+                </p>
+            @endif
+
+            {{-- ⑤ S6 — Escalade WhatsApp (register: brand) --}}
+            <div class="rounded-2xl bg-navy-900 p-5 mb-8">
+                <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-400 mb-2">DEMANDER UNE INTERVENTION</p>
+                <h3 class="font-display font-semibold text-sand-50 text-lg mb-1">Pierre peut intervenir rapidement</h3>
+                <p class="text-sm text-sand-100/70 mb-4 leading-relaxed">
+                    Un plan ne suffit pas ou tu préfères être accompagné ?
+                    Pierre (Dlo Azur Piscines) intervient en Martinique — envoie-lui ton diagnostic directement sur WhatsApp.
+                </p>
+                <a
+                    href="https://wa.me/596696940054?text={{ urlencode($whatsappSummary) }}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl bg-[#25D366] text-white font-bold text-sm hover:brightness-95 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
+                >
+                    <x-icon.whatsapp :size="18" />
+                    Demander une intervention à Pierre
+                </a>
+            </div>
+
+            {{-- ⑥ S7 — Lead capture (register: product) —————————————————————————— --}}
+            @if ($leadSent)
+                {{-- Succès lead --}}
+                <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
+                    <div class="h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background: oklch(0.700 0.150 155 / 0.15);">
+                        <x-icon.check :size="22" style="color: oklch(0.700 0.150 155);" />
+                    </div>
+                    <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">C'est noté, merci !</h3>
+                    <p class="text-ink-600 mb-4">Pierre a reçu ton diagnostic et te recontacte vite. Tu peux aussi lui écrire tout de suite sur WhatsApp.</p>
+                    <a
+                        href="https://wa.me/596696940054"
+                        rel="noopener noreferrer"
+                        target="_blank"
+                        class="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[#25D366] text-white font-semibold hover:brightness-95 transition-colors"
+                    >
+                        <x-icon.whatsapp :size="16" />
+                        Écrire à Pierre sur WhatsApp
+                    </a>
+                </div>
+            @else
+                <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-6">
+                    <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-1">COORDONNÉES</p>
+                    <h3 class="font-display font-semibold text-xl text-ink-950 mb-1">Vos coordonnées</h3>
+                    <p class="text-sm text-ink-500 mb-6">Pierre te recontacte si tu as des questions sur le diagnostic. Laisse tes coordonnées et il te répond rapidement.</p>
+
+                    {{-- Honeypot (visually-hidden, aria-hidden) — T-05-07 --}}
+                    <div aria-hidden="true" tabindex="-1" style="display:none">
+                        <x-honeypot livewire-model="extraFields" />
+                    </div>
+
+                    {{-- Erreurs globales lead --}}
+                    @error('throttle')
+                        <div class="mb-4 rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3">
+                            <p class="text-sm text-danger">{{ $message }}</p>
+                        </div>
+                    @enderror
+                    @error('send')
+                        <div class="mb-4 rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3">
+                            <p class="text-sm text-danger">{{ $message }}</p>
+                        </div>
+                    @enderror
+
+                    <div class="space-y-4">
+                        {{-- Prénom --}}
+                        <div>
+                            <label for="lead-prenom" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                Prénom <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                id="lead-prenom"
+                                type="text"
+                                wire:model.lazy="prenom"
+                                autocomplete="given-name"
+                                required
+                                class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('prenom') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                                placeholder="Ton prénom"
+                            >
+                            @error('prenom')
+                                <p class="mt-1 text-sm text-danger">Indique ton prénom</p>
+                            @enderror
+                        </div>
+
+                        {{-- Commune --}}
+                        <div>
+                            <label for="lead-commune" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                Commune <span class="text-danger" aria-hidden="true">*</span>
+                            </label>
+                            <input
+                                id="lead-commune"
+                                type="text"
+                                wire:model.lazy="commune"
+                                required
+                                class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('commune') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                                placeholder="Ta commune en Martinique"
+                            >
+                            @error('commune')
+                                <p class="mt-1 text-sm text-danger">Indique ta commune</p>
+                            @enderror
+                        </div>
+
+                        {{-- Email (facultatif) --}}
+                        <div>
+                            <label for="lead-email" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                E-mail <span class="text-ink-400 font-normal text-xs">(facultatif)</span>
+                            </label>
+                            <input
+                                id="lead-email"
+                                type="email"
+                                wire:model.lazy="email"
+                                autocomplete="email"
+                                class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('email') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                                placeholder="toi@exemple.com"
+                            >
+                            @error('email')
+                                <p class="mt-1 text-sm text-danger">L'e-mail doit contenir un @. Exemple : toi@exemple.com</p>
+                            @enderror
+                        </div>
+
+                        {{-- Site web (facultatif) --}}
+                        <div>
+                            <label for="lead-site-web" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                                Site web <span class="text-ink-400 font-normal text-xs">(facultatif)</span>
+                            </label>
+                            <input
+                                id="lead-site-web"
+                                type="url"
+                                wire:model.lazy="siteWeb"
+                                class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('siteWeb') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                                placeholder="https://monsite.com"
+                            >
+                            @error('siteWeb')
+                                <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                            @enderror
+                        </div>
+
+                        {{-- Submit --}}
+                        <button
+                            type="button"
+                            wire:click="submitLead"
+                            wire:loading.attr="disabled"
+                            wire:loading.class="opacity-60 cursor-not-allowed"
+                            class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
+                        >
+                            <span wire:loading.remove wire:target="submitLead">Envoyer mes coordonnées</span>
+                            <span wire:loading wire:target="submitLead">Envoi en cours…</span>
+                        </button>
+
+                        <p class="text-center text-xs text-ink-400">
+                            Ou contacte Pierre directement sur
+                            <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="font-semibold text-ink-600 hover:text-ink-900 underline">WhatsApp</a>.
+                        </p>
+                    </div>
+                </div>
+            @endif
+
+            {{-- Recommencer --}}
+            <div class="mt-6 text-center">
+                <button
+                    type="button"
+                    @click="step = 'mode'; wizardStep = 1; history = []; nodeId = 'start'; resultId = null; triedActions = [];"
+                    class="text-sm text-ink-400 hover:text-ink-700 transition-colors"
+                >
+                    Recommencer le diagnostic
+                </button>
+            </div>
+        </div>
+    </div>
+    @endif
+
+    {{-- ═══════════════════════════════════════════════════════════
+         S5 minimal — Feuille résultat arbre symptôme (register: product)
     ═══════════════════════════════════════════════════════════ --}}
     <div
         x-show="step === 'result'"
@@ -283,7 +977,6 @@
     >
         <template x-if="getResult(resultId)">
             <div class="py-6">
-                {{-- Bouton retour --}}
                 <button
                     type="button"
                     @click="back()"
@@ -294,7 +987,7 @@
                     Revenir
                 </button>
 
-                {{-- ① Diagnostic statement (Fredoka headline) + confidence chip --}}
+                {{-- ① Diagnostic + confidence --}}
                 <div class="mb-6">
                     <div class="flex items-start gap-3 flex-wrap">
                         <h2
@@ -302,39 +995,32 @@
                             style="font-size: clamp(1.875rem, 3vw, 2.5rem);"
                             x-text="getResult(resultId)?.diagnostic ?? ''"
                         ></h2>
-                        {{-- Confidence chip --}}
                         <span
                             x-show="getResult(resultId)?.confidence"
                             :class="{
-                                'bg-success/10 ring-success/20 text-success': getResult(resultId)?.confidence === 'eleve',
-                                'bg-warn-bg ring-warn/20 text-warn': getResult(resultId)?.confidence === 'moyen'
+                                'bg-success/10 ring-success/20': getResult(resultId)?.confidence === 'eleve',
+                                'bg-warn-bg ring-warn/20': getResult(resultId)?.confidence === 'moyen'
                             }"
                             class="inline-flex items-center gap-1 mt-1 h-7 px-2.5 rounded-full ring-1 text-xs font-bold uppercase tracking-wide shrink-0"
-                            style="
-                                color: oklch(var(--color-success) / 1);
-                            "
+                            :style="getResult(resultId)?.confidence === 'eleve' ? 'color: oklch(0.700 0.150 155)' : 'color: oklch(0.800 0.130 80)'"
                         >
                             <span
-                                :class="{
-                                    'bg-success': getResult(resultId)?.confidence === 'eleve',
-                                    'bg-warn': getResult(resultId)?.confidence === 'moyen'
-                                }"
+                                :style="getResult(resultId)?.confidence === 'eleve' ? 'background: oklch(0.700 0.150 155)' : 'background: oklch(0.800 0.130 80)'"
                                 class="inline-block h-1.5 w-1.5 rounded-full"
-                                style="background: oklch(0.700 0.150 155);"
                             ></span>
                             <span x-text="getResult(resultId)?.confidence === 'eleve' ? 'Confiance élevée' : 'Confiance moyenne'"></span>
                         </span>
                     </div>
                 </div>
 
-                {{-- ② Pourquoi (analyse pédagogique) --}}
+                {{-- ② Analyse --}}
                 <p
                     x-show="getResult(resultId)?.analyse"
                     x-text="getResult(resultId)?.analyse ?? ''"
                     class="text-ink-700 leading-relaxed mb-6 max-w-[65ch]"
                 ></p>
 
-                {{-- ③ Safety block ambre — affiché AVANT tout geste chimique (UI-SPEC S5, Audit §6 P0) --}}
+                {{-- ③ Safety block ambre --}}
                 <div
                     x-show="getResult(resultId)?.safety_block"
                     class="mb-6 rounded-xl p-4 flex items-start gap-3"
@@ -352,7 +1038,7 @@
                     </div>
                 </div>
 
-                {{-- ④ Étapes ordonnées (plan) — liste différenciée, pas une grille uniforme --}}
+                {{-- ④ Plan d'action --}}
                 <div x-show="(getResult(resultId)?.plan ?? []).length > 0" class="mb-6">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">PLAN D'ACTION</p>
                     <div class="rounded-3xl bg-white ring-1 ring-sand-200 overflow-hidden">
@@ -361,19 +1047,16 @@
                                 :class="idx > 0 ? 'border-t border-sand-100' : ''"
                                 class="flex items-start gap-3 px-5 py-3.5"
                             >
-                                {{-- Numéro ou bullet --}}
                                 <span
-                                    class="shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-full bg-azure-50 text-azure-600 text-xs font-bold font-variant-numeric tabular-nums mt-0.5"
+                                    class="shrink-0 inline-flex h-6 w-6 items-center justify-center rounded-full bg-azure-50 text-azure-600 text-xs font-bold tabular-nums mt-0.5"
                                     x-text="idx + 1"
                                 ></span>
-                                {{-- Texte de l'étape --}}
                                 <span class="text-sm text-ink-800 leading-relaxed" x-text="step_item"></span>
                             </div>
                         </template>
                     </div>
                 </div>
 
-                {{-- Reminder re-test --}}
                 <p
                     x-show="getResult(resultId)?.retest_reminder"
                     class="text-sm font-semibold text-ink-600 mb-8 flex items-center gap-2"
@@ -382,7 +1065,7 @@
                     <span x-text="getResult(resultId)?.retest_reminder ?? ''"></span>
                 </p>
 
-                {{-- ⑤ Quand appeler Pierre — escalade WhatsApp (S6, DIAG-06) --}}
+                {{-- S6 — Escalade WhatsApp (register: brand) --}}
                 <div class="rounded-2xl bg-navy-900 p-5">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-400 mb-2">DEMANDER UNE INTERVENTION</p>
                     <h3 class="font-display font-semibold text-sand-50 text-lg mb-1">Pierre peut intervenir rapidement</h3>
@@ -394,8 +1077,9 @@
                         :href="'https://wa.me/596696940054?text=' + encodeURIComponent(
                             'Bonjour Pierre, j\'ai fait un diagnostic sur le site Dlo Azur.\n\n'
                             + 'Problème détecté : ' + (getResult(resultId)?.diagnostic ?? '') + '\n'
-                            + 'Analyse : ' + (getResult(resultId)?.analyse ?? '') + '\n\n'
-                            + 'Peux-tu m\'aider ?'
+                            + 'Analyse : ' + (getResult(resultId)?.analyse ?? '') + '\n'
+                            + (triedActions.length > 0 ? 'Déjà tenté : ' + triedActions.join(', ') + '\n' : '')
+                            + '\nPeux-tu m\'aider ?'
                         )"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -406,7 +1090,6 @@
                     </a>
                 </div>
 
-                {{-- Recommencer --}}
                 <div class="mt-6 text-center">
                     <button
                         type="button"
@@ -418,11 +1101,6 @@
                 </div>
             </div>
         </template>
-    </div>
-
-    {{-- Honeypot (pour lead-capture, Plan 05-03) --}}
-    <div aria-hidden="true" tabindex="-1" style="display:none">
-        <x-honeypot livewire-model="extraFields" />
     </div>
 
 </div>
