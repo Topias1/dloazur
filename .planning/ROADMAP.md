@@ -153,12 +153,12 @@ Plans:
   4. Un article publié est visible publiquement ; un brouillon ne l'est pas ; une URL dépubliée précédemment indexée renvoie 410, un slug jamais publié 404
   5. Les acquis SEO 999.1 sont préservés : `og:type=article`, Article JSON-LD, dates réelles, entrées sitemap (published only)
 
-**Plans:** 1/4 plans executed
+**Plans:** 3/4 plans executed
 
 Plans:
 - [x] 06-01-PLAN.md — Foundation: Post model + posts migration + scopePublished + slug auto-gen + idempotent PostMigrationSeeder + public parse() + phpunit BLOG_SOURCE lock [wave 1]
-- [ ] 06-02-PLAN.md — Public cutover: config/blog.php source flag + BlogRepository DB read path (cache-safe) + 410-vs-404 in BlogController + sitemap published-only; SEO 999.1 preserved [wave 2]
-- [ ] 06-03-PLAN.md — Admin shell: /admin/blog routes + PostController + PostIndex list (all statuses) + status-badge component + active sidebar nav + thin views [wave 2]
+- [x] 06-02-PLAN.md — Public cutover: config/blog.php source flag + BlogRepository DB read path (cache-safe) + 410-vs-404 in BlogController + sitemap published-only; SEO 999.1 preserved [wave 2]
+- [x] 06-03-PLAN.md — Admin shell: /admin/blog routes + PostController + PostIndex list (all statuses) + status-badge component + active sidebar nav + thin views [wave 2]
 - [ ] 06-04-PLAN.md — Editor: PostForm + EasyMDE (gated install) + cover→Scaleway S3 + slug-lock-on-publish + status toggle + inline-confirm unpublish + cache flush [wave 3]
 
 ## Progress
@@ -173,7 +173,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 6/6 | Code complet · lancement gaté Pierre |  |
-| 6. Blog admin CRUD | 1/4 | In Progress|  |
+| 6. Blog admin CRUD | 3/4 | In Progress|  |
 
 ## Backlog
 
