@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PassageCreateController;
+use App\Http\Controllers\Admin\PostController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -25,6 +26,13 @@ Route::get('clients', [ClientController::class, 'index'])->name('clients.index')
 Route::get('clients/create', [ClientController::class, 'create'])->name('clients.create');
 Route::get('clients/{client}', [ClientController::class, 'show'])->name('clients.show');
 Route::get('clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+
+// Blog CRUD (Phase 6, Plan 06-03)
+// Write actions (store/update/destroy) handled by Livewire PostForm component.
+// No blog.show route — editing IS the detail view (admin internal, id-bound).
+Route::get('blog', [PostController::class, 'index'])->name('blog.index');
+Route::get('blog/create', [PostController::class, 'create'])->name('blog.create');
+Route::get('blog/{post}/edit', [PostController::class, 'edit'])->name('blog.edit');
 
 // Passages — historique (PASS-05, Plan 02-03)
 Route::view('passages', 'admin.passages.index')->name('passages.index');
