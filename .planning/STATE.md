@@ -25,12 +25,13 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 ## Current Position
 
-Phase: 5 (Diagnostic commercialisable) — CODE COMPLET (6/6), lancement gaté
-Plan: 6 of 6 executed
-Status: Code livré + tests verts (428 : 424 passed / 4 skipped). LAUNCH GATE bloquant : sign-off chimie/légal de Pierre (Task 3 du 05-06) non obtenu — 05-VALIDATION.md « Approval: pending »
+Phase: 6 (Blog admin CRUD) — PLANNED, ready to execute
+Plan: 4 plans / 3 waves (06-01 foundation → 06-02+06-03 parallel → 06-04 editor)
+Status: Plan-checker passé (1 bloqueur + 4 warnings corrigés). Research + UI-SPEC (impeccable) + Nyquist VALIDATION + PATTERNS prêts. CONTENT-01 dérivé (REQUIREMENTS 37→38). Next: /gsd:execute-phase 06.
+Note: Phase 5 reste CODE COMPLET (6/6, 424 tests verts) mais lancement gaté sur sign-off chimie/légal de Pierre (05-VALIDATION « Approval: pending »).
 Last activity: 2026-05-30
 
-Progress: [██████████] 100%
+Progress: Phase 6 planifiée [planning ██████████ 100%]
 
 ## Performance Metrics
 
