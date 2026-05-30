@@ -84,6 +84,11 @@ class PostForm extends Component
                 'excerpt' => $this->excerpt ?: null,
                 'status'  => $this->status ?: 'draft',
                 'author'  => $post->author ?: 'Pierre ADAM',
+                // CR-01: stamp the publish date once on the first transition to
+                // published, then keep it stable. Leaving it null lets the public
+                // read path fall back to now() on every cache rebuild — silently
+                // drifting datePublished / sitemap lastmod (breaks the 999.1 SEO acquis).
+                'date'    => $post->date ?? ($this->status === 'published' ? now() : null),
             ]);
             $post->save();
 

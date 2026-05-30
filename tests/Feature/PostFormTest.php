@@ -102,6 +102,42 @@ it('flushes the blog.index cache on submit', function () {
     expect(Cache::has('blog.index'))->toBeFalse();
 });
 
+// ─── Publish date (CR-01 regression) ──────────────────────────────────────────
+
+it('stamps a publish date when a post is first published and keeps it stable', function () {
+    // Create + publish in one submit → date must be non-null (CR-01: was left NULL,
+    // which made the public read path fall back to now() on every cache rebuild).
+    Livewire::test(PostForm::class)
+        ->set('title', 'Article daté')
+        ->set('body', 'Corps.')
+        ->set('status', 'published')
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    $post = Post::firstWhere('slug', 'article-date');
+    expect($post->date)->not->toBeNull();
+
+    $firstDate = $post->date;
+
+    // Re-saving the published post must NOT move the publish date (stable lastmod/datePublished).
+    Livewire::test(PostForm::class, ['postId' => $post->id])
+        ->set('body', 'Corps mis à jour.')
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    expect($post->fresh()->date->toIso8601String())->toBe($firstDate->toIso8601String());
+});
+
+it('leaves date null while a post stays a draft', function () {
+    Livewire::test(PostForm::class)
+        ->set('title', 'Brouillon sans date')
+        ->set('body', 'Corps.')
+        ->call('submit')
+        ->assertHasNoErrors();
+
+    expect(Post::firstWhere('slug', 'brouillon-sans-date')->date)->toBeNull();
+});
+
 // ─── Validation ───────────────────────────────────────────────────────────────
 
 it('rejects a submit with a missing title', function () {
