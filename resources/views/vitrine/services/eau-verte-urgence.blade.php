@@ -50,6 +50,13 @@
                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-azure-500 text-white font-bold shadow-md hover:bg-azure-600 transition">
                     Devis gratuit
                 </a>
+                {{-- CTA diagnostic haute-intention — Plan 05-01 (DIAG-01, Req9) --}}
+                {{-- sun accent autorisé sur la tuile "eau verte" uniquement (UI-SPEC Color) --}}
+                <a href="{{ route('diagnostic') }}"
+                   class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-sun-500 text-navy-950 font-bold shadow-md hover:brightness-95 transition">
+                    <x-icon.sparkle :size="18" />
+                    Ma piscine est verte ? Diagnostic gratuit
+                </a>
             </div>
             <nav aria-label="Fil d'Ariane" class="mt-6 flex items-center flex-wrap min-h-[44px] gap-2 text-sm text-sand-100/60">
                 <a href="{{ route('home') }}" class="hover:text-sand-50 transition-colors">Accueil</a>

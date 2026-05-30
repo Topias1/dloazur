@@ -55,6 +55,8 @@
                     <a href="{{ route('services') }}" class="hover:text-azure-600 transition-colors">Services</a>
                     <a href="{{ route('realisations') }}" class="hover:text-azure-600 transition-colors">Nos réalisations</a>
                     <a href="{{ route('blog.index') }}" class="hover:text-azure-600 transition-colors">Blog</a>
+                    {{-- Diagnostic piscine gratuit — Plan 05-01 (DIAG-01, Req9) --}}
+                    <a href="{{ route('diagnostic') }}" class="hover:text-azure-600 transition-colors">Diagnostic piscine gratuit</a>
                 </div>
 
                 <div class="flex items-center gap-2">
@@ -100,6 +102,8 @@
                     <li><a href="{{ route('services') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Services</a></li>
                     <li><a href="{{ route('realisations') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Nos réalisations</a></li>
                     <li><a href="{{ route('blog.index') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors">Blog</a></li>
+                    {{-- Diagnostic piscine gratuit — Plan 05-01 --}}
+                    <li><a href="{{ route('diagnostic') }}" @click="open = false" class="flex items-center h-12 px-4 rounded-xl hover:bg-navy-900/5 hover:text-azure-700 transition-colors font-bold text-azure-600">Diagnostic piscine gratuit</a></li>
                     <li class="mt-1 pt-1 border-t border-navy-900/10">
                         {{-- Demander un devis — primary CTA promoted in mobile nav --}}
                         <a href="{{ route('contact') }}" @click="open = false" class="flex items-center min-h-[44px] px-4 rounded-xl bg-azure-500 text-white font-bold">Demander un devis</a>
