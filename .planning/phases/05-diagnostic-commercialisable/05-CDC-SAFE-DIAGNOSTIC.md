@@ -14,6 +14,8 @@
 2. **Donner un premier conseil fiable et gratuit** qui installe la confiance.
 3. **Ne créer ni danger ni responsabilité juridique**, alors que le public manipule des produits chimiques.
 
+**⭐ Contrainte directrice (commanditaire, 2026-05-30) : INFRA LA MOINS CHÈRE POSSIBLE × EFFET WHAOU MAXIMAL.** Pierre est auto-entrepreneur (ami du dev) — zéro appétit pour des coûts récurrents ou de la maintenance lourde, MAIS le produit doit « en jeter ». Conséquence de conception : on met le « whaou » là où il est **gratuit** — le **front-end** (PWA installable, design soigné OKLCH, animations/micro-interactions, fluidité, plan d'action premium, indice de confiance) et la **logique « intelligente »** (diagnostic action-aware = de simples règles, 0 infra). On évite ce qui crée du **coût récurrent / de la dette de maintenance solo** : push backend + scheduler, sync offline multi-appareils, dashboard pro, app native/stores. « Infra chère » ici = **complexité & maintenance durable** (pas la facture serveur, déjà ~4-7 €/mois scale-to-zero). Voir `05-EXPERT-ARBITRATION.md`.
+
 **« Safe-diagnostic » (colonne vertébrale, 4 garde-fous).** Un diagnostic gratuit qui :
 - ne **dégrade jamais** la situation (dosage prudent, ordre de traitement correct),
 - ne met en danger ni l'utilisateur ni les baigneurs (EPI, délais, jamais de mélange dangereux),
