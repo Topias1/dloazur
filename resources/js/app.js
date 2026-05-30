@@ -4,6 +4,9 @@ import Alpine from 'alpinejs';
 import { passageForm } from './passage-form.js';
 import { syncDrawerStore } from './sync-drawer.js';
 
+// Carnet local-only — DIAG-07 (Plan 05-06)
+import { carnetStore, carnetResumeStrip } from './diagnostic-carnet.js';
+
 // PWA SW registration — D-56 'prompt' (pas autoUpdate, protège la saisie en cours)
 import { registerSW } from 'virtual:pwa-register';
 
@@ -42,6 +45,10 @@ Alpine.store('syncDrawer', syncDrawerStore());
 
 // Alpine.data factories (Plan 02-05)
 Alpine.data('passageForm', passageForm);
+
+// Alpine.data factories (Plan 05-06) — carnet local-only DIAG-07
+Alpine.data('carnetStore', carnetStore);
+Alpine.data('carnetResumeStrip', carnetResumeStrip);
 
 window.Alpine = Alpine;
 Alpine.start();

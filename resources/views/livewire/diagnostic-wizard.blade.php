@@ -213,7 +213,7 @@
          S0 — Choix du mode (Symptôme / Chimie)
          Affiché si step === 'mode'
     ═══════════════════════════════════════════════════════════ --}}
-    <div x-show="step === 'mode'" x-transition.opacity.duration.200ms>
+    <div x-show="step === 'mode' && !showCarnet" x-transition.opacity.duration.200ms>
         <div class="py-8">
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">DIAGNOSTIC PISCINE</p>
             <h2 class="font-display font-bold text-ink-950" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
@@ -962,10 +962,84 @@
                     </div>
                 </div>
 
-                <p class="text-sm font-semibold text-ink-600 mb-8 flex items-center gap-2">
+                <p class="text-sm font-semibold text-ink-600 mb-4 flex items-center gap-2">
                     <x-icon.arrow-right :size="14" class="text-azure-500 shrink-0" />
                     Re-teste avant la dose suivante.
                 </p>
+
+                {{-- Boucle de re-test légère (DIAG-06 réactif, Plan 05-06)
+                     In-session, 0 push, 0 scheduler — V0
+                     Oui  : note positive (lagon) + marque carnet
+                     Non  : déclenche escalade réactive (Plan 04 hook) + marque carnet --}}
+                <div
+                    class="mb-8"
+                    x-show="!retestAnswered"
+                    x-transition.opacity.duration.200ms
+                >
+                    <div class="rounded-2xl p-4 ring-1 ring-sand-200 bg-white">
+                        <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.620 0.100 209);">RE-TEST</p>
+
+                        {{-- Bouton "J'ai appliqué le plan" (déclenche le prompt) --}}
+                        <div x-show="!retestShown">
+                            <p class="text-sm text-ink-700 mb-3">
+                                Tu as appliqué le plan ? Re-teste ton eau et reviens ici pour voir si ça a marché.
+                            </p>
+                            <button
+                                type="button"
+                                @click="showRetestPrompt()"
+                                class="inline-flex items-center gap-2 h-10 px-4 rounded-xl text-sm font-semibold ring-1 ring-sand-200 bg-white hover:bg-sand-50 text-ink-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                            >
+                                <x-icon.check :size="14" class="text-ink-400 shrink-0" />
+                                J'ai appliqué le plan, re-tester
+                            </button>
+                        </div>
+
+                        {{-- Prompt "As-tu re-teste ? Ca a marche ?" --}}
+                        <div x-show="retestShown" x-transition.opacity.duration.150ms>
+                            <p class="text-sm font-semibold text-ink-900 mb-3">
+                                As-tu re-teste ? Ca a marche ?
+                            </p>
+                            <div class="flex gap-3">
+                                <button
+                                    type="button"
+                                    @click="onRetestOui()"
+                                    class="flex-1 h-11 rounded-xl text-sm font-semibold ring-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1"
+                                    style="background: oklch(0.700 0.150 155 / 0.12); border-color: oklch(0.700 0.150 155 / 0.30); color: oklch(0.700 0.150 155);"
+                                    aria-label="Oui, ca a marche"
+                                >
+                                    Oui, ca a marche
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="onRetestNon()"
+                                    class="flex-1 h-11 rounded-xl text-sm font-semibold ring-1 ring-sand-200 bg-white hover:bg-sand-50 text-ink-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                                    aria-label="Non, pas encore regle"
+                                >
+                                    Non, pas encore regle
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- Message positif apres re-test reussi (lagon accent) --}}
+                <div
+                    class="mb-8 rounded-2xl p-4 ring-1"
+                    x-show="retestAnswered && !$wire.retestFailed"
+                    x-transition.opacity.duration.200ms
+                    style="background: oklch(0.700 0.150 155 / 0.08); border-color: oklch(0.700 0.150 155 / 0.25);"
+                    role="status"
+                >
+                    <div class="flex items-center gap-3">
+                        <span class="shrink-0 h-9 w-9 rounded-xl grid place-items-center" style="background: oklch(0.700 0.150 155 / 0.15);">
+                            <x-icon.check :size="18" style="color: oklch(0.700 0.150 155);" />
+                        </span>
+                        <div>
+                            <p class="text-sm font-semibold" style="color: oklch(0.700 0.150 155);">Super, ca a marche !</p>
+                            <p class="text-xs text-ink-500 mt-0.5">Le diagnostic est sauvegarde dans ton carnet local pour reference future.</p>
+                        </div>
+                    </div>
+                </div>
             @endif
 
             {{-- ⑤ PDF téléchargeable (guarded — Plan 05-05 crée la route) --}}
@@ -1389,6 +1463,183 @@
                 </div>
             </div>
         </template>
+    </div>
+
+    {{-- ═══════════════════════════════════════════════════════════
+         S9 — Carnet local-only (register: product — DIAG-07)
+         Liste anti-chronologique des diagnostics enregistrés sur cet appareil.
+         0 réseau, 0 synchro, 0 compte. Lisible hors ligne.
+         DIAG-02 : affiche le texte du résultat uniquement, jamais de formules.
+         XSS T-05-20 : toutes les valeurs via x-text (jamais innerHTML).
+    ═══════════════════════════════════════════════════════════ --}}
+    <div
+        x-show="showCarnet"
+        x-transition.opacity.duration.200ms
+        x-init="if (showCarnet) loadCarnetEntries()"
+    >
+        <div class="py-6">
+
+            {{-- Header --}}
+            <div class="flex items-center gap-3 mb-6">
+                <button
+                    type="button"
+                    @click="showCarnet = false; step = 'mode';"
+                    class="inline-flex items-center gap-1.5 h-9 px-3 -ml-1 rounded-xl text-sm text-ink-500 hover:text-ink-900 hover:bg-sand-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                    aria-label="Retour"
+                >
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6"/></svg>
+                    Retour
+                </button>
+            </div>
+
+            <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.620 0.100 209);">CARNET LOCAL</p>
+            <h2 class="font-display font-bold text-ink-950 mb-1" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
+                Mes diagnostics passes
+            </h2>
+            <p class="text-sm text-ink-500 mb-6">
+                Enregistres sur cet appareil uniquement. Rien n'est envoye.
+            </p>
+
+            {{-- Liste vide --}}
+            <template x-if="carnetEntries.length === 0">
+                <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-8 text-center">
+                    <div class="h-12 w-12 rounded-full flex items-center justify-center mx-auto mb-4" style="background: oklch(0.720 0.113 207 / 0.12);">
+                        <x-icon.calendar :size="22" style="color: oklch(0.620 0.100 209);" />
+                    </div>
+                    <h3 class="font-display font-semibold text-lg text-ink-950 mb-2">Aucun diagnostic pour l'instant</h3>
+                    <p class="text-sm text-ink-500 mb-6 max-w-[50ch] mx-auto">
+                        Tes diagnostics resteront ici, sur cet appareil — rien n'est envoye.
+                        Lance ton premier diagnostic pour garder une trace de tes mesures et reprendre le suivi plus tard.
+                    </p>
+                    <button
+                        type="button"
+                        @click="showCarnet = false; step = 'mode';"
+                        class="inline-flex items-center gap-2 h-11 px-6 rounded-xl bg-azure-500 text-white font-bold text-sm hover:bg-azure-600 active:bg-azure-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
+                    >
+                        Lancer un diagnostic
+                    </button>
+                </div>
+            </template>
+
+            {{-- Liste anti-chronologique --}}
+            <template x-if="carnetEntries.length > 0">
+                <div>
+                    <div class="space-y-3 mb-6">
+                        <template x-for="entry in carnetEntries" :key="entry.id">
+                            <div class="rounded-2xl bg-white ring-1 ring-sand-200 overflow-hidden">
+                                <div class="p-5">
+
+                                    {{-- En-tete carte : date + confidence chip --}}
+                                    <div class="flex items-start justify-between gap-3 mb-3">
+                                        <div class="flex items-center gap-2 text-xs text-ink-400">
+                                            <x-icon.calendar :size="13" class="shrink-0" />
+                                            <span x-text="formatCarnetDate(entry.date)"></span>
+                                        </div>
+                                        {{-- Chip confiance (success pour eleve, warn pour moyen/indicatif) --}}
+                                        <span
+                                            class="inline-flex items-center gap-1 h-6 px-2 rounded-full ring-1 text-xs font-bold uppercase tracking-wide shrink-0"
+                                            :style="entry.confidence === 'eleve'
+                                                ? 'background: oklch(0.700 0.150 155 / 0.12); border-color: oklch(0.700 0.150 155 / 0.30); color: oklch(0.700 0.150 155);'
+                                                : 'background: oklch(0.965 0.045 85); border-color: oklch(0.800 0.130 80 / 0.30); color: oklch(0.800 0.130 80);'"
+                                        >
+                                            <span
+                                                class="inline-block h-1.5 w-1.5 rounded-full"
+                                                :style="entry.confidence === 'eleve' ? 'background: oklch(0.700 0.150 155)' : 'background: oklch(0.800 0.130 80)'"
+                                            ></span>
+                                            <span x-text="confidenceLabel(entry.confidence)"></span>
+                                        </span>
+                                    </div>
+
+                                    {{-- Symptome / mode --}}
+                                    <p class="text-xs font-semibold text-ink-400 uppercase tracking-wide mb-1" x-text="entry.symptome"></p>
+
+                                    {{-- Diagnostic (texte du résultat) --}}
+                                    <p class="text-sm font-semibold text-ink-900 mb-2" x-text="entry.diagnostic"></p>
+
+                                    {{-- Mesures clés --}}
+                                    <p
+                                        x-show="entry.mesuresCles"
+                                        class="text-xs text-ink-400 mb-3"
+                                        x-text="entry.mesuresCles"
+                                    ></p>
+
+                                    {{-- Actions : Reprendre + Voir PDF --}}
+                                    <div class="flex items-center gap-3 pt-3 border-t border-sand-100">
+                                        <button
+                                            type="button"
+                                            @click="resumeFromCarnet(entry)"
+                                            class="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl text-sm font-semibold ring-1 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lagon-500"
+                                            style="border-color: oklch(0.720 0.113 207 / 0.35); color: oklch(0.620 0.100 209); background: oklch(0.720 0.113 207 / 0.08);"
+                                        >
+                                            <x-icon.arrow-right :size="13" class="shrink-0" />
+                                            Reprendre ce diagnostic
+                                        </button>
+
+                                        {{-- Voir le PDF — uniquement si le diagnostic a un ID serveur --}}
+                                        @if(Route::has('diagnostic.pdf'))
+                                        <a
+                                            x-show="entry.serverId"
+                                            :href="'{{ route('diagnostic.pdf', ['diagnostic' => '__ID__']) }}'.replace('__ID__', entry.serverId)"
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            class="inline-flex items-center gap-1.5 h-9 px-3 rounded-xl text-sm font-semibold text-ink-500 hover:text-ink-800 ring-1 ring-sand-200 hover:ring-sand-300 bg-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                                        >
+                                            Voir le PDF
+                                        </a>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+
+                    {{-- Action destructive : effacer l'historique (inline confirm Alpine — jamais une modale reflexive) --}}
+                    <div class="border-t border-sand-100 pt-6">
+                        <div x-show="!showClearConfirm">
+                            <button
+                                type="button"
+                                @click="showClearConfirm = true"
+                                class="text-sm text-ink-400 hover:text-danger transition-colors underline underline-offset-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-danger rounded"
+                            >
+                                Effacer l'historique
+                            </button>
+                        </div>
+
+                        {{-- Confirmation inline (Destructive-action — UI-SPEC S9) --}}
+                        <div
+                            x-show="showClearConfirm"
+                            x-transition.opacity.duration.150ms
+                            class="rounded-2xl p-4 ring-1 bg-white"
+                            style="border-color: oklch(0.620 0.210 25 / 0.30);"
+                        >
+                            <p class="text-sm font-semibold text-ink-900 mb-1">Effacer tout l'historique de cet appareil ?</p>
+                            <p class="text-xs text-ink-500 mb-4">
+                                Tes diagnostics sont stockes uniquement ici. Cette action est definitive et ne peut pas etre annulee.
+                            </p>
+                            <div class="flex gap-3">
+                                <button
+                                    type="button"
+                                    @click="clearCarnet()"
+                                    class="flex-1 h-10 rounded-xl text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1"
+                                    style="background: oklch(0.620 0.210 25 / 0.12); border: 1px solid oklch(0.620 0.210 25 / 0.30); color: oklch(0.620 0.210 25);"
+                                    aria-label="Effacer l'historique — action définitive"
+                                >
+                                    Effacer l'historique
+                                </button>
+                                <button
+                                    type="button"
+                                    @click="showClearConfirm = false"
+                                    class="flex-1 h-10 rounded-xl text-sm font-semibold ring-1 ring-sand-200 bg-white text-ink-700 hover:bg-sand-50 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
+                                >
+                                    Garder
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+
+        </div>
     </div>
 
 </div>
