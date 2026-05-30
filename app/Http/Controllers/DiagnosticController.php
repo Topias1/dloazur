@@ -3,9 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Diagnostic;
+use Illuminate\Contracts\Support\Responsable;
 use Illuminate\Contracts\View\View;
 use Spatie\LaravelPdf\Facades\Pdf;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Diagnostic piscine — Plan 05-01 (DIAG-01, Req9) + Plan 05-05 (Req8, D-06)
@@ -43,12 +43,17 @@ final class DiagnosticController extends Controller
      * D-05 : génération synchrone via DomPDF (pas de queue, pas de Node/Chrome).
      * Compatible Laravel Cloud serverless.
      */
-    public function pdf(Diagnostic $diagnostic): Response
+    public function pdf(Diagnostic $diagnostic): Responsable
     {
         // D-06 : session gate — abort_unless en session OU client authentifié propriétaire
+        // Remarque : client_id null ne doit jamais matcher un visiteur non authentifié (null === null serait vrai).
+        // On vérifie explicitement l'authentification avant de comparer les ids.
+        $ownedByClient = auth('clients')->check()
+            && $diagnostic->client_id !== null
+            && $diagnostic->client_id === auth('clients')->id();
+
         abort_unless(
-            in_array($diagnostic->id, session('diagnostic_ids', []), true)
-                || $diagnostic->client_id === auth('clients')->id(),
+            in_array($diagnostic->id, session('diagnostic_ids', []), true) || $ownedByClient,
             403
         );
 
