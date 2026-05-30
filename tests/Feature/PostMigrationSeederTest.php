@@ -4,9 +4,7 @@ use App\Models\Post;
 use Database\Seeders\PostMigrationSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
-// Worktree: explicitly bind TestCase since Pest.php->in('Feature') resolves against main repo root.
-// Strip `uses(\Tests\TestCase::class)` on merge (tests/Pest.php already covers Feature/).
-uses(\Tests\TestCase::class, RefreshDatabase::class);
+uses(RefreshDatabase::class);
 
 it('seeder lands exactly 3 posts with the canonical slugs', function () {
     (new PostMigrationSeeder())->run();
