@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-05-30T20:46:42.626Z"
+status: ready_to_plan
+stopped_at: Phase 06 complete (4/4) — ready to discuss Phase 999.1
+last_updated: 2026-05-30T21:50:30.917Z
 last_activity: 2026-05-30 -- Phase 06 execution started
 progress:
   total_phases: 7
   completed_phases: 4
   total_plans: 29
-  completed_plans: 28
+  completed_plans: 32
   percent: 57
 ---
 
@@ -21,15 +21,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 06 — blog-admin-crud
+**Current focus:** Phase 999.1 — seo launch readiness post cutover optimization
 
 ## Current Position
 
-Phase: 06 (blog-admin-crud) — EXECUTING
-Plan: 1 of 4
-Status: Executing Phase 06
+Phase: 999.1
+Plan: Not started
+Status: Ready to plan
 Note: Phase 5 reste CODE COMPLET (6/6, 424 tests verts) mais lancement gaté sur sign-off chimie/légal de Pierre (05-VALIDATION « Approval: pending »).
-Last activity: 2026-05-30 -- Phase 06 execution started
+Last activity: 2026-05-30
 
 Progress: Phase 6 planifiée [planning ██████████ 100%]
 
@@ -37,7 +37,7 @@ Progress: Phase 6 planifiée [planning ██████████ 100%]
 
 **Velocity:**
 
-- Total plans completed: 6
+- Total plans completed: 10
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -46,6 +46,7 @@ Progress: Phase 6 planifiée [planning ██████████ 100%]
 | Phase | Plans | Total | Avg/Plan |
 |-------|-------|-------|----------|
 | 999.1 | 6 | - | - |
+| 06 | 4 | - | - |
 
 **Recent Trend:**
 
