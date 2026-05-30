@@ -17,6 +17,10 @@ Périmètre du milestone initial. Chaque requirement est mappé à une phase (vo
 - [ ] **SITE-06**: Un visiteur contacte l'entreprise via WhatsApp en un tap
 - [x] **SITE-07**: Les pages publiques sont optimisées SEO local Martinique (balises meta, sitemap, données structurées)
 
+### Contenu / Blog (CONTENT)
+
+- [ ] **CONTENT-01**: Pierre (non-dev) crée, édite et dépublie des articles de blog depuis `/admin/blog` sans toucher au code ni à git (modèle `Post` DB, éditeur Markdown EasyMDE, cover Scaleway S3, statut brouillon/publié, slug verrouillé après publication, migration des 3 articles existants derrière un flag de cutover, SEO 999.1 préservé)
+
 ### Authentification (AUTH)
 
 - [ ] **AUTH-01**: Le pro se connecte avec email + mot de passe
@@ -140,14 +144,15 @@ Mapping finalisé par la roadmap. Chaque requirement → une phase.
 | DIAG-03 | Phase 5 — Diagnostic Commercialisable | Complete |
 | DIAG-06 | Phase 5 — Diagnostic Commercialisable | Complete |
 | DIAG-07 | Phase 5 — Diagnostic Commercialisable | Pending |
+| CONTENT-01 | Phase 6 — Blog admin CRUD | Pending |
 | DIAG-04 | Différé V2 (hors Phase 5) | Deferred |
 | DIAG-05 | Différé V2 (hors Phase 5) | Deferred |
 
 **Coverage:**
-- v1 requirements: 37 total
-- Mapped to phases: 37
+- v1 requirements: 38 total
+- Mapped to phases: 38
 - Unmapped: 0
 
 ---
 *Requirements defined: 2026-05-27*
-*Last updated: 2026-05-27 — traceability finalisée par roadmap*
+*Last updated: 2026-05-30 — CONTENT-01 dérivé au planning Phase 6 (autonomie de publication blog)*

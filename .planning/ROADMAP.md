@@ -144,7 +144,7 @@ Plans:
 **Goal:** Permettre à Pierre (non-dev) de créer/éditer/dépublier des articles de blog depuis `/admin/blog`, sans toucher au code ni à git. Aujourd'hui le blog est fichiers-Markdown (`resources/content/blog/*.md`) → publier exige commit+push. Cette phase introduit un modèle `Post` + migration Postgres, un CRUD admin (liste, créer, éditer, dépublier), un éditeur Markdown, et bascule `BlogRepository` de fichiers→DB en migrant les 3 articles existants. Doit préserver les acquis SEO de la phase 999.1 : `og:type=article`, Article JSON-LD, dates réelles, et entrées sitemap.
 **Mode:** mvp
 **Depends on:** Phase 999.1 (blog SEO : Article schema, og:type, sitemap, dates)
-**Requirements**: SITE-07 *(dériver candidat CONTENT-xx au planning)*
+**Requirements**: SITE-07, CONTENT-01 *(dérivé au planning — autonomie de publication blog)*
 **Success Criteria** (what must be TRUE):
 
   1. Pierre crée, édite et dépublie un article depuis `/admin/blog` sans toucher au code ni à git
@@ -153,7 +153,13 @@ Plans:
   4. Un article publié est visible publiquement ; un brouillon ne l'est pas ; une URL dépubliée précédemment indexée renvoie 410, un slug jamais publié 404
   5. Les acquis SEO 999.1 sont préservés : `og:type=article`, Article JSON-LD, dates réelles, entrées sitemap (published only)
 
-**Plans:** 0 plans (run /gsd:plan-phase 06)
+**Plans:** 4 plans
+
+Plans:
+- [ ] 06-01-PLAN.md — Foundation: Post model + posts migration + scopePublished + slug auto-gen + idempotent PostMigrationSeeder + public parse() + phpunit BLOG_SOURCE lock [wave 1]
+- [ ] 06-02-PLAN.md — Public cutover: config/blog.php source flag + BlogRepository DB read path (cache-safe) + 410-vs-404 in BlogController + sitemap published-only; SEO 999.1 preserved [wave 2]
+- [ ] 06-03-PLAN.md — Admin shell: /admin/blog routes + PostController + PostIndex list (all statuses) + status-badge component + active sidebar nav + thin views [wave 2]
+- [ ] 06-04-PLAN.md — Editor: PostForm + EasyMDE (gated install) + cover→Scaleway S3 + slug-lock-on-publish + status toggle + inline-confirm unpublish + cache flush [wave 3]
 
 ## Progress
 
@@ -167,7 +173,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
 | 5. Diagnostic Commercialisable | 6/6 | Code complet · lancement gaté Pierre |  |
-| 6. Blog admin CRUD | 0/? | Not started | - |
+| 6. Blog admin CRUD | 0/4 | Planned | - |
 
 ## Backlog
 
