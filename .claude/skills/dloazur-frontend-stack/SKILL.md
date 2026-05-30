@@ -40,8 +40,8 @@ Pick the right tool per surface:
 
 ## Alpine wiring
 
-- Alpine is imported and started in `resources/js/app.js` (`import Alpine from 'alpinejs'; window.Alpine = Alpine; Alpine.start();`).
-- Component logic = `Alpine.data('name', factory)`; shared state = `Alpine.store('name', {…})`. **Both must be registered before `Alpine.start()`.**
+- **Livewire 3 owns the single Alpine instance.** Do NOT `import Alpine from 'alpinejs'` or call `Alpine.start()` in `app.js` — a 2nd instance triggers "Detected multiple instances of Alpine running" and breaks `$wire` (e.g. the `!$wire.x` expressions on `/diagnostic`). Use the global `window.Alpine` Livewire provides.
+- Component logic = `Alpine.data('name', factory)`; shared state = `Alpine.store('name', {…})`. **Register them inside `document.addEventListener('alpine:init', () => { … })`** (fires before Livewire starts Alpine), NOT at module top-level. Code running after start (`alpine:initialized` listeners, SW callbacks) should use `window.Alpine`.
 - No custom `Alpine.directive()` exists — stay data/store-driven.
 - Cross-component comms use a `window` CustomEvent (e.g. `window.dispatchEvent(new CustomEvent('passage-form:flush'))`), listened for in `app.js`. Reuse this rather than tight coupling.
 
@@ -83,3 +83,4 @@ Pick the right tool per surface:
 | Bump IDB `DB_VERSION` for a new field | Payload is opaque JSON — new fields ride free |
 | Add column to `$fillable` only | Write path is raw SQL — also edit INSERT/VALUES/ON CONFLICT/bindings |
 | Alpine state lost on Livewire re-render | Add `wire:ignore.self` to the Alpine root |
+| `import Alpine` + `Alpine.start()` in `app.js` | Livewire owns Alpine; register stores/data in `alpine:init`, never start a 2nd instance |
