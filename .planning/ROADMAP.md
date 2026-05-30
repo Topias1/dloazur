@@ -116,7 +116,27 @@ Plans:
   5. **Route `/diagnostic` publique indexée** (vitrine + `/services/eau-verte-urgence` + pages communes) + capture de lead + PDF téléchargeable
   6. **Carnet local-only** (DIAG-07) : l'historique des diagnostics/mesures est conservé **sur l'appareil** (0 serveur/0 sync), consultable, et permet de reprendre/re-tester
 
-**Plans**: TBD
+**Plans:** 6 plans (4 waves)
+
+Plans:
+
+**Wave 1** *(parallel — no shared files)*
+
+- [ ] 05-01-PLAN.md — Brick 1: public indexed `/diagnostic` route + brand landing (S1) + symptom decision-tree config (floculant filter-type sub-branch, green-1 stabilisant leaves, action-aware leaves) + symptom flow (S2) + inline disclaimer gate (S4) + Wave-0 Pest stubs + DecisionTreeTest (DIAG-01, DIAG-03, Req9)
+- [ ] 05-02-PLAN.md — Brick chemistry brain (TDD): server-side `DoseEngine` (pure) + versioned `diagnostic-formulas` config + DoseEngineTest, expert-audited P0/P1 chemistry, formulas never in client JS (DIAG-02)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 05-03-PLAN.md — Brick 3: 2-step chemistry wizard (S3) + action-aware « qu'as-tu déjà essayé ? » + lead columns migration + computeAndPersist (DoseEngine call + server disclaimer enforcement + persistence) + lead capture (S7) + DiagnosticLead mailer + basic WhatsApp hand-off (DIAG-01, DIAG-02, DIAG-03, DIAG-06)
+
+**Wave 3** *(parallel — no shared files; blocked on Wave 2)*
+
+- [ ] 05-04-PLAN.md — Bricks 4+5: contextualized escalation engine (S6, preemptive+reactive) + rich-context WhatsApp builder + confidence index (S5) + over-escalation guard + guarded PDF download link (DIAG-06)
+- [ ] 05-05-PLAN.md — Brick 2 delivery: session-gated synchronous DomPDF report (S8) + `/diagnostic/{id}/pdf` route + DiagnosticPdfTest + DiagnosticRouteTest (Req8, Req9, D-06 enumeration gate)
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] 05-06-PLAN.md — Bricks 6+7: light in-session re-test loop (feeds reactive escalation, no push) + carnet local-only on-device store (S9, IndexedDB/localStorage, 0 server/0 sync) + « Mes diagnostics passés » list + CarnetLocalTest (DIAG-07, DIAG-06)
 
 ## Progress
 
@@ -129,7 +149,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 2. MVP Suivi Offline-First | 7/7 | Complete   | 2026-05-28 |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
-| 5. Diagnostic Commercialisable | 0/? | Not started | - |
+| 5. Diagnostic Commercialisable | 0/6 | Planned | - |
 
 ## Backlog
 
