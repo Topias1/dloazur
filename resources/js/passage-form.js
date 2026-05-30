@@ -43,6 +43,7 @@ export function passageForm(initialData = {}) {
         idbId: null,
         clientId: initialData.clientId ?? null,
         piscineId: initialData.piscineId ?? null,
+        clients: initialData.clients ?? [], // liste offline-safe pour le sélecteur quand la saisie est ouverte sans client
 
         // ---- mesures (strings pour input number, converties au submit) ----
         ph_avant:     '',
@@ -79,6 +80,8 @@ export function passageForm(initialData = {}) {
         online:      navigator.onLine,
         warnings:    [],
         saving:      false,
+        saved:       false,  // écran de confirmation après un enregistrement réussi
+        saveResult:  null,   // 'synced' (parti au serveur) | 'queued' (en attente réseau)
         conflictMsg: '',
         visitedAt:   new Date().toISOString(),
 
@@ -86,6 +89,10 @@ export function passageForm(initialData = {}) {
         _saveTimer: null,
 
         async init() {
+            // 0. Défaut pH 7.4 (mesure routinière). Les autres mesures restent vides et sont
+            //    saisies réellement sur le terrain — on ne fabrique jamais un relevé manquant.
+            if (this.ph_avant === '') this.ph_avant = '7.4';
+
             // 1. Générer client_uuid et persister immédiatement en IDB (D-39)
             this.clientUuid = crypto.randomUUID();
             this.idbId = await this._saveToIDB('draft');
@@ -134,7 +141,7 @@ export function passageForm(initialData = {}) {
          * @param {number} precision - décimales de toFixed
          */
         incr(field, step = 0.1, precision = 1) {
-            const v = parseFloat(this[field]) || 0;
+            const v = this._num(this[field]) ?? 0;
             this[field] = (v + step).toFixed(precision);
         },
 
@@ -142,9 +149,19 @@ export function passageForm(initialData = {}) {
          * Décrémente le champ de mesure (plancher à 0).
          */
         decr(field, step = 0.1, precision = 1) {
-            const v = parseFloat(this[field]) || 0;
+            const v = this._num(this[field]) ?? 0;
             const next = Math.max(0, v - step);
             this[field] = next.toFixed(precision);
+        },
+
+        /**
+         * Parse une saisie terrain (virgule FR « 7,2 » ou point « 7.2 ») en nombre.
+         * Retourne null si vide / non numérique — jamais NaN dans le payload.
+         */
+        _num(value) {
+            if (value === '' || value === null || value === undefined) return null;
+            const n = parseFloat(String(value).replace(',', '.'));
+            return Number.isNaN(n) ? null : n;
         },
 
         _checkRange(field, val) {
@@ -181,6 +198,20 @@ export function passageForm(initialData = {}) {
 
         isActionSelected(name) {
             return this.actions.includes(name);
+        },
+
+        // -------- Sélecteur client (saisie ouverte sans client_id) --------
+
+        // Piscines du client sélectionné (pour le second sélecteur si le client en a plusieurs).
+        get selectedClientPiscines() {
+            const client = this.clients.find((c) => String(c.id) === String(this.clientId));
+            return client?.piscines ?? [];
+        },
+
+        // Auto-sélectionne la piscine quand le client n'en a qu'une.
+        onClientChange() {
+            const piscines = this.selectedClientPiscines;
+            this.piscineId = piscines.length === 1 ? piscines[0].id : null;
         },
 
         // -------- Photos --------
@@ -262,13 +293,13 @@ export function passageForm(initialData = {}) {
                 client_id:     this.clientId,
                 piscine_id:    this.piscineId,
                 visited_at:    this.visitedAt,
-                ph_avant:      this.ph_avant     === '' ? null : parseFloat(this.ph_avant),
-                ph_apres:      this.ph_apres     === '' ? null : parseFloat(this.ph_apres),
-                chlore_libre:  this.chlore_libre === '' ? null : parseFloat(this.chlore_libre),
-                chlore_total:  this.chlore_total === '' ? null : parseFloat(this.chlore_total),
-                tac:           this.tac          === '' ? null : parseFloat(this.tac),
-                sel_g_l:       this.sel_g_l      === '' ? null : parseFloat(this.sel_g_l),
-                th:            this.th           === '' ? null : parseFloat(this.th),
+                ph_avant:      this._num(this.ph_avant),
+                ph_apres:      this._num(this.ph_apres),
+                chlore_libre:  this._num(this.chlore_libre),
+                chlore_total:  this._num(this.chlore_total),
+                tac:           this._num(this.tac),
+                sel_g_l:       this._num(this.sel_g_l),
+                th:            this._num(this.th),
                 actions:       this.actions,
                 notes:         this.notes        || null,
                 notes_privees: this.notesPrivees || null,
@@ -278,12 +309,25 @@ export function passageForm(initialData = {}) {
         // -------- Submit + flush queue --------
 
         async submit() {
+            // Garde anti-orphelin (intégrité) : un passage doit appartenir à un client.
+            if (!this.clientId) {
+                this.conflictMsg = 'Choisis un client avant d\'enregistrer ce passage.';
+                return;
+            }
             this.saving = true;
             try {
                 await this._saveToIDB('pending');
                 if (navigator.onLine) {
                     await this._flushQueue();
+                    // Le passage courant est-il bien parti (sinon il reste en file) ?
+                    const mine = (p) => p.client_uuid === this.clientUuid;
+                    const stillPending = (await getPassagesByStatus('pending')).some(mine);
+                    const errored      = (await getPassagesByStatus('error')).some(mine);
+                    this.saveResult = (!stillPending && !errored) ? 'synced' : 'queued';
+                } else {
+                    this.saveResult = 'queued';
                 }
+                this.saved = true;
             } finally {
                 this.saving = false;
             }

@@ -18,7 +18,7 @@
         La synchronisation est déclenchée au submit, au retour online et au visibilitychange.
     --}}
     <div
-        x-data="passageForm({ clientId: {{ $client?->id ?? 'null' }}, piscineId: {{ $piscine?->id ?? 'null' }} })"
+        x-data="passageForm({ clientId: {{ $client?->id ?? 'null' }}, piscineId: {{ $piscine?->id ?? 'null' }}, clients: @js($clients ?? []) })"
         x-init="init()"
         class="min-h-screen bg-sand-50">
 
@@ -43,6 +43,31 @@
         </header>
 
         <main class="px-4 pb-32 space-y-6 pt-4">
+
+            {{-- Sélecteur client — affiché uniquement si la saisie est ouverte sans client.
+                 Intégrité : un passage doit appartenir à un client (sinon il devient orphelin,
+                 invisible côté portail). La liste est rendue côté serveur donc disponible hors-ligne. --}}
+            @unless($client)
+                <section>
+                    <label for="client-select" class="block text-sm font-semibold text-ink-900 mb-1.5">Client</label>
+                    <select id="client-select" x-model="clientId" @change="onClientChange()"
+                            class="w-full h-12 rounded-xl bg-white ring-1 ring-sand-200 px-3 text-ink-900 focus:ring-2 focus:ring-azure-500 outline-none">
+                        <option value="">Choisis un client…</option>
+                        @foreach (($clients ?? []) as $c)
+                            <option value="{{ $c['id'] }}">{{ $c['name'] }}</option>
+                        @endforeach
+                    </select>
+                    <template x-if="selectedClientPiscines.length > 1">
+                        <select x-model="piscineId"
+                                class="w-full h-12 mt-2 rounded-xl bg-white ring-1 ring-sand-200 px-3 text-ink-900 focus:ring-2 focus:ring-azure-500 outline-none">
+                            <option value="">Choisis une piscine…</option>
+                            <template x-for="p in selectedClientPiscines" :key="p.id">
+                                <option :value="p.id" x-text="p.nom"></option>
+                            </template>
+                        </select>
+                    </template>
+                </section>
+            @endunless
 
             {{-- Bandeau hors-ligne (Alpine) — UI-SPEC §Bandeau hors-ligne --}}
             <div x-show="!online"
@@ -97,12 +122,15 @@
                                     @click="decr('{{ $f }}', {{ $m['step'] }}, {{ $m['precision'] }})"
                                     class="w-11 h-12 rounded-xl bg-sand-100 ring-1 ring-sand-200 text-ink-700 active:scale-95 grid place-items-center text-xl font-bold"
                                     aria-label="Diminuer {{ $m['label'] }}">−</button>
-                                {{-- Valeur (Fredoka 700, tabular-nums, UI-SPEC) --}}
-                                <div class="flex-1 h-12 rounded-xl bg-sand-50 ring-1 ring-sand-100 grid place-items-center">
-                                    <span
-                                        x-text="{{ $f }} || '·'"
-                                        class="font-display font-bold text-xl text-ink-950 tabular-nums"></span>
-                                </div>
+                                {{-- Valeur : saisie directe au clavier numérique (inputmode=decimal),
+                                     les steppers ± servant au réglage fin. Virgule FR ou point acceptés. --}}
+                                <input
+                                    type="text"
+                                    inputmode="decimal"
+                                    x-model="{{ $f }}"
+                                    placeholder="·"
+                                    aria-label="{{ $m['label'] }}{{ $m['unit'] ? ' en '.$m['unit'] : '' }}"
+                                    class="flex-1 w-full min-w-0 h-12 rounded-xl bg-sand-50 ring-1 ring-sand-100 text-center font-display font-bold text-xl text-ink-950 tabular-nums focus:ring-2 focus:ring-azure-500 outline-none">
                                 {{-- Stepper + --}}
                                 <button
                                     type="button"
@@ -283,6 +311,33 @@
                     @click="dismissConflict()"
                     class="text-danger h-6 w-6 grid place-items-center shrink-0"
                     aria-label="Fermer">✕</button>
+            </div>
+        </div>
+
+        {{-- Écran de confirmation après enregistrement — le moment « c'est fait, tu peux ranger le téléphone ». --}}
+        <div x-show="saved" x-cloak
+             class="fixed inset-0 z-[60] bg-sand-50 flex flex-col items-center justify-center text-center px-6"
+             style="padding-bottom: env(safe-area-inset-bottom);">
+            <span class="h-16 w-16 rounded-full grid place-items-center mb-5"
+                  :class="saveResult === 'synced' ? 'bg-success/15 text-success' : 'text-[oklch(0.5_0.11_72)]'"
+                  :style="saveResult === 'synced' ? '' : 'background-color: var(--warn-bg);'">
+                <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <polyline points="20 6 9 17 4 12"/>
+                </svg>
+            </span>
+            <p class="font-display font-bold text-2xl text-ink-950">Passage enregistré</p>
+            <p class="text-ink-600 mt-2 max-w-xs" x-show="saveResult === 'synced'">
+                Synchronisé. Ton client peut déjà le consulter.
+            </p>
+            <p class="text-ink-600 mt-2 max-w-xs" x-show="saveResult === 'queued'" x-cloak>
+                Sauvegardé sur ce téléphone. Il partira tout seul au retour du réseau.
+            </p>
+            <div class="flex flex-col gap-3 mt-8 w-full max-w-xs">
+                <a href="{{ route('admin.dashboard') }}"
+                   class="h-13 rounded-xl bg-azure-500 text-white font-bold grid place-items-center active:scale-[0.99]">Terminé</a>
+                <a href="{{ route('admin.passages.create') }}"
+                   class="h-12 rounded-xl bg-white ring-1 ring-sand-200 text-ink-700 font-semibold grid place-items-center">Saisir un autre passage</a>
             </div>
         </div>
 

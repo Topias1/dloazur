@@ -26,14 +26,26 @@
                 <h1 class="font-display font-semibold text-xl text-ink-950">{{ $client->name }}</h1>
                 <p class="text-sm text-ink-500">{{ $client->email }} · {{ $client->phone }}</p>
             </div>
-            <a href="{{ route('admin.clients.edit', $client) }}"
-                class="h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors inline-flex items-center gap-2">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                    <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
-                    <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
-                </svg>
-                Modifier
-            </a>
+            <div class="flex items-center gap-2">
+                <a href="{{ route('admin.clients.edit', $client) }}"
+                    class="h-11 px-4 rounded-xl bg-white ring-1 ring-sand-200 text-ink-700 font-semibold hover:bg-sand-50 transition-colors inline-flex items-center gap-2"
+                    aria-label="Modifier le client">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+                    </svg>
+                    <span class="hidden sm:inline">Modifier</span>
+                </a>
+                @if ($client->piscines->isNotEmpty())
+                    <a href="{{ route('admin.passages.create', ['client_id' => $client->id]) }}"
+                        class="h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors inline-flex items-center gap-2">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M12 5v14M5 12h14"/>
+                        </svg>
+                        Nouveau passage
+                    </a>
+                @endif
+            </div>
         </div>
 
         {{-- Informations client --}}

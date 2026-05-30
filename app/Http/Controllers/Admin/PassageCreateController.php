@@ -34,6 +34,21 @@ class PassageCreateController extends Controller
             ? $client->piscines->first()
             : null;
 
-        return view('admin.passages.create', compact('client', 'piscine'));
+        // Liste des clients pour le sélecteur quand la saisie est ouverte sans client_id.
+        // Rendue côté serveur (donc disponible hors-ligne) et bornée — empêche les passages
+        // orphelins quand l'opérateur arrive par le bouton « Nouveau passage » global.
+        $clients = $client
+            ? collect()
+            : Client::with('piscines:id,client_id,nom')
+                ->orderBy('name')
+                ->get()
+                ->map(fn (Client $c) => [
+                    'id'       => $c->id,
+                    'name'     => $c->name,
+                    'piscines' => $c->piscines->map(fn ($p) => ['id' => $p->id, 'nom' => $p->nom])->values(),
+                ])
+                ->values();
+
+        return view('admin.passages.create', compact('client', 'piscine', 'clients'));
     }
 }
