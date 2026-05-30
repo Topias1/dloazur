@@ -67,8 +67,10 @@ Downstream agents MUST read `05-SPEC.md` before planning or implementing. Requir
 - `app/Models/Diagnostic.php` — Eloquent model; fillable + casts (`mesures`/`recommandations` → array, `disclaimer_accepted_at` → datetime); `client()`/`piscine()` relations. Reuse as-is.
 - `database/migrations/2026_05_28_000009_create_diagnostics_table.php` — existing table shape (nullable `client_id`/`piscine_id`, `volume_m3`, `type_probleme`, JSON `mesures`/`recommandations`, `disclaimer_accepted_at`, `created_via`).
 
-### Decision-tree expert spec
-- `.planning/phases/05-diagnostic-commercialisable/05-FLOCULANT-BRANCH-SPEC.md` — **Authoritative** expert-validated branch for "eau trouble / floculant" (filter-type routing, pH precondition, choc-vs-clarifiant, contre-indications). Supersedes CONTEXT D-08. MUST implement.
+### Decision-tree expert specs (AUTHORITATIVE — planner MUST implement)
+- `.planning/phases/05-diagnostic-commercialisable/05-FLOCULANT-BRANCH-SPEC.md` — expert-validated "eau trouble / floculant" branch (filter-type routing, pH precondition, choc-vs-clarifiant, contre-indications). Supersedes CONTEXT D-08.
+- `.planning/phases/05-diagnostic-commercialisable/05-DIAGNOSTIC-CHEMISTRY-SPEC.md` — expert audit of the **whole diagnostic** (P0/P1/P2). Key P0s: chlore-bas rattrapage ≠ choc (~3-4 g/m³); systematic safety block (EPI / ne jamais mélanger / délai baignade); detartrage acide opt-in/redirect (vinaigre first); `green-1` must test stabilisant (chlore-lock + manque stab); `eau-boueuse`/`pollution-organique` route clarification via the floculant sub-tree. Plus intake additions (chlore total, TH), treatment order TAC→pH→chlore→stab→sel, break-point for odeur-forte, calcium-vs-sodium by TH, eau-calcaire bifurcation. Includes Pest acceptance suite §9.
+- `05-DIAGNOSTIC-LLM-REVIEW.md` — the review brief sent to the expert (resolved; corrections now captured in the chemistry spec above). Kept for traceability.
 
 ### UX/feature reference
 - ✅ **`mockups/diagnostic-dloazur.html`** is present (the earlier "GAP" note was stale — confirmed by RESEARCH re-extraction 2026-05-30). All dose formulas + the full decision tree (10 question nodes, 15+ result leaves, electrolyser 5-fault sub-tree) were extracted from its JS bundle into `05-RESEARCH.md`. Only the `floculant` leaf was empty in the mockup — now resolved by `05-FLOCULANT-BRANCH-SPEC.md`.
