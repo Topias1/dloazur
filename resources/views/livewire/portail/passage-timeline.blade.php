@@ -165,124 +165,24 @@
                         </div>
                     @endif
 
-                    {{-- Photos du passage avec lightbox Alpine --}}
+                    {{-- Photo du passage --}}
                     @if ($lastPassage->photos->isNotEmpty())
-                        <div
-                            x-data="{
-                                open: false,
-                                index: 0,
-                                touchStartX: 0,
-                                photos: {{ \Illuminate\Support\Js::from($lastPassage->photos->map(function ($p) use ($lastPassage) {
-                                    try {
-                                        $url = \Illuminate\Support\Facades\Storage::disk($p->disk ?? 'r2')->temporaryUrl($p->path, now()->addHour());
-                                    } catch (\Throwable $e) {
-                                        $url = '';
-                                    }
-                                    return [
-                                        'url' => $url,
-                                        'alt' => 'Photo de l\'intervention du ' . $lastPassage->visited_at->format('d/m/Y'),
-                                    ];
-                                })->values()) }}
-                            }"
-                            @keydown.escape.window="open = false; document.body.style.overflow = ''"
-                            @keydown.arrow-right.window="if (open) index = Math.min(index + 1, photos.length - 1)"
-                            @keydown.arrow-left.window="if (open) index = Math.max(index - 1, 0)"
-                        >
-                            <p class="font-display font-semibold text-sm text-ink-900 mb-2">Photos du passage</p>
-                            <div class="grid grid-cols-4 gap-2">
-                                <template x-for="(p, i) in photos" :key="i">
-                                    <button
-                                        type="button"
-                                        @click="index = i; open = true; document.body.style.overflow = 'hidden'"
-                                        class="aspect-square rounded-xl overflow-hidden ring-1 ring-sand-200"
-                                    >
-                                        <img
-                                            :src="p.url"
-                                            :alt="p.alt"
-                                            :loading="i === 0 ? 'eager' : 'lazy'"
-                                            class="w-full h-full object-cover"
-                                        >
-                                    </button>
-                                </template>
-                            </div>
-
-                            {{-- Lightbox modal (accessibilité : role dialog, aria-modal) --}}
-                            <div
-                                x-show="open"
-                                x-cloak
-                                @click.self="open = false; document.body.style.overflow = ''"
-                                class="fixed inset-0 z-50 bg-navy-950/95 backdrop-blur grid place-items-center"
-                                role="dialog"
-                                aria-modal="true"
-                                aria-label="Photos du passage"
-                                x-transition:enter="transition duration-200"
-                                x-transition:enter-start="opacity-0"
-                                x-transition:enter-end="opacity-100"
-                                x-transition:leave="transition duration-150"
-                                x-transition:leave-start="opacity-100"
-                                x-transition:leave-end="opacity-0"
+                        @php
+                            $firstPhoto = $lastPassage->photos->first();
+                            try {
+                                $firstPhotoUrl = \Illuminate\Support\Facades\Storage::disk($firstPhoto->disk ?? 'r2')->temporaryUrl($firstPhoto->path, now()->addHour());
+                            } catch (\Throwable $e) {
+                                $firstPhotoUrl = '';
+                            }
+                        @endphp
+                        <div>
+                            <p class="font-display font-semibold text-sm text-ink-900 mb-2">Photo du passage</p>
+                            <img
+                                src="{{ $firstPhotoUrl }}"
+                                alt="Photo de l'intervention du {{ $lastPassage->visited_at->format('d/m/Y') }}"
+                                loading="lazy"
+                                class="w-full max-h-96 object-cover rounded-2xl ring-1 ring-sand-200"
                             >
-                                {{-- Bouton fermer --}}
-                                <button
-                                    @click="open = false; document.body.style.overflow = ''"
-                                    class="absolute top-4 left-4 h-11 w-11 rounded-full bg-white/10 text-white grid place-items-center hover:bg-white/20 transition-colors"
-                                    aria-label="Fermer la galerie photos"
-                                >
-                                    <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                        <path d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"/>
-                                    </svg>
-                                </button>
-
-                                {{-- Compteur --}}
-                                <span
-                                    class="absolute top-4 right-4 text-white text-sm font-semibold"
-                                    x-text="(index + 1) + '/' + photos.length"
-                                ></span>
-
-                                {{-- Flèche précédente --}}
-                                <button
-                                    x-show="index > 0"
-                                    @click="index--"
-                                    class="absolute left-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 text-white grid place-items-center hover:bg-white/20 transition-colors"
-                                    aria-label="Photo précédente"
-                                >
-                                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/>
-                                    </svg>
-                                </button>
-
-                                {{-- Flèche suivante --}}
-                                <button
-                                    x-show="index < photos.length - 1"
-                                    @click="index++"
-                                    class="absolute right-4 top-1/2 -translate-y-1/2 h-11 w-11 rounded-full bg-white/10 text-white grid place-items-center hover:bg-white/20 transition-colors"
-                                    aria-label="Photo suivante"
-                                >
-                                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
-                                        <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/>
-                                    </svg>
-                                </button>
-
-                                {{-- Image principale --}}
-                                <img
-                                    :src="photos[index]?.url"
-                                    :alt="photos[index]?.alt"
-                                    class="max-h-[85vh] max-w-[90vw] object-contain rounded-xl"
-                                    loading="eager"
-                                >
-
-                                {{-- Swipe touch (mobile) --}}
-                                <div
-                                    @touchstart="touchStartX = $event.touches[0].clientX"
-                                    @touchend="
-                                        const dx = $event.changedTouches[0].clientX - touchStartX;
-                                        if (dx < -50 && index < photos.length - 1) index++;
-                                        else if (dx > 50 && index > 0) index--;
-                                    "
-                                    class="absolute inset-0 -z-10"
-                                    aria-hidden="true"
-                                ></div>
-                            </div>
                         </div>
                     @endif
 

@@ -29,7 +29,7 @@ Phase: 999.1
 Plan: Not started
 Status: Ready to plan
 Note: Phase 5 reste CODE COMPLET (6/6, 424 tests verts) mais lancement gaté sur sign-off chimie/légal de Pierre (05-VALIDATION « Approval: pending »).
-Last activity: 2026-05-30
+Last activity: 2026-05-31 — quick task 260531-077 (static first passage photo)
 
 Progress: Phase 6 planifiée [planning ██████████ 100%]
 
