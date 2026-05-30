@@ -14,6 +14,7 @@
 
 pest()->extend(Tests\TestCase::class)->in('Feature');
 pest()->extend(Tests\TestCase::class)->in('Unit');
+pest()->extend(Tests\TestCase::class)->in('Browser');
 
 // Worktree support: when run from a git worktree, the absolute path differs from the main repo.
 // Adding the worktree path ensures ->extend() is applied to worktree test files.

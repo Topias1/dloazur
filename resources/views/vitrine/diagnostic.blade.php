@@ -104,6 +104,53 @@
     </section>
 
     {{-- ═══════════════════════════════════════════════════════════
+         Strip visiteur de retour — S1 état "returning visitor" (DIAG-07, Plan 05-06)
+         Affiché uniquement si window.diagnosticCarnet.hasEntries() === true
+         Alpine lit le carnet local (localStorage, 0 réseau)
+         XSS T-05-20 : valeurs via x-text uniquement, jamais innerHTML
+    ═══════════════════════════════════════════════════════════ --}}
+    <div
+        x-data="carnetResumeStrip()"
+        x-init="init()"
+        x-cloak
+    >
+        <div
+            x-show="hasLatest()"
+            x-transition.opacity.duration.300ms
+            class="bg-sand-50 border-b border-sand-200"
+        >
+            <div class="mx-auto max-w-content px-5 sm:px-8 py-3">
+                <div class="flex items-center justify-between gap-4 flex-wrap">
+                    <div class="flex items-center gap-3 min-w-0">
+                        <span class="shrink-0 h-8 w-8 rounded-xl grid place-items-center" style="background: oklch(0.720 0.113 207 / 0.12); color: oklch(0.620 0.100 209);">
+                            <x-icon.calendar :size="15" />
+                        </span>
+                        <div class="min-w-0">
+                            <p class="text-xs font-bold uppercase tracking-wide mb-0.5" style="color: oklch(0.620 0.100 209);">DERNIER DIAGNOSTIC</p>
+                            <p class="text-sm font-semibold text-ink-800 truncate" x-text="latest?.diagnostic ?? ''"></p>
+                        </div>
+                    </div>
+                    {{-- Reprendre ce diagnostic : scroll vers le wizard + ouvrir le carnet --}}
+                    <a
+                        href="#diagnostic-wizard-root"
+                        class="shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-xl text-sm font-bold ring-1 transition-colors focus-visible:outline-none focus-visible:ring-2"
+                        style="border-color: oklch(0.720 0.113 207 / 0.40); color: oklch(0.620 0.100 209); background: oklch(0.720 0.113 207 / 0.10);"
+                        @click.prevent="
+                            document.getElementById('diagnostic-wizard-root')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                            const carnetBtn = document.querySelector('[data-mode-carnet]');
+                            if (carnetBtn) carnetBtn.click();
+                        "
+                        aria-label="Reprendre mon dernier diagnostic dans le carnet"
+                    >
+                        Reprendre mon dernier diagnostic
+                        <x-icon.arrow-right :size="13" class="shrink-0" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- ═══════════════════════════════════════════════════════════
          Wizard Livewire — surfaces S2, S4, S5 (register: product)
          Wrapper max-w-2xl, fond sand-50
     ═══════════════════════════════════════════════════════════ --}}
