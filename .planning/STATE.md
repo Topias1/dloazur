@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 5 context gathered
-last_updated: "2026-05-30T04:16:09.958Z"
+stopped_at: Phase 5 — code 6/6 livré, lancement gaté sur sign-off Pierre
+last_updated: "2026-05-30T04:22:50.545Z"
 last_activity: 2026-05-30
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 25
-  completed_plans: 27
+  completed_plans: 28
   percent: 43
 ---
 
@@ -25,9 +25,9 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 ## Current Position
 
-Phase: 5 (Diagnostic commercialisable) — EXECUTING
-Plan: 6 of 6
-Status: Ready to execute
+Phase: 5 (Diagnostic commercialisable) — CODE COMPLET (6/6), lancement gaté
+Plan: 6 of 6 executed
+Status: Code livré + tests verts (428 : 424 passed / 4 skipped). LAUNCH GATE bloquant : sign-off chimie/légal de Pierre (Task 3 du 05-06) non obtenu — 05-VALIDATION.md « Approval: pending »
 Last activity: 2026-05-30
 
 Progress: [██████████] 100%
@@ -93,6 +93,7 @@ None yet.
 
 ### Blockers/Concerns
 
+- **Phase 5 (LAUNCH GATE bloquant)**: sign-off chimie + disclaimer/légal de Pierre (Task 3 du 05-06) non obtenu. Doses `config/diagnostic-formulas.php` vs P0/P1 `05-DIAGNOSTIC-EXPERT-AUDIT.md`, arbre `config/diagnostic-tree.php`, bloc sécurité, disclaimer, WhatsApp 0696 94 00 54. Tant que `05-VALIDATION.md` lit « Approval: pending », le diagnostic ne peut pas être lancé publiquement.
 - **Phase 2**: Validation terrain iOS Safari + réseau mobile réel Martinique requise avant Phase 3
 - **Phase 3**: Plan Odoo de l'opérateur non confirmé → POC obligatoire en 1er ticket
 - **Phase 3**: TVA 8,5 % à valider par comptable local avant premières factures
@@ -115,7 +116,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-30T04:16:01.960Z
+Last session: 2026-05-30T04:22:50.540Z
 Stopped at: Phase 5 context gathered
 Resume file: None
 

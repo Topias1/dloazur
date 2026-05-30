@@ -116,7 +116,7 @@ Plans:
   5. **Route `/diagnostic` publique indexée** (vitrine + `/services/eau-verte-urgence` + pages communes) + capture de lead + PDF téléchargeable
   6. **Carnet local-only** (DIAG-07) : l'historique des diagnostics/mesures est conservé **sur l'appareil** (0 serveur/0 sync), consultable, et permet de reprendre/re-tester
 
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans executed *(code livré, tests verts ; lancement gaté sur sign-off chimie/légal de Pierre — Task 3 du 05-06)*
 
 Plans:
 
@@ -136,7 +136,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3)*
 
-- [ ] 05-06-PLAN.md — Bricks 6+7: light in-session re-test loop (feeds reactive escalation, no push) + carnet local-only on-device store (S9, IndexedDB/localStorage, 0 server/0 sync) + « Mes diagnostics passés » list + CarnetLocalTest (DIAG-07, DIAG-06)
+- [x] 05-06-PLAN.md — Bricks 6+7: light in-session re-test loop (feeds reactive escalation, no push) + carnet local-only on-device store (S9, IndexedDB/localStorage, 0 server/0 sync) + « Mes diagnostics passés » list + CarnetLocalTest (DIAG-07, DIAG-06) *(Task 3 launch-gate Pierre = pending)*
 
 ## Progress
 
@@ -149,7 +149,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 2. MVP Suivi Offline-First | 7/7 | Complete   | 2026-05-28 |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
-| 5. Diagnostic Commercialisable | 5/6 | In Progress|  |
+| 5. Diagnostic Commercialisable | 6/6 | Code complet · lancement gaté Pierre |  |
 
 ## Backlog
 
