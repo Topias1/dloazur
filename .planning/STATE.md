@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: completed
-stopped_at: Phase 5 context gathered
+stopped_at: Phase 5 scope locked (hybride) — ready to plan
 last_updated: "2026-05-30T00:58:41.496Z"
 last_activity: "2026-05-29 - Completed quick task 260529-qac: login démo dev-only sur /auth/magic"
 progress:
@@ -67,6 +67,7 @@ Recent decisions affecting current work:
 - Roadmap: Phase 2 est la core value — doit être validée sur iPhone réel en Martinique avant de continuer
 - Roadmap: Phase 3 démarre obligatoirement par le POC Odoo (gate technique — détermine API vs CSV)
 - Roadmap: Phase 5 dépend de Phase 2 seulement, peut démarrer en parallèle de 3-4 si besoin
+- Phase 5 (2026-05-30): scope **hybride** verrouillé (arbitrage expert) — diagnostic gratuit symptôme + « déjà tenté ? » + action-aware + doses serveur + escalade WhatsApp contextualisée → leads. **Stripe (DIAG-04) + multi-mesures (DIAG-05) différés V2** ; push/carnet offline/espace Pierre/natif différés V2. Nouvelle exigence DIAG-06 (escalade). Specs autoritaires : 05-CDC, 05-BLUEPRINT-APP, 05-EXPERT-ARBITRATION, 05-DIAGNOSTIC-EXPERT-AUDIT, 05-FLOCULANT-BRANCH-SPEC.
 - [Phase ?]: 2-level breadcrumb trail for city hubs (Accueil > Commune) — pages not under /services
 - [Phase ?]: datePublished emitted unconditionally in buildArticleSchema — show_date:false controls display only, not structured data validity
 - [Phase ?]: Espace client demoted visually in nav (text-ink-500 quiet link) but retained in both desktop and mobile

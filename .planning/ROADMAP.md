@@ -15,7 +15,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - [x] **Phase 2: MVP Suivi Offline-First** - Saisie passage offline + photos, clients/piscines, portail client — coeur de valeur (completed 2026-05-28)
 - [ ] **Phase 3: Facturation & Odoo** - POC Odoo, catalogue, contrats, factures en franchise de TVA (art. 293 B CGI), PDF, signature
 - [ ] **Phase 4: Notifications** - Email compte-rendu + rappel J-1, option WhatsApp
-- [ ] **Phase 5: Diagnostic Commercialisable** - Wizard eau verte, doses serveur, disclaimer, Stripe A+B
+- [ ] **Phase 5: Diagnostic Commercialisable** - Diagnostic gratuit (symptôme + « déjà tenté ? » + doses serveur), escalade WhatsApp contextualisée → leads qualifiés (hybride ; Stripe + carnet différés V2)
 
 ## Phase Details
 
@@ -102,16 +102,18 @@ Plans:
 
 ### Phase 5: Diagnostic Commercialisable
 
-**Goal**: Un visiteur ou client utilise le wizard « eau verte » pour obtenir un plan d'action chiffré avec doses calculées côté serveur, après acceptation d'un disclaimer légal, et peut accéder aux fonctionnalités premium via Stripe.
+**Goal**: Un visiteur (anonyme ou client) au persona « compétent mais bloqué » lance un diagnostic **gratuit** (parcours symptôme + « qu'as-tu déjà essayé ? » + wizard chimie à doses serveur), reçoit un plan d'action **sûr**, et — quand le cas dépasse le DIY ou échoue au re-test — est redirigé **en un geste vers Pierre (WhatsApp à contexte riche)**. **Objectif n°1 : générer des leads qualifiés** (hybride A+B, arbitré par l'expert). Stripe et l'historique multi-mesures différés en V2.
 **Mode:** mvp
+**Scope:** hybride (voir `phases/05-.../05-EXPERT-ARBITRATION.md`) — V0/V1 = briques 1-6 ; **V2 différé** = push, carnet offline, courbes, multi-bassins, espace Pierre, natif.
 **Depends on**: Phase 2
-**Requirements**: DIAG-01, DIAG-02, DIAG-03, DIAG-04, DIAG-05
+**Requirements**: DIAG-01, DIAG-02, DIAG-03  *(DIAG-04 Stripe + DIAG-05 multi-mesures → différés V2)*
 **Success Criteria** (what must be TRUE):
 
-  1. Le disclaimer légal s'affiche sur le 1er écran du wizard avant tout conseil de dosage ; l'utilisateur doit l'accepter explicitement
-  2. Le wizard produit un plan d'action avec doses calculées côté serveur (jamais en JS exposé) selon le volume du bassin
-  3. Un abonné Stripe (piste A) ou un client premium (piste B) accède aux fonctionnalités avancées du diagnostic
-  4. L'utilisateur peut consigner plusieurs mesures dans le temps et consulter leur évolution
+  1. Le disclaimer légal s'affiche avant tout conseil de dosage ; acceptation explicite requise (DIAG-03)
+  2. Le plan produit des doses calculées **côté serveur** (jamais en JS exposé), prudentes/plafonnées, selon le volume (DIAG-02)
+  3. Le diagnostic est **conscient des actions déjà tentées** (un geste raté n'est jamais re-proposé ; oriente vers chlore-lock/métaux/calcaire) + affiche un **indice de confiance**
+  4. L'**escalade contextualisée en un geste** vers Pierre (WhatsApp pré-rempli : symptôme, mesures, actions tentées, diagnostic, photo) se déclenche au pic d'intention (hors-DIY préemptif / re-test échoué réactif)
+  5. **Route `/diagnostic` publique indexée** (vitrine + `/services/eau-verte-urgence` + pages communes) + capture de lead + PDF téléchargeable
 
 **Plans**: TBD
 

@@ -4,6 +4,14 @@
 **Ambiguity score:** 0.18 (gate: ≤ 0.20)
 **Requirements:** 9 locked
 
+> ## 🔄 Scope Update 2026-05-30 (post expert arbitration — READ FIRST)
+> This spec's body still reads as the original "free 2-flow diagnostic". It remains valid, with these locked adjustments layered on top (authoritative docs: `05-CDC-SAFE-DIAGNOSTIC.md`, `05-BLUEPRINT-APP.md`, `05-EXPERT-ARBITRATION.md`, `05-DIAGNOSTIC-EXPERT-AUDIT.md`, `05-FLOCULANT-BRANCH-SPEC.md`):
+> - **Scope = HYBRIDE** (lead-gen north-star). Build order: (1) public indexed `/diagnostic` + symptom flow + disclaimer; (2) WhatsApp hand-off + PDF; (3) **« qu'as-tu déjà essayé ? » + action-aware diagnosis** + server-dose wizard; (4) **contextualized escalation engine → rich-context WhatsApp CTA**; (5) confidence index + optional photo on the lead; (6) light re-test loop (email/in-session, **no push**).
+> - **NEW req DIAG-06** — escalade contextualisée en un geste (WhatsApp pré-rempli : symptôme, mesures, actions tentées, diagnostic, photo), préemptive (hors-DIY) ou réactive (re-test échoué).
+> - **Stripe (DIAG-04) confirmed OUT.** **Multi-measure history (DIAG-05) deferred V2.** Also deferred V2: push, offline carnet, multi-bassins, espace Pierre, native app. PWA web-first, online-only holds for Phase 5.
+> - **Chemistry** = expert-audited (P0/P1 corrections in `05-DIAGNOSTIC-EXPERT-AUDIT.md`), not "mockup baseline pending sign-off" anymore. Floculant branch frozen in its own spec.
+> - The body's Req 1-9 below still apply where not superseded; the action-aware diagnosis (brique 3) requires the P1 depth (chlore-lock, eau-calcaire, treatment order).
+
 ## Goal
 
 A visitor (anonymous or logged-in) runs a **free** pool diagnostic — either a water-chemistry wizard (measurements → server-calculated dosing plan) or a "Dépannage rapide" symptom decision tree — accepts a legal disclaimer before any dosing advice, and converts via a lead-capture form, a WhatsApp hand-off to Pierre, and a downloadable PDF. Stripe monetization (DIAG-04) and the full multi-measure history dashboard (DIAG-05) are explicitly deferred to later phases.

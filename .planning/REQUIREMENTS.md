@@ -62,11 +62,12 @@ Périmètre du milestone initial. Chaque requirement est mappé à une phase (vo
 
 ### Diagnostic commercialisable (DIAG)
 
-- [ ] **DIAG-01**: Un visiteur lance un wizard de diagnostic « ma piscine est verte » (arbre de décision : eau verte / trouble / marron, électrolyseur…)
-- [ ] **DIAG-02**: Le diagnostic calcule des doses selon le volume du bassin (**calcul côté serveur**) et produit un plan d'action chiffré
+- [ ] **DIAG-01**: Un visiteur lance un diagnostic par symptôme (arbre : eau verte / trouble / marron / claire / électrolyseur…) + question **« qu'as-tu déjà essayé ? »** ; un geste raté n'est jamais re-proposé (diagnostic conscient des actions tentées)
+- [ ] **DIAG-02**: Le diagnostic calcule des doses selon le volume du bassin (**calcul côté serveur**), prudentes/plafonnées + re-test, et produit un plan d'action chiffré
 - [ ] **DIAG-03**: Un disclaimer légal s'affiche avant tout conseil de dosage chimique
-- [ ] **DIAG-04**: Monétisation via Stripe — abonnement particulier (piste A) et module premium en upsell client (piste B)
-- [ ] **DIAG-05**: L'utilisateur du diagnostic suit ses mesures dans le temps (multi-mesures)
+- [ ] **DIAG-06**: **Escalade contextualisée en un geste** vers Pierre (WhatsApp pré-rempli : symptôme, mesures, actions tentées, diagnostic, photo) — préemptive (hors-DIY) ou réactive (re-test échoué) ; objectif lead qualifié
+- [ ] ~~**DIAG-04**: Monétisation via Stripe~~ — **DIFFÉRÉ V2** (hors Phase 5, arbitrage expert 2026-05-30 ; « oublie Stripe »)
+- [ ] ~~**DIAG-05**: Suivi multi-mesures dans le temps~~ — **DIFFÉRÉ V2** (carnet/courbes/push = infra de rétention, ne génère pas le 1er lead)
 
 ## v2 Requirements
 
@@ -136,8 +137,9 @@ Mapping finalisé par la roadmap. Chaque requirement → une phase.
 | DIAG-01 | Phase 5 — Diagnostic Commercialisable | Pending |
 | DIAG-02 | Phase 5 — Diagnostic Commercialisable | Pending |
 | DIAG-03 | Phase 5 — Diagnostic Commercialisable | Pending |
-| DIAG-04 | Phase 5 — Diagnostic Commercialisable | Pending |
-| DIAG-05 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-06 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-04 | Différé V2 (hors Phase 5) | Deferred |
+| DIAG-05 | Différé V2 (hors Phase 5) | Deferred |
 
 **Coverage:**
 - v1 requirements: 37 total

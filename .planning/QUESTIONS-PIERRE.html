@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Questions ouvertes à arbitrer avec Pierre</title>
+<style>
+  body { font-family: 'Calibri', 'Helvetica Neue', Arial, sans-serif; font-size: 11pt; line-height: 1.5; color: #1f2933; max-width: 880px; margin: 2em auto; }
+  h1 { font-size: 22pt; color: #0f3a5f; border-bottom: 3px solid #0080ff; padding-bottom: 0.3em; }
+  h2 { font-size: 16pt; color: #0f3a5f; margin-top: 1.8em; border-bottom: 1px solid #c5d4e0; padding-bottom: 0.2em; }
+  h3 { font-size: 12pt; color: #154c79; margin-top: 1.2em; margin-bottom: 0.3em; }
+  .legend { background: #f4f8fb; border-left: 4px solid #0080ff; padding: 0.8em 1.2em; margin: 1em 0 2em 0; }
+  .legend p { margin: 0.3em 0; }
+  .badge { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 9pt; font-weight: bold; margin-right: 6px; }
+  .urgent { background: #ffe1e1; color: #9b1c1c; }
+  .important { background: #ffe8d0; color: #9a4a08; }
+  .clarify { background: #fff4cc; color: #846200; }
+  .strategic { background: #dbe9ff; color: #1d4380; }
+  .meta { font-size: 9.5pt; color: #5a6b7a; margin-top: 0.1em; margin-bottom: 0.6em; font-style: italic; }
+  .context { margin: 0.4em 0 0.6em 0; }
+  .response-block { background: #f9fafb; border: 1px solid #d9e1e8; border-radius: 4px; padding: 0.6em 0.9em; margin: 0.4em 0 1em 0; }
+  .response-label { font-weight: bold; font-size: 9.5pt; color: #6b7280; text-transform: uppercase; letter-spacing: 0.05em; }
+  .response-empty { color: #b0b8c1; font-style: italic; }
+  .divergence { background: #fff4cc; border-left: 4px solid #f59e0b; padding: 0.7em 1em; margin: 1em 0; }
+  .footer { margin-top: 3em; padding-top: 1em; border-top: 1px solid #c5d4e0; font-size: 9.5pt; color: #5a6b7a; }
+  ul { margin: 0.3em 0 0.5em 1.3em; padding: 0; }
+  ul li { margin: 0.2em 0; }
+</style>
+</head>
+<body>
+
+<h1>Questions ouvertes à arbitrer avec Pierre</h1>
+
+<p><strong>But.</strong> Liste consolidée des inputs et décisions qui ne peuvent pas être tranchés sans Pierre — extraits de tous les artefacts planning (PROJECT.md, REQUIREMENTS.md, ROADMAP.md, CONTEXT/PLAN/SUMMARY de Phase 1, recherche). À parcourir lors d'une session dédiée.</p>
+
+<div class="legend">
+<p><span class="badge urgent">URGENT</span> bloquant la mise en ligne (cutover Phase 1)</p>
+<p><span class="badge important">IMPORTANT</span> bloquant pour démarrer une phase ultérieure</p>
+<p><span class="badge clarify">À CLARIFIER</span> non bloquant, mais à arbitrer avant la phase concernée</p>
+<p><span class="badge strategic">STRATÉGIQUE</span> pas d'urgence, mais oriente la suite</p>
+</div>
+
+<h2>0 — Cohérence à régler en premier</h2>
+
+<h3>0.1 — WhatsApp Business sur +596 696 94 00 54 ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Transverse · Identité</p>
+<p class="context">Vérifier que le numéro est bien un <strong>WhatsApp Business</strong> (vs ligne mobile simple). Phase 4 a besoin d'un compte Meta Business attaché à ce numéro pour valider les templates.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>0.2 — Alias notifications@ séparé ou tout part de contact@ ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Transverse · Email</p>
+<p class="context">contact@dloazurpiscines.com est utilisé partout. Pour Phase 4 : un alias <strong>notifications@</strong> pour les compte-rendus + rappels permet meilleur tracking + segmentation. Sinon tout part de contact@.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>1 — Phase 1 (Vitrine &amp; Fondations) — avant cutover</h2>
+
+<h3>1.1 — Photos réelles à fournir</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Contenu · cutover-bloquant</p>
+<p class="context">Sources réelles uniquement (PRODUCT.md rejette le stock tropical) :</p>
+<ul>
+  <li><code>hero-pierre-piscine.jpg</code> — Pierre au travail (hero + OG image)</li>
+  <li><code>pierre-portrait.jpg</code> — bio « Le pisciniste »</li>
+  <li><code>entretien-dos-logo.jpg</code> — Pierre dos avec logo</li>
+  <li>4 à 6 photos <strong>réalisations</strong> (avant/après, interventions notables)</li>
+  <li>1 à 2 photos <strong>hospitalité B2B</strong> (conciergerie / location saisonnière)</li>
+</ul>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.2 — Mentions légales : contenu à compléter</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Légal · cutover-bloquant</p>
+<p class="context">À renseigner dans <code>vitrine/mentions-legales.blade.php</code> :</p>
+<ul>
+  <li>SIRET</li>
+  <li>RCS ou RM (artisan ?) + ville d'immatriculation</li>
+  <li>Adresse pro (siège déclaré URSSAF)</li>
+  <li>Code APE (probablement <strong>81.29B</strong> autres activités de nettoyage)</li>
+  <li>Hébergeur à mentionner : Laravel Cloud (Mastodon Capital Inc., Frankfurt) + Cloudflare R2</li>
+</ul>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.3 — Mention TVA art. 293 B</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 1 · Légal / TVA</p>
+<p class="context"><strong>Auto-entrepreneur confirmé</strong> → mention obligatoire « <em>TVA non applicable, art. 293 B du CGI</em> » sur CGV + futures factures. Pas de colonne TVA dans le PDF facture. Pas de N° TVA intracommunautaire à renseigner.</p>
+<p class="context"><strong>Question résiduelle :</strong> quel est ton CA actuel pour anticiper le franchissement du seuil ? (Franchise en base 2026 : 36 800 € prestations services, tolérance 39 100 €. À 10 passages/semaine × ~80 € × 50 sem ≈ 40 000 € → tu es <em>juste à la limite</em>. À monitorer.)</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.4 — Valeur exacte « À partir de XX€/passage »</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Tarif · cutover-bloquant</p>
+<p class="context">Décision D-32 : tarif d'entrée affiché en hero + section services. Variable <code>PRICING_PASSAGE_STARTING</code> (default 80 €). Suggestion : prix d'entrée pour piscine standard 30 m³, accès simple.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.5 — Avis Google : fournir GOOGLE_PLACES_API_KEY + GOOGLE_PLACE_ID</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Avis Google · cutover-bloquant</p>
+<p class="context">Créer une clé Google Cloud Console (API Places activée + restriction IP côté Laravel Cloud). Récupérer le Place ID via <em>Place ID Finder</em> pour la fiche Google Business de Dlo Azur. Si non fourni : la section avis se masque toute seule (graceful), mais on perd un levier de social proof.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.6 — Activer DNS Brevo sur Hostinger</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Email · cutover-bloquant</p>
+<p class="context">Renseigner sur la zone DNS de dloazurpiscines.com (Hostinger) :</p>
+<ul>
+  <li><strong>DKIM</strong> (clé fournie par Brevo dans Settings &gt; Senders &amp; IPs)</li>
+  <li><strong>SPF</strong> : <code>v=spf1 include:spf.brevo.com ~all</code></li>
+  <li><strong>DMARC</strong> : <code>v=DMARC1; p=none; rua=mailto:contact@dloazurpiscines.com</code></li>
+</ul>
+<p class="context">Une fois Brevo dashboard passe « Active » : flip <code>MAIL_MAILER=log</code> → <code>brevo</code> dans Laravel Cloud (carry-over #4).</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.7 — Sous-domaine staging : preprod.* ou URL Laravel Cloud ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 1 · Staging</p>
+<p class="context">Aujourd'hui staging tourne sur <code>dloazur-main-s8e8er.laravel.cloud</code> (Option B, zéro friction).<br>Option A : <code>preprod.dloazurpiscines.com</code> (CNAME à ajouter) — meilleure UX, plus sérieux.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.8 — Date cutover Zyro → Laravel Cloud</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · DNS · cutover-bloquant</p>
+<p class="context">D-24/D-25 : acte opérationnel piloté par Pierre.</p>
+<ul>
+  <li>Inventaire URLs Zyro indexées (export Google Search Console ou audit manuel)</li>
+  <li>Date à fixer (suggestion : milieu de semaine, hors saison haute)</li>
+  <li>TTL DNS baissé à 300 s 24 h avant le switch</li>
+  <li>Accès Hostinger DNS prêt et confirmé ?</li>
+</ul>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.9 — Upgrade Postgres Dev → Prod tier (~10-15 €/mois)</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Infra coût · cutover-bloquant</p>
+<p class="context">Dev tier hiberne à 300 s et n'a pas de backups. Prod tier active PITR 7 jours. Total estimé <strong>Laravel Cloud + Postgres Prod ≈ 20-25 €/mois</strong>. OK pour ce coût récurrent ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>1.10 — Rotation secrets exposés en session</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 1 · Sécurité · cutover-bloquant</p>
+<p class="context">Carry-overs #1 + #2 du Summary 01-01 : <code>DB_PASSWORD</code> + <code>LARAVEL_CLOUD_API_TOKEN</code> ont transité par des transcripts session. À rotater <strong>avant toute donnée client réelle</strong>. Aucune action UX requise côté Pierre — info à savoir.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>2 — Phase 2 (MVP suivi offline-first)</h2>
+
+<h3>2.1 — Combien de clients actifs + comment importer ?</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 2 · Clients</p>
+<p class="context">PROJECT.md indique ~10 clients à l'année. Fichier client existant quelque part (Excel, Numbers, contacts iPhone, Odoo) ? Stratégie d'import : template CSV ? Saisie manuelle accompagnée ? Migration depuis Odoo si plan le permet ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>2.2 — Données piscines à saisir par client</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 2 · Piscines</p>
+<p class="context">Par piscine : <strong>volume (m³)</strong>, <strong>type filtration</strong> (sable / cartouche / diatomée), <strong>type traitement</strong> (chlore / sel / brome), <strong>équipements</strong> (PAC, projecteur, surpresseur), adresse, photo si possible. Saisie initiale ou progressive lors des premiers passages ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>2.3 — Magic link client : expiration + utilisations</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 2 · Auth client</p>
+<p class="context">Durée d'expiration : 24 h / 7 jours / 30 jours ? Nombre max d'utilisations : illimité (recommandé) ou borné ? Email automatique de bienvenue à activer pour envoyer le 1er lien aux clients ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>2.4 — Format téléphone client</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 2 · WhatsApp</p>
+<p class="context">Stocker au format international <code>+596 …</code> par défaut et autoriser override manuel ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>2.5 — Nombre de photos par passage</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 2 · Photos</p>
+<p class="context">Estimation actuelle 2-5 photos par passage. Impact stockage R2 négligeable (free tier couvre 250 ans à ce rythme). À confirmer.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>3 — Phase 3 (Facturation &amp; Odoo)</h2>
+
+<div class="divergence">
+<strong>⚠ Divergence ROADMAP à corriger</strong><br>
+Phase 3 success criterion #3 mentionne « TVA 8,5 % ». Or Pierre est en franchise en base (art. 293 B) → <strong>pas de TVA</strong>. À corriger dans ROADMAP.md + REQUIREMENTS.md (FACT-03) au moment de discuter Phase 3. Le modèle <code>factures</code> doit malgré tout prévoir une colonne <code>tva_taux</code> nullable pour anticiper le franchissement du seuil.
+</div>
+
+<h3>3.1 — Plan Odoo actuel (Custom 29,90 €/user ou inférieur) ?</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Phase 3 · Odoo · bloquant Phase 3</p>
+<p class="context">Custom → API XML-RPC accessible → intégration directe (FACT-04). Plan inférieur → pont CSV (export Odoo → import Laravel). À vérifier dans le back-office Odoo.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>3.2 — Numérotation factures : continuer Odoo ou redémarrer ?</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 3 · Facturation</p>
+<p class="context">Article 242 nonies A du CGI impose une séquence ininterrompue. Si factures déjà émises sous Dlo Azur → on continue la séquence. Si non → on redémarre (ex : <code>DLA-2026-001</code>).</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>3.3 — Catalogue produits + services</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 3 · Catalogue</p>
+<p class="context"><strong>Prestations</strong> : entretien, dépannage filtration, traitement choc, hivernage, mise en service…<br>
+<strong>Produits</strong> : chlore lent, choc, anti-algues, sel, tablettes, floculant…<br>
+Extraction Odoo possible ou ressaisie manuelle ? Prix unitaires + tarif horaire ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>3.4 — Modèles de contrats forfait existants</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 3 · Contrats</p>
+<p class="context"><strong>Forfait mensuel</strong> : montant + inclusions (X passages/mois) ?<br>
+<strong>Forfait saisonnier</strong> : période + montant ?<br>
+<strong>Ponctuel</strong> : tarif passage + suppléments éventuels (déplacement zone éloignée, traitement choc…) ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>3.5 — Niveau signature électronique requis</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 3 · Signature</p>
+<p class="context">Recommandation : <strong>signature simple</strong> (image base64 + timestamp + IP + hash PDF). Suffit légalement en France pour un compte-rendu de passage. eIDAS niveau avancé non recommandé (coût + friction).</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>3.6 — Compte Stripe pro existant et KYC validé ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 3 · Stripe</p>
+<p class="context">Anticipation Phase 3 (paiement portail v2) + Phase 5 (diagnostic commercialisable). KYC = vérification IBAN + pièce d'identité, 1-3 jours.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>4 — Phase 4 (Notifications)</h2>
+
+<h3>4.1 — Notifications WhatsApp auto utiles, ou email seul suffit ?</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Phase 4 · WhatsApp</p>
+<p class="context">Aujourd'hui CTA WhatsApp manuel (boutons partout). NOTIF-03 ajouterait des notifications auto sortantes (compte-rendu + rappel J-1) via WhatsApp. Coût Meta : 0,015-0,07 €/msg selon template. Lead time approbation Meta : 1-5 jours ouvrés.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.2 — Compte Meta Business déjà créé sur ton numéro pro ?</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 4 · WhatsApp</p>
+<p class="context">Différent du WhatsApp Business simple (app gratuite) — c'est l'accès API. Création + vérification compte Meta Business prennent ~1 semaine pour un BSP / Cloud API si pas déjà fait.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.3 — Vendor WhatsApp : Brevo, Twilio ou Meta directe ?</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Phase 4 · WhatsApp vendor</p>
+<p class="context"><strong>Brevo WhatsApp</strong> : même vendor que l'email, single dashboard, ~0,03 €/msg.<br>
+<strong>Twilio</strong> : ~0,005 €/msg, dashboard séparé.<br>
+<strong>Meta Cloud API directe</strong> : gratuit, mais setup technique.<br>
+Recommandation : Brevo par défaut.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.4 — Textes des templates WhatsApp à approuver</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 4 · Templates</p>
+<p class="context">2 templates à soumettre à Meta pour approbation.</p>
+<ul>
+  <li><strong>Compte-rendu</strong> : « Bonjour {{1}}, votre passage du {{2}} est terminé. Compte-rendu disponible : {{3}}. — Pierre, Dlo Azur Piscines » (variables : nom, date, lien portail)</li>
+  <li><strong>Rappel J-1</strong> : « Bonjour {{1}}, petit rappel : passage prévu demain {{2}} chez vous. À demain ! — Pierre » (variables : nom, date)</li>
+</ul>
+<p class="context">Texte exact à valider.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.5 — Heure d'envoi du rappel J-1</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 4 · Rappel</p>
+<p class="context">Recommandation : <strong>18 h locale</strong> (UTC-4 Martinique), la veille — fin de journée, lu avant la nuit. Autres options : 8 h le matin de la veille.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.6 — Pierre destinataire du rappel J-1 aussi ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 4 · Rappel</p>
+<p class="context">NOTIF-02 dit « le pro et le client ». Tu reçois aussi un récap digest de ta journée du lendemain (liste passages + adresses) ? Sous quelle forme ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.7 — Livraison compte-rendu : PJ PDF ou lien portail ?</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 4 · Compte-rendu</p>
+<p class="context"><strong>PJ PDF</strong> : autonome, persiste dans la boîte mail (clients pas tech).<br>
+<strong>Lien magique vers portail</strong> : révocable, tracking, RGPD-friendly.<br>
+Recommandation : <strong>les deux</strong> (lien tracké + PDF joint rassurant).</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>4.8 — Mécanisme désinscription notifs</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Phase 4 · Opt-out</p>
+<p class="context">RGPD : compte-rendu = transactionnel, exempt d'opt-in, mais lien de désinscription recommandé. Toggle dans la fiche client côté admin par Pierre ? WhatsApp : Meta exige un opt-out STOP automatisé.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>5 — Phase 5 (Diagnostic commercialisable)</h2>
+
+<h3>5.1 — Texte exact du disclaimer dosage</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 5 · Légal</p>
+<p class="context">DIAG-03 : disclaimer obligatoire avant tout conseil de dosage chimique. Validation idéale par avocat ou modèle issu d'un site équivalent. Affichage modale d'entrée + checkbox d'acceptation explicite.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>5.2 — Stripe piste A (abonnement particulier) : prix + inclusions</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Phase 5 · Stripe A</p>
+<p class="context">Prix mensuel (ex : 4,90 €/mois suivi illimité) ? Combien de diagnostics inclus ? Historique conservé combien de temps ? Période d'essai gratuite (7 jours) ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>5.3 — Stripe piste B (upsell premium client) : prix + inclusions</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Phase 5 · Stripe B</p>
+<p class="context">Prix one-shot ? Différenciateur vs version gratuite : doses plus précises, calendrier perso, photos avant/après ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>5.4 — Arbre de décision diagnostic : où est la logique ?</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 5 · Diagnostic</p>
+<p class="context">Issue de la maquette React jetée. Archivée dans <code>docs/superpowers/specs/2026-05-27-dloazur-refonte-design.md</code> ? À vérifier. Sinon : description orale → JSON dans <code>config/diagnostic.php</code>. Cas couverts : eau verte, eau trouble, eau marron, problème filtration, problème électrolyseur — combien et lesquels ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>5.5 — Formules de calcul de doses</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Phase 5 · Diagnostic</p>
+<p class="context">Formules par produit : en tête de Pierre ou écrites quelque part ? Validation chimique : Pierre seul, consultant chimiste, ou fournisseur pro de produits ? Produits référencés en générique (« 25 g/m³ de chlore choc ») ou nominatif (« 2 sachets HTH Shock ») ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>6 — Identité légale, contenu et conformité (transverse)</h2>
+
+<h3>6.1 — Identité Dlo Azur Piscines : SIRET + RCS + APE + adresse</h3>
+<p class="meta"><span class="badge urgent">URGENT</span> Transverse · Identité légale · cutover-bloquant</p>
+<p class="context">Statut <strong>EI / auto-entrepreneur</strong> confirmé. À fournir :</p>
+<ul>
+  <li>SIRET / SIREN</li>
+  <li>RCS ou RM (artisan ?) + ville d'immatriculation</li>
+  <li>Adresse pro (siège déclaré URSSAF)</li>
+  <li>Code APE / NAF (probablement 81.29B autres activités de nettoyage)</li>
+  <li><em>Capital social : n/a en EI</em></li>
+  <li><em>N° TVA intracommunautaire : n/a (franchise en base art. 293 B)</em></li>
+</ul>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>6.2 — Logo vectoriel SVG</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Transverse · Branding</p>
+<p class="context">Une version vectorielle SVG existe (hors raster JPG/PNG des supports print) ? Charte couleurs déjà validée — azure #0080ff + marine + turquoise — pas de changement prévu.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>6.3 — Politique de confidentialité : rédacteur</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Transverse · Légal</p>
+<p class="context">Pages stub à rédiger : RGPD, droits utilisateur, cookies (zéro cookie tiers = mention courte suffit). Rédacteur : Pierre seul / avec assistance / modèle CNIL ?</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>6.4 — CGV diagnostic à rédiger</h3>
+<p class="meta"><span class="badge important">IMPORTANT</span> Transverse · Légal</p>
+<p class="context">Spécifique Phase 5 : vente de prestations en ligne via Stripe = obligation légale. Distinct des CGV générales d'entretien.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>6.5 — DPA fournisseurs à demander</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Transverse · RGPD</p>
+<p class="context">À demander / vérifier :</p>
+<ul>
+  <li><strong>Brevo</strong> : DPA accessible dans le dashboard (Settings &gt; Privacy)</li>
+  <li><strong>Cloudflare R2</strong> : DPA téléchargeable, accord signable par Pierre</li>
+  <li><strong>Laravel Cloud (Mastodon Capital)</strong> : DPA à demander à support@laravel.cloud</li>
+  <li><strong>Stripe</strong> (Phase 5) : DPA dans Settings &gt; Compliance</li>
+  <li><strong>Google Places API</strong> : Terms standard, pas de DPA séparé pour ce volume</li>
+</ul>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>6.6 — Hébergeur DNS : Hostinger ou migrer Cloudflare ?</h3>
+<p class="meta"><span class="badge clarify">À CLARIFIER</span> Transverse · DNS</p>
+<p class="context">Aujourd'hui DNS chez Hostinger (hérité Zyro). Hostinger : zéro friction, panel basique. Cloudflare DNS (gratuit) : meilleur panel, anycast plus rapide. Recommandation : rester Hostinger en Phase 1, évaluer Cloudflare plus tard si besoin.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h2>7 — Roadmap : décisions stratégiques</h2>
+
+<h3>7.1 — Paralléliser Phase 4 avec Phase 2-3 ?</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Roadmap · Ordre</p>
+<p class="context">Phase 4 dépend de Phase 3 (PDF compte-rendu). Mais lead time approbation Meta (1-5 jours) pourrait justifier de <strong>lancer en parallèle</strong> de Phase 2 la création compte Meta Business + soumission templates. Quand Phase 3 livre le PDF, Phase 4 peut envoyer dès J+1.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>7.2 — Articles de blog initiaux</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Roadmap · Blog</p>
+<p class="context">D-10/D-11 : blog markdown-in-repo, ~3-6 articles/an. Pierre rédige seul ou avec assistance ? Sujets initiaux possibles : « Eau verte : que faire ? », « Choisir son traitement chlore vs sel », « Hivernage piscine en Martinique »…</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<h3>7.3 — Saisonnalité Martinique</h3>
+<p class="meta"><span class="badge strategic">STRATÉGIQUE</span> Roadmap · Saisonnalité</p>
+<p class="context">Climat tropical = pas de morte-saison. Mais : <strong>pic d'algues</strong> (saison humide juillet-octobre) → marketing « Traitement eau verte d'urgence ». <strong>Tourisme hospitalité B2B</strong> : pic décembre-avril → CTA conciergeries à booster à ce moment.</p>
+<div class="response-block"><div class="response-label">Réponse Pierre</div><div class="response-empty">À compléter…</div></div>
+
+<div class="footer">
+<p>Document généré automatiquement depuis <code>.planning/</code> le 2026-05-28. Mettre à jour à chaque réponse de Pierre. Source maître : <code>.planning/QUESTIONS-PIERRE.md</code>.</p>
+</div>
+
+</body>
+</html>
