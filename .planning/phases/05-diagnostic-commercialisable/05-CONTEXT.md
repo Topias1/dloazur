@@ -41,6 +41,14 @@ Downstream agents MUST read `05-SPEC.md` before planning or implementing. Requir
 - **D-05:** PDF generated **synchronously on download** via `spatie/laravel-pdf` DomPDF driver — no queue infra (fits scale-to-zero Laravel Cloud, single-page render).
 - **D-06:** Anonymous PDF access is **session-gated** (decision 2026-05-30). Store the diagnostic ID in the session at persist time and validate it on the `/diagnostic/{id}/pdf` request; authenticated requests verify `client_id` match. **No shareable permalink** for this phase — do NOT add `HasUuids` to `Diagnostic` now (can be added later if Pierre wants shareable links). Mitigates sequential-ID enumeration (RESEARCH Pitfall 5 / threat-model V4).
 
+### Decision-tree leaf content (resolved from mockup)
+- **D-07:** Re-extraction of `mockups/diagnostic-dloazur.html` confirms only the `floculant` leaf has an empty `plan: []`. `odeur-forte` and `irritation-yeux` already carry complete, chemically sound plans in the mockup — transcribe them verbatim, no Pierre input needed.
+- **D-08:** `floculant` leaf gets a **generic default plan** (decision 2026-05-30 — "remplir pour que le site ait l'air complet"), pending Pierre's chemistry sign-off (logged in QUESTIONS-PIERRE Drive doc for the Sunday call):
+  1. Verser un floculant clarifiant (~1 L pour 100 m³, selon notice produit)
+  2. Laisser la filtration tourner en continu 24 h
+  3. Lavage du filtre (backwash) puis rinçage après traitement
+  4. Aspirer les dépôts au fond, doucement, à l'égout si nécessaire
+
 ### Claude's Discretion
 - Exact column names, service namespace layout, route/component naming, and PDF Blade layout left to the planner, consistent with existing conventions.
 
