@@ -4,7 +4,7 @@
  * Decision Tree completeness tests — Plan 05-01 (DIAG-01, Nyquist Wave 0)
  *
  * Asserts on config('diagnostic-tree.*') — no database, no HTTP.
- * Fully implemented here; will pass once config/diagnostic-tree.php (Task 2) is created.
+ * Fully implemented here; passes once config/diagnostic-tree.php (Task 2) is created.
  */
 
 // ──────────────────────────────────────────────────────────────────────────────
@@ -27,11 +27,11 @@ function collectLeaves(string $nodeId, array $questions, array $results, array &
     if (isset($questions[$nodeId])) {
         foreach ($questions[$nodeId]['options'] ?? [] as $option) {
             $next = $option['next'] ?? null;
-            if (!$next) {
+            if (! $next) {
                 continue;
             }
             $nextId = $next['id'] ?? null;
-            if (!$nextId) {
+            if (! $nextId) {
                 continue;
             }
             $kind = $next['kind'] ?? 'question';
@@ -44,7 +44,6 @@ function collectLeaves(string $nodeId, array $questions, array $results, array &
         }
     }
 
-    // Also handle sub-branches (nested 'options' at any level)
     return array_unique($leaves);
 }
 
@@ -57,6 +56,7 @@ function extractStrings(array $arr): array
             $strings[] = $value;
         }
     });
+
     return $strings;
 }
 
@@ -67,32 +67,23 @@ function extractStrings(array $arr): array
 it('the diagnostic tree config carries a version key', function () {
     $tree = config('diagnostic-tree');
 
-    expect($tree)->toBeArray()
-        ->and($tree)->toHaveKey('version');
+    expect($tree)->toBeArray();
+    expect(array_key_exists('version', $tree))->toBeTrue('diagnostic-tree config must have a "version" key');
 });
 
 it('has a questions key and a results key at the top level', function () {
     $tree = config('diagnostic-tree');
 
-    expect($tree)->toHaveKey('questions')
-        ->and($tree)->toHaveKey('results');
+    expect(array_key_exists('questions', $tree))->toBeTrue('diagnostic-tree must have a "questions" key');
+    expect(array_key_exists('results', $tree))->toBeTrue('diagnostic-tree must have a "results" key');
 });
 
-it('all 8 top-level symptom problems at the start node reach at least one result leaf', function () {
+it('all 8 top-level symptom branches at the start node reach at least one result leaf', function () {
     $questions = config('diagnostic-tree.questions');
     $results   = config('diagnostic-tree.results');
 
-    // The 8 top-level symptoms per RESEARCH + EXPERT-AUDIT
-    $expectedTopLevel = [
-        'green-1',   // Eau verte
-        'cloudy-1',  // Eau trouble
-        'brown-1',   // Eau marron
-        'clear-1',   // Eau claire mais problème
-        'electro-1', // Problème d'électrolyseur
-    ];
-
     $startOptions = $questions['start']['options'] ?? [];
-    expect(count($startOptions))->toBeGreaterThanOrEqual(5);
+    expect(count($startOptions))->toBeGreaterThanOrEqual(5, 'start node should have at least 5 options');
 
     // Each branch from start must reach at least one leaf
     foreach ($startOptions as $option) {
@@ -101,10 +92,10 @@ it('all 8 top-level symptom problems at the start node reach at least one result
 
         $kind = $option['next']['kind'] ?? 'question';
         if ($kind === 'result') {
-            expect($results)->toHaveKey($nextId);
+            expect(array_key_exists($nextId, $results))->toBeTrue("Result leaf '$nextId' does not exist");
         } else {
             $visited = [];
-            $leaves = collectLeaves($nextId, $questions, $results, $visited);
+            $leaves  = collectLeaves($nextId, $questions, $results, $visited);
             expect(count($leaves))->toBeGreaterThan(0,
                 "Branch '{$option['label']}' → '$nextId' reaches no result leaf"
             );
@@ -115,7 +106,7 @@ it('all 8 top-level symptom problems at the start node reach at least one result
 it('the electrolyser sub-tree exposes exactly its 5 documented fault leaves', function () {
     $results = config('diagnostic-tree.results');
 
-    $requiredElectroLeaves = [
+    $requiredLeaves = [
         'electro-debit',
         'electro-entartree',
         'electro-usee',
@@ -123,8 +114,8 @@ it('the electrolyser sub-tree exposes exactly its 5 documented fault leaves', fu
         'electro-sel-bas',
     ];
 
-    foreach ($requiredElectroLeaves as $leafId) {
-        expect($results)->toHaveKey($leafId,
+    foreach ($requiredLeaves as $leafId) {
+        expect(array_key_exists($leafId, $results))->toBeTrue(
             "Missing electrolyser fault leaf: '$leafId'"
         );
     }
@@ -135,12 +126,12 @@ it('the electrolyser branch from electro-1 can reach all 5 fault leaves', functi
     $results   = config('diagnostic-tree.results');
 
     $visited = [];
-    $leaves = collectLeaves('electro-1', $questions, $results, $visited);
+    $leaves  = collectLeaves('electro-1', $questions, $results, $visited);
 
     $requiredLeaves = ['electro-debit', 'electro-entartree', 'electro-usee', 'electro-panne', 'electro-sel-bas'];
 
     foreach ($requiredLeaves as $leafId) {
-        expect($leaves)->toContain($leafId,
+        expect(in_array($leafId, $leaves))->toBeTrue(
             "Leaf '$leafId' is not reachable from electro-1"
         );
     }
@@ -149,46 +140,83 @@ it('the electrolyser branch from electro-1 can reach all 5 fault leaves', functi
 it('the cartouche (cartridge) filter path contains zero occurrences of the word floculant', function () {
     $tree = config('diagnostic-tree');
 
-    // Find the cartouche sub-branch within the tree
-    // It must live under cloudy-1 → filter-type node → cartouche branch
-    // We locate it by finding any key/sub-array explicitly representing the cartouche path
+    // Find result leaves that belong to the cartouche path
+    // These are identified by their 'methods' key containing 'cartouche'
+    // or by their leaf ID explicitly being the cartouche variant
+    $cartoucheLeafIds = [];
+    foreach ($tree['results'] ?? [] as $leafId => $leaf) {
+        if (isset($leaf['methods']['cartouche'])) {
+            $cartoucheLeafIds[] = $leafId;
+        }
+    }
 
-    // Recursive search: find any array node that represents the cartouche branch
-    // The floculant string must NOT appear in any string value within the cartouche sub-array
-    $cartouchePath = findCartoucheBranch($tree);
+    // Also check the leaf IDs containing 'cartouche' in their name
+    foreach (array_keys($tree['results'] ?? []) as $leafId) {
+        if (str_contains($leafId, 'cartouche')) {
+            $cartoucheLeafIds[] = $leafId;
+        }
+    }
 
-    expect($cartouchePath)->not()->toBeNull('Could not locate the cartouche sub-branch in the decision tree');
+    $cartoucheLeafIds = array_unique($cartoucheLeafIds);
 
-    $strings = extractStrings($cartouchePath);
-    foreach ($strings as $str) {
-        expect(mb_strtolower($str))->not()->toContain('floculant',
-            "The word 'floculant' was found in the cartouche path: \"$str\""
-        );
+    // There must be at least one cartouche leaf
+    expect(count($cartoucheLeafIds))->toBeGreaterThan(0,
+        'No cartouche-specific leaf found in the decision tree'
+    );
+
+    // None of the cartouche leaves should contain the word "floculant"
+    foreach ($cartoucheLeafIds as $leafId) {
+        $leaf    = $tree['results'][$leafId];
+        $strings = extractStrings($leaf);
+
+        foreach ($strings as $str) {
+            expect(mb_strtolower($str))->not()->toContain('floculant',
+                "The word 'floculant' was found in cartouche leaf '$leafId': \"$str\" (FLOCULANT-BRANCH-SPEC §2 violation)"
+            );
+        }
     }
 });
 
 it('the sable/verre filter path recommends floculant choc', function () {
-    $tree = config('diagnostic-tree');
+    $results = config('diagnostic-tree.results');
 
-    $sablePath = findSableBranch($tree);
-    expect($sablePath)->not()->toBeNull('Could not locate the sable/verre sub-branch in the decision tree');
-
-    $strings = extractStrings($sablePath);
-    $found = false;
-    foreach ($strings as $str) {
-        if (str_contains(mb_strtolower($str), 'floculant')) {
-            $found = true;
-            break;
+    // Find leaves that belong to the sable/verre path
+    $sableLeafIds = [];
+    foreach ($results as $leafId => $leaf) {
+        if (isset($leaf['methods']['sable']) || isset($leaf['methods']['verre'])) {
+            $sableLeafIds[] = $leafId;
         }
     }
-    expect($found)->toBeTrue('The sable/verre path should recommend floculant choc but no occurrence found');
+
+    // Also check leaf IDs with 'sable' or 'floculant-sable' in the name
+    foreach (array_keys($results) as $leafId) {
+        if (str_contains($leafId, 'sable') || str_contains($leafId, 'floculant-sable')) {
+            $sableLeafIds[] = $leafId;
+        }
+    }
+
+    $sableLeafIds = array_unique($sableLeafIds);
+    expect(count($sableLeafIds))->toBeGreaterThan(0, 'No sable/verre-specific leaf found');
+
+    $foundFloculant = false;
+    foreach ($sableLeafIds as $leafId) {
+        $leaf    = $results[$leafId];
+        $strings = extractStrings($leaf);
+        foreach ($strings as $str) {
+            if (str_contains(mb_strtolower($str), 'floculant')) {
+                $foundFloculant = true;
+                break 2;
+            }
+        }
+    }
+
+    expect($foundFloculant)->toBeTrue('The sable/verre path should recommend floculant choc but no occurrence found');
 });
 
 it('green-1 has a branch testing for surstabilisation (chlore-lock)', function () {
     $results = config('diagnostic-tree.results');
 
-    // Per expert audit P0: green-1 must test stabilisant → chlore-lock leaf
-    expect($results)->toHaveKey('chlore-lock',
+    expect(array_key_exists('chlore-lock', $results))->toBeTrue(
         "Missing chlore-lock/surstabilisation leaf (expert audit P0: green-1 stabilisant branch)"
     );
 });
@@ -196,7 +224,7 @@ it('green-1 has a branch testing for surstabilisation (chlore-lock)', function (
 it('green-1 has a branch detecting low stabilisant (manque-de-stabilisant)', function () {
     $results = config('diagnostic-tree.results');
 
-    expect($results)->toHaveKey('manque-de-stabilisant',
+    expect(array_key_exists('manque-de-stabilisant', $results))->toBeTrue(
         "Missing manque-de-stabilisant leaf (expert audit P0: green-1 stabilisant low branch)"
     );
 });
@@ -204,7 +232,7 @@ it('green-1 has a branch detecting low stabilisant (manque-de-stabilisant)', fun
 it('cloudy-1 has a bifurcation for eau calcaire (eau-calcaire leaf)', function () {
     $results = config('diagnostic-tree.results');
 
-    expect($results)->toHaveKey('eau-calcaire',
+    expect(array_key_exists('eau-calcaire', $results))->toBeTrue(
         "Missing eau-calcaire leaf (expert audit P1: cloudy-1 bifurcation)"
     );
 });
@@ -215,64 +243,14 @@ it('all result leaves have at minimum a diagnostic key and a plan array', functi
     expect($results)->not()->toBeEmpty();
 
     foreach ($results as $leafId => $leaf) {
-        expect($leaf)->toHaveKey('diagnostic',
+        expect(array_key_exists('diagnostic', $leaf))->toBeTrue(
             "Leaf '$leafId' missing 'diagnostic' key"
         );
-        expect($leaf)->toHaveKey('plan',
+        expect(array_key_exists('plan', $leaf))->toBeTrue(
             "Leaf '$leafId' missing 'plan' key"
         );
-        expect($leaf['plan'])->toBeArray(
+        expect(is_array($leaf['plan']))->toBeTrue(
             "Leaf '$leafId' plan is not an array"
         );
     }
 });
-
-// ──────────────────────────────────────────────────────────────────────────────
-// Internal helpers for branch searching
-// ──────────────────────────────────────────────────────────────────────────────
-
-function findCartoucheBranch(array $tree): ?array
-{
-    // The cartouche branch is stored under questions as the options array
-    // for the filter-type node (e.g. 'filter-type' node option with value 'cartouche')
-    // We search recursively for an array key or option label matching 'cartouche'
-    // and return that sub-array
-    return searchBranchByKey($tree, 'cartouche');
-}
-
-function findSableBranch(array $tree): ?array
-{
-    return searchBranchByKey($tree, 'sable');
-}
-
-function searchBranchByKey(array $arr, string $filterType): ?array
-{
-    // Look for an option whose 'filter_type' or 'value' matches $filterType
-    // or whose 'label' contains $filterType
-    foreach ($arr as $key => $value) {
-        if (!is_array($value)) {
-            continue;
-        }
-
-        // Check if this element represents the target filter type
-        if (
-            (isset($value['filter_type']) && $value['filter_type'] === $filterType) ||
-            (isset($value['value']) && $value['value'] === $filterType) ||
-            (isset($value['label']) && str_contains(mb_strtolower((string) $value['label']), $filterType))
-        ) {
-            return $value;
-        }
-
-        // Also check for keys named by filter type directly (e.g. 'methods' => ['cartouche' => [...]])
-        if ($key === $filterType && is_array($value)) {
-            return $value;
-        }
-
-        $found = searchBranchByKey($value, $filterType);
-        if ($found !== null) {
-            return $found;
-        }
-    }
-
-    return null;
-}
