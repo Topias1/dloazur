@@ -750,22 +750,22 @@ $this->redirect(route('admin.blog.index'), navigate: true);
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **Laravel Cloud `/tmp` filesystem access for Livewire temp uploads**
    - What we know: Laravel Cloud is serverless; ephemeral local disk is unreliable between requests
    - What's unclear: Whether a single HTTP request can write to `/tmp` and read it back in the same invocation (likely yes for single-request upload)
-   - Recommendation: Default to `LIVEWIRE_TEMPORARY_FILE_UPLOAD_DISK=s3` as D-02 specifies; avoids the uncertainty entirely
+   - RESOLVED: Default to `LIVEWIRE_TEMPORARY_FILE_UPLOAD_DISK=s3` as D-02 specifies; avoids the uncertainty entirely. Cover persistence uses `addMediaFromDisk($this->cover->store('livewire-tmp','s3'), 's3')`, NOT `getRealPath()` (which points at a non-existent local path when the temp disk is S3).
 
 2. **`BlogRepository::parse()` visibility**
    - What we know: Currently `private`; seeder needs it
    - What's unclear: Whether making it `public` breaks any expectations
-   - Recommendation: Make it `public` in the same migration wave — it's pure parsing logic with no side effects
+   - RESOLVED: Make it `public` in the same migration wave (Plan 06-01) — it's pure parsing logic with no side effects.
 
 3. **Existing `BlogTest.php` test compatibility after DB swap**
    - What we know: `BlogTest.php` tests hit `/blog` and `/blog/bienvenue-dlo-azur` expecting data from `.md` files; it uses `app()->instance(BlogRepository::class, $repo)` with fixture dirs
    - What's unclear: Whether the file-backed tests will still pass after the config default changes to `db`
-   - Recommendation: In the test environment, keep `BLOG_SOURCE=files` (or set it in `TestCase::setUp()`) so existing tests continue to pass. Add separate DB-backed tests for the new CRUD.
+   - RESOLVED: In the test environment, keep `BLOG_SOURCE=files` (set in `phpunit.xml`, Plan 06-01 Task 0) so existing tests continue to pass. Add separate DB-backed tests for the new CRUD.
 
 ---
 
