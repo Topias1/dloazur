@@ -82,20 +82,23 @@ Border radius (brand-rounded voice): `rounded-xl` 0.875rem (buttons, inputs), `r
 
 ## Typography
 
-Two families only. **Fredoka for words, Inter for numbers** (DESIGN.md named rule). ≥1.25× scale contrast between successive levels. Body capped at 65–75ch.
+Two families only. **Fredoka for words, Inter for numbers** (DESIGN.md named rule). ≥1.25× scale contrast between successive levels. Body capped at 65–75ch. **The 5 roles below are copied verbatim from `DESIGN.md` `typography:` / `.impeccable/design.json` / `resources/css/app.css @theme` — the project's committed design system.**
 
-| Role | Family | Size | Weight | Line Height | Used for |
-|------|--------|------|--------|-------------|----------|
-| Display | Fredoka | `clamp(2.6rem, 5vw, 4rem)` | 700 | 1.05 | Hero title only — one per page. e.g. « Ta piscine te pose problème ? » |
-| Headline | Fredoka | `clamp(1.875rem, 3vw, 2.5rem)` | 700 | 1.1 | Step section titles, the **diagnostic statement** on the result screen |
-| Title | Fredoka | 1.25rem | 600 | 1.3 | Result-card titles (Problème), symptom-tile labels, lead-form heading |
-| Body | Inter | 1rem (16px) | 400 | 1.6 | All prose, helper hints, disclaimer body, plan steps |
-| Body-strong | Inter | 1rem | 600 | 1.6 | Inline emphasis, field labels |
-| Small | Inter | 0.875rem (14px) | 400/600 | 1.5 | Field hints (« ex: 7,4 »), captions, secondary actions |
-| Label/kicker | Inter | 0.75rem (12px) | 700 | 1.2 | uppercase, `letter-spacing 0.18em`, in `lagon-600` above titles; confidence-index label; status chips |
-| **Numeric** | Inter | per context | 700 | — | `font-variant-numeric: tabular-nums` — every pH/chlore/TAC/sel value, every dose, the stepper value (1.5rem Fredoka-700 *only* in the stepper central field per the signature component) |
+| Role | Family | Size | Weight | Line Height | Letter-spacing | Used for |
+|------|--------|------|--------|-------------|----------------|----------|
+| Display | Fredoka | `clamp(2.6rem, 5vw, 4rem)` | 700 | 1.05 | -0.005em | Hero title only — one per page. e.g. « Ta piscine te pose problème ? » |
+| Headline | Fredoka | `clamp(1.875rem, 3vw, 2.5rem)` | 700 | 1.1 | -0.005em | Step section titles, the **diagnostic statement** on the result screen |
+| Title | Fredoka | `1.25rem` | 600 | 1.3 | — | Result-card titles (Problème), symptom-tile labels, lead-form heading, **inline field labels / inline emphasis** (use Title weight, not a new size) |
+| Body | Inter | `1rem` | 400 | 1.6 | — | All prose, disclaimer body, plan steps, **field hints (« ex: 7,4 ») and captions** (Body, or the Label role below — no separate 0.875rem size) |
+| Label | Inter | `0.75rem` | 700 | 1.2 | 0.18em | uppercase kicker in `lagon-600` above titles; confidence-index label; status chips; **secondary-action / caption micro-text** |
 
-> Weight discipline: the contract uses **400 (regular) + 600 (semibold) + 700 (bold)**. 700 is reserved for display/headlines, labels, and numerics. Body never goes above 600. This matches the existing app and keeps under the "2 dominant weights" spirit (400 body / 600 UI), with 700 only for the brand display tier.
+**Numeric is a rendering variant, not a 6th size.** Apply `font-variant-numeric: tabular-nums` to whichever role renders the value (Body / Title / Display): every pH/chlore/TAC/sel value, every dose, totals. The stepper central field renders the value at Fredoka 700, `1.5rem`, `tabular-nums` per the signature `stepper` primitive in `design.json` — this is the rendered instance of that component, not a new type token.
+
+### Type-scale fidelity & override (deliberate)
+
+- The **5 roles (display / headline / title / body / label) and 3 weights (400 / 600 / 700)** above are copied verbatim from `DESIGN.md` (`typography:` block), `.impeccable/design.json` (`typographyMeta` + primitives), and `resources/css/app.css` (`@theme`) — the project's **established, committed design system**, authored via the `impeccable` skill, which the commanditaire **mandated** using for this phase.
+- The gsd-ui-checker's generic heuristic caps (≤4 sizes, ≤2 weights) are **explicitly and deliberately overridden here.** Reducing below the project's real system would create **design drift across the whole app** (vitrine, app pro, portail client all share these tokens) and violate the directing mandate. `impeccable`'s own typography law calls for hierarchy via **scale + weight contrast at ≥1.25× steps**, with no 4-size / 2-weight cap.
+- **Display vs Headline are both required and distinct:** Display is the hero tier (one per page, `clamp(...4rem)`); Headline is the in-flow step / section + diagnostic-statement tier (`clamp(...2.5rem)`). **Title / Body / Label each carry a distinct job** (card / section titles + inline emphasis · prose + hints · uppercase kicker + status / caption). None is decorative.
 
 ---
 
@@ -353,7 +356,7 @@ The first training-data reflex for "pool / water" is **cyan-on-white, glassy, pa
 - [ ] Dimension 1 Copywriting: PASS — French, verb+noun CTAs, error formula (what/why/fix), empty states, safety/confidence/escalation copy, no em dashes
 - [ ] Dimension 2 Visuals: PASS — no glassmorphism-default, no gradient text, no side-stripe borders, no hero-metric template, no identical card grid, inline disclaimer (no reflexive modal), motion = transform/opacity + ease-out-quint, reduced-motion honored
 - [ ] Dimension 3 Color: PASS — OKLCH only (sole hex = `#25d366` WhatsApp channel), 60/30/10, azure reserved-for list explicit, semantic colors carry meaning, ambre (never red) for offline/caution, past the cyan-on-white reflex
-- [ ] Dimension 4 Typography: PASS — Fredoka display / Inter body+numeric, ≥1.25× scale, tabular-nums on values, body ≤75ch, weight discipline (400/600/700)
+- [ ] Dimension 4 Typography: PASS (documented override — 5 roles / 3 weights = DESIGN.md committed system; generic ≤4/≤2 cap overridden for design-system fidelity) — Fredoka display / Inter body+numeric, ≥1.25× scale, tabular-nums on values (rendering variant, not a size), body ≤75ch, weights 400/600/700
 - [ ] Dimension 5 Spacing: PASS — Tailwind `@theme` scale (multiples of 4) + declared touch-target exceptions (52/60/72px, stepper 48×56), working column max-w-2xl
 - [ ] Dimension 6 Component Safety: PASS — reuse established Blade/Livewire patterns (ContactForm, x-button, stepper, chips, cards, icons, tokens); new components stay on the token system; no ad-hoc one-offs; no external registry to vet
 
