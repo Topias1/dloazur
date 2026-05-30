@@ -63,7 +63,7 @@ Périmètre du milestone initial. Chaque requirement est mappé à une phase (vo
 ### Diagnostic commercialisable (DIAG)
 
 - [x] **DIAG-01**: Un visiteur lance un diagnostic par symptôme (arbre : eau verte / trouble / marron / claire / électrolyseur…) + question **« qu'as-tu déjà essayé ? »** ; un geste raté n'est jamais re-proposé (diagnostic conscient des actions tentées)
-- [ ] **DIAG-02**: Le diagnostic calcule des doses selon le volume du bassin (**calcul côté serveur**), prudentes/plafonnées + re-test, et produit un plan d'action chiffré
+- [x] **DIAG-02**: Le diagnostic calcule des doses selon le volume du bassin (**calcul côté serveur**), prudentes/plafonnées + re-test, et produit un plan d'action chiffré
 - [x] **DIAG-03**: Un disclaimer légal s'affiche avant tout conseil de dosage chimique
 - [ ] **DIAG-06**: **Escalade contextualisée en un geste** vers Pierre (WhatsApp pré-rempli : symptôme, mesures, actions tentées, diagnostic, photo) — préemptive (hors-DIY) ou réactive (re-test échoué) ; objectif lead qualifié
 - [ ] **DIAG-07**: **Carnet local-only** — historique des diagnostics/mesures stocké **sur l'appareil** (IndexedDB/localStorage, 0 serveur, 0 sync, 0 compte requis), vue « mes diagnostics passés », continuité du re-test. Pur front (whaou + rétention sans infra). *(Carnet synchronisé multi-appareils + courbes = V2, cf. DIAG-05.)*
@@ -136,7 +136,7 @@ Mapping finalisé par la roadmap. Chaque requirement → une phase.
 | NOTIF-02 | Phase 4 — Notifications | Pending |
 | NOTIF-03 | Phase 4 — Notifications | Pending |
 | DIAG-01 | Phase 5 — Diagnostic Commercialisable | Complete |
-| DIAG-02 | Phase 5 — Diagnostic Commercialisable | Pending |
+| DIAG-02 | Phase 5 — Diagnostic Commercialisable | Complete |
 | DIAG-03 | Phase 5 — Diagnostic Commercialisable | Complete |
 | DIAG-06 | Phase 5 — Diagnostic Commercialisable | Pending |
 | DIAG-07 | Phase 5 — Diagnostic Commercialisable | Pending |

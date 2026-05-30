@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 5 context gathered
-last_updated: "2026-05-30T03:33:06.879Z"
+last_updated: "2026-05-30T03:46:09.814Z"
 last_activity: 2026-05-30
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 25
-  completed_plans: 23
+  completed_plans: 24
   percent: 43
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 ## Current Position
 
 Phase: 5 (Diagnostic commercialisable) — EXECUTING
-Plan: 2 of 6
+Plan: 3 of 6
 Status: Ready to execute
 Last activity: 2026-05-30
 
-Progress: [█████████░] 92%
+Progress: [██████████] 96%
 
 ## Performance Metrics
 
@@ -55,6 +55,7 @@ Progress: [█████████░] 92%
 | Phase 999.1 P03 | 20 | 3 tasks | 10 files |
 | Phase 999.1 P04 | 10m | 2 tasks | 7 files |
 | Phase 999.1 P06 | 25 | 4 tasks | 9 files |
+| Phase 05 P02 | 35 | 2 tasks | 3 files |
 
 ## Accumulated Context
 
@@ -72,6 +73,9 @@ Recent decisions affecting current work:
 - [Phase ?]: datePublished emitted unconditionally in buildArticleSchema — show_date:false controls display only, not structured data validity
 - [Phase ?]: Espace client demoted visually in nav (text-ink-500 quiet link) but retained in both desktop and mobile
 - [Phase ?]: Case study cards fact-gated with CHANTIER RÉEL REQUIS placeholders — before/after measures never fabricated per D-13
+- [Phase ?]: DoseEngine formule pH+ : steps*3 g/m³ par 0.1 pH (300 g pour pH=7.0/50m³, validé 05-VALIDATION)
+- [Phase ?]: Gate chloration : pH < 7.0 ou TAC < 60 → card Chlore omise (audit P1 section 7)
+- [Phase ?]: config/diagnostic-formulas.php version=1 = surface revue unique chimie Pierre pré-lancement DIAG-02
 
 ### Roadmap Evolution
 
@@ -105,7 +109,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-30T03:33:06.872Z
+Last session: 2026-05-30T03:46:09.809Z
 Stopped at: Phase 5 context gathered
 Resume file: None
 
