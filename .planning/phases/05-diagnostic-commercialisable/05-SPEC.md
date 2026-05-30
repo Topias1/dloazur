@@ -2,7 +2,7 @@
 
 **Created:** 2026-05-30
 **Ambiguity score:** 0.18 (gate: ≤ 0.20)
-**Requirements:** 8 locked
+**Requirements:** 9 locked
 
 ## Goal
 
@@ -58,9 +58,15 @@ ROADMAP success criteria (4) and DIAG-01..05 frame the phase; this spec narrows 
    - Target: A PDF rendering the diagnostic (pool info, measurements/problem, action plan with doses/products, disclaimer) generated via `spatie/laravel-pdf` (DomPDF driver, already in stack)
    - Acceptance: A completed diagnostic produces a downloadable PDF containing the action plan and the disclaimer text; generation succeeds on the DomPDF driver (no Node/Chrome dependency)
 
+9. **Public entry point & vitrine integration (VALIDATED placement decision)**: The diagnostic is launched publicly from the vitrine, not gated behind the espace client.
+   - Current: No route, no entry point anywhere
+   - Target: A **public route `/diagnostic`** (outside the `['web','auth']->prefix('admin')` group, no auth required) is the canonical entry. It is linked from, in priority order: (1) the vitrine nav + hero CTA labelled « Diagnostic piscine gratuit »; (2) the existing `/services/eau-verte-urgence` page (highest-intent traffic — the « ma piscine est verte » CTA branches into the Dépannage flow); (3) the commune/city pages. `/diagnostic` is itself an indexable SEO page (extends the 999.1 work). For logged-in clients the diagnostic links to their account (per Req 5) and the espace-client dashboard "Démarrer le diagnostic" CTA also points here — but the espace client is NOT the primary entry.
+   - Acceptance: `/diagnostic` is reachable without authentication; the vitrine nav/hero and the `/services/eau-verte-urgence` page contain a working link to it; the route is not behind auth middleware
+
 ## Boundaries
 
 **In scope:**
+- Public `/diagnostic` route (anonymous) + vitrine entry points (nav/hero CTA, eau-verte-urgence page, city pages) — VALIDATED 2026-05-30
 - Legal disclaimer acceptance gate before dosing advice (DIAG-03)
 - Water-chemistry wizard: pool-info + measurements steps (DIAG-01)
 - Server-side dose engine producing quantified action-plan cards (DIAG-02), formulas = mockup baseline
@@ -98,6 +104,7 @@ ROADMAP success criteria (4) and DIAG-01..05 frame the phase; this spec narrows 
 - [ ] Lead-capture form persists a lead (Prénom + Commune required) tied to the diagnostic
 - [ ] WhatsApp action opens a valid deep link to `0696 94 00 54` with a non-empty pre-filled diagnostic summary
 - [ ] A completed diagnostic downloads as a PDF containing the action plan + disclaimer, generated via DomPDF
+- [ ] `/diagnostic` is publicly reachable (no auth); the vitrine nav/hero and `/services/eau-verte-urgence` link to it
 - [ ] No Stripe/paywall and no multi-measure history dashboard are present (confirmed out of scope)
 
 ## Ambiguity Report
@@ -122,6 +129,7 @@ Status: ✓ = met minimum, ⚠ = below minimum (planner treats as assumption)
 | 1     | Boundary/Simplifier| How much DIAG-05 persistence?                    | Anonymous + save-if-logged-in; **full history dashboard deferred**      |
 | 2     | Boundary Keeper   | Which conversion outputs in scope?                | Lead-capture form + WhatsApp hand-off + PDF report (all three)          |
 | 2     | Failure Analyst   | Dose/disclaimer source of truth (liability)?      | Mockup formulas = validated baseline; **Pierre signs off pre-launch**   |
+| 3     | Boundary Keeper   | Where is the feature accessed from?               | **Public `/diagnostic` from the vitrine** (nav/hero + eau-verte page), not gated behind espace client — user-validated 2026-05-30 |
 
 ---
 
