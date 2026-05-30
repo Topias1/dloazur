@@ -3,15 +3,15 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: executing
-stopped_at: Phase 5 — code 6/6 livré, lancement gaté sur sign-off Pierre
-last_updated: "2026-05-30T04:22:50.545Z"
-last_activity: 2026-05-30
+stopped_at: Phase 5 context gathered
+last_updated: "2026-05-30T20:46:42.626Z"
+last_activity: 2026-05-30 -- Phase 06 execution started
 progress:
   total_phases: 7
-  completed_phases: 3
-  total_plans: 25
+  completed_phases: 4
+  total_plans: 29
   completed_plans: 28
-  percent: 43
+  percent: 57
 ---
 
 # Project State
@@ -21,15 +21,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 5 — Diagnostic commercialisable
+**Current focus:** Phase 06 — blog-admin-crud
 
 ## Current Position
 
-Phase: 6 (Blog admin CRUD) — PLANNED, ready to execute
-Plan: 4 plans / 3 waves (06-01 foundation → 06-02+06-03 parallel → 06-04 editor)
-Status: Plan-checker passé (1 bloqueur + 4 warnings corrigés). Research + UI-SPEC (impeccable) + Nyquist VALIDATION + PATTERNS prêts. CONTENT-01 dérivé (REQUIREMENTS 37→38). Next: /gsd:execute-phase 06.
+Phase: 06 (blog-admin-crud) — EXECUTING
+Plan: 1 of 4
+Status: Executing Phase 06
 Note: Phase 5 reste CODE COMPLET (6/6, 424 tests verts) mais lancement gaté sur sign-off chimie/légal de Pierre (05-VALIDATION « Approval: pending »).
-Last activity: 2026-05-30
+Last activity: 2026-05-30 -- Phase 06 execution started
 
 Progress: Phase 6 planifiée [planning ██████████ 100%]
 
