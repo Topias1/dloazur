@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Diagnostic extends Model
 {
+    use HasFactory;
+
     protected $fillable = [
         'client_id',
         'piscine_id',
@@ -16,6 +19,11 @@ class Diagnostic extends Model
         'recommandations',
         'disclaimer_accepted_at',
         'created_via',
+        // Lead capture — additive columns (D-03, Plan 05-03)
+        'prenom',
+        'commune',
+        'email',
+        'site_web',
     ];
 
     protected $casts = [

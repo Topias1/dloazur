@@ -345,10 +345,19 @@ final class DiagnosticWizard extends Component
             return;
         }
 
-        // 3. Validate mesures
-        $this->validateOnly([
-            'volume', 'surface', 'profondeur', 'filtration',
-            'ph', 'chlore', 'alcalinite', 'stabilisant', 'selPpm', 'chloreTotal', 'th',
+        // 3. Validate mesures (champs chimie uniquement — pas les champs lead)
+        $this->validate([
+            'volume'      => 'nullable|numeric|min:1|max:1000',
+            'surface'     => 'nullable|numeric|min:1|max:5000',
+            'profondeur'  => 'nullable|numeric|min:0.5|max:5',
+            'filtration'  => 'nullable|in:sable,verre,cartouche,diatomees',
+            'ph'          => 'nullable|numeric',
+            'chlore'      => 'nullable|numeric',
+            'alcalinite'  => 'nullable|numeric',
+            'stabilisant' => 'nullable|numeric',
+            'selPpm'      => 'nullable|numeric',
+            'chloreTotal' => 'nullable|numeric',
+            'th'          => 'nullable|numeric',
         ]);
 
         // 4. DIAG-03 : guard serveur — disclaimer must be accepted
@@ -418,8 +427,13 @@ final class DiagnosticWizard extends Component
             return;
         }
 
-        // 3. Validate lead fields
-        $this->validateOnly(['prenom', 'commune', 'email', 'siteWeb']);
+        // 3. Validate lead fields uniquement
+        $this->validate([
+            'prenom'  => 'required|string|max:80',
+            'commune' => 'required|string|max:80',
+            'email'   => 'nullable|email|max:160',
+            'siteWeb' => 'nullable|url|max:255',
+        ]);
 
         // 4. Persist + notify Pierre
         try {
