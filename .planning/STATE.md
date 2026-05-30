@@ -72,6 +72,10 @@ Recent decisions affecting current work:
 - [Phase ?]: Espace client demoted visually in nav (text-ink-500 quiet link) but retained in both desktop and mobile
 - [Phase ?]: Case study cards fact-gated with CHANTIER RÉEL REQUIS placeholders — before/after measures never fabricated per D-13
 
+### Roadmap Evolution
+
+- Phase 6 added (2026-05-30): Blog admin CRUD — autonomie de publication pour Pierre (fichiers Markdown → modèle Post DB + /admin/blog). Déclenché par sa question « Pierre pourra-t-il ajouter des articles sans coder ? » — réponse : non aujourd'hui, aucune interface admin blog.
+
 ### Pending Todos
 
 None yet.

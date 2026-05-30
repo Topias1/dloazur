@@ -179,3 +179,13 @@ LOW:
 - [ ] Add before/after video to eau-verte page.
 
 **Health score at audit:** 61/100 (cutover-readiness; live = 0 while noindex). Perf excellent warm (TTFB ~100ms).
+
+### Phase 6: Blog admin CRUD — autonomie de publication
+
+**Goal:** Permettre à Pierre (non-dev) de créer/éditer/dépublier des articles de blog depuis `/admin/blog`, sans toucher au code ni à git. Aujourd'hui le blog est fichiers-Markdown (`resources/content/blog/*.md`) → publier exige commit+push. Cette phase introduit un modèle `Post` + migration Postgres, un CRUD admin (liste, créer, éditer, dépublier), un éditeur Markdown, et bascule `BlogRepository` de fichiers→DB en migrant les 3 articles existants. Doit préserver les acquis SEO de la phase 999.1 : `og:type=article`, Article JSON-LD, dates réelles, et entrées sitemap.
+**Requirements**: TBD (dériver au planning — candidat nouveau req CONTENT-xx ; lien SITE-07)
+**Depends on:** Phase 999.1 (blog SEO : Article schema, og:type, sitemap, dates)
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 6 to break down)
