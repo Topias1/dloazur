@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
 use App\Support\BlogRepository;
 use Illuminate\View\View;
 use Spatie\SchemaOrg\Schema;
@@ -21,7 +22,15 @@ class BlogController
     {
         $post = $blog->find($slug);
 
-        abort_unless($post, 404);
+        if (! $post) {
+            // D-03: 410 Gone for a slug that exists in DB but is not published
+            // (was indexed by Googlebot, now unpublished — signals fast de-index).
+            // 404 for slugs that never existed at all.
+            if (config('blog.source') === 'db' && Post::where('slug', $slug)->exists()) {
+                abort(410);
+            }
+            abort(404);
+        }
 
         // Sibling articles for the "à lire aussi" footer (and internal linking).
         $morePosts = $blog->all()
