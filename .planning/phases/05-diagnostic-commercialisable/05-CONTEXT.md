@@ -39,6 +39,7 @@ Downstream agents MUST read `05-SPEC.md` before planning or implementing. Requir
 ### Persistence timing & PDF delivery
 - **D-04:** The `Diagnostic` row is persisted **on completion** (when results are computed / disclaimer accepted), guaranteeing a non-null `disclaimer_accepted_at` on any row carrying dosing advice (DIAG-03).
 - **D-05:** PDF generated **synchronously on download** via `spatie/laravel-pdf` DomPDF driver — no queue infra (fits scale-to-zero Laravel Cloud, single-page render).
+- **D-06:** Anonymous PDF access is **session-gated** (decision 2026-05-30). Store the diagnostic ID in the session at persist time and validate it on the `/diagnostic/{id}/pdf` request; authenticated requests verify `client_id` match. **No shareable permalink** for this phase — do NOT add `HasUuids` to `Diagnostic` now (can be added later if Pierre wants shareable links). Mitigates sequential-ID enumeration (RESEARCH Pitfall 5 / threat-model V4).
 
 ### Claude's Discretion
 - Exact column names, service namespace layout, route/component naming, and PDF Blade layout left to the planner, consistent with existing conventions.
