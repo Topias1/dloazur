@@ -40,5 +40,13 @@
         <env name="HONEYPOT_VALID_FROM_TIMESTAMP" value="false"/>
         <!-- Honeypot: disable randomization so field name stays 'my_name' in tests -->
         <env name="HONEYPOT_RANDOMIZE" value="false"/>
+        <!-- Blog source: keep file-backed path so existing BlogTest stays green
+             while later waves flip the public read path to DB (Plan 06-03). -->
+        <env name="BLOG_SOURCE" value="files"/>
+        <!-- Worktree crutch: Laravel's Application::inferBasePath() defaults to vendor's
+             ClassLoader path (main repo) when vendor is symlinked. This env var overrides it
+             to point to the worktree so database/migrations, routes/, etc. are loaded from
+             the worktree. STRIP THIS on merge — main repo doesn't need it. -->
+        <env name="APP_BASE_PATH" value="/Users/amnesia/dev/dloazur/.claude/worktrees/agent-aa4b70c358a49a97b"/>
     </php>
 </phpunit>

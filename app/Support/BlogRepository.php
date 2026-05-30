@@ -105,7 +105,7 @@ class BlogRepository
      *
      * @return array{title: string, slug: string, date: Carbon, show_date: bool, excerpt: string, author: string, cover: string|null, body: string, reading_time: int, filepath: string}
      */
-    private function parse(string $path): array
+    public function parse(string $path): array
     {
         $document = YamlFrontMatter::parseFile($path);
 
