@@ -80,7 +80,8 @@ describe('pH bas', function () {
 
         expect($card)->not()->toBeNull();
         $note = strtolower($card['note'] ?? '');
-        expect($note)->toContain('re-test', "La note pH+ doit contenir 're-test'");
+        // La note pH+ doit contenir 're-test'
+        expect($note)->toContain('re-test');
     });
 
     it('pH=7.0 dose string n\'a pas 3 chiffres significatifs (pas de fausse précision)', function () {
@@ -123,7 +124,8 @@ describe('pH haut', function () {
 
         expect($card)->not()->toBeNull();
         $note = strtolower($card['note'] ?? '');
-        expect($note)->toContain('re-test', 'pH- note must mention re-test');
+        // pH- note must mention re-test
+        expect($note)->toContain('re-test');
     });
 });
 
@@ -157,8 +159,8 @@ describe('Stabilisant haut', function () {
         expect($card)->not()->toBeNull('Card Stabilisant attendue pour stabilisant=90');
         expect(strtolower($card['product'] ?? ''))->toContain('vidange');
         // fraction = 0.33 (car 90 < 100), drainM3 = round(50 * 0.33) = 17 m3
-        // OR round(50 * 0.33) = 17? 16.5 → 17
-        expect($card['dose'] ?? '')->toContain('17', "Pour stabilisant=90 (< 100), vidange ~33% de 50m3 = 17m3");
+        // (50 * 0.33 = 16.5 → arrondi → 17)
+        expect($card['dose'] ?? '')->toContain('17');
     });
 
     it('stabilisant=120 volume=50 → vidange partielle (fraction 50%) m3 calculé', function () {
@@ -167,7 +169,7 @@ describe('Stabilisant haut', function () {
 
         expect($card)->not()->toBeNull();
         // fraction = 0.5 (car 120 > 100), drainM3 = round(50 * 0.5) = 25
-        expect($card['dose'] ?? '')->toContain('25', "Pour stabilisant=120 (> 100), vidange 50% de 50m3 = 25m3");
+        expect($card['dose'] ?? '')->toContain('25');
     });
 });
 
@@ -179,9 +181,10 @@ describe('Stabilisant bas', function () {
         expect($card)->not()->toBeNull('Card Stabilisant attendue pour stabilisant=15 (bas)');
         // Product doit proposer un apport de stabilisant (pas une vidange)
         $product = strtolower($card['product'] ?? '');
-        expect($product)->toContain('stabilisant', "Le card doit proposer un apport de stabilisant pour une valeur basse");
+        // Le card doit proposer un apport de stabilisant pour une valeur basse
+        expect($product)->toContain('stabilisant');
         // Doit ne PAS mentionner vidange pour une valeur basse
-        expect($product)->not()->toContain('vidange', "Ne pas proposer une vidange pour stabilisant=15 (trop bas)");
+        expect($product)->not()->toContain('vidange');
         $note = strtolower($card['note'] ?? '');
         expect($note)->toContain('re-test');
     });
@@ -208,7 +211,7 @@ describe('Sel bas', function () {
 
         expect($card)->not()->toBeNull('Card Sel attendue pour selPpm=2000 (< 3000)');
         // delta = 4000 - 2000 = 2000; kg = round(2000 * 50 / 1000) = 100 kg
-        expect($card['dose'] ?? '')->toContain('100', "Sel: 100 kg pour delta 2000 ppm × 50 m3");
+        expect($card['dose'] ?? '')->toContain('100');
         // Le produit/dose doit mentionner "fabricant" ou "préconisée" (audit P2)
         $dose = strtolower(($card['dose'] ?? '') . ' ' . ($card['note'] ?? ''));
         expect($dose)->toContain('re-test');
@@ -254,7 +257,8 @@ describe('Chlore bas — rattrapage (audit P0 critique)', function () {
 
         expect($card)->not()->toBeNull();
         $note = strtolower($card['note'] ?? '');
-        expect($note)->toContain('re-test', 'Chlore bas rattrapage note must end with re-test');
+        // Chlore bas rattrapage note must contain re-test
+        expect($note)->toContain('re-test');
     });
 });
 
@@ -283,7 +287,8 @@ describe('chloreChoc() helper', function () {
 
         expect($result)->toBeArray();
         $dose = $result['dose'] ?? '';
-        expect($dose)->toContain('750', "chloreChoc léger 50m3 = 15 * 50 = 750 g");
+        // 15 g/m3 × 50 m3 = 750 g
+        expect($dose)->toContain('750');
     });
 
     it('chloreChoc(50, algues) retourne 1500 g (30 g/m³ × 50 m³)', function () {
@@ -291,14 +296,15 @@ describe('chloreChoc() helper', function () {
 
         expect($result)->toBeArray();
         $dose = $result['dose'] ?? '';
-        expect($dose)->toContain('1500', "chloreChoc algues 50m3 = 30 * 50 = 1500 g");
+        // 30 g/m3 × 50 m3 = 1500 g
+        expect($dose)->toContain('1500');
     });
 
     it('chloreChoc léger utilise bien 15 g/m³ (pas rattrapage)', function () {
         $result = DoseEngine::chloreChoc(10.0, 'leger');
         $dose   = $result['dose'] ?? '';
         // 15 * 10 = 150 g
-        expect($dose)->toContain('150', "chloreChoc léger 10m3 = 150 g");
+        expect($dose)->toContain('150');
     });
 });
 
@@ -368,15 +374,18 @@ describe('eau dure TH — switch choc calcium/sodium', function () {
         $result = DoseEngine::chloreChoc(50.0, 'leger', 200.0); // th=200
 
         $product = strtolower($result['product'] ?? '');
-        expect($product)->toContain('calcium', "TH=200 (eau douce): choc doit utiliser hypochlorite de calcium");
+        // TH=200 (eau douce): choc doit utiliser hypochlorite de calcium
+        expect($product)->toContain('calcium');
     });
 
     it('TH > 300 → choc bascule sur hypochlorite de sodium (eau dure, évite entartrage)', function () {
         $result = DoseEngine::chloreChoc(50.0, 'leger', 350.0); // th=350
 
         $product = strtolower($result['product'] ?? '');
-        expect($product)->toContain('sodium', "TH=350 (eau dure): choc doit basculer sur hypochlorite de sodium");
-        expect($product)->not()->toContain('calcium', "TH élevé: ne pas utiliser hypochlorite de calcium (entartrage)");
+        // TH=350 (eau dure): choc doit basculer sur hypochlorite de sodium
+        expect($product)->toContain('sodium');
+        // Ne pas utiliser hypochlorite de calcium en eau dure (entartrage)
+        expect($product)->not()->toContain('calcium');
     });
 });
 
