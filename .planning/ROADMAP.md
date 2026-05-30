@@ -116,7 +116,7 @@ Plans:
   5. **Route `/diagnostic` publique indexée** (vitrine + `/services/eau-verte-urgence` + pages communes) + capture de lead + PDF téléchargeable
   6. **Carnet local-only** (DIAG-07) : l'historique des diagnostics/mesures est conservé **sur l'appareil** (0 serveur/0 sync), consultable, et permet de reprendre/re-tester
 
-**Plans:** 2/6 plans executed
+**Plans:** 3/6 plans executed
 
 Plans:
 
@@ -127,7 +127,7 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 05-03-PLAN.md — Brick 3: 2-step chemistry wizard (S3) + action-aware « qu'as-tu déjà essayé ? » + lead columns migration + computeAndPersist (DoseEngine call + server disclaimer enforcement + persistence) + lead capture (S7) + DiagnosticLead mailer + basic WhatsApp hand-off (DIAG-01, DIAG-02, DIAG-03, DIAG-06)
+- [x] 05-03-PLAN.md — Brick 3: 2-step chemistry wizard (S3) + action-aware « qu'as-tu déjà essayé ? » + lead columns migration + computeAndPersist (DoseEngine call + server disclaimer enforcement + persistence) + lead capture (S7) + DiagnosticLead mailer + basic WhatsApp hand-off (DIAG-01, DIAG-02, DIAG-03, DIAG-06)
 
 **Wave 3** *(parallel — no shared files; blocked on Wave 2)*
 
@@ -149,7 +149,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 | 2. MVP Suivi Offline-First | 7/7 | Complete   | 2026-05-28 |
 | 3. Facturation & Odoo | 0/? | Not started | - |
 | 4. Notifications | 0/? | Not started | - |
-| 5. Diagnostic Commercialisable | 2/6 | In Progress|  |
+| 5. Diagnostic Commercialisable | 3/6 | In Progress|  |
 
 ## Backlog
 

@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: executing
 stopped_at: Phase 5 context gathered
-last_updated: "2026-05-30T03:46:09.814Z"
+last_updated: "2026-05-30T04:05:34.061Z"
 last_activity: 2026-05-30
 progress:
   total_phases: 7
   completed_phases: 3
   total_plans: 25
-  completed_plans: 24
+  completed_plans: 25
   percent: 43
 ---
 
@@ -26,11 +26,11 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 ## Current Position
 
 Phase: 5 (Diagnostic commercialisable) — EXECUTING
-Plan: 3 of 6
+Plan: 4 of 6
 Status: Ready to execute
 Last activity: 2026-05-30
 
-Progress: [██████████] 96%
+Progress: [██████████] 100%
 
 ## Performance Metrics
 
@@ -56,6 +56,7 @@ Progress: [██████████] 96%
 | Phase 999.1 P04 | 10m | 2 tasks | 7 files |
 | Phase 999.1 P06 | 25 | 4 tasks | 9 files |
 | Phase 05 P02 | 35 | 2 tasks | 3 files |
+| Phase 05 P03 | 70 | 2 tasks | 8 files |
 
 ## Accumulated Context
 
@@ -76,6 +77,8 @@ Recent decisions affecting current work:
 - [Phase ?]: DoseEngine formule pH+ : steps*3 g/m³ par 0.1 pH (300 g pour pH=7.0/50m³, validé 05-VALIDATION)
 - [Phase ?]: Gate chloration : pH < 7.0 ou TAC < 60 → card Chlore omise (audit P1 section 7)
 - [Phase ?]: config/diagnostic-formulas.php version=1 = surface revue unique chimie Pierre pré-lancement DIAG-02
+- [Phase ?]: validateOnly(array) invalide en Livewire 3 — validate(rules array) pour cibler un sous-ensemble de champs
+- [Phase ?]: Livewire::actingAs() est statique void — appeler avant test(), pas chaînable
 
 ### Roadmap Evolution
 
@@ -109,7 +112,7 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-05-30T03:46:09.809Z
+Last session: 2026-05-30T04:05:29.803Z
 Stopped at: Phase 5 context gathered
 Resume file: None
 
