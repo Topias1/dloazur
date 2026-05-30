@@ -45,7 +45,7 @@
         </p>
 
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            Le Lamentin est la commune la plus peuplée de la Martinique, avec une forte densité de pavillons et de résidences disposant de piscines privatives. La commune combine zones résidentielles calmes et proximité d'axes routiers animés — un contexte où un entretien régulier évite les mauvaises surprises lors des grandes occasions (fêtes, locations saisonnières, retour de vacances).
+            Le Lamentin est la commune la plus peuplée de la Martinique, avec une forte densité de pavillons et de résidences disposant de piscines privatives. La commune combine zones résidentielles calmes et proximité d'axes routiers animés, un contexte où un entretien régulier évite les mauvaises surprises lors des grandes occasions (fêtes, locations saisonnières, retour de vacances).
         </p>
 
         <p class="text-ink-700 leading-relaxed max-w-[65ch]">
@@ -81,7 +81,7 @@
                     <span class="mt-0.5 text-azure-500 font-bold text-lg shrink-0">→</span>
                     <div>
                         <span class="font-semibold text-ink-950 group-hover:text-azure-600 transition-colors">Analyse de l'eau</span>
-                        <p class="text-sm text-ink-600 mt-0.5">pH, chlore, TAC, sel — ajustement professionnel sur place.</p>
+                        <p class="text-sm text-ink-600 mt-0.5">pH, chlore, TAC, sel : ajustement professionnel sur place.</p>
                     </div>
                 </a>
             </li>
@@ -105,7 +105,7 @@
                 Votre piscine au Lamentin, entretenue sans effort.
             </h2>
             <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">
-                Appelez Pierre ou demandez un devis gratuit — réponse rapide, intervention sur mesure.
+                Appelez Pierre ou demandez un devis gratuit : réponse rapide, intervention sur mesure.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="tel:+596696940054"

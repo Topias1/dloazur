@@ -45,11 +45,11 @@
         </p>
 
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            La densité urbaine de Fort-de-France et la variété des installations — des villas des hauteurs jusqu'aux appartements avec terrasse-piscine en bord de mer — exigent un prestataire qui s'adapte à chaque contexte. Dlo Azur Piscines intervient régulièrement dans la commune pour des entretiens hebdomadaires, des remises en état et des analyses d'eau complètes.
+            La densité urbaine de Fort-de-France et la variété des installations (des villas des hauteurs jusqu'aux appartements avec terrasse-piscine en bord de mer) exigent un prestataire qui s'adapte à chaque contexte. Dlo Azur Piscines intervient régulièrement dans la commune pour des entretiens hebdomadaires, des remises en état et des analyses d'eau complètes.
         </p>
 
         <p class="text-ink-700 leading-relaxed max-w-[65ch]">
-            Le climat tropical de la capitale — ensoleillement intense, humidité élevée et brume de sable saharienne — accélère la dégradation de l'eau. Un suivi professionnel régulier est indispensable pour maintenir une eau saine toute l'année.
+            Le climat tropical de la capitale (ensoleillement intense, humidité élevée et brume de sable saharienne) accélère la dégradation de l'eau. Un suivi professionnel régulier est indispensable pour maintenir une eau saine toute l'année.
         </p>
 
         {{-- Service links — city → service direction --}}
@@ -81,7 +81,7 @@
                     <span class="mt-0.5 text-azure-500 font-bold text-lg shrink-0">→</span>
                     <div>
                         <span class="font-semibold text-ink-950 group-hover:text-azure-600 transition-colors">Analyse de l'eau</span>
-                        <p class="text-sm text-ink-600 mt-0.5">pH, chlore, TAC, sel — ajustement professionnel sur place.</p>
+                        <p class="text-sm text-ink-600 mt-0.5">pH, chlore, TAC, sel : ajustement professionnel sur place.</p>
                     </div>
                 </a>
             </li>
@@ -105,7 +105,7 @@
                 Une piscine impeccable à Fort-de-France, c'est possible.
             </h2>
             <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">
-                Appelez Pierre ou demandez un devis gratuit — réponse rapide, intervention sur mesure.
+                Appelez Pierre ou demandez un devis gratuit : réponse rapide, intervention sur mesure.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="tel:+596696940054"

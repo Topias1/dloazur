@@ -31,7 +31,7 @@
             {{-- Promise line --}}
             <p class="mt-5 text-lg text-sand-100/75 leading-relaxed max-w-2xl"
                style="@media (prefers-reduced-motion: no-preference) { animation: rise 700ms 100ms cubic-bezier(0.22,1,0.36,1) both; }">
-                Réponds à quelques questions et reçois un plan d'action adapté à ton problème — gratuit, sans compte, en quelques clics.
+                Réponds à quelques questions et reçois un plan d'action adapté à ton problème : gratuit, sans compte, en quelques clics.
             </p>
 
             {{-- Deux tuiles d'entrée ≥ h-15 (60px) — CTA verbatim du Copywriting Contract --}}
@@ -41,7 +41,7 @@
                 {{-- Tuile 1 : Dépannage rapide / Symptôme --}}
                 <a href="#diagnostic-wizard"
                    class="group flex items-center gap-4 min-h-[60px] h-15 px-6 rounded-2xl bg-azure-500 text-white font-bold text-base shadow-lg hover:bg-azure-600 active:bg-azure-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950"
-                   aria-label="Trouver mon problème — parcours symptôme"
+                   aria-label="Trouver mon problème, parcours symptôme"
                    x-data
                    @click.prevent="
                        const el = document.getElementById('diagnostic-wizard-root');
@@ -62,7 +62,7 @@
                 {{-- Tuile 2 : Analyse chimique (sun accent permis pour contraste warm) --}}
                 <a href="#diagnostic-wizard"
                    class="group flex items-center gap-4 min-h-[60px] h-15 px-6 rounded-2xl bg-navy-800 ring-1 ring-white/10 text-sand-50 font-bold text-base hover:bg-navy-700 active:bg-navy-800 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400 focus-visible:ring-offset-2 focus-visible:ring-offset-navy-950"
-                   aria-label="Analyser mon eau — wizard chimique"
+                   aria-label="Analyser mon eau, wizard chimique"
                    x-data
                    @click.prevent="
                        const el = document.getElementById('diagnostic-wizard-root');
@@ -162,7 +162,7 @@
                 {{-- Fallback WhatsApp si le composant n'est pas encore enregistré --}}
                 <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-8 text-center">
                     <p class="text-ink-700 mb-2 font-semibold">Le diagnostic est en cours de chargement.</p>
-                    <p class="text-ink-500 text-sm mb-6">En attendant, contacte Pierre directement sur WhatsApp — il répond rapidement.</p>
+                    <p class="text-ink-500 text-sm mb-6">En attendant, contacte Pierre directement sur WhatsApp, il répond rapidement.</p>
                     <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"
                        class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold shadow-sm hover:brightness-95 transition">
                         <x-icon.whatsapp :size="18" />

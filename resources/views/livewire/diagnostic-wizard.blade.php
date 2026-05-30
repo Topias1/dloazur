@@ -269,7 +269,7 @@
                     x-show="carnetEntries.length > 0"
                     @click="loadCarnetEntries(); showCarnet = true;"
                     class="group flex items-center gap-4 min-h-[52px] h-13 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-lagon-500 hover:bg-lagon-50/30 active:bg-lagon-100/20 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lagon-500"
-                    aria-label="Mes diagnostics passés — carnet local"
+                    aria-label="Mes diagnostics passés, carnet local"
                 >
                     <span class="shrink-0 h-10 w-10 rounded-xl grid place-items-center" style="background: oklch(0.720 0.113 207 / 0.12); color: oklch(0.620 0.100 209);">
                         <x-icon.calendar :size="20" />
@@ -302,13 +302,13 @@
                         </span>
                         <div>
                             <h2 class="font-display font-semibold text-ink-950 text-lg">Avant de commencer</h2>
-                            <p class="text-sm text-ink-500 mt-0.5">Conseils indicatifs — Dlo Azur Piscines</p>
+                            <p class="text-sm text-ink-500 mt-0.5">Conseils indicatifs · Dlo Azur Piscines</p>
                         </div>
                     </div>
 
                     <div class="space-y-3 text-sm text-ink-700 leading-relaxed">
                         <p>
-                            <strong class="text-ink-900">Conseils indicatifs</strong> — ces recommandations ne remplacent pas l'avis d'un pisciniste.
+                            <strong class="text-ink-900">Conseils indicatifs</strong> : ces recommandations ne remplacent pas l'avis d'un pisciniste.
                             En cas de doute, contacte un professionnel.
                         </p>
                         <p>
@@ -316,7 +316,7 @@
                             à vérifier selon le titre de tes produits.
                         </p>
                         <p class="text-ink-600">
-                            Ce diagnostic est fourni à titre indicatif par <strong class="text-ink-800">Pierre ADAM — Dlo Azur Piscines</strong>.
+                            Ce diagnostic est fourni à titre indicatif par <strong class="text-ink-800">Pierre ADAM · Dlo Azur Piscines</strong>.
                         </p>
                     </div>
                 </div>
@@ -457,7 +457,7 @@
                 <div x-show="!$wire.disclaimerAccepted" class="mb-6 rounded-xl p-4 ring-1" style="background: oklch(0.965 0.045 85); outline: 1px solid oklch(0.800 0.130 80 / 0.25);">
                     <p class="text-sm font-semibold text-ink-800 mb-1">Avant de commencer</p>
                     <p class="text-sm text-ink-700 mb-3">
-                        Ces recommandations sont indicatives — elles ne remplacent pas l'avis d'un pisciniste.
+                        Ces recommandations sont indicatives, elles ne remplacent pas l'avis d'un pisciniste.
                         Vérifie toujours la notice de tes produits.
                     </p>
                     <button
@@ -572,7 +572,7 @@
                             class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('filtration') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 outline-none transition"
                             aria-required="true"
                         >
-                            <option value="">— Sélectionner —</option>
+                            <option value="">· Sélectionner ·</option>
                             <option value="sable">Sable</option>
                             <option value="verre">Verre (média alternatif)</option>
                             <option value="cartouche">Cartouche</option>
@@ -582,7 +582,7 @@
                             <p class="mt-1 text-sm text-danger">{{ $message }}</p>
                         @enderror
                         @if ($filtrationHint && ! in_array($filtrationHint, ['sable', 'verre', 'cartouche', 'diatomees']))
-                            <p class="mt-1 text-xs text-ink-400">Valeur de ta fiche piscine : « {{ $filtrationHint }} » — choisis la correspondance ci-dessus.</p>
+                            <p class="mt-1 text-xs text-ink-400">Valeur de ta fiche piscine : « {{ $filtrationHint }} » : choisis la correspondance ci-dessus.</p>
                         @endif
                     </div>
 
@@ -640,7 +640,7 @@
                 </div>
 
                 <p class="text-sm text-ink-500 mb-6 leading-relaxed">
-                    Laisse vide les valeurs que tu n'as pas mesurées — les recommandations s'adaptent.
+                    Laisse vide les valeurs que tu n'as pas mesurées, les recommandations s'adaptent.
                 </p>
 
                 {{-- Erreurs globales --}}
@@ -808,7 +808,7 @@
                                     class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition tabular-nums"
                                     placeholder="ex: 200"
                                 >
-                                <p class="mt-1 text-xs text-ink-400">Dureté de l'eau — adapte le type de chlore recommandé. ex: 200</p>
+                                <p class="mt-1 text-xs text-ink-400">Dureté de l'eau : adapte le type de chlore recommandé. ex: 200</p>
                             </div>
                         </div>
                     </details>
@@ -843,7 +843,7 @@
             saveToCarnet(
                 @js($savedDiagnosticId),
                 @js($mode === 'chemistry' ? 'Analyse chimique' : 'Diagnostic symptôme'),
-                @js(empty($recommandations) ? 'Eau équilibrée — aucune correction' : count($recommandations) . ' correction(s) identifiée(s)'),
+                @js(empty($recommandations) ? 'Eau équilibrée, aucune correction' : count($recommandations) . ' correction(s) identifiée(s)'),
                 @js($confidenceIndex ?? 'indicatif'),
                 @js(collect($recommandations)->map(fn($r) => ($r['param'] ?? '') . ($r['current'] ? ' : ' . $r['current'] : ''))->filter()->join(', ')),
                 @js(empty($recommandations) ? 'Ton eau est équilibrée.' : count($recommandations) . ' correction(s) : ' . collect($recommandations)->pluck('param')->filter()->join(', '))
@@ -903,7 +903,7 @@
                             <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.800 0.130 80);"></span>
                             Indicatif
                         </div>
-                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure — pour confirmer, mesure ton eau ou demande à Pierre.</p>
+                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure, pour confirmer, mesure ton eau ou demande à Pierre.</p>
                     @endif
                 @endif
             </div>
@@ -918,7 +918,7 @@
                 <div class="mb-6 rounded-xl p-4 flex items-start gap-3" style="background: oklch(0.965 0.045 85); outline: 1px solid oklch(0.800 0.130 80 / 0.25);" role="status" aria-label="Bloc sécurité">
                     <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.800 0.130 80);" />
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité — avant de manipuler</p>
+                        <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité, avant de manipuler</p>
                         <p class="text-sm leading-relaxed text-ink-800">
                             Porte des gants et des lunettes. Ne mélange jamais deux produits chimiques. Verse toujours le produit dans l'eau, jamais l'inverse. Respecte le délai avant baignade indiqué sur chaque produit.
                         </p>
@@ -1089,10 +1089,10 @@
                 <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.720 0.113 207);">DEMANDER UNE INTERVENTION</p>
                 @if ($escaladeNiveau === 'preemptif')
                     <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
-                        Ce cas dépasse le DIY — Pierre est là
+                        Ce cas dépasse le DIY, Pierre est là
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoie ton diagnostic à Pierre sur WhatsApp — il arrive avec le contexte complet :
+                        Envoie ton diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
                         symptôme, mesures, filtre, ce que tu as déjà tenté, et le niveau de confiance.
                     </p>
                 @else
@@ -1101,7 +1101,7 @@
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
                         Un plan ne suffit pas ou tu préfères être accompagné ?
-                        Pierre (Dlo Azur Piscines) intervient en Martinique — envoie-lui ton diagnostic directement sur WhatsApp.
+                        Pierre (Dlo Azur Piscines) intervient en Martinique, envoie-lui ton diagnostic directement sur WhatsApp.
                     </p>
                 @endif
 
@@ -1356,7 +1356,7 @@
                 >
                     <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.800 0.130 80);" />
                     <div>
-                        <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité — avant de manipuler</p>
+                        <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité, avant de manipuler</p>
                         <p
                             class="text-sm leading-relaxed text-ink-800"
                             x-text="getResult(resultId)?.safety_block ?? ''"
@@ -1416,10 +1416,10 @@
                     <h3
                         class="font-display font-semibold text-lg mb-1"
                         style="color: oklch(0.987 0.005 85);"
-                        x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY — Pierre est là' : 'Pierre peut intervenir rapidement'"
+                        x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY, Pierre est là' : 'Pierre peut intervenir rapidement'"
                     ></h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoie ton diagnostic à Pierre sur WhatsApp — il arrive avec le contexte complet :
+                        Envoie ton diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
                         symptôme, mesures, filtre, ce que tu as déjà tenté.
                     </p>
 
@@ -1513,7 +1513,7 @@
                     </div>
                     <h3 class="font-display font-semibold text-lg text-ink-950 mb-2">Aucun diagnostic pour l'instant</h3>
                     <p class="text-sm text-ink-500 mb-6 max-w-[50ch] mx-auto">
-                        Tes diagnostics resteront ici, sur cet appareil — rien n'est envoye.
+                        Tes diagnostics resteront ici, sur cet appareil, rien n'est envoye.
                         Lance ton premier diagnostic pour garder une trace de tes mesures et reprendre le suivi plus tard.
                     </p>
                     <button
@@ -1627,7 +1627,7 @@
                                     @click="clearCarnet()"
                                     class="flex-1 h-10 rounded-xl text-sm font-bold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-1"
                                     style="background: oklch(0.620 0.210 25 / 0.12); border: 1px solid oklch(0.620 0.210 25 / 0.30); color: oklch(0.620 0.210 25);"
-                                    aria-label="Effacer l'historique — action définitive"
+                                    aria-label="Effacer l'historique, action définitive"
                                 >
                                     Effacer l'historique
                                 </button>

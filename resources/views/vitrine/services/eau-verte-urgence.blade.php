@@ -104,17 +104,17 @@
             L'eau verte est causée par une prolifération d'algues microscopiques. En Martinique, le phénomène est amplifié par la combinaison de chaleur constante, de taux d'humidité élevé et d'un ensoleillement intense qui dégrade rapidement le chlore non stabilisé.
         </p>
         <ul class="space-y-3 text-ink-700 leading-relaxed max-w-[65ch] mb-6">
-            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">1.</span><span><strong class="text-ink-900">Manque de désinfectant</strong> — taux de chlore trop bas ou électrolyseur sous-dimensionné</span></li>
-            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">2.</span><span><strong class="text-ink-900">pH déséquilibré</strong> — un pH au-dessus de 7,8 peut réduire de 80 % l'efficacité du chlore</span></li>
-            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">3.</span><span><strong class="text-ink-900">Filtration insuffisante</strong> — filtre colmaté, heures de filtration inadaptées à la chaleur</span></li>
-            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">4.</span><span><strong class="text-ink-900">Apport extérieur</strong> — brume de sable saharienne, feuilles, fortes pluies tropicales qui diluent les produits</span></li>
-            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">5.</span><span><strong class="text-ink-900">Période d'inactivité</strong> — quelques semaines sans traitement sous notre soleil suffisent</span></li>
+            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">1.</span><span><strong class="text-ink-900">Manque de désinfectant</strong> : taux de chlore trop bas ou électrolyseur sous-dimensionné</span></li>
+            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">2.</span><span><strong class="text-ink-900">pH déséquilibré</strong> : un pH au-dessus de 7,8 peut réduire de 80 % l'efficacité du chlore</span></li>
+            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">3.</span><span><strong class="text-ink-900">Filtration insuffisante</strong> : filtre colmaté, heures de filtration inadaptées à la chaleur</span></li>
+            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">4.</span><span><strong class="text-ink-900">Apport extérieur</strong> : brume de sable saharienne, feuilles, fortes pluies tropicales qui diluent les produits</span></li>
+            <li class="flex gap-2"><span class="text-lagon-500 mt-0.5 shrink-0 font-bold">5.</span><span><strong class="text-ink-900">Période d'inactivité</strong> : quelques semaines sans traitement sous notre soleil suffisent</span></li>
         </ul>
 
         {{-- DIY checklist --}}
         <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3 mt-12">AVANT D'APPELER LE PRO</p>
         <h2 class="font-display font-bold text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.1] text-ink-950 mb-6">
-            Checklist DIY — ce que vous pouvez vérifier
+            Checklist DIY · ce que vous pouvez vérifier
         </h2>
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
             Si l'eau vient juste de commencer à verdir, vous pouvez tenter ces gestes de première urgence avant notre passage :
@@ -132,7 +132,7 @@
         {{-- Protocol 5 steps --}}
         <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3 mt-12">NOTRE MÉTHODE</p>
         <h2 class="font-display font-bold text-[clamp(1.875rem,3vw,2.5rem)] leading-[1.1] text-ink-950 mb-8">
-            Protocole 5 étapes — de l'eau verte à l'eau cristalline
+            Protocole 5 étapes · de l'eau verte à l'eau cristalline
         </h2>
         <div class="space-y-6">
             @foreach([

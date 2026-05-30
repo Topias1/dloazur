@@ -11,7 +11,7 @@
                 Entretien régulier de piscine<br class="hidden sm:block"> en Martinique
             </h1>
             <p class="mt-5 text-lg text-sand-100/80 leading-relaxed max-w-2xl">
-                Une piscine impeccable toute l'année, sans y penser. Forfaits hebdomadaires, bimensuels ou à la demande — adaptés au climat tropical martiniquais.
+                Une piscine impeccable toute l'année, sans y penser. Forfaits hebdomadaires, bimensuels ou à la demande, adaptés au climat tropical martiniquais.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
                 <a href="{{ route('contact') }}" class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-azure-500 text-white font-bold shadow-md hover:bg-azure-600 transition">
@@ -41,7 +41,7 @@
             Pourquoi l'entretien régulier est indispensable en Martinique
         </h2>
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            Le climat tropical martiniquais — chaleur intense, taux d'humidité élevé, brume de sable saharienne et pluies tropicales soudaines — est l'ennemi d'une piscine non entretenue. En quelques jours sans traitement, le pH dérape, les algues prolifèrent et la filtration se colmate.
+            Le climat tropical martiniquais (chaleur intense, taux d'humidité élevé, brume de sable saharienne et pluies tropicales soudaines) est l'ennemi d'une piscine non entretenue. En quelques jours sans traitement, le pH dérape, les algues prolifèrent et la filtration se colmate.
         </p>
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
             Un entretien hebdomadaire minimum est obligatoire pour maintenir une eau saine et protéger vos équipements. Dlo Azur Piscines intervient régulièrement sur votre bassin pour que vous n'ayez à vous en préoccuper.

@@ -67,7 +67,7 @@
             </div>
             <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 p-5">
                 <p class="font-display font-semibold text-lg text-ink-950 mb-1">Stabilisant</p>
-                <p class="text-ink-700 leading-relaxed text-sm">Protège le chlore de la dégradation UV solaire — crucial sous le soleil martiniquais. Trop élevé, il inhibe le chlore.</p>
+                <p class="text-ink-700 leading-relaxed text-sm">Protège le chlore de la dégradation UV solaire, crucial sous le soleil martiniquais. Trop élevé, il inhibe le chlore.</p>
             </div>
         </div>
 
@@ -114,7 +114,7 @@
                 Une eau saine protège votre santé et vos équipements.
             </h2>
             <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">
-                Réservez une analyse professionnelle — intervention rapide sur toute la Martinique.
+                Réservez une analyse professionnelle : intervention rapide sur toute la Martinique.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"

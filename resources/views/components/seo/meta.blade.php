@@ -8,7 +8,7 @@
 
 @php
     $resolvedTitle = $title ?? config('app.name', 'Dlo Azur Piscines');
-    $resolvedDescription = $description ?? 'Pisciniste d\'entretien en Martinique — passages réguliers, transparence sur les interventions, portail client.';
+    $resolvedDescription = $description ?? 'Pisciniste d\'entretien en Martinique, passages réguliers, transparence sur les interventions, portail client.';
     $resolvedCanonical = $canonical ?? url()->current();
     $resolvedImage = $image ?? asset('assets/brand/og-default.jpg');
 @endphp

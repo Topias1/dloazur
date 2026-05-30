@@ -3,7 +3,7 @@
 @section('content')
     {{-- Réalisations page — SITE-03 --}}
     {{-- h1 sr-only pour a11y (Plan 01-06) : le titre visuel de la section est un h2 --}}
-    <h1 class="sr-only">Réalisations — Piscines traitées par Dlo Azur Piscines</h1>
+    <h1 class="sr-only">Réalisations · Piscines traitées par Dlo Azur Piscines</h1>
     <div class="pt-24">
         @include('vitrine.partials.realisations-grid')
 
@@ -68,7 +68,7 @@
             {{-- Case study 1 --}}
             <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4 mb-6">
                 <h3 class="font-display font-bold text-xl text-ink-950">
-                    Piscine liner · Fort-de-France — Eau verte persistante malgré traitement hebdomadaire
+                    Piscine liner · Fort-de-France · Eau verte persistante malgré traitement hebdomadaire
                 </h3>
                 <p class="text-ink-700 leading-relaxed max-w-[65ch]">
                     <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures pH/chlore/TAC avant] -->
@@ -81,7 +81,7 @@
             {{-- Case study 2 --}}
             <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4 mb-6">
                 <h3 class="font-display font-bold text-xl text-ink-950">
-                    Spa hors sol · Schoelcher — Mousse persistante et eau laiteuse après usage intensif
+                    Spa hors sol · Schoelcher · Mousse persistante et eau laiteuse après usage intensif
                 </h3>
                 <p class="text-ink-700 leading-relaxed max-w-[65ch]">
                     <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures avant] -->
@@ -94,7 +94,7 @@
             {{-- Case study 3 --}}
             <article class="rounded-2xl ring-1 ring-navy-900/8 bg-white p-6 sm:p-8 space-y-4">
                 <h3 class="font-display font-bold text-xl text-ink-950">
-                    Piscine béton · Le Lamentin — Remise en état après 6 semaines d'inactivité saison humide
+                    Piscine béton · Le Lamentin · Remise en état après 6 semaines d'inactivité saison humide
                 </h3>
                 <p class="text-ink-700 leading-relaxed max-w-[65ch]">
                     <!-- [CHANTIER RÉEL REQUIS — Pierre ADAM doit fournir: commune confirmée, mesures avant] -->

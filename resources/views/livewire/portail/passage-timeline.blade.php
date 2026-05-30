@@ -81,7 +81,7 @@
                             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
                                 <p class="text-xs text-ink-400">pH</p>
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
-                                    {{ $lastPassage->ph_avant !== null ? number_format((float) $lastPassage->ph_avant, 1, ',', '') : '—' }}
+                                    {{ $lastPassage->ph_avant !== null ? number_format((float) $lastPassage->ph_avant, 1, ',', '') : '·' }}
                                 </p>
                                 @php
                                     $ph = (float) ($lastPassage->ph_avant ?? 0);
@@ -96,7 +96,7 @@
                             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
                                 <p class="text-xs text-ink-400">Cl libre</p>
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
-                                    {{ $lastPassage->chlore_libre !== null ? number_format((float) $lastPassage->chlore_libre, 1, ',', '') : '—' }}
+                                    {{ $lastPassage->chlore_libre !== null ? number_format((float) $lastPassage->chlore_libre, 1, ',', '') : '·' }}
                                 </p>
                                 @php
                                     $cl = (float) ($lastPassage->chlore_libre ?? 0);
@@ -111,7 +111,7 @@
                             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
                                 <p class="text-xs text-ink-400">TAC</p>
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
-                                    {{ $lastPassage->tac !== null ? number_format((float) $lastPassage->tac, 0, ',', '') : '—' }}
+                                    {{ $lastPassage->tac !== null ? number_format((float) $lastPassage->tac, 0, ',', '') : '·' }}
                                 </p>
                                 @php
                                     $tac = (float) ($lastPassage->tac ?? 0);
@@ -126,7 +126,7 @@
                             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
                                 <p class="text-xs text-ink-400">Sel</p>
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
-                                    {{ $lastPassage->sel_g_l !== null ? number_format((float) $lastPassage->sel_g_l, 1, ',', '') : '—' }}
+                                    {{ $lastPassage->sel_g_l !== null ? number_format((float) $lastPassage->sel_g_l, 1, ',', '') : '·' }}
                                 </p>
                                 <p class="text-[11px] text-ink-400">
                                     {{ $lastPassage->sel_g_l !== null ? 'g/L' : '' }}

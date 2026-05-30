@@ -11,7 +11,7 @@
                 Entretien de spa<br class="hidden sm:block"> en Martinique
             </h1>
             <p class="mt-5 text-lg text-sand-100/80 leading-relaxed max-w-2xl">
-                Votre spa ou jacuzzi mérite le même soin que votre piscine. Traitement de l'eau, vérification des buses, entretien du système de filtration — Dlo Azur Piscines s'occupe de tout.
+                Votre spa ou jacuzzi mérite le même soin que votre piscine. Traitement de l'eau, vérification des buses, entretien du système de filtration : Dlo Azur Piscines s'occupe de tout.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
                 <a href="{{ route('contact') }}" class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-azure-500 text-white font-bold shadow-md hover:bg-azure-600 transition">
