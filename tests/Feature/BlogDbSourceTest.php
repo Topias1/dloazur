@@ -1,6 +1,5 @@
 <?php
 
-uses(\Tests\TestCase::class); // STRIP ON MERGE — worktree Pest harness binding
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Models\Post;
 use App\Support\BlogRepository;

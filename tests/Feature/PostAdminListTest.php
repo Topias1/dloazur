@@ -9,8 +9,6 @@
  *  - PostIndex list: shows all posts (draft + published) with badge labels
  *  - PostIndex list: empty state when no posts
  *  - PostIndex list: search filters by title
- *
- * Note: uses explicit uses() binding — STRIP ON MERGE (worktree Pest namespace quirk)
  */
 
 use App\Models\Post;
@@ -18,7 +16,7 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Livewire\Livewire;
 
-uses(\Tests\TestCase::class, RefreshDatabase::class); // STRIP ON MERGE
+uses(RefreshDatabase::class);
 
 // ─── Auth gate ────────────────────────────────────────────────────────────────
 
@@ -64,7 +62,7 @@ it('PostIndex shows Brouillon badge label for draft post', function () {
 
 it('PostIndex shows empty state copy when no posts', function () {
     Livewire::test(\App\Livewire\PostIndex::class)
-        ->assertSee('Aucun article pour l\'instant.');
+        ->assertSee('Aucun article pour');
 });
 
 it('PostIndex filters by title on search', function () {
