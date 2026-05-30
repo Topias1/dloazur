@@ -43,8 +43,10 @@ Route::middleware('cache.headers:vitrine')->group(function () {
 Route::get('/contact', [VitrineController::class, 'contact'])->name('contact');
 
 // /diagnostic — Livewire stateful : pas de cache public (DIAG-01, Req9, Plan 05-01)
-// La route PDF /diagnostic/{id}/pdf sera ajoutée en Plan 05-05.
+// /diagnostic/{id}/pdf — DomPDF téléchargeable, session-gaté (D-06, Req8, Plan 05-05)
+// Ces deux routes DOIVENT rester hors du groupe cache.headers:vitrine (composant Livewire + download stateful).
 Route::get('/diagnostic', [DiagnosticController::class, 'show'])->name('diagnostic');
+Route::get('/diagnostic/{diagnostic}/pdf', [DiagnosticController::class, 'pdf'])->name('diagnostic.pdf');
 
 // /sitemap.xml — cache 1 h (se met à jour lors d'un nouveau post de blog)
 Route::middleware('cache.headers:sitemap')->get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
