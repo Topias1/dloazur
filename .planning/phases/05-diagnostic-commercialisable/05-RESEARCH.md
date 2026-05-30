@@ -767,27 +767,33 @@ No missing dependencies. This phase is greenfield code only — no external serv
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+> All four questions below are resolved in the canonical phase artifacts (CONTEXT.md D-06/D-07/D-08, `05-FLOCULANT-BRANCH-SPEC.md`, `05-DIAGNOSTIC-EXPERT-AUDIT.md`). Inline resolution noted per item.
 
 1. **`floculant` leaf action plan is empty in mockup**
    - What we know: The mockup's `floculant` result has `plan: []` (empty array)
    - What's unclear: Is Pierre okay with a standard "1 L floculant per 100 m³" plan, or does he want to review this specific leaf before launch?
    - Recommendation: Implement a standard plan; flag for Pierre's pre-launch review alongside the chemistry sign-off.
+   - **RESOLVED (2026-05-30):** Superseded by `05-FLOCULANT-BRANCH-SPEC.md` + CONTEXT D-08 — the `floculant` leaf becomes an expert-validated filter-type branch (sable/verre → floculant choc, cartouche → clarifiant, DE → nettoyage + clarifiant) with a blocking pH precondition; the cartouche path never says "floculant". No generic plan, no Pierre input needed for this leaf.
 
 2. **`odeur-forte` and `irritation-yeux` leaf content**
    - What we know: These result IDs exist in the tree but the mockup extraction did not yield their full `plan` arrays (possibly cut off in the extraction).
    - What's unclear: Full action plan text.
    - Recommendation: Planner should do a targeted extraction of these two leaves before writing implementation tasks. Run: `python3 -c "... text.find('odeur-forte') ..."` on the mockup.
+   - **RESOLVED (2026-05-30):** CONTEXT D-07 confirms re-extraction yielded complete, chemically sound plans for both leaves — transcribe verbatim. `05-DIAGNOSTIC-EXPERT-AUDIT.md` adds the break-point correction for `odeur-forte`. No remaining gap.
 
 3. **Anonymous PDF security model**
    - What we know: The SPEC does not specify whether anonymous visitors should be able to access `/diagnostic/{id}/pdf` post-session.
    - What's unclear: Whether Pierre wants PDFs to be permalink-accessible (share the link) or session-only.
    - Recommendation: Default to session-gated (store diagnostic ID in session at persist time; validate on PDF request). Add `HasUuids` to Diagnostic if Pierre later wants shareable links.
+   - **RESOLVED (2026-05-30):** Locked by CONTEXT D-06 — session-gated anonymous PDF access (no shareable permalink this phase; do NOT add `HasUuids`). Mitigates sequential-ID enumeration (threat-model T-05 in Plan 05). Implemented in Plan 05-05.
 
 4. **Vitrine nav change scope**
    - What we know: SPEC says vitrine nav/hero must link to `/diagnostic`.
    - What's unclear: Which nav file, and whether this touches a Phase 01 file that has been locked.
    - Recommendation: Planner checks `resources/views/layouts/` and `resources/views/vitrine/partials/` for the nav partial before writing the task.
+   - **RESOLVED (2026-05-30):** Addressed in Plan 05-01 (Task 1 `read_first` inspects the nav partial before editing; the nav/hero link to `/diagnostic` is an additive change, no Phase 01 lock conflict). 05-PATTERNS.md maps the exact files.
 
 ---
 
