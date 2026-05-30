@@ -25,7 +25,7 @@ uses(\Tests\TestCase::class, RefreshDatabase::class); // STRIP ON MERGE
 it('admin blog redirects unauthenticated users to login', function () {
     $response = $this->get('/admin/blog');
 
-    $response->assertRedirectToRoute('login');
+    $response->assertRedirect('/login');
 });
 
 it('admin blog returns 200 for authenticated operator', function () {

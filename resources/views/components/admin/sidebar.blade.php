@@ -79,6 +79,23 @@
                 aria-label="passages en attente de synchronisation"></span>
         </a>
 
+        {{-- Active: Blog (Phase 6, Plan 06-03) --}}
+        <a href="{{ route('admin.blog.index') }}"
+            @class([
+                'flex items-center gap-3 h-11 px-3 rounded-xl transition-colors',
+                'bg-white/10 text-white'             => request()->routeIs('admin.blog.*'),
+                'hover:bg-white/8 hover:text-white'  => !request()->routeIs('admin.blog.*'),
+            ])
+            @if(request()->routeIs('admin.blog.*')) aria-current="page" @endif>
+            {{-- feather file-text icon (UI-SPEC Surface 1 §Sidebar) --}}
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <path d="M14 2v6h6"/>
+                <path d="M16 13H8M16 17H8M10 9H8"/>
+            </svg>
+            Blog
+        </a>
+
         {{-- Greyed: Factures (Phase 3) --}}
         <span aria-disabled="true" tabindex="-1"
             class="flex items-center gap-3 h-11 px-3 rounded-xl text-navy-300 opacity-60 cursor-default">
