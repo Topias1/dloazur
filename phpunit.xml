@@ -40,5 +40,8 @@
         <env name="HONEYPOT_VALID_FROM_TIMESTAMP" value="false"/>
         <!-- Honeypot: disable randomization so field name stays 'my_name' in tests -->
         <env name="HONEYPOT_RANDOMIZE" value="false"/>
+        <!-- Blog source: keep file-backed path so existing BlogTest stays green
+             while later waves flip the public read path to DB (Plan 06-03). -->
+        <env name="BLOG_SOURCE" value="files"/>
     </php>
 </phpunit>

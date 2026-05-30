@@ -18,20 +18,12 @@ pest()->extend(Tests\TestCase::class)->in('Browser');
 
 // Worktree support: when run from a git worktree, the absolute path differs from the main repo.
 // Adding the worktree path ensures ->extend() is applied to worktree test files.
-//
-// Guard against double-registration: when the worktree has its own (non-symlinked) vendor,
-// the relative `'Feature'`/`'Unit'` paths above already resolve to the worktree, so adding the
-// absolute worktree path again collides ("folder already uses the test case"). We only add the
-// absolute paths when the relative resolution points OUTSIDE the worktree (symlinked-vendor case).
+// Note: when vendor is symlinked to main repo, pest resolves relative 'Feature'/'Unit' paths
+// against the main repo root (not cwd). We always add absolute worktree paths in that case.
 $worktreePath = dirname(__DIR__);
 if (str_contains($worktreePath, 'worktrees')) {
-    $relativeFeature = realpath(getcwd() . '/tests/Feature');
-    $worktreeFeature = realpath($worktreePath . '/tests/Feature');
-
-    if ($relativeFeature !== $worktreeFeature) {
-        pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Feature');
-        pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Unit');
-    }
+    pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Feature');
+    pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Unit');
 }
 
 /*
