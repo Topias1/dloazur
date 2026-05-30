@@ -163,6 +163,88 @@
             radial-gradient(130% 90% at 50% -20%, oklch(1 0 0 / 0.12), transparent 60%),
             repeating-linear-gradient(118deg, oklch(1 0 0 / 0.03) 0 2px, transparent 2px 24px);
     }
+
+    /*
+     * EasyMDE × Tailwind 4 (Plan 06-04, CONTENT-01).
+     *
+     * EasyMDE ships its own opinionated CSS (easymde.min.css, imported in app.js).
+     * We DO NOT disable Tailwind preflight globally (that would break every other
+     * surface). Instead all overrides are scoped under `.easymde-wrap` and re-skin
+     * the editor to the design tokens (sand/azure/ink/navy, --radius-xl, Inter).
+     * The editor body uses --font-sans (Inter), NOT Fredoka — Fredoka is the brand
+     * voice for headings only; body Markdown reads as content (UI-SPEC Surface 2).
+     */
+    .easymde-wrap .EasyMDEContainer {
+        font-family: var(--font-sans);
+    }
+
+    .easymde-wrap .CodeMirror {
+        min-height: 320px;
+        border: 1px solid var(--color-sand-200);
+        border-top: none;
+        border-bottom-left-radius: var(--radius-xl);
+        border-bottom-right-radius: var(--radius-xl);
+        background: var(--color-sand-50);
+        color: var(--color-ink-900);
+        font-family: var(--font-sans);
+        padding: 0.25rem;
+    }
+
+    .easymde-wrap .CodeMirror-cursor {
+        border-left-color: var(--color-azure-600);
+    }
+
+    .easymde-wrap .CodeMirror-selected {
+        background: var(--color-azure-100);
+    }
+
+    /* Toolbar — token-skinned: navy border, sand bg, ink icons, azure on active/hover */
+    .easymde-wrap .editor-toolbar {
+        border: 1px solid var(--color-navy-200);
+        border-top-left-radius: var(--radius-xl);
+        border-top-right-radius: var(--radius-xl);
+        background: var(--color-sand-100);
+        opacity: 1;
+    }
+
+    .easymde-wrap .editor-toolbar button {
+        color: var(--color-ink-700);
+        border-radius: 0.375rem;
+    }
+
+    .easymde-wrap .editor-toolbar button:hover,
+    .easymde-wrap .editor-toolbar button.active {
+        background: var(--color-azure-100);
+        border-color: transparent;
+        color: var(--color-azure-600);
+    }
+
+    .easymde-wrap .editor-toolbar i.separator {
+        border-left-color: var(--color-sand-200);
+        border-right-color: var(--color-sand-50);
+    }
+
+    .easymde-wrap .editor-toolbar button:focus-visible {
+        outline: 2px solid var(--color-azure-500);
+        outline-offset: 1px;
+    }
+
+    /* Live preview / side-by-side pane */
+    .easymde-wrap .editor-preview,
+    .easymde-wrap .editor-preview-side {
+        background: var(--color-sand-50);
+        color: var(--color-ink-900);
+        font-family: var(--font-sans);
+    }
+
+    .easymde-wrap .editor-preview a,
+    .easymde-wrap .editor-preview-side a {
+        color: var(--color-azure-600);
+    }
+
+    .easymde-wrap .editor-statusbar {
+        color: var(--color-ink-500);
+    }
 }
 
 /* Rise entrance animation — used by hero, cards on first paint */

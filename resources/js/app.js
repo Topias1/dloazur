@@ -1,8 +1,18 @@
+// EasyMDE — blog admin Markdown editor (Plan 06-04, CONTENT-01). CSS + lib must
+// load before Alpine so window.EasyMDE is available inside the x-init scope of
+// post-editor.js (the postEditor factory news up `new EasyMDE(...)`).
+import 'easymde/dist/easymde.min.css';
+import EasyMDE from 'easymde';
+window.EasyMDE = EasyMDE;
+
 import Alpine from 'alpinejs';
 
 // Passage form + sync drawer (Plan 02-05)
 import { passageForm } from './passage-form.js';
 import { syncDrawerStore } from './sync-drawer.js';
+
+// Blog admin Markdown editor factory — CONTENT-01 (Plan 06-04)
+import { postEditor } from './post-editor.js';
 
 // Carnet local-only — DIAG-07 (Plan 05-06)
 import { carnetStore, carnetResumeStrip } from './diagnostic-carnet.js';
@@ -45,6 +55,9 @@ Alpine.store('syncDrawer', syncDrawerStore());
 
 // Alpine.data factories (Plan 02-05)
 Alpine.data('passageForm', passageForm);
+
+// Alpine.data factory (Plan 06-04) — EasyMDE Markdown editor for blog admin
+Alpine.data('postEditor', postEditor);
 
 // Alpine.data factories (Plan 05-06) — carnet local-only DIAG-07
 Alpine.data('carnetStore', carnetStore);
