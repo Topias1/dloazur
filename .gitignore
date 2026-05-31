@@ -39,3 +39,10 @@ _ide_helper.php
 Homestead.json
 Homestead.yaml
 Thumbs.db
+
+# Transient frontend-review artifacts (Playwright sessions, screenshots, rendered evidence)
+.playwright-mcp/
+screenshots/
+scripts/
+evidence-*.jpeg
+.impeccable/critique/_evidence/
