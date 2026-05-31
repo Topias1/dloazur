@@ -77,7 +77,7 @@
                     alt="Avant / après traitement eau verte par Dlo Azur Piscines en Martinique"
                     width="1440" height="1908"
                     class="h-full w-full object-cover group-hover:scale-[1.03] transition duration-700 photo-grade">
-                <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy-950/85 to-transparent p-5 text-white">
+                <figcaption class="absolute bottom-0 inset-x-0 bg-gradient-to-t from-navy-950/95 via-navy-950/55 to-transparent p-5 pt-10 text-white">
                     <span class="inline-flex items-center gap-1.5 rounded-full bg-sun-500 text-navy-950 text-xs font-bold px-2.5 py-1">Avant / après</span>
                     <p class="mt-2 font-display font-semibold">D'une eau verte à une eau de baignade en 48 h</p>
                 </figcaption>

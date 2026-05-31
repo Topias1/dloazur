@@ -18,7 +18,7 @@
                 alt="Avant / après : une eau verte redevenue limpide en 48 heures"
                 width="1440" height="1908"
                 class="h-full w-full object-cover group-hover:scale-[1.04] transition duration-700 ease-out-quint photo-grade">
-            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/85 via-navy-950/15 to-transparent"></div>
+            <div class="absolute inset-0 bg-gradient-to-t from-navy-950/95 via-navy-950/45 to-transparent"></div>
             <figcaption class="absolute bottom-0 inset-x-0 p-5 sm:p-6 text-white">
                 <span class="inline-flex items-center gap-1.5 rounded-full bg-sun-500 text-navy-950 text-xs font-bold px-2.5 py-1">Avant / après</span>
                 <p class="mt-2 font-display font-semibold text-lg sm:text-xl">D'une eau verte à une eau de baignade en 48 h</p>
