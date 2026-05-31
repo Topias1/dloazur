@@ -315,9 +315,6 @@
                             Vérifie toujours la notice de tes produits. Les doses indiquées sont des valeurs orientatives
                             à vérifier selon le titre de tes produits.
                         </p>
-                        <p class="text-ink-600">
-                            Ce diagnostic est fourni à titre indicatif par <strong class="text-ink-800">Pierre ADAM · Dlo Azur Piscines</strong>.
-                        </p>
                     </div>
                 </div>
 
