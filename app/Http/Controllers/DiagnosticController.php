@@ -26,7 +26,7 @@ final class DiagnosticController extends Controller
     {
         return view('vitrine.diagnostic', [
             'title'       => 'Diagnostic piscine gratuit · Dlo Azur Piscines',
-            'description' => "Ton eau est trouble, verte ou ton électrolyseur ne produit plus ? Lance le diagnostic piscine gratuit de Dlo Azur et reçois un plan d'action adapté à ton problème — en quelques clics.",
+            'description' => "Votre eau est trouble, verte ou votre électrolyseur ne produit plus ? Lancez le diagnostic piscine gratuit de Dlo Azur et recevez un plan d'action adapté à votre problème — en quelques clics.",
             'canonical'   => url('/diagnostic'),
             'ogImage'     => asset('assets/brand/og-default.jpg'),
         ]);

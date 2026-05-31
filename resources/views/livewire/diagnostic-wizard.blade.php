@@ -903,7 +903,7 @@
                             <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.800 0.130 80);"></span>
                             Indicatif
                         </div>
-                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure, pour confirmer, mesurez votre eau ou demandez à Pierre.</p>
+                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure, pour confirmer, mesurez votre eau ou demandez-nous.</p>
                     @endif
                 @endif
             </div>
@@ -1078,7 +1078,7 @@
                     <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
                     <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
                         <strong>Cette étape est risquée pour un particulier.</strong>
-                        On vous recommande de faire appel à Pierre plutôt que de la tenter seul.
+                        On vous recommande de nous solliciter plutôt que de la tenter seul.
                     </p>
                 </div>
                 @endif
@@ -1092,25 +1092,25 @@
                 <p class="text-xs font-bold uppercase tracking-[0.18em] mb-2" style="color: oklch(0.720 0.113 207);">DEMANDER UNE INTERVENTION</p>
                 @if ($escaladeNiveau === 'preemptif')
                     <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
-                        Ce cas dépasse le DIY, Pierre est là
+                        Ce cas dépasse le DIY, nous sommes là
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoyez votre diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
+                        Envoyez-nous votre diagnostic sur WhatsApp, nous arrivons avec le contexte complet :
                         symptôme, mesures, filtre, ce que vous avez déjà tenté, et le niveau de confiance.
                     </p>
                 @else
                     <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
-                        Pierre peut intervenir rapidement
+                        Nous pouvons intervenir rapidement
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
                         Un plan ne suffit pas ou vous préférez être accompagné ?
-                        Pierre (Dlo Azur Piscines) intervient en Martinique, envoyez-lui votre diagnostic directement sur WhatsApp.
+                        Dlo Azur Piscines intervient en Martinique, envoyez-nous votre diagnostic directement sur WhatsApp.
                     </p>
                 @endif
 
-                {{-- Contexte récap (ce que Pierre reçoit) --}}
+                {{-- Contexte récap (ce que nous recevons) --}}
                 <div class="mb-4 text-xs leading-relaxed space-y-0.5" style="color: oklch(0.967 0.008 84 / 0.55);">
-                    <p>Pierre recevra : symptôme · mesures (+ fiabilité) · filtre + volume · actions tentées · diagnostic · confiance{{ $commune ? ' · ' . $commune : '' }}</p>
+                    <p>Nous recevrons : symptôme · mesures (+ fiabilité) · filtre + volume · actions tentées · diagnostic · confiance{{ $commune ? ' · ' . $commune : '' }}</p>
                 </div>
 
                 {{-- CTA WhatsApp — one gesture, pre-filled rich context (DIAG-06) --}}
@@ -1124,10 +1124,10 @@
                     rel="noopener noreferrer"
                     class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl font-bold text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                     style="background-color: #25D366; color: oklch(0.987 0.005 85);"
-                    aria-label="Demander une intervention à Pierre sur WhatsApp"
+                    aria-label="Demander une intervention sur WhatsApp"
                 >
                     <x-icon.whatsapp :size="18" />
-                    Demander une intervention à Pierre
+                    Demander une intervention
                 </a>
             </div>
 
@@ -1158,7 +1158,7 @@
                         <x-icon.check :size="22" style="color: oklch(0.700 0.150 155);" />
                     </div>
                     <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">C'est noté, merci !</h3>
-                    <p class="text-ink-600 mb-4">Pierre a reçu votre diagnostic et vous recontacte vite. Vous pouvez aussi lui écrire tout de suite sur WhatsApp.</p>
+                    <p class="text-ink-600 mb-4">Nous avons reçu votre diagnostic et nous vous recontactons vite. Vous pouvez aussi nous écrire tout de suite sur WhatsApp.</p>
                     <a
                         href="https://wa.me/596696940054"
                         rel="noopener noreferrer"
@@ -1166,14 +1166,14 @@
                         class="inline-flex items-center gap-2 h-12 px-6 rounded-xl bg-[#25D366] text-white font-semibold hover:brightness-95 transition-colors"
                     >
                         <x-icon.whatsapp :size="16" />
-                        Écrire à Pierre sur WhatsApp
+                        Nous écrire sur WhatsApp
                     </a>
                 </div>
             @else
                 <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-6">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-1">COORDONNÉES</p>
                     <h3 class="font-display font-semibold text-xl text-ink-950 mb-1">Vos coordonnées</h3>
-                    <p class="text-sm text-ink-500 mb-6">Pierre vous recontacte si vous avez des questions sur le diagnostic. Laissez vos coordonnées et il vous répond rapidement.</p>
+                    <p class="text-sm text-ink-500 mb-6">Nous vous recontactons si vous avez des questions sur le diagnostic. Laissez vos coordonnées et nous vous répondons rapidement.</p>
 
                     {{-- Honeypot (visually-hidden, aria-hidden) — T-05-07 --}}
                     <div aria-hidden="true" tabindex="-1" style="display:none">
@@ -1241,10 +1241,10 @@
                                 wire:model.lazy="email"
                                 autocomplete="email"
                                 class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('email') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
-                                placeholder="toi@exemple.com"
+                                placeholder="vous@exemple.com"
                             >
                             @error('email')
-                                <p class="mt-1 text-sm text-danger">L'e-mail doit contenir un @. Exemple : toi@exemple.com</p>
+                                <p class="mt-1 text-sm text-danger">L'e-mail doit contenir un @. Exemple : vous@exemple.com</p>
                             @enderror
                         </div>
 
@@ -1278,7 +1278,7 @@
                         </button>
 
                         <p class="text-center text-xs text-ink-400">
-                            Ou contacte Pierre directement sur
+                            Ou contactez-nous directement sur
                             <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="font-semibold text-ink-600 hover:text-ink-900 underline">WhatsApp</a>.
                         </p>
                     </div>
@@ -1408,7 +1408,7 @@
                         <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
                         <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
                             <strong>Cette étape est risquée pour un particulier.</strong>
-                            On vous recommande de faire appel à Pierre plutôt que de la tenter seul.
+                            On vous recommande de nous solliciter plutôt que de la tenter seul.
                         </p>
                     </div>
                 </template>
@@ -1421,10 +1421,10 @@
                     <h3
                         class="font-display font-semibold text-lg mb-1"
                         style="color: oklch(0.987 0.005 85);"
-                        x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY, Pierre est là' : 'Pierre peut intervenir rapidement'"
+                        x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY, nous sommes là' : 'Nous pouvons intervenir rapidement'"
                     ></h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoyez votre diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
+                        Envoyez-nous votre diagnostic sur WhatsApp, nous arrivons avec le contexte complet :
                         symptôme, mesures, filtre, ce que vous avez déjà tenté.
                     </p>
 
@@ -1442,10 +1442,10 @@
                         rel="noopener noreferrer"
                         class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl font-bold text-sm hover:brightness-95 transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
                         style="background-color: #25D366; color: oklch(0.987 0.005 85);"
-                        aria-label="Demander une intervention à Pierre sur WhatsApp"
+                        aria-label="Demander une intervention sur WhatsApp"
                     >
                         <x-icon.whatsapp :size="18" />
-                        Demander une intervention à Pierre
+                        Demander une intervention
                     </a>
                 </div>
 

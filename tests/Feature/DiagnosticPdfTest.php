@@ -120,7 +120,7 @@ it('the generated PDF contains pool info and measurements', function () {
     expect($html)
         ->toContain('eau verte')
         ->toContain('7.2')  // pH mesure
-        ->toContain('Ton diagnostic piscine');
+        ->toContain('Votre diagnostic piscine');
 });
 
 it('the generated PDF contains the safety block (ambre)', function () {
