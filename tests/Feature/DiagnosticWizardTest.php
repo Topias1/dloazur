@@ -462,3 +462,100 @@ it('lead submit is rate limited after 5 attempts in 60s', function () {
 
     RateLimiter::clear($key);
 });
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Decouple compute/persist — voir les doses sans créer de ligne DB
+// ──────────────────────────────────────────────────────────────────────────────
+
+it('computeDoses shows recommandations but persists NOTHING', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '8.2')        // hors plage → au moins une correction
+        ->set('alcalinite', '60') // bas → correction TAC
+        ->call('computeDoses');
+
+    // Doses calculées et visibles…
+    expect($component->get('hasComputed'))->toBeTrue();
+    expect($component->get('recommandations'))->not()->toBeEmpty();
+    expect($component->get('savedDiagnosticId'))->toBeNull();
+    // …mais AUCUNE ligne en base (le cœur du decouple)
+    expect(Diagnostic::count())->toBe(0);
+});
+
+it('computeDoses is still gated by the disclaimer (DIAG-03)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', false)
+        ->set('volume', '50')
+        ->set('ph', '8.2')
+        ->call('computeDoses')
+        ->assertHasErrors(['disclaimer']);
+
+    expect($component->get('hasComputed'))->toBeFalse();
+    expect(Diagnostic::count())->toBe(0);
+});
+
+it('keepDiagnostic materializes exactly one row after computeDoses (D-04)', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->set('alcalinite', '100')
+        ->call('computeDoses');
+
+    expect(Diagnostic::count())->toBe(0);
+
+    $component->call('keepDiagnostic');
+
+    expect(Diagnostic::count())->toBe(1);
+    $diagnostic = Diagnostic::first();
+    expect($diagnostic->disclaimer_accepted_at)->not()->toBeNull();
+    expect($component->get('savedDiagnosticId'))->toBe($diagnostic->id);
+});
+
+it('keepDiagnostic is idempotent — two calls create only one row', function () {
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('computeDoses')
+        ->call('keepDiagnostic')
+        ->call('keepDiagnostic');
+
+    expect(Diagnostic::count())->toBe(1);
+});
+
+it('downloadPdf persists then redirects to the PDF route', function () {
+    Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('computeDoses')
+        ->call('downloadPdf')
+        ->assertRedirect(route('diagnostic.pdf', Diagnostic::first()));
+
+    expect(Diagnostic::count())->toBe(1);
+});
+
+it('submitLead materializes the diagnostic when none was kept yet', function () {
+    Mail::fake();
+
+    $component = Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('computeDoses');
+
+    expect(Diagnostic::count())->toBe(0);
+
+    $component
+        ->set('prenom', 'Marie')
+        ->set('commune', 'Le Lamentin')
+        ->call('submitLead');
+
+    expect($component->get('leadSent'))->toBeTrue();
+    $diagnostic = Diagnostic::first();
+    expect($diagnostic)->not()->toBeNull();
+    expect($diagnostic->prenom)->toBe('Marie');
+    Mail::assertSent(DiagnosticLead::class);
+});

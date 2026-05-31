@@ -77,6 +77,13 @@ final class DiagnosticWizard extends Component
     public array $recommandations = [];
 
     /**
+     * Un calcul de doses a été effectué (computeDoses).
+     * Découple l'affichage des résultats de la persistance (savedDiagnosticId).
+     * true = doses calculées et visibles ; la persistance reste explicite (keepDiagnostic).
+     */
+    public bool $hasComputed = false;
+
+    /**
      * State succès du formulaire lead (S7).
      */
     public bool $leadSent = false;
@@ -430,7 +437,7 @@ final class DiagnosticWizard extends Component
         }
 
         $lines[] = '';
-        $lines[] = "Peux-tu m'aider ou intervenir ?";
+        $lines[] = "Pouvez-vous m'aider ou intervenir ?";
 
         return $lines;
     }
@@ -504,23 +511,27 @@ final class DiagnosticWizard extends Component
     }
 
     /**
-     * Compute + persist : calcule les doses via DoseEngine et crée un Diagnostic.
+     * Calcul pur des doses via DoseEngine — AUCUNE persistance, AUCUN effet de bord DB.
      *
-     * Guard chain (ContactForm pattern) :
+     * C'est l'action déclenchée par « Voir mes doses ». Elle découple le calcul
+     * (math serveur, DIAG-02) de la persistance (keepDiagnostic) : un visiteur peut
+     * voir ses doses sans qu'une ligne Diagnostic soit créée. Un Diagnostic n'est
+     * écrit que sur un geste explicite (garder / PDF / envoyer à Pierre).
+     *
+     * Guard chain :
      *   1. rateLimit
      *   2. protectAgainstSpam
      *   3. validate (mesures)
-     *   4. DIAG-03 disclaimer server-guard
-     *   5. DoseEngine::compute + Diagnostic::create
-     *   6. success (savedDiagnosticId + session seed)
+     *   4. DIAG-03 disclaimer server-guard (accepter avant de voir les doses)
+     *   5. DoseEngine::compute (pur) + classification confiance/escalade
      */
-    public function computeAndPersist(): void
+    public function computeDoses(): void
     {
         // 1. Rate limit
         try {
             $this->rateLimit(5, 60);
         } catch (TooManyRequestsException) {
-            $this->addError('throttle', "Trop d'envois d'affilée. Patiente une minute puis réessaie.");
+            $this->addError('throttle', "Trop d'essais d'affilée. Patientez une minute puis réessayez.");
             return;
         }
 
@@ -548,14 +559,56 @@ final class DiagnosticWizard extends Component
 
         // 4. DIAG-03 : guard serveur — disclaimer must be accepted
         if (! $this->disclaimerAccepted) {
-            $this->addError('disclaimer', 'Accepte d\'abord les conditions pour voir les recommandations de dosage.');
+            $this->addError('disclaimer', 'Acceptez d\'abord les conditions pour voir les recommandations de dosage.');
             return;
         }
 
-        // 5. DoseEngine + Diagnostic::create
+        // 5. DoseEngine — calcul pur, AUCUNE persistance (DIAG-02 : serveur uniquement)
         try {
-            $vol  = $this->volumeEffectif();
-            $recs = DoseEngine::compute($this->mesures(), $vol > 0 ? $vol : 0.0);
+            $vol = $this->volumeEffectif();
+            $this->recommandations = DoseEngine::compute($this->mesures(), $vol > 0 ? $vol : 0.0);
+
+            // Classification (pas dose — DIAG-02)
+            $this->computeConfidence();
+            $this->computeEscalade();
+
+            $this->hasComputed = true;
+            // Un nouveau calcul invalide une éventuelle persistance précédente
+            $this->savedDiagnosticId = null;
+        } catch (\Throwable $e) {
+            Log::error('DiagnosticWizard computeDoses failed', [
+                'exception' => $e->getMessage(),
+                'client_id' => auth('clients')->id(),
+            ]);
+            $this->addError('compute', "Le calcul a échoué de notre côté. Réessayez dans un instant.");
+        }
+    }
+
+    /**
+     * Persiste le diagnostic courant — geste EXPLICITE (garder / PDF / envoyer à Pierre).
+     *
+     * Crée la ligne Diagnostic et seed la session pour le gate PDF (D-06).
+     * `disclaimer_accepted_at` n'est jamais null sur une ligne dosée (D-04) car
+     * keepDiagnostic exige un calcul préalable, lui-même gardé par le disclaimer.
+     * Idempotent : si déjà persisté (savedDiagnosticId non null), no-op.
+     */
+    public function keepDiagnostic(): void
+    {
+        // Idempotence : déjà enregistré pour cet état de calcul
+        if ($this->savedDiagnosticId !== null) {
+            return;
+        }
+
+        // Il faut un calcul (qui a lui-même franchi le guard disclaimer DIAG-03/D-04)
+        if (! $this->hasComputed) {
+            $this->computeDoses();
+            if (! $this->hasComputed) {
+                return; // compute a échoué ou été bloqué — erreurs déjà posées
+            }
+        }
+
+        try {
+            $vol = $this->volumeEffectif();
 
             $diagnostic = Diagnostic::create([
                 'client_id'              => auth('clients')->id(), // null si anonyme (Req5)
@@ -563,18 +616,13 @@ final class DiagnosticWizard extends Component
                 'volume_m3'              => $vol > 0 ? $vol : null,
                 'type_probleme'          => $this->mode,
                 'mesures'                => $this->mesures(),
-                'recommandations'        => $recs,
+                'recommandations'        => $this->recommandations,
                 'disclaimer_accepted_at' => now(), // jamais null sur une ligne dosée (D-04)
                 'created_via'            => $this->mode === 'symptom' ? 'depannage' : 'wizard',
             ]);
 
-            // 6. Succès — conserver l'ID pour le lien PDF (D-06)
+            // Conserver l'ID pour le lien PDF (D-06)
             $this->savedDiagnosticId = $diagnostic->id;
-            $this->recommandations   = $recs;
-
-            // 7. Calculer confiance + escalade (classification, pas dose — DIAG-02)
-            $this->computeConfidence();
-            $this->computeEscalade();
 
             // Seed de la session pour le gate PDF anonyme (D-06, Plan 05-05)
             session()->put(
@@ -582,11 +630,40 @@ final class DiagnosticWizard extends Component
                 array_merge(session('diagnostic_ids', []), [$diagnostic->id])
             );
         } catch (\Throwable $e) {
-            Log::error('DiagnosticWizard computeAndPersist failed', [
+            Log::error('DiagnosticWizard keepDiagnostic failed', [
                 'exception' => $e->getMessage(),
                 'client_id' => auth('clients')->id(),
             ]);
-            $this->addError('compute', "Le calcul a échoué de notre côté. Réessaie dans un instant.");
+            $this->addError('compute', "L'enregistrement a échoué de notre côté. Réessayez dans un instant.");
+        }
+    }
+
+    /**
+     * Persiste puis redirige vers le PDF (D-06).
+     * Le téléchargement PDF est l'un des gestes explicites qui matérialisent un Diagnostic.
+     */
+    public function downloadPdf(): mixed
+    {
+        $this->keepDiagnostic();
+
+        if ($this->savedDiagnosticId === null) {
+            return null; // erreurs déjà posées
+        }
+
+        return redirect()->route('diagnostic.pdf', $this->savedDiagnosticId);
+    }
+
+    /**
+     * Back-compat : calcul + persistance en un seul appel (ancien comportement couplé).
+     * Conservé pour les tests d'invariants existants ; l'UI utilise désormais
+     * computeDoses() (affichage) puis keepDiagnostic()/downloadPdf() (persistance explicite).
+     */
+    public function computeAndPersist(): void
+    {
+        $this->computeDoses();
+
+        if ($this->hasComputed && $this->disclaimerAccepted) {
+            $this->keepDiagnostic();
         }
     }
 
@@ -606,7 +683,7 @@ final class DiagnosticWizard extends Component
         try {
             $this->rateLimit(5, 60);
         } catch (TooManyRequestsException) {
-            $this->addError('throttle', "Trop d'envois d'affilée. Patiente une minute puis réessaie.");
+            $this->addError('throttle', "Trop d'envois d'affilée. Patientez une minute puis réessayez.");
             return;
         }
 
@@ -627,6 +704,12 @@ final class DiagnosticWizard extends Component
 
         // 4. Persist + notify Pierre
         try {
+            // Envoyer ses coordonnées EST un geste explicite « contacter Pierre » :
+            // matérialise le Diagnostic s'il ne l'est pas encore (decouple compute/persist).
+            if ($this->savedDiagnosticId === null && $this->hasComputed) {
+                $this->keepDiagnostic();
+            }
+
             // Mise à jour de la ligne Diagnostic existante (additive — D-03)
             if ($this->savedDiagnosticId) {
                 $diagnostic = Diagnostic::find($this->savedDiagnosticId);
@@ -657,7 +740,7 @@ final class DiagnosticWizard extends Component
                 'exception' => $e->getMessage(),
                 'prenom'    => $this->prenom,
             ]);
-            $this->addError('send', "L'envoi a échoué de notre côté. Réessaie, ou contacte Pierre directement sur WhatsApp.");
+            $this->addError('send', "L'envoi a échoué de notre côté. Réessayez, ou contactez Pierre directement sur WhatsApp.");
             return;
         }
 

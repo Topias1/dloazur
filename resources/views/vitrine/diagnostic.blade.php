@@ -25,13 +25,13 @@
             <h1 class="font-display font-bold leading-[1.05] tracking-[-0.005em] text-sand-50 max-w-3xl"
                 style="font-size: clamp(2.6rem, 5vw, 4rem);
                        @media (prefers-reduced-motion: no-preference) { animation: rise 700ms 50ms cubic-bezier(0.22,1,0.36,1) both; }">
-                Ta piscine te pose problème ?
+                Votre piscine vous pose problème ?
             </h1>
 
             {{-- Promise line --}}
             <p class="mt-5 text-lg text-sand-100/75 leading-relaxed max-w-2xl"
                style="@media (prefers-reduced-motion: no-preference) { animation: rise 700ms 100ms cubic-bezier(0.22,1,0.36,1) both; }">
-                Réponds à quelques questions et reçois un plan d'action adapté à ton problème : gratuit, sans compte, en quelques clics.
+                Répondez à quelques questions et recevez un plan d'action adapté à votre problème : gratuit, sans compte, en quelques clics.
             </p>
 
             {{-- Deux tuiles d'entrée ≥ h-15 (60px) — CTA verbatim du Copywriting Contract --}}
@@ -158,7 +158,7 @@
                 {{-- Fallback WhatsApp si le composant n'est pas encore enregistré --}}
                 <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-8 text-center">
                     <p class="text-ink-700 mb-2 font-semibold">Le diagnostic est en cours de chargement.</p>
-                    <p class="text-ink-500 text-sm mb-6">En attendant, contacte Pierre directement sur WhatsApp, il répond rapidement.</p>
+                    <p class="text-ink-500 text-sm mb-6">En attendant, contactez Pierre directement sur WhatsApp, il répond rapidement.</p>
                     <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"
                        class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold shadow-sm hover:brightness-95 transition">
                         <x-icon.whatsapp :size="18" />

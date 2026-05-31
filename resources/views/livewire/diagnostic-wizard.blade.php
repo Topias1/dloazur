@@ -222,10 +222,10 @@
         <div class="py-8">
             <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">DIAGNOSTIC PISCINE</p>
             <h2 class="font-display font-bold text-ink-950" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
-                Par où veux-tu commencer ?
+                Par où voulez-vous commencer ?
             </h2>
             <p class="mt-3 text-ink-600 leading-relaxed max-w-[55ch]">
-                Choisis le parcours adapté à ta situation.
+                Choisissez le parcours adapté à votre situation.
             </p>
 
             <div class="mt-8 flex flex-col gap-4">
@@ -309,11 +309,11 @@
                     <div class="space-y-3 text-sm text-ink-700 leading-relaxed">
                         <p>
                             <strong class="text-ink-900">Conseils indicatifs</strong> : ces recommandations ne remplacent pas l'avis d'un pisciniste.
-                            En cas de doute, contacte un professionnel.
+                            En cas de doute, contactez un professionnel.
                         </p>
                         <p>
-                            Vérifie toujours la notice de tes produits. Les doses indiquées sont des valeurs orientatives
-                            à vérifier selon le titre de tes produits.
+                            Vérifiez toujours la notice de vos produits. Les doses indiquées sont des valeurs orientatives
+                            à vérifier selon le titre de vos produits.
                         </p>
                     </div>
                 </div>
@@ -329,7 +329,7 @@
                         J'ai compris, voir les recommandations
                     </button>
                     <p class="mt-3 text-center text-xs text-ink-400">
-                        En continuant, tu acceptes que ces conseils sont indicatifs.
+                        En continuant, vous acceptez que ces conseils sont indicatifs.
                     </p>
                 </div>
             </div>
@@ -372,7 +372,7 @@
                 {{-- Nœud "tried" (multiselect chips) --}}
                 <div x-show="nodeId === 'tried'" class="mb-6">
                     <p class="text-sm font-semibold text-ink-700 mb-3">
-                        Qu'as-tu déjà tenté ? <span class="font-normal text-ink-400">(pour ne pas te reproposer ce qui n'a pas marché)</span>
+                        Qu'avez-vous déjà tenté ? <span class="font-normal text-ink-400">(pour ne pas vous reproposer ce qui n'a pas marché)</span>
                     </p>
                     <div class="flex flex-wrap gap-2 mb-4">
                         <template x-for="action in ['Chlore choc', 'Brossage des parois', 'Anti-algues', 'Ajusté le pH', 'Backwash filtre', 'Rien encore']" :key="action">
@@ -447,7 +447,7 @@
             <div x-show="wizardStep === 1" x-transition.opacity.duration.150ms>
 
                 <h2 class="font-display font-bold text-ink-950 mb-6" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
-                    Ta piscine
+                    Votre piscine
                 </h2>
 
                 {{-- Disclaimer requis avant le mode chimie --}}
@@ -455,7 +455,7 @@
                     <p class="text-sm font-semibold text-ink-800 mb-1">Avant de commencer</p>
                     <p class="text-sm text-ink-700 mb-3">
                         Ces recommandations sont indicatives, elles ne remplacent pas l'avis d'un pisciniste.
-                        Vérifie toujours la notice de tes produits.
+                        Vérifiez toujours la notice de vos produits.
                     </p>
                     <button
                         type="button"
@@ -579,7 +579,7 @@
                             <p class="mt-1 text-sm text-danger">{{ $message }}</p>
                         @enderror
                         @if ($filtrationHint && ! in_array($filtrationHint, ['sable', 'verre', 'cartouche', 'diatomees']))
-                            <p class="mt-1 text-xs text-ink-400">Valeur de ta fiche piscine : « {{ $filtrationHint }} » : choisis la correspondance ci-dessus.</p>
+                            <p class="mt-1 text-xs text-ink-400">Valeur de votre fiche piscine : « {{ $filtrationHint }} » : choisissez la correspondance ci-dessus.</p>
                         @endif
                     </div>
 
@@ -623,7 +623,7 @@
 
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="font-display font-bold text-ink-950" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
-                        Tes mesures
+                        Vos mesures
                     </h2>
                     <button
                         type="button"
@@ -637,7 +637,7 @@
                 </div>
 
                 <p class="text-sm text-ink-500 mb-6 leading-relaxed">
-                    Laisse vide les valeurs que tu n'as pas mesurées, les recommandations s'adaptent.
+                    Laissez vide les valeurs que vous n'avez pas mesurées, les recommandations s'adaptent.
                 </p>
 
                 {{-- Erreurs globales --}}
@@ -810,16 +810,16 @@
                         </div>
                     </details>
 
-                    {{-- CTA — « Calculer mon plan d'action » (seul wire:click du wizard) --}}
+                    {{-- CTA — « Voir mes doses » : calcul pur, AUCUNE persistance (decouple DIAG) --}}
                     <button
                         type="button"
-                        wire:click="computeAndPersist"
+                        wire:click="computeDoses"
                         wire:loading.attr="disabled"
                         wire:loading.class="opacity-60 cursor-not-allowed"
                         class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors flex items-center justify-center gap-2 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
                     >
-                        <span wire:loading.remove wire:target="computeAndPersist">Calculer mon plan d'action</span>
-                        <span wire:loading wire:target="computeAndPersist">Calcul de ton plan…</span>
+                        <span wire:loading.remove wire:target="computeDoses">Calculer mon plan d'action</span>
+                        <span wire:loading wire:target="computeDoses">Calcul de votre plan…</span>
                     </button>
                 </div>
             </div>
@@ -828,22 +828,25 @@
 
     {{-- ═══════════════════════════════════════════════════════════
          S5 + S6 + S7 — Résultats chimie (dosage serveur)
-         Affiché après computeAndPersist réussi (savedDiagnosticId non null)
+         Affiché dès qu'un calcul a réussi (hasComputed) — AUCUNE persistance requise.
+         La ligne Diagnostic n'est créée que sur un geste explicite (PDF / envoi à Pierre).
     ═══════════════════════════════════════════════════════════ --}}
-    @if ($savedDiagnosticId)
+    @if ($hasComputed)
     <div
         x-show="step === 'wizard'"
         x-transition.opacity.duration.300ms
         x-init="
-            // Sauvegarde automatique dans le carnet au premier affichage (DIAG-07)
-            // DIAG-02 : on stocke le texte du résultat, jamais les formules
+            // Sauvegarde automatique dans le carnet LOCAL au premier affichage (DIAG-07).
+            // Carnet = localStorage (client) — pas la persistance DB. serverId peut être
+            // null tant que l'utilisateur n'a pas gardé/envoyé (decouple compute/persist).
+            // DIAG-02 : on stocke le texte du résultat, jamais les formules.
             saveToCarnet(
                 @js($savedDiagnosticId),
                 @js($mode === 'chemistry' ? 'Analyse chimique' : 'Diagnostic symptôme'),
                 @js(empty($recommandations) ? 'Eau équilibrée, aucune correction' : count($recommandations) . ' correction(s) identifiée(s)'),
                 @js($confidenceIndex ?? 'indicatif'),
                 @js(collect($recommandations)->map(fn($r) => ($r['param'] ?? '') . ($r['current'] ? ' : ' . $r['current'] : ''))->filter()->join(', ')),
-                @js(empty($recommandations) ? 'Ton eau est équilibrée.' : count($recommandations) . ' correction(s) : ' . collect($recommandations)->pluck('param')->filter()->join(', '))
+                @js(empty($recommandations) ? 'Votre eau est équilibrée.' : count($recommandations) . ' correction(s) : ' . collect($recommandations)->pluck('param')->filter()->join(', '))
             )
         "
     >
@@ -854,7 +857,7 @@
                 <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">RÉSULTATS DE L'ANALYSE</p>
                 <h2 class="font-display font-bold text-ink-950 mb-3" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
                     @if (empty($recommandations))
-                        Ton eau est équilibrée
+                        Votre eau est équilibrée
                     @else
                         {{ count($recommandations) }} correction{{ count($recommandations) > 1 ? 's' : '' }} identifiée{{ count($recommandations) > 1 ? 's' : '' }}
                     @endif
@@ -878,7 +881,7 @@
                             <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.700 0.150 155);"></span>
                             Confiance élevée
                         </div>
-                        <p class="text-xs text-ink-500 mt-1">basé sur tes mesures.</p>
+                        <p class="text-xs text-ink-500 mt-1">basé sur vos mesures.</p>
                     @elseif ($confidenceIndex === 'moyen')
                         <div
                             class="inline-flex items-center gap-1.5 h-7 px-3 rounded-full ring-1 text-xs font-bold mb-1"
@@ -900,7 +903,7 @@
                             <span class="h-1.5 w-1.5 rounded-full" style="background: oklch(0.800 0.130 80);"></span>
                             Indicatif
                         </div>
-                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure, pour confirmer, mesure ton eau ou demande à Pierre.</p>
+                        <p class="text-xs text-ink-500 mt-1">diagnostic visuel sans mesure, pour confirmer, mesurez votre eau ou demandez à Pierre.</p>
                     @endif
                 @endif
             </div>
@@ -908,7 +911,7 @@
             {{-- Pas de correction --}}
             @if (empty($recommandations))
                 <p class="text-ink-700 leading-relaxed mb-8">
-                    Aucune correction nécessaire d'après tes mesures. Continue ta filtration habituelle et re-teste dans quelques jours.
+                    Aucune correction nécessaire d'après vos mesures. Continuez votre filtration habituelle et re-testez dans quelques jours.
                 </p>
             @else
                 {{-- ③ Safety block ambre --}}
@@ -917,7 +920,7 @@
                     <div>
                         <p class="text-xs font-bold uppercase tracking-wide mb-1.5" style="color: oklch(0.800 0.130 80);">Sécurité, avant de manipuler</p>
                         <p class="text-sm leading-relaxed text-ink-800">
-                            Porte des gants et des lunettes. Ne mélange jamais deux produits chimiques. Verse toujours le produit dans l'eau, jamais l'inverse. Respecte le délai avant baignade indiqué sur chaque produit.
+                            Portez des gants et des lunettes. Ne mélangez jamais deux produits chimiques. Versez toujours le produit dans l'eau, jamais l'inverse. Respectez le délai avant baignade indiqué sur chaque produit.
                         </p>
                     </div>
                 </div>
@@ -966,7 +969,7 @@
 
                 <p class="text-sm font-semibold text-ink-600 mb-4 flex items-center gap-2">
                     <x-icon.arrow-right :size="14" class="text-azure-500 shrink-0" />
-                    Re-teste avant la dose suivante.
+                    Re-testez avant la dose suivante.
                 </p>
 
                 {{-- Boucle de re-test légère (DIAG-06 réactif, Plan 05-06)
@@ -984,7 +987,7 @@
                         {{-- Bouton "J'ai appliqué le plan" (déclenche le prompt) --}}
                         <div x-show="!retestShown">
                             <p class="text-sm text-ink-700 mb-3">
-                                Tu as appliqué le plan ? Re-teste ton eau et reviens ici pour voir si ça a marché.
+                                Vous avez appliqué le plan ? Re-testez votre eau et revenez ici pour voir si ça a marché.
                             </p>
                             <button
                                 type="button"
@@ -999,7 +1002,7 @@
                         {{-- Prompt "As-tu re-teste ? Ca a marche ?" --}}
                         <div x-show="retestShown" x-transition.opacity.duration.150ms>
                             <p class="text-sm font-semibold text-ink-900 mb-3">
-                                As-tu re-teste ? Ca a marche ?
+                                Avez-vous re-teste ? Ca a marche ?
                             </p>
                             <div class="flex gap-3">
                                 <button
@@ -1038,24 +1041,27 @@
                         </span>
                         <div>
                             <p class="text-sm font-semibold" style="color: oklch(0.700 0.150 155);">Super, ca a marche !</p>
-                            <p class="text-xs text-ink-500 mt-0.5">Le diagnostic est sauvegarde dans ton carnet local pour reference future.</p>
+                            <p class="text-xs text-ink-500 mt-0.5">Le diagnostic est sauvegarde dans votre carnet local pour reference future.</p>
                         </div>
                     </div>
                 </div>
             @endif
 
-            {{-- ⑤ PDF téléchargeable (guarded — Plan 05-05 crée la route) --}}
+            {{-- ⑤ PDF téléchargeable — geste explicite : persiste le Diagnostic puis redirige.
+                 Le téléchargement matérialise la ligne DB (decouple compute/persist, D-06). --}}
             @if(Route::has('diagnostic.pdf'))
             <div class="mb-4">
-                <a
-                    href="{{ route('diagnostic.pdf', $savedDiagnosticId) }}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="inline-flex items-center gap-2 text-sm font-semibold text-azure-600 hover:text-azure-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
+                <button
+                    type="button"
+                    wire:click="downloadPdf"
+                    wire:loading.attr="disabled"
+                    wire:target="downloadPdf"
+                    class="inline-flex items-center gap-2 text-sm font-semibold text-azure-600 hover:text-azure-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded disabled:opacity-60"
                 >
                     <x-icon.arrow-right :size="14" class="shrink-0" />
-                    Télécharger le rapport (PDF)
-                </a>
+                    <span wire:loading.remove wire:target="downloadPdf">Télécharger le rapport (PDF)</span>
+                    <span wire:loading wire:target="downloadPdf">Préparation du rapport…</span>
+                </button>
             </div>
             @endif
 
@@ -1072,7 +1078,7 @@
                     <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
                     <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
                         <strong>Cette étape est risquée pour un particulier.</strong>
-                        On te recommande de faire appel à Pierre plutôt que de la tenter seul.
+                        On vous recommande de faire appel à Pierre plutôt que de la tenter seul.
                     </p>
                 </div>
                 @endif
@@ -1089,16 +1095,16 @@
                         Ce cas dépasse le DIY, Pierre est là
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoie ton diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
-                        symptôme, mesures, filtre, ce que tu as déjà tenté, et le niveau de confiance.
+                        Envoyez votre diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
+                        symptôme, mesures, filtre, ce que vous avez déjà tenté, et le niveau de confiance.
                     </p>
                 @else
                     <h3 class="font-display font-semibold text-lg mb-1" style="color: oklch(0.987 0.005 85);">
                         Pierre peut intervenir rapidement
                     </h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Un plan ne suffit pas ou tu préfères être accompagné ?
-                        Pierre (Dlo Azur Piscines) intervient en Martinique, envoie-lui ton diagnostic directement sur WhatsApp.
+                        Un plan ne suffit pas ou vous préférez être accompagné ?
+                        Pierre (Dlo Azur Piscines) intervient en Martinique, envoyez-lui votre diagnostic directement sur WhatsApp.
                     </p>
                 @endif
 
@@ -1109,9 +1115,11 @@
 
                 {{-- CTA WhatsApp — one gesture, pre-filled rich context (DIAG-06) --}}
                 {{-- Alpine encodeURIComponent encode le payload riche côté client (RESEARCH Pattern 5) --}}
+                {{-- Geste explicite : envoyer à Pierre persiste le Diagnostic (keepDiagnostic),
+                     puis ouvre WhatsApp avec le contexte riche déjà encodé côté serveur. --}}
                 <a
                     href="https://wa.me/596696940054?text={{ urlencode($whatsappSummary) }}"
-                    x-on:click.prevent="window.open('https://wa.me/596696940054?text=' + encodeURIComponent(@js($whatsappSummary)), '_blank', 'noopener,noreferrer')"
+                    x-on:click.prevent="$wire.keepDiagnostic(); window.open('https://wa.me/596696940054?text=' + encodeURIComponent(@js($whatsappSummary)), '_blank', 'noopener,noreferrer')"
                     target="_blank"
                     rel="noopener noreferrer"
                     class="inline-flex items-center gap-2 min-h-[44px] h-13 px-5 rounded-xl font-bold text-sm transition focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white/50"
@@ -1150,7 +1158,7 @@
                         <x-icon.check :size="22" style="color: oklch(0.700 0.150 155);" />
                     </div>
                     <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">C'est noté, merci !</h3>
-                    <p class="text-ink-600 mb-4">Pierre a reçu ton diagnostic et te recontacte vite. Tu peux aussi lui écrire tout de suite sur WhatsApp.</p>
+                    <p class="text-ink-600 mb-4">Pierre a reçu votre diagnostic et vous recontacte vite. Vous pouvez aussi lui écrire tout de suite sur WhatsApp.</p>
                     <a
                         href="https://wa.me/596696940054"
                         rel="noopener noreferrer"
@@ -1165,7 +1173,7 @@
                 <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-6">
                     <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-1">COORDONNÉES</p>
                     <h3 class="font-display font-semibold text-xl text-ink-950 mb-1">Vos coordonnées</h3>
-                    <p class="text-sm text-ink-500 mb-6">Pierre te recontacte si tu as des questions sur le diagnostic. Laisse tes coordonnées et il te répond rapidement.</p>
+                    <p class="text-sm text-ink-500 mb-6">Pierre vous recontacte si vous avez des questions sur le diagnostic. Laissez vos coordonnées et il vous répond rapidement.</p>
 
                     {{-- Honeypot (visually-hidden, aria-hidden) — T-05-07 --}}
                     <div aria-hidden="true" tabindex="-1" style="display:none">
@@ -1197,10 +1205,10 @@
                                 autocomplete="given-name"
                                 required
                                 class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('prenom') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
-                                placeholder="Ton prénom"
+                                placeholder="Votre prénom"
                             >
                             @error('prenom')
-                                <p class="mt-1 text-sm text-danger">Indique ton prénom</p>
+                                <p class="mt-1 text-sm text-danger">Indiquez votre prénom</p>
                             @enderror
                         </div>
 
@@ -1215,10 +1223,10 @@
                                 wire:model.lazy="commune"
                                 required
                                 class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('commune') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
-                                placeholder="Ta commune en Martinique"
+                                placeholder="Votre commune en Martinique"
                             >
                             @error('commune')
-                                <p class="mt-1 text-sm text-danger">Indique ta commune</p>
+                                <p class="mt-1 text-sm text-danger">Indiquez votre commune</p>
                             @enderror
                         </div>
 
@@ -1400,7 +1408,7 @@
                         <x-icon.shield :size="18" class="shrink-0 mt-0.5" style="color: oklch(0.620 0.210 25);" />
                         <p class="text-sm leading-relaxed" style="color: oklch(0.620 0.210 25);">
                             <strong>Cette étape est risquée pour un particulier.</strong>
-                            On te recommande de faire appel à Pierre plutôt que de la tenter seul.
+                            On vous recommande de faire appel à Pierre plutôt que de la tenter seul.
                         </p>
                     </div>
                 </template>
@@ -1416,8 +1424,8 @@
                         x-text="getResult(resultId)?.escalade?.niveau === 'preemptif' ? 'Ce cas dépasse le DIY, Pierre est là' : 'Pierre peut intervenir rapidement'"
                     ></h3>
                     <p class="text-sm mb-4 leading-relaxed" style="color: oklch(0.967 0.008 84 / 0.70);">
-                        Envoie ton diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
-                        symptôme, mesures, filtre, ce que tu as déjà tenté.
+                        Envoyez votre diagnostic à Pierre sur WhatsApp, il arrive avec le contexte complet :
+                        symptôme, mesures, filtre, ce que vous avez déjà tenté.
                     </p>
 
                     {{-- CTA WhatsApp riche — Alpine encodeURIComponent (RESEARCH Pattern 5 / DIAG-06) --}}
@@ -1428,7 +1436,7 @@
                             + 'Diagnostic : ' + (getResult(resultId)?.diagnostic ?? '') + '\n'
                             + 'Analyse : ' + (getResult(resultId)?.analyse ?? '') + '\n'
                             + (triedActions.length > 0 ? '\nDéjà tenté (sans succès) : ' + triedActions.join(', ') + '\n' : '')
-                            + '\nPeux-tu m\'aider ou intervenir ?'
+                            + '\nPouvez-vous m\'aider ou intervenir ?'
                         )"
                         target="_blank"
                         rel="noopener noreferrer"
@@ -1510,8 +1518,8 @@
                     </div>
                     <h3 class="font-display font-semibold text-lg text-ink-950 mb-2">Aucun diagnostic pour l'instant</h3>
                     <p class="text-sm text-ink-500 mb-6 max-w-[50ch] mx-auto">
-                        Tes diagnostics resteront ici, sur cet appareil, rien n'est envoye.
-                        Lance ton premier diagnostic pour garder une trace de tes mesures et reprendre le suivi plus tard.
+                        Vos diagnostics resteront ici, sur cet appareil, rien n'est envoye.
+                        Lancez votre premier diagnostic pour garder une trace de vos mesures et reprendre le suivi plus tard.
                     </p>
                     <button
                         type="button"
@@ -1616,7 +1624,7 @@
                         >
                             <p class="text-sm font-semibold text-ink-900 mb-1">Effacer tout l'historique de cet appareil ?</p>
                             <p class="text-xs text-ink-500 mb-4">
-                                Tes diagnostics sont stockes uniquement ici. Cette action est definitive et ne peut pas etre annulee.
+                                Vos diagnostics sont stockes uniquement ici. Cette action est definitive et ne peut pas etre annulee.
                             </p>
                             <div class="flex gap-3">
                                 <button
