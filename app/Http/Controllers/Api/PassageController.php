@@ -30,13 +30,18 @@ class PassageController extends Controller
             'piscine_id'    => ['nullable', 'integer', 'exists:piscines,id'],
             'client_id'     => ['nullable', 'integer', 'exists:clients,id'],
             'visited_at'    => ['nullable', 'date'],
-            'ph_avant'      => ['nullable', 'numeric'],
-            'ph_apres'      => ['nullable', 'numeric'],
-            'chlore_libre'  => ['nullable', 'numeric'],
-            'chlore_total'  => ['nullable', 'numeric'],
-            'tac'           => ['nullable', 'numeric'],
-            'sel_g_l'       => ['nullable', 'numeric'],
-            'th'            => ['nullable', 'numeric'],
+            // Bornes physiques larges (bien au-delà des plages soft du terrain) qui
+            // restent dans la précision des colonnes decimal. Sans elles, une faute de
+            // frappe (« 74 » au lieu de « 7.4 ») passe la règle `numeric` puis fait
+            // exploser l'INSERT Postgres en « numeric field overflow » (HTTP 500) —
+            // silencieux sur SQLite. min:0 : une mesure n'est jamais négative.
+            'ph_avant'      => ['nullable', 'numeric', 'min:0', 'max:14'],     // pH 0–14 — col decimal(4,2)
+            'ph_apres'      => ['nullable', 'numeric', 'min:0', 'max:14'],     // pH 0–14 — col decimal(4,2)
+            'chlore_libre'  => ['nullable', 'numeric', 'min:0', 'max:100'],    // mg/L — col decimal(5,2)
+            'chlore_total'  => ['nullable', 'numeric', 'min:0', 'max:100'],    // mg/L — col decimal(5,2)
+            'tac'           => ['nullable', 'numeric', 'min:0', 'max:1000'],   // mg/L — col decimal(6,2)
+            'sel_g_l'       => ['nullable', 'numeric', 'min:0', 'max:50'],     // g/L  — col decimal(5,2)
+            'th'            => ['nullable', 'numeric', 'min:0', 'max:1000'],    // °f   — col decimal(6,2)
             'actions'       => ['nullable', 'array'],
             'actions.*'     => ['string', 'max:60'],
             'notes'         => ['nullable', 'string', 'max:2000'],

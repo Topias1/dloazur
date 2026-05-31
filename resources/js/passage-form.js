@@ -83,6 +83,7 @@ export function passageForm(initialData = {}) {
         saved:       false,  // écran de confirmation après un enregistrement réussi
         saveResult:  null,   // 'synced' (parti au serveur) | 'queued' (en attente réseau)
         conflictMsg: '',
+        uploadError: '',     // motif d'un refus serveur permanent (422) — corrige & réenregistre
         visitedAt:   new Date().toISOString(),
 
         // ---- timer debounce partagé (IIFE) ----
@@ -315,15 +316,25 @@ export function passageForm(initialData = {}) {
                 return;
             }
             this.saving = true;
+            this.uploadError = ''; // on repart d'une ardoise propre à chaque tentative
             try {
                 await this._saveToIDB('pending');
                 if (navigator.onLine) {
                     await this._flushQueue();
-                    // Le passage courant est-il bien parti (sinon il reste en file) ?
                     const mine = (p) => p.client_uuid === this.clientUuid;
+                    // 'error' = refus permanent (422 — données invalides) : ré-essayer
+                    // n'y changera rien. On NE prétend PAS que c'est sauvegardé ; le
+                    // message d'erreur (uploadError) est déjà affiché et l'opérateur
+                    // corrige puis ré-enregistre (un nouveau submit repasse le record
+                    // en 'pending' avec la valeur corrigée).
+                    const failed = (await getPassagesByStatus('error')).some(mine);
+                    if (failed) {
+                        return; // reste sur le formulaire, erreur visible, pas d'écran « enregistré »
+                    }
+                    // 'pending' restant = échec transitoire (réseau/5xx) déjà ré-essayé :
+                    // il repartira au prochain flush (online / visibilitychange).
                     const stillPending = (await getPassagesByStatus('pending')).some(mine);
-                    const errored      = (await getPassagesByStatus('error')).some(mine);
-                    this.saveResult = (!stillPending && !errored) ? 'synced' : 'queued';
+                    this.saveResult = stillPending ? 'queued' : 'synced';
                 } else {
                     this.saveResult = 'queued';
                 }
@@ -374,7 +385,17 @@ export function passageForm(initialData = {}) {
                         return;
                     }
 
-                    // Erreur serveur (422, 500, etc.) → retry
+                    // Refus client (4xx, ex. 422 données hors limites) : permanent.
+                    // Ré-essayer enverrait le même payload — inutile. On marque 'error'
+                    // (non repris par _flushQueue) et on remonte le motif à l'opérateur
+                    // au lieu de le laisser croire que c'est parti.
+                    if (res.status >= 400 && res.status < 500) {
+                        await markStatus('passages', item.id, 'error', (item.attempts || 0) + 1);
+                        this.uploadError = await this._validationMessage(res);
+                        return;
+                    }
+
+                    // 5xx / réponse inattendue → erreur transitoire, on ré-essaie.
                     throw new Error('Server error ' + res.status);
 
                 } catch (e) {
@@ -382,10 +403,31 @@ export function passageForm(initialData = {}) {
                     if (attempt < delays.length - 1) {
                         await new Promise((r) => setTimeout(r, delays[attempt]));
                     } else {
-                        await markStatus('passages', item.id, 'error', (item.attempts || 0) + 1);
+                        // Échec transitoire (réseau/5xx) épuisé : on le RElaisse en 'pending'
+                        // — et non en 'error' mort — pour qu'il reparte au prochain flush
+                        // (retour online / visibilitychange). Le badge le compte en attente.
+                        await markStatus('passages', item.id, 'pending', (item.attempts || 0) + 1);
                     }
                 }
             }
+        },
+
+        /**
+         * Extrait un message lisible d'une réponse 422 (erreurs de validation Laravel).
+         * Mappe les clés de champ vers leurs libellés FR quand c'est possible.
+         */
+        async _validationMessage(res) {
+            try {
+                const body = await res.json();
+                if (body?.errors && typeof body.errors === 'object') {
+                    const labels = Object.keys(body.errors).map((f) => RANGE_LABELS[f] ?? f);
+                    if (labels.length) {
+                        return `Valeur hors limites : ${labels.join(', ')}. Corrige la saisie puis réenregistre.`;
+                    }
+                }
+                if (body?.message) return body.message;
+            } catch (e) { /* corps non-JSON */ }
+            return 'Enregistrement refusé par le serveur. Vérifie les valeurs saisies puis réessaie.';
         },
 
         /**
@@ -462,6 +504,10 @@ export function passageForm(initialData = {}) {
 
         dismissConflict() {
             this.conflictMsg = '';
+        },
+
+        dismissUploadError() {
+            this.uploadError = '';
         },
     };
 }

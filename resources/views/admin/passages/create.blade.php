@@ -314,6 +314,23 @@
             </div>
         </div>
 
+        {{-- Toast refus serveur permanent (422 — valeurs hors limites). Affiché au lieu de
+             l'écran « enregistré » : l'opérateur corrige la saisie et réenregistre. --}}
+        <div x-show="uploadError" x-cloak class="fixed bottom-20 left-4 right-4 z-50" role="alert" aria-live="assertive">
+            <div class="rounded-2xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3 flex items-start gap-2.5 shadow-md">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                     stroke-width="2" class="text-danger shrink-0 mt-0.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                <p class="text-sm font-semibold text-danger flex-1" x-text="uploadError"></p>
+                <button
+                    type="button"
+                    @click="dismissUploadError()"
+                    class="text-danger h-6 w-6 grid place-items-center shrink-0"
+                    aria-label="Fermer">✕</button>
+            </div>
+        </div>
+
         {{-- Écran de confirmation après enregistrement — le moment « c'est fait, tu peux ranger le téléphone ». --}}
         <div x-show="saved" x-cloak
              class="fixed inset-0 z-[60] bg-sand-50 flex flex-col items-center justify-center text-center px-6"
