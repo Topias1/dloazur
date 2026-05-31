@@ -92,10 +92,6 @@
                     <x-icon.check :size="13" class="text-success" aria-hidden="true" />
                     Plan d'action adapté
                 </span>
-                <span class="inline-flex items-center gap-1.5 text-xs font-semibold text-sand-100/60 uppercase tracking-wide">
-                    <x-icon.check :size="13" class="text-success" aria-hidden="true" />
-                    Validé par Pierre (pisciniste)
-                </span>
             </div>
         </div>
 
