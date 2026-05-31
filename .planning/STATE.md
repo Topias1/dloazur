@@ -107,6 +107,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260529-o92 | fix liens Espace client vers portail magic-link au lieu du contact | 2026-05-29 | 7ac4404 | [260529-o92-fix-liens-espace-client-vers-portail-mag](./quick/260529-o92-fix-liens-espace-client-vers-portail-mag/) |
 | 260529-qac | login démo dev-only sur /auth/magic (Démo Client + Démo Admin, gated config app.demo_login) | 2026-05-29 | 57a2182 | [260529-qac-demo-login-auth-magic](./quick/260529-qac-demo-login-auth-magic/) |
+| 260531-nys | demo data enrichi : 10 clients, 14 piscines, 90 passages (draft/signed/synced), 62 signatures, 6 diagnostics, 10 contrats, 8 factures | 2026-05-31 | e1a7174 | [260531-nys-more-demo-data](./quick/260531-nys-more-demo-data/) |
 
 ## Deferred Items
 
