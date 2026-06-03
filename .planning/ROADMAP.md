@@ -20,7 +20,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 
 **Retours Pierre (post-démo 2026-06-03) — 4 phases par layer, indépendantes** (réf `.planning/feedback/pierre-2026-06-03-reponses.md`) :
 
-- [ ] **Phase 7: Espace admin — agenda, récap chimie & fix notes internes** - FIX bug `notes_privees` perdu à la synchro (Task 1) + agenda du jour + pivot `passage_produit` + récap mensuel par client *(priorisée : contient le bug de perte de donnée)*
+- [x] **Phase 7: Espace admin — agenda, récap chimie & fix notes internes** - FIX bug `notes_privees` perdu à la synchro (Task 1) + agenda du jour + pivot `passage_produit` + récap mensuel par client *(priorisée : contient le bug de perte de donnée)* (completed 2026-06-03)
 - [ ] **Phase 8: Vitrine — corrections retours Pierre** - Géo honnête + voix marque 3e personne + dé-duplication ; avant/après & page Dépannage (décisions Antoine)
 - [ ] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf
 - [ ] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests)
@@ -188,7 +188,7 @@ Plans:
 - [x] 07-01-PLAN.md — [admin-2] FIX bug notes_privees perdu à la synchro (migration + $fillable + upsert) + test invariant vie privée [wave 1]
 - [x] 07-02-PLAN.md — [admin-1] Agenda du jour dérivé de frequence_jour + flags « à revoir » → liens saisie pré-remplie [wave 2]
 - [x] 07-03-PLAN.md — [admin-5] Pivot passage_produit + sélecteur produits offline (Alpine/IndexedDB) + sync chimie [wave 2]
-- [ ] 07-04-PLAN.md — [admin-5] Page récap mensuel par client (passages + chimie) + bouton facture inerte (teaser Phase 3) [wave 3]
+- [x] 07-04-PLAN.md — [admin-5] Page récap mensuel par client (passages + chimie) + bouton facture inerte (teaser Phase 3) [wave 3]
 
 ### Phase 8: Vitrine — corrections retours Pierre
 
