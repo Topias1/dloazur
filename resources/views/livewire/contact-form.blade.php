@@ -36,22 +36,40 @@
                 </div>
             @enderror
 
-            {{-- Name --}}
-            <div>
-                <label for="contact-name" class="block text-sm font-semibold text-ink-700 mb-1.5">
-                    Prénom et Nom <span class="text-danger" aria-hidden="true">*</span>
-                </label>
-                <input
-                    id="contact-name"
-                    type="text"
-                    wire:model.lazy="name"
-                    autocomplete="name"
-                    required
-                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('name') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
-                >
-                @error('name')
-                    <p class="mt-1 text-sm text-danger">{{ $message }}</p>
-                @enderror
+            {{-- Prénom + Nom séparés (feedback Pierre : éviter les quiproquos) --}}
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                    <label for="contact-firstname" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                        Prénom <span class="text-danger" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                        id="contact-firstname"
+                        type="text"
+                        wire:model.lazy="firstname"
+                        autocomplete="given-name"
+                        required
+                        class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('firstname') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                    >
+                    @error('firstname')
+                        <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
+                <div>
+                    <label for="contact-lastname" class="block text-sm font-semibold text-ink-700 mb-1.5">
+                        Nom <span class="text-danger" aria-hidden="true">*</span>
+                    </label>
+                    <input
+                        id="contact-lastname"
+                        type="text"
+                        wire:model.lazy="lastname"
+                        autocomplete="family-name"
+                        required
+                        class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('lastname') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                    >
+                    @error('lastname')
+                        <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                    @enderror
+                </div>
             </div>
 
             {{-- Email --}}
@@ -72,18 +90,22 @@
                 @enderror
             </div>
 
-            {{-- Phone (optional) --}}
+            {{-- Téléphone (obligatoire — feedback Pierre : pouvoir rappeler pour filtrer) --}}
             <div>
                 <label for="contact-phone" class="block text-sm font-semibold text-ink-700 mb-1.5">
-                    Téléphone <span class="text-ink-400 font-normal text-xs">(facultatif)</span>
+                    Téléphone <span class="text-danger" aria-hidden="true">*</span>
                 </label>
                 <input
                     id="contact-phone"
                     type="tel"
                     wire:model.lazy="phone"
                     autocomplete="tel"
-                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 ring-sand-200 focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
+                    required
+                    class="w-full h-12 px-4 rounded-xl bg-sand-50 ring-1 @error('phone') ring-danger @else ring-sand-200 @enderror focus:ring-2 focus:ring-azure-500 focus:bg-white outline-none transition"
                 >
+                @error('phone')
+                    <p class="mt-1 text-sm text-danger">{{ $message }}</p>
+                @enderror
             </div>
 
             {{-- Message --}}

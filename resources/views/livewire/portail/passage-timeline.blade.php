@@ -26,11 +26,20 @@
     {{-- Contenu principal --}}
     <main class="max-w-3xl mx-auto px-5 py-8 space-y-8">
 
-        {{-- Carte piscine navy drenched --}}
+        {{-- Carte piscine navy drenched, avec photo d'en-tête (feedback Pierre : « plus sexy ») --}}
         @if ($piscine)
-            <section class="rounded-3xl bg-navy-900 text-white p-6 relative overflow-hidden">
-                <div class="absolute inset-0 ripple opacity-50" aria-hidden="true"></div>
-                <div class="relative">
+            <section class="rounded-3xl bg-navy-900 text-white relative overflow-hidden">
+                {{-- Bandeau photo : photo réelle du dernier passage, sinon piscine générique --}}
+                <div class="relative h-40 sm:h-52">
+                    <img
+                        src="{{ $heroPhotoUrl ?? asset('assets/brand/photos/piscine-propre.jpg') }}"
+                        alt="Votre piscine"
+                        loading="lazy"
+                        class="absolute inset-0 h-full w-full object-cover photo-grade">
+                    <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/45 to-navy-900/10"></div>
+                </div>
+                <div class="absolute inset-0 ripple opacity-40" aria-hidden="true"></div>
+                <div class="relative p-6 -mt-12">
                     <p class="text-sm text-lagon-300 font-semibold">Votre piscine</p>
                     <h2 class="font-display font-bold text-2xl text-white mt-1">
                         {{ $piscine->nom ?? 'Votre bassin' }}
@@ -76,7 +85,7 @@
                     {{-- Grille mesures 4-col --}}
                     <div>
                         <p class="font-display font-semibold text-sm text-ink-900 mb-3">Mesures</p>
-                        <div class="grid grid-cols-4 gap-2.5">
+                        <div class="grid {{ $showSel ? 'grid-cols-4' : 'grid-cols-3' }} gap-2.5">
                             {{-- pH --}}
                             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
                                 <p class="text-xs text-ink-400">pH</p>
@@ -122,16 +131,18 @@
                                 </p>
                             </div>
 
-                            {{-- Sel --}}
-                            <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
-                                <p class="text-xs text-ink-400">Sel</p>
-                                <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
-                                    {{ $lastPassage->sel_g_l !== null ? number_format((float) $lastPassage->sel_g_l, 1, ',', '') : '·' }}
-                                </p>
-                                <p class="text-[11px] text-ink-400">
-                                    {{ $lastPassage->sel_g_l !== null ? 'g/L' : '' }}
-                                </p>
-                            </div>
+                            {{-- Sel — masqué pour les piscines au chlore (feedback Pierre) --}}
+                            @if ($showSel)
+                                <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 py-3 text-center">
+                                    <p class="text-xs text-ink-400">Sel</p>
+                                    <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
+                                        {{ $lastPassage->sel_g_l !== null ? number_format((float) $lastPassage->sel_g_l, 1, ',', '') : '·' }}
+                                    </p>
+                                    <p class="text-[11px] text-ink-400">
+                                        {{ $lastPassage->sel_g_l !== null ? 'g/L' : '' }}
+                                    </p>
+                                </div>
+                            @endif
                         </div>
                     </div>
 
@@ -190,41 +201,98 @@
             </section>
         @endif
 
-        {{-- Section "Historique" --}}
+        {{-- Section "Historique" — chaque passage est dépliable (feedback Pierre : « rendre les historiques cliquables ») --}}
         <section>
             <h2 class="font-display font-semibold text-xl text-ink-950 mb-4">Historique</h2>
 
             @if ($passages->count() > 1)
                 <ol class="relative border-l border-sand-200 ml-3 space-y-5">
                     @foreach ($passages->skip(1) as $p)
-                        <li class="ml-6 relative">
-                            <span class="absolute -left-[33px] top-1 h-4 w-4 rounded-full ring-4 ring-sand-50 {{ $loop->first ? 'bg-azure-500' : 'bg-navy-300' }}"></span>
-                            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 p-4 flex items-center justify-between gap-3">
-                                <div>
-                                    <p class="font-display font-semibold text-ink-900">
-                                        {{ $p->visited_at->locale('fr')->isoFormat('D MMM YYYY') }}
-                                    </p>
-                                    <p class="text-sm text-ink-500">
-                                        @if ($p->ph_avant !== null)
-                                            pH {{ number_format((float) $p->ph_avant, 1, ',', '') }}
+                        <li class="ml-6 relative" x-data="{ open: false }">
+                            <span class="absolute -left-[33px] top-3 h-4 w-4 rounded-full ring-4 ring-sand-50 bg-navy-300"></span>
+                            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 overflow-hidden">
+                                {{-- En-tête cliquable --}}
+                                <button
+                                    type="button"
+                                    @click="open = !open"
+                                    :aria-expanded="open.toString()"
+                                    class="w-full p-4 flex items-center justify-between gap-3 text-left hover:bg-sand-50/70 transition-colors">
+                                    <div>
+                                        <p class="font-display font-semibold text-ink-900">
+                                            {{ $p->visited_at->locale('fr')->isoFormat('D MMM YYYY') }}
+                                        </p>
+                                        <p class="text-sm text-ink-500">
+                                            @if ($p->ph_avant !== null)
+                                                pH {{ number_format((float) $p->ph_avant, 1, ',', '') }}
+                                            @endif
+                                            @if ($p->ph_avant !== null && $p->chlore_libre !== null)
+                                                ·
+                                            @endif
+                                            @if ($p->chlore_libre !== null)
+                                                Cl {{ number_format((float) $p->chlore_libre, 1, ',', '') }}
+                                            @endif
+                                        </p>
+                                    </div>
+                                    <div class="flex items-center gap-3 shrink-0">
+                                        @if ($p->photos->isNotEmpty())
+                                            <span class="text-xs text-ink-400 inline-flex items-center gap-1">
+                                                <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
+                                                    <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"/>
+                                                </svg>
+                                                {{ $p->photos->count() }}
+                                            </span>
                                         @endif
-                                        @if ($p->ph_avant !== null && $p->chlore_libre !== null)
-                                            ·
-                                        @endif
-                                        @if ($p->chlore_libre !== null)
-                                            Cl {{ number_format((float) $p->chlore_libre, 1, ',', '') }}
-                                        @endif
-                                    </p>
-                                </div>
-                                @if ($p->photos->isNotEmpty())
-                                    <p class="text-xs text-ink-400 inline-flex items-center gap-1 shrink-0">
-                                        <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z"/>
-                                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z"/>
+                                        <svg class="h-5 w-5 text-ink-400 transition-transform duration-200" :class="open && 'rotate-180'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                            <polyline points="6 9 12 15 18 9"/>
                                         </svg>
-                                        {{ $p->photos->count() }}
-                                    </p>
-                                @endif
+                                    </div>
+                                </button>
+
+                                {{-- Détail déplié --}}
+                                <div x-show="open" x-cloak
+                                     x-transition:enter="transition ease-out duration-200"
+                                     x-transition:enter-start="opacity-0 -translate-y-1"
+                                     x-transition:enter-end="opacity-100 translate-y-0"
+                                     class="px-4 pb-4 border-t border-sand-100">
+                                    <div class="grid {{ $showSel ? 'grid-cols-4' : 'grid-cols-3' }} gap-2 mt-3">
+                                        <div class="rounded-xl bg-sand-50 ring-1 ring-sand-200 py-2 text-center">
+                                            <p class="text-[11px] text-ink-400">pH</p>
+                                            <p class="font-display font-bold text-base text-ink-950 tabular-nums">{{ $p->ph_avant !== null ? number_format((float) $p->ph_avant, 1, ',', '') : '·' }}</p>
+                                        </div>
+                                        <div class="rounded-xl bg-sand-50 ring-1 ring-sand-200 py-2 text-center">
+                                            <p class="text-[11px] text-ink-400">Cl libre</p>
+                                            <p class="font-display font-bold text-base text-ink-950 tabular-nums">{{ $p->chlore_libre !== null ? number_format((float) $p->chlore_libre, 1, ',', '') : '·' }}</p>
+                                        </div>
+                                        <div class="rounded-xl bg-sand-50 ring-1 ring-sand-200 py-2 text-center">
+                                            <p class="text-[11px] text-ink-400">TAC</p>
+                                            <p class="font-display font-bold text-base text-ink-950 tabular-nums">{{ $p->tac !== null ? number_format((float) $p->tac, 0, ',', '') : '·' }}</p>
+                                        </div>
+                                        @if ($showSel)
+                                            <div class="rounded-xl bg-sand-50 ring-1 ring-sand-200 py-2 text-center">
+                                                <p class="text-[11px] text-ink-400">Sel</p>
+                                                <p class="font-display font-bold text-base text-ink-950 tabular-nums">{{ $p->sel_g_l !== null ? number_format((float) $p->sel_g_l, 1, ',', '') : '·' }}</p>
+                                            </div>
+                                        @endif
+                                    </div>
+
+                                    @if (!empty($p->actions) && count((array) $p->actions) > 0)
+                                        <div class="flex flex-wrap gap-1.5 mt-3">
+                                            @foreach ((array) $p->actions as $action)
+                                                <span class="inline-flex items-center gap-1 rounded-full bg-azure-50 text-azure-700 text-xs font-medium px-2.5 py-1">
+                                                    <svg class="h-3 w-3 text-azure-500" viewBox="0 0 16 16" fill="none" aria-hidden="true">
+                                                        <path d="M3 8L6.5 11.5L13 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                                                    </svg>
+                                                    {{ $action }}
+                                                </span>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
+                                    @if ($p->notes)
+                                        <p class="text-sm text-ink-700 leading-relaxed mt-3">{{ $p->notes }}</p>
+                                    @endif
+                                </div>
                             </div>
                         </li>
                     @endforeach
@@ -237,6 +305,38 @@
                     <p class="text-ink-500">Aucun passage enregistré pour le moment.</p>
                 </div>
             @endif
+        </section>
+
+        {{-- Mes documents — contrat & factures (feedback Pierre : « récupérer ici son contrat, ses factures »).
+             Teaser : la facturation sera branchée plus tard (voir réponse admin). --}}
+        <section>
+            <h2 class="font-display font-semibold text-xl text-ink-950 mb-4">Mes documents</h2>
+            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 divide-y divide-sand-100 overflow-hidden">
+                <div class="p-4 flex items-center gap-3">
+                    <span class="h-10 w-10 rounded-xl bg-azure-50 text-azure-600 grid place-items-center shrink-0">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6M9 17h4"/>
+                        </svg>
+                    </span>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-display font-semibold text-ink-900">Contrat d'entretien</p>
+                        <p class="text-sm text-ink-500">Votre contrat et ses conditions.</p>
+                    </div>
+                    <span class="text-xs font-semibold text-ink-400 bg-sand-100 rounded-full px-2.5 py-1 shrink-0">Bientôt</span>
+                </div>
+                <div class="p-4 flex items-center gap-3">
+                    <span class="h-10 w-10 rounded-xl bg-lagon-500/12 text-lagon-600 grid place-items-center shrink-0">
+                        <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M12 11v6M9.5 13.2c0-.8.7-1.2 1.6-1.2 1.6 0 1.8 2.1.4 2.4-1.6.3-1.6 2.4 0 2.4 1 0 1.6-.4 1.6-1.2"/>
+                        </svg>
+                    </span>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-display font-semibold text-ink-900">Factures</p>
+                        <p class="text-sm text-ink-500">Vos factures, à télécharger en PDF.</p>
+                    </div>
+                    <span class="text-xs font-semibold text-ink-400 bg-sand-100 rounded-full px-2.5 py-1 shrink-0">Bientôt</span>
+                </div>
+            </div>
         </section>
 
         {{-- CTA WhatsApp --}}

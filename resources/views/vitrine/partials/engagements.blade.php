@@ -11,8 +11,8 @@
                 <x-icon.shield :size="22" />
             </span>
             <div>
-                <h3 class="font-display font-semibold text-xl text-ink-950">Rapport photo à chaque passage</h3>
-                <p class="mt-2 text-ink-700 leading-relaxed">Vous recevez des photos datées après chaque intervention. Rien de caché, tout tracé.</p>
+                <h3 class="font-display font-semibold text-xl text-ink-950">Compte-rendu après chaque passage</h3>
+                <p class="mt-2 text-ink-700 leading-relaxed">Mesures de l'eau, actions menées et photos quand c'est utile, consultables dans votre espace client. Rien de caché.</p>
             </div>
         </div>
 
@@ -21,8 +21,8 @@
                 <x-icon.whatsapp :size="22" />
             </span>
             <div>
-                <h3 class="font-display font-semibold text-xl text-ink-950">WhatsApp réactif 7j/7</h3>
-                <p class="mt-2 text-ink-700 leading-relaxed">Une question, une urgence ? Écrivez-nous directement. Réponse rapide, sans standard téléphonique.</p>
+                <h3 class="font-display font-semibold text-xl text-ink-950">Joignable sur WhatsApp</h3>
+                <p class="mt-2 text-ink-700 leading-relaxed">Une question, une urgence ? Écrivez-nous directement. Vous tombez sur Pierre, jamais sur un standard.</p>
             </div>
         </div>
 
@@ -41,8 +41,8 @@
                 <x-icon.sun :size="22" />
             </span>
             <div>
-                <h3 class="font-display font-semibold text-xl text-ink-950">Solo artisanal, pas un call-center</h3>
-                <p class="mt-2 text-ink-700 leading-relaxed">Vous parlez toujours à Pierre. Pas de sous-traitance, pas de rotation de techniciens anonymes.</p>
+                <h3 class="font-display font-semibold text-xl text-ink-950">Toujours le même interlocuteur</h3>
+                <p class="mt-2 text-ink-700 leading-relaxed">Pierre connaît votre bassin, son volume, sa filtration. Pas de sous-traitance, pas de technicien anonyme qui change à chaque fois.</p>
             </div>
         </div>
     </div>

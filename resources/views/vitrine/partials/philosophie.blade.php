@@ -17,7 +17,7 @@
                 </li>
                 <li class="flex gap-3">
                     <span class="text-azure-500 shrink-0 mt-0.5"><x-icon.check :size="18" /></span>
-                    <span class="text-ink-700">Service fiable et réactif, disponible par WhatsApp 7j/7</span>
+                    <span class="text-ink-700">Service fiable et réactif, joignable directement par WhatsApp</span>
                 </li>
                 <li class="flex gap-3">
                     <span class="text-azure-500 shrink-0 mt-0.5"><x-icon.check :size="18" /></span>

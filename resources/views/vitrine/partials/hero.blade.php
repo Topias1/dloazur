@@ -19,26 +19,18 @@
             </h1>
 
             <p class="mt-5 text-lg sm:text-xl text-navy-100 max-w-xl leading-relaxed">
-                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine, pour que votre piscine reste un plaisir, partout sur l'île.
+                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine, du nord-atlantique au centre de la Martinique. Un appel suffit pour voir si votre piscine entre dans ma tournée.
             </p>
 
-            {{-- Un primaire (devis) + un secondaire (WhatsApp) --}}
+            {{-- CTA unique : devis (le canal WhatsApp reste en bas de page + nav) --}}
             <div class="mt-8 flex flex-wrap items-center gap-3">
                 <a href="#contact" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-azure-500 text-white font-bold text-base shadow-md hover:bg-azure-400 transition-colors cursor-pointer">
                     Demander un devis gratuit
                     <x-icon.arrow-right :size="18" />
                 </a>
-                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-white/10 ring-1 ring-white/25 text-white font-bold text-base backdrop-blur hover:bg-white/15 transition-colors cursor-pointer">
-                    <x-icon.whatsapp :size="18" />
-                    Nous écrire
-                </a>
             </div>
 
             <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-navy-100/90">
-                <span class="inline-flex items-center gap-2">
-                    <x-icon.check :size="16" class="text-lagon-400" />
-                    Photos à chaque passage
-                </span>
                 <span class="inline-flex items-center gap-2">
                     <x-icon.check :size="16" class="text-lagon-400" />
                     Réponse rapide

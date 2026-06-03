@@ -29,11 +29,33 @@ class PassageTimeline extends Component
         $lastPassage = $passages->first();
         $piscine = $lastPassage?->piscine ?? $client->piscines()->first();
 
+        // Case « Sel » : pertinente seulement pour un traitement au sel / électrolyse,
+        // OU si un passage a réellement enregistré une mesure de sel. Une piscine au
+        // chlore ne doit pas afficher de case Sel (feedback Pierre).
+        $traitement = mb_strtolower((string) ($piscine->traitement ?? ''));
+        $showSel = in_array($traitement, ['sel', 'électrolyse', 'electrolyse', 'sel/électrolyse'], true)
+            || $passages->contains(fn ($p) => $p->sel_g_l !== null);
+
+        // Photo d'en-tête de la carte piscine : la plus récente photo de passage si
+        // disponible, sinon une photo générique (le rendu reste « sexy » sans S3).
+        $heroPhotoUrl = null;
+        $heroPhoto = $passages->firstWhere(fn ($p) => $p->photos->isNotEmpty())?->photos->first();
+        if ($heroPhoto) {
+            try {
+                $heroPhotoUrl = \Illuminate\Support\Facades\Storage::disk($heroPhoto->disk ?? 'r2')
+                    ->temporaryUrl($heroPhoto->path, now()->addHour());
+            } catch (\Throwable) {
+                $heroPhotoUrl = null;
+            }
+        }
+
         return view('livewire.portail.passage-timeline', [
-            'client'      => $client,
-            'piscine'     => $piscine,
-            'lastPassage' => $lastPassage,
-            'passages'    => $passages,
+            'client'       => $client,
+            'piscine'      => $piscine,
+            'lastPassage'  => $lastPassage,
+            'passages'     => $passages,
+            'showSel'      => $showSel,
+            'heroPhotoUrl' => $heroPhotoUrl,
         ]);
     }
 }

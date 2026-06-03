@@ -14,7 +14,7 @@
                         <x-icon.whatsapp :size="20" />
                         0696 94 00 54
                     </a>
-                    <span class="text-sm text-azure-100/90">Réponse rapide, 7j/7</span>
+                    <span class="text-sm text-azure-100/90">Réponse rapide</span>
                 </div>
             </div>
 

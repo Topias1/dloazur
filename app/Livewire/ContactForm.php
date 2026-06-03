@@ -16,13 +16,16 @@ class ContactForm extends Component
 {
     use WithRateLimiting, UsesSpamProtection;
 
-    #[Validate('required|string|max:80')]
-    public string $name = '';
+    #[Validate('required|string|max:40')]
+    public string $firstname = '';
+
+    #[Validate('required|string|max:40')]
+    public string $lastname = '';
 
     #[Validate('required|email|max:160')]
     public string $email = '';
 
-    #[Validate('nullable|string|max:30')]
+    #[Validate('required|string|min:6|max:30')]
     public string $phone = '';
 
     #[Validate('required|string|min:10|max:2000')]
@@ -64,7 +67,8 @@ class ContactForm extends Component
         try {
             Mail::to(config('contact.recipient', 'contact@dloazurpiscines.com'))
                 ->send(new ContactMessage(
-                    name: $this->name,
+                    firstname: $this->firstname,
+                    lastname: $this->lastname,
                     email: $this->email,
                     phone: $this->phone,
                     message: $this->message,
@@ -72,7 +76,7 @@ class ContactForm extends Component
         } catch (\Throwable $e) {
             Log::error('Contact form mail send failed', [
                 'exception' => $e->getMessage(),
-                'name'      => $this->name,
+                'name'      => trim($this->firstname.' '.$this->lastname),
                 'email'     => $this->email,
             ]);
             $this->addError('send', "L'envoi a échoué. Vérifiez votre connexion ou contactez-nous sur WhatsApp.");
@@ -81,7 +85,7 @@ class ContactForm extends Component
 
         // 5. Success state
         $this->sent = true;
-        $this->reset(['name', 'email', 'phone', 'message']);
+        $this->reset(['firstname', 'lastname', 'email', 'phone', 'message']);
     }
 
     public function render()

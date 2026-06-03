@@ -14,11 +14,18 @@ class ContactMessage extends Mailable
     use Queueable, SerializesModels;
 
     public function __construct(
-        public readonly string $name,
+        public readonly string $firstname,
+        public readonly string $lastname,
         public readonly string $email,
         public readonly string $phone,
         public readonly string $message,
     ) {}
+
+    /** Nom complet « Prénom Nom » pour l'en-tête reply-to et l'affichage. */
+    public function name(): string
+    {
+        return trim($this->firstname.' '.$this->lastname);
+    }
 
     public function envelope(): Envelope
     {
@@ -29,7 +36,7 @@ class ContactMessage extends Mailable
                 config('mail.from.name', 'Dlo Azur Piscines'),
             ),
             replyTo: [
-                new Address($this->email, $this->name),
+                new Address($this->email, $this->name()),
             ],
         );
     }

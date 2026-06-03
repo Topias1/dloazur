@@ -113,7 +113,8 @@ class DemoLoginController extends Controller
                 'ph_apres'     => 7.2,
                 'chlore_libre' => 1.8,
                 'tac'          => 110,
-                'notes'        => 'Nettoyage filtre, contrôle pH.',
+                'actions'      => ['Nettoyage du filtre', 'Contrôle du pH', 'Brossage des parois'],
+                'notes'        => 'Eau parfaitement équilibrée, rien à signaler.',
             ],
             [
                 'weeks'        => 2,
@@ -121,7 +122,8 @@ class DemoLoginController extends Controller
                 'ph_apres'     => 7.2,
                 'chlore_libre' => 1.5,
                 'tac'          => 95,
-                'notes'        => 'Traitement choc préventif.',
+                'actions'      => ['Traitement choc préventif', 'Nettoyage skimmers'],
+                'notes'        => 'Traitement choc préventif avant le week-end.',
             ],
             [
                 'weeks'        => 4,
@@ -129,6 +131,7 @@ class DemoLoginController extends Controller
                 'ph_apres'     => 7.2,
                 'chlore_libre' => 1.3,
                 'tac'          => 90,
+                'actions'      => ['Brossage des parois', 'Contrôle des skimmers'],
                 'notes'        => 'Brossage parois, contrôle skimmers.',
             ],
             [
@@ -137,6 +140,7 @@ class DemoLoginController extends Controller
                 'ph_apres'     => 7.2,
                 'chlore_libre' => 1.2,
                 'tac'          => 80,
+                'actions'      => ['Vérification du niveau', "Équilibre de l'eau"],
                 'notes'        => 'Vérification niveau, équilibre de l\'eau.',
             ],
         ];
@@ -154,6 +158,7 @@ class DemoLoginController extends Controller
                 'ph_apres'     => $p['ph_apres'],
                 'chlore_libre' => $p['chlore_libre'],
                 'tac'          => $p['tac'],
+                'actions'      => $p['actions'],
                 'notes'        => $p['notes'],
             ]);
         }
