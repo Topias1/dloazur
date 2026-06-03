@@ -28,6 +28,7 @@ class Passage extends Model
         'sel_g_l',
         'actions',
         'notes',
+        'notes_privees',
         'pdf_path',
         'signature_path',
         'synced_at',

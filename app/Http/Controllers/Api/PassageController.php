@@ -61,13 +61,13 @@ class PassageController extends Controller
             INSERT INTO passages (
                 client_uuid, piscine_id, client_id, visited_at, status,
                 ph_avant, ph_apres, chlore_libre, chlore_total, tac, th, sel_g_l,
-                actions, notes,
+                actions, notes, notes_privees,
                 synced_at, created_at, updated_at
             )
             VALUES (
                 :client_uuid, :piscine_id, :client_id, :visited_at, 'draft',
                 :ph_avant, :ph_apres, :chlore_libre, :chlore_total, :tac, :th, :sel_g_l,
-                :actions, :notes,
+                :actions, :notes, :notes_privees,
                 :synced_at, :created_at, :updated_at
             )
             ON CONFLICT (client_uuid) DO UPDATE SET
@@ -83,6 +83,7 @@ class PassageController extends Controller
                 sel_g_l       = EXCLUDED.sel_g_l,
                 actions       = EXCLUDED.actions,
                 notes         = EXCLUDED.notes,
+                notes_privees = EXCLUDED.notes_privees,
                 synced_at     = :synced_at2,
                 updated_at    = :updated_at2
             WHERE passages.status = 'draft'
@@ -99,9 +100,10 @@ class PassageController extends Controller
                 'tac'          => $data['tac']          ?? null,
                 'th'           => $data['th']           ?? null,
                 'sel_g_l'      => $data['sel_g_l']      ?? null,
-                'actions'      => $actionsJson,
-                'notes'        => $data['notes']        ?? null,
-                'synced_at'    => $now,
+                'actions'       => $actionsJson,
+                'notes'         => $data['notes']         ?? null,
+                'notes_privees' => $data['notes_privees'] ?? null,
+                'synced_at'     => $now,
                 'created_at'   => $now,
                 'updated_at'   => $now,
                 'synced_at2'   => $now,
