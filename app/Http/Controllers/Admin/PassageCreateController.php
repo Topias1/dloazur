@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Client;
+use App\Models\Produit;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -49,6 +50,12 @@ class PassageCreateController extends Controller
                 ])
                 ->values();
 
-        return view('admin.passages.create', compact('client', 'piscine', 'clients'));
+        // Produits actifs pré-chargés côté serveur — offline-safe (disponibles sans réseau).
+        // Sélectionnés avec uniquement les colonnes nécessaires pour le sélecteur JS.
+        $produits = Produit::where('actif', true)
+            ->orderBy('libelle')
+            ->get(['id', 'libelle', 'prix_ht']);
+
+        return view('admin.passages.create', compact('client', 'piscine', 'clients', 'produits'));
     }
 }

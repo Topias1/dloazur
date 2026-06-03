@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\AgendaController;
 use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PassageCreateController;
@@ -19,6 +20,9 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
+
+// Agenda du jour (admin-1, Plan 07-02)
+Route::get('agenda', [AgendaController::class, 'index'])->name('agenda.index');
 
 // Clients CRUD (Plan 02-02)
 // Write actions (store/update/destroy) handled by Livewire components.

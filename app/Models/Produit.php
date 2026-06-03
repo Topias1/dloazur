@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Produit extends Model
 {
@@ -19,4 +20,11 @@ class Produit extends Model
         'prix_ht' => 'decimal:2',
         'actif'   => 'boolean',
     ];
+
+    public function passages(): BelongsToMany
+    {
+        return $this->belongsToMany(Passage::class, 'passage_produit')
+            ->withPivot(['quantite', 'prix_snapshot'])
+            ->withTimestamps();
+    }
 }

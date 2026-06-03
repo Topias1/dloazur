@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\PassageController;
 use App\Http\Controllers\Api\PassagePhotoController;
+use App\Http\Controllers\Api\PassageProduitController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -11,6 +12,10 @@ use Illuminate\Support\Facades\Route;
  */
 
 Route::post('passages', [PassageController::class, 'store'])->name('passages.store');
+
+// IMPORTANT: 'passages/produits' doit être déclaré AVANT 'passages/{uuid}/photos'
+// pour éviter que 'produits' soit capturé comme {uuid} par la contrainte whereUuid.
+Route::post('passages/produits', [PassageProduitController::class, 'store'])->name('passages.produits.store');
 
 Route::post('passages/{uuid}/photos', [PassagePhotoController::class, 'store'])
      ->whereUuid('uuid')

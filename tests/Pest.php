@@ -16,26 +16,25 @@ pest()->extend(Tests\TestCase::class)->in('Feature');
 pest()->extend(Tests\TestCase::class)->in('Unit');
 pest()->extend(Tests\TestCase::class)->in('Browser');
 
-// Worktree support: when run from a git worktree, the absolute path differs from the main repo.
-// Adding the worktree path ensures ->extend() is applied to worktree test files.
+// Worktree support: when Pest is invoked from a git worktree directory (CWD contains 'worktrees'),
+// the symlinked vendor resolves Pest.php from the MAIN repo (not the worktree). The relative
+// ->in('Feature') above covers the main repo's tests/Feature. Worktree test files get a different
+// namespace path and are NOT covered. We add the worktree's absolute tests/ paths explicitly.
 //
-// Fix (07-01): The relative ->in('Feature') above resolves via Pest's internal path resolution,
-// which uses the symlinked vendor's perspective (main repo), NOT cwd. This means worktree test
-// files get the namespace `P\claude\worktrees\...\tests\Feature\...` but the TestCase extension
-// only covers `{main_repo}/tests/Feature`. Always register the absolute worktree path when
-// we detect we ARE in a worktree, skipping only when it would collide (same path as main repo).
-$worktreePath = dirname(__DIR__);
-if (str_contains($worktreePath, 'worktrees')) {
-    $mainRepoFeature  = realpath(dirname($worktreePath, 3) . '/tests/Feature');
-    $worktreeFeature  = realpath($worktreePath . '/tests/Feature');
+// Detection: use CWD (not __DIR__) since __DIR__ always points to the main repo's tests/ when
+// the vendor is symlinked and Pest loads its Pest.php from the main repo.
+$cwd = getcwd();
+if ($cwd && str_contains($cwd, 'worktrees')) {
+    $worktreeFeature = realpath($cwd . '/tests/Feature');
+    $mainFeature     = realpath(dirname(__DIR__) . '/tests/Feature');
 
-    // Only register if different paths (avoid duplicate-registration error when paths coincide)
-    if ($mainRepoFeature !== $worktreeFeature) {
+    // Only register if paths differ (avoid "folder already uses the test case" collision).
+    if ($worktreeFeature && $worktreeFeature !== $mainFeature) {
         pest()->extend(Tests\TestCase::class)->in($worktreeFeature);
-        pest()->extend(Tests\TestCase::class)->in(realpath($worktreePath . '/tests/Unit'));
-    } else {
-        // Same directory resolved — still register by absolute path to be safe
-        pest()->extend(Tests\TestCase::class)->in($worktreeFeature);
+        $worktreeUnit = realpath($cwd . '/tests/Unit');
+        if ($worktreeUnit) {
+            pest()->extend(Tests\TestCase::class)->in($worktreeUnit);
+        }
     }
 }
 
