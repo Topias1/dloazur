@@ -19,10 +19,7 @@ use Database\Seeders\AdminSeeder;
 use Illuminate\Support\Str;
 use Livewire\Livewire;
 
-// Explicit TestCase registration required when running from worktree with symlinked vendor:
-// Pest reads main repo's Pest.php (via PHPUNIT_COMPOSER_INSTALL) so ->in('Feature') resolves
-// to the main repo's tests/Feature, not the worktree's. See tests/Pest.php for context.
-uses(Tests\TestCase::class, \Illuminate\Foundation\Testing\RefreshDatabase::class);
+uses(\Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 // ---------------------------------------------------------------------------
 // Helpers locaux
