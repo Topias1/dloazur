@@ -5,6 +5,7 @@ use App\Http\Controllers\Admin\ClientController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\PassageCreateController;
 use App\Http\Controllers\Admin\PostController;
+use App\Http\Controllers\Admin\RecapMensuelController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -43,3 +44,7 @@ Route::view('passages', 'admin.passages.index')->name('passages.index');
 // Passages — saisie offline-first (Plan 02-05, PASS-01..03, PASS-06)
 // Vue rendue par Blade, logique côté client via Alpine + IndexedDB (pas Livewire — CF-02).
 Route::get('passages/create', [PassageCreateController::class, 'create'])->name('passages.create');
+
+// Récap mensuel par client — chimie consommée (admin-5, Plan 07-04)
+// Scope fence : lecture seule, aucune logique de facturation/PDF/Odoo.
+Route::get('recap', [RecapMensuelController::class, 'index'])->name('recap.index');

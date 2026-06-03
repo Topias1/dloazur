@@ -74,6 +74,10 @@ class Passage extends Model
         return $this->hasOne(PhotoMeta::class)->latestOfMany('captured_at');
     }
 
+    /**
+     * Produits utilisés lors de ce passage (pivot passage_produit — admin-5, Plan 07-03).
+     * Pivot fields : quantite (nullable), prix_snapshot (prix HT au moment du passage).
+     */
     public function produits(): BelongsToMany
     {
         return $this->belongsToMany(Produit::class, 'passage_produit')
