@@ -109,8 +109,8 @@ it('agenda affiche les messages d état vide quand aucune piscine ni note', func
         $response = $this->actingAs($admin)->get('/admin/agenda');
 
         $response->assertOk();
-        $response->assertSee('Aucune piscine prévue aujourd\'hui.');
-        $response->assertSee('Rien à revoir.');
+        $response->assertSee('Aucune piscine prévue aujourd\'hui.', false);
+        $response->assertSee('Rien à revoir.', false);
     } finally {
         Carbon::setTestNow(null);
     }
