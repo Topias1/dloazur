@@ -5,7 +5,7 @@
     Greyed items: aria-disabled="true", opacity-60, cursor-default.
 --}}
 
-<nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-sand-50/95 backdrop-blur border-t border-navy-900/10 grid grid-cols-4 h-18 px-2"
+<nav class="lg:hidden fixed bottom-0 inset-x-0 z-40 bg-sand-50/95 backdrop-blur border-t border-navy-900/10 grid grid-cols-5 h-18 px-2"
     aria-label="Navigation mobile">
 
     {{-- Active: Tableau de bord --}}
@@ -16,6 +16,16 @@
             <path d="M3 12 12 3l9 9M5 10v10h14V10"/>
         </svg>
         <span class="text-[11px] font-semibold">Accueil</span>
+    </a>
+
+    {{-- Active: Agenda (admin-1, Plan 07-02) --}}
+    <a href="{{ route('admin.agenda.index') }}"
+        class="flex flex-col items-center justify-center gap-1 {{ request()->routeIs('admin.agenda.*') ? 'text-azure-600' : 'text-ink-400' }}"
+        @if(request()->routeIs('admin.agenda.*')) aria-current="page" @endif>
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+        </svg>
+        <span class="text-[11px] font-semibold">Agenda</span>
     </a>
 
     {{-- Active: Clients (Plan 02-02) --}}
