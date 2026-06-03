@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-stopped_at: Phase 06 complete (4/4) — ready to discuss Phase 999.1
-last_updated: 2026-05-30T21:50:30.917Z
-last_activity: 2026-05-30 -- Phase 06 execution started
+status: ready_to_execute
+stopped_at: Phase 07 planned (4 plans, 3 waves) — ready to execute
+last_updated: 2026-06-03T00:00:00.000Z
+last_activity: 2026-06-03 -- Phase 07 planning complete
 progress:
   total_phases: 7
   completed_phases: 4
-  total_plans: 29
+  total_plans: 33
   completed_plans: 32
   percent: 57
 ---
@@ -21,17 +21,17 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 999.1 — seo launch readiness post cutover optimization
+**Current focus:** Phase 07 — Espace admin (agenda + notes_privees + récap chimie)
 
 ## Current Position
 
-Phase: 999.1
-Plan: Not started
-Status: Ready to plan
-Note: Phase 5 reste CODE COMPLET (6/6, 424 tests verts) mais lancement gaté sur sign-off chimie/légal de Pierre (05-VALIDATION « Approval: pending »).
-Last activity: 2026-05-31 — quick task 260531-077 (static first passage photo)
+Phase: 07
+Plan: Not started (4 plans ready)
+Status: Ready to execute
+Note: Phase 07 planning complete — 4 plans en 3 vagues (admin-2 bug fix en wave 1, agenda + chimie en wave 2, récap en wave 3).
+Last activity: 2026-06-03 — Phase 07 planning complete (07-01 → 07-04)
 
-Progress: Phase 6 planifiée [planning ██████████ 100%]
+Progress: Phase 07 planifiée [planning ██████████ 100%]
 
 ## Performance Metrics
 
