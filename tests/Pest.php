@@ -16,21 +16,25 @@ pest()->extend(Tests\TestCase::class)->in('Feature');
 pest()->extend(Tests\TestCase::class)->in('Unit');
 pest()->extend(Tests\TestCase::class)->in('Browser');
 
-// Worktree support: when run from a git worktree, the absolute path differs from the main repo.
-// Adding the worktree path ensures ->extend() is applied to worktree test files.
+// Worktree support: when Pest is invoked from a git worktree directory (CWD contains 'worktrees'),
+// the symlinked vendor resolves Pest.php from the MAIN repo (not the worktree). The relative
+// ->in('Feature') above covers the main repo's tests/Feature. Worktree test files get a different
+// namespace path and are NOT covered. We add the worktree's absolute tests/ paths explicitly.
 //
-// Guard against double-registration: when the worktree has its own (non-symlinked) vendor,
-// the relative `'Feature'`/`'Unit'` paths above already resolve to the worktree, so adding the
-// absolute worktree path again collides ("folder already uses the test case"). We only add the
-// absolute paths when the relative resolution points OUTSIDE the worktree (symlinked-vendor case).
-$worktreePath = dirname(__DIR__);
-if (str_contains($worktreePath, 'worktrees')) {
-    $relativeFeature = realpath(getcwd() . '/tests/Feature');
-    $worktreeFeature = realpath($worktreePath . '/tests/Feature');
+// Detection: use CWD (not __DIR__) since __DIR__ always points to the main repo's tests/ when
+// the vendor is symlinked and Pest loads its Pest.php from the main repo.
+$cwd = getcwd();
+if ($cwd && str_contains($cwd, 'worktrees')) {
+    $worktreeFeature = realpath($cwd . '/tests/Feature');
+    $mainFeature     = realpath(dirname(__DIR__) . '/tests/Feature');
 
-    if ($relativeFeature !== $worktreeFeature) {
-        pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Feature');
-        pest()->extend(Tests\TestCase::class)->in($worktreePath . '/tests/Unit');
+    // Only register if paths differ (avoid "folder already uses the test case" collision).
+    if ($worktreeFeature && $worktreeFeature !== $mainFeature) {
+        pest()->extend(Tests\TestCase::class)->in($worktreeFeature);
+        $worktreeUnit = realpath($cwd . '/tests/Unit');
+        if ($worktreeUnit) {
+            pest()->extend(Tests\TestCase::class)->in($worktreeUnit);
+        }
     }
 }
 
