@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use App\Models\PhotoMeta;
@@ -70,5 +71,16 @@ class Passage extends Model
     public function latestPhoto(): HasOne
     {
         return $this->hasOne(PhotoMeta::class)->latestOfMany('captured_at');
+    }
+
+    /**
+     * Produits utilisés lors de ce passage (pivot passage_produit — admin-5, Plan 07-03).
+     * Pivot fields : quantite (nullable), prix_snapshot (prix HT au moment du passage).
+     */
+    public function produits(): BelongsToMany
+    {
+        return $this->belongsToMany(Produit::class, 'passage_produit')
+            ->withPivot(['quantite', 'prix_snapshot'])
+            ->withTimestamps();
     }
 }
