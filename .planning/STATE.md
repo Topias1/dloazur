@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: context exhaustion at 75% (2026-06-03)
-last_updated: "2026-06-03T02:54:55.821Z"
+status: ready_to_plan
+stopped_at: Phase 7 complete (4/4) — ready to discuss Phase 08
+last_updated: 2026-06-03T03:05:26.580Z
 last_activity: 2026-06-03 -- Phase 7 execution started
 progress:
   total_phases: 11
   completed_phases: 5
   total_plans: 33
-  completed_plans: 35
+  completed_plans: 36
   percent: 45
 ---
 
@@ -21,15 +21,15 @@ progress:
 See: .planning/PROJECT.md (updated 2026-05-27)
 
 **Core value:** L'opérateur enregistre chaque passage d'entretien sur le terrain de façon fiable (même sans réseau) et le client consulte l'historique de ses interventions.
-**Current focus:** Phase 7 — espace-admin-retours-pierre
+**Current focus:** Phase 08 — vitrine corrections retours pierre
 
 ## Current Position
 
-Phase: 7 (espace-admin-retours-pierre) — EXECUTING
-Plan: 1 of 4
-Status: Executing Phase 7
+Phase: 08
+Plan: Not started
+Status: Ready to plan
 Note: Phase 07 planning complete — 4 plans en 3 vagues (admin-2 bug fix en wave 1, agenda + chimie en wave 2, récap en wave 3).
-Last activity: 2026-06-03 -- Phase 7 execution started
+Last activity: 2026-06-03
 
 Progress: Phase 07 planifiée [planning ██████████ 100%]
 
@@ -37,7 +37,7 @@ Progress: Phase 07 planifiée [planning ██████████ 100%]
 
 **Velocity:**
 
-- Total plans completed: 10
+- Total plans completed: 14
 - Average duration: -
 - Total execution time: 0 hours
 
@@ -47,6 +47,7 @@ Progress: Phase 07 planifiée [planning ██████████ 100%]
 |-------|-------|-------|----------|
 | 999.1 | 6 | - | - |
 | 06 | 4 | - | - |
+| 7 | 4 | - | - |
 
 **Recent Trend:**
 
