@@ -26,19 +26,21 @@
     </div>
     <div class="body">
         <div class="field">
+            <div class="label">Prénom</div>
+            <div class="value">{{ $firstname }}</div>
+        </div>
+        <div class="field">
             <div class="label">Nom</div>
-            <div class="value">{{ $name }}</div>
+            <div class="value">{{ $lastname }}</div>
+        </div>
+        <div class="field">
+            <div class="label">Téléphone</div>
+            <div class="value"><a href="tel:{{ $phone }}">{{ $phone }}</a></div>
         </div>
         <div class="field">
             <div class="label">E-mail</div>
             <div class="value"><a href="mailto:{{ $email }}">{{ $email }}</a></div>
         </div>
-        @if ($phone)
-        <div class="field">
-            <div class="label">Téléphone</div>
-            <div class="value">{{ $phone }}</div>
-        </div>
-        @endif
         <div class="field">
             <div class="label">Message</div>
             <div class="value message-box">{{ $message }}</div>
@@ -46,7 +48,7 @@
     </div>
     <hr class="divider">
     <div class="footer">
-        Répondre directement à cet email pour contacter {{ $name }}.
+        Répondre directement à cet email pour contacter {{ trim($firstname.' '.$lastname) }}.
     </div>
 </div>
 </body>

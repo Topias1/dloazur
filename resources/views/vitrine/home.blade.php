@@ -9,20 +9,14 @@
     {{-- 2. Services grid --}}
     @include('vitrine.partials.services-grid')
 
-    {{-- 3. Urgence eau verte — D-34 (inserted between services-grid and how-it-works) --}}
-    @include('vitrine.partials.urgence-eau-verte')
-
-    {{-- 4. How it works --}}
-    @include('vitrine.partials.how-it-works')
+    {{-- 3. Avant / après animé (remplace « Urgence eau verte » + « Nos chantiers », feedback Pierre) --}}
+    @include('vitrine.partials.avant-apres')
 
     {{-- 4b. Philosophie SEO — Pourquoi choisir / eau parfaite (récupéré Zyro, Plan 01-06) --}}
     @include('vitrine.partials.philosophie')
 
     {{-- 5. Hospitality / B2B --}}
     @include('vitrine.partials.hospitality')
-
-    {{-- 6. Réalisations --}}
-    @include('vitrine.partials.realisations-grid')
 
     {{-- 7. Pierre bio --}}
     @include('vitrine.partials.pierre')

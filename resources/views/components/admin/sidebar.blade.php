@@ -39,6 +39,20 @@
             Tableau de bord
         </a>
 
+        {{-- Active: Mon agenda (admin-1, Plan 07-02) --}}
+        <a href="{{ route('admin.agenda.index') }}"
+            @class([
+                'flex items-center gap-3 h-11 px-3 rounded-xl transition-colors',
+                'bg-white/10 text-white'             => request()->routeIs('admin.agenda.*'),
+                'hover:bg-white/8 hover:text-white'  => !request()->routeIs('admin.agenda.*'),
+            ])
+            @if(request()->routeIs('admin.agenda.*')) aria-current="page" @endif>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M8 2v4M16 2v4M3 10h18M5 4h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2Z"/>
+            </svg>
+            Mon agenda
+        </a>
+
         {{-- Active: Clients (Plan 02-02) --}}
         <a href="{{ route('admin.clients.index') }}"
             @class([

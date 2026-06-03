@@ -28,22 +28,31 @@ it('home contains the hero H1 copy', function () {
     $response->assertSeeText("claire toute l'année.");
 });
 
-it('home contains primary + secondary hero CTAs', function () {
+it('home contains the single primary hero CTA (devis)', function () {
     $response = $this->get('/');
     $response->assertSeeText('Demander un devis gratuit');
-    $response->assertSeeText('Nous écrire');
+    // Le bouton secondaire « Nous écrire » a été retiré du hero (feedback Pierre :
+    // redondant avec le devis). WhatsApp reste dans la nav, le footer et le CTA final.
 });
 
-it('home contains all 3 trust bullets', function () {
+it('home contains the trust bullets (photo claim removed)', function () {
     $response = $this->get('/');
-    $response->assertSeeText('Photos à chaque passage');
     $response->assertSeeText('Réponse rapide');
     $response->assertSeeText('Suivi en ligne de vos interventions');
+    // « Photos à chaque passage » retiré : Pierre ne prend pas de photo systématiquement.
+    $response->assertDontSeeText('Photos à chaque passage');
 });
 
-it('home contains every section in mockup order', function () {
+it('home contains every section in order', function () {
     $this->get('/')
-        ->assertSeeInOrder(['id="services"', 'id="hospitality"', 'id="realisations"', 'id="pierre"', 'id="contact"'], false);
+        ->assertSeeInOrder(['id="services"', 'id="avant-apres"', 'id="hospitality"', 'id="pierre"', 'id="contact"'], false);
+});
+
+it('home no longer renders the removed sections (feedback Pierre)', function () {
+    $response = $this->get('/');
+    $response->assertDontSee('id="realisations"', false);   // « Nos chantiers » retiré
+    $response->assertDontSeeText('Urgence eau verte');       // section dédiée retirée
+    $response->assertDontSeeText("Simple, du premier message"); // how-it-works retiré
 });
 
 it('home has at least 3 WhatsApp CTAs', function () {
@@ -65,7 +74,9 @@ it('home declares lang=fr and includes skip link', function () {
 
 it('home includes section copy "Un entretien complet"', function () {
     $this->get('/')
-        ->assertSeeText('Un entretien complet, pensé pour le climat antillais.');
+        ->assertSeeText('Un entretien complet, pour une eau toujours claire.');
+    // « pensé pour le climat antillais » retiré (feedback Pierre).
+    $this->get('/')->assertDontSeeText('pensé pour le climat antillais');
 });
 
 it('home includes hospitality CTA "Devenir partenaire"', function () {
@@ -94,17 +105,16 @@ it('drops the AI-filler kicker badge from the hero', function () {
     $this->get('/')->assertDontSee('Pisciniste en Martinique', false);
 });
 
-it('hero keeps one primary (devis) + one secondary (WhatsApp) CTA', function () {
+it('hero keeps a single primary (devis) CTA, no secondary WhatsApp button', function () {
     $response = $this->get('/');
-    // Isolate the hero <section> (it ends at the wave SVG's </section>); the third
-    // "Diagnostic gratuit" CTA was trimmed from the hero but still lives in the
-    // final-cta section, which is fine.
+    // Isolate the hero <section> (it ends at the wave SVG's </section>).
     $hero = \Illuminate\Support\Str::before(
         \Illuminate\Support\Str::after($response->getContent(), 'min-h-[92vh]'),
         '</section>'
     );
     expect($hero)->toContain('Demander un devis gratuit');
-    expect($hero)->toContain('wa.me/596696940054');
+    // Le bouton WhatsApp secondaire a été retiré du hero (feedback Pierre).
+    expect($hero)->not->toContain('wa.me/596696940054');
     expect($hero)->not->toContain('diagnostic-gratuit');
 });
 
@@ -120,14 +130,15 @@ it('links the footer QR to WhatsApp and drops the QR/TODO placeholder', function
     $response->assertDontSee('QR<br>TODO', false);
 });
 
-it('home renders Urgence eau verte section between services and how-it-works (D-34)', function () {
+it('home renders the animated avant/après section linking to the eau-verte page', function () {
     $response = $this->get('/');
-    $response->assertSeeText('Urgence eau verte');
+    $response->assertSee('id="avant-apres"', false);
+    $response->assertSeeText("D'une eau verte à une eau de baignade.");
     $response->assertSee(route('services.eau-verte-urgence'), false);
 });
 
 it('home renders Nos engagements section before final CTA (D-35)', function () {
     $response = $this->get('/');
     $response->assertSeeText('Nos engagements');
-    $response->assertSeeText('Rapport photo à chaque passage');
+    $response->assertSeeText('Compte-rendu après chaque passage');
 });

@@ -18,7 +18,7 @@
             </p>
             <p class="mt-4 leading-relaxed text-ink-700">Pas de centre d'appel, pas de sous-traitance : vous échangez directement avec celui qui plonge l'épuisette. C'est ça, un service à taille humaine.</p>
             <div class="mt-8 flex items-center gap-6 max-w-lg">
-                <p class="font-display font-semibold text-2xl text-ink-950 leading-snug flex-1">Une dizaine de clients à l'année,<br>un seul interlocuteur, toujours.</p>
+                <p class="font-display font-semibold text-2xl text-ink-950 leading-snug flex-1">Un seul interlocuteur,<br>qui connaît votre bassin.</p>
                 <img loading="lazy" decoding="async"
                     src="{{ asset('assets/brand/photos/entretien-dos-logo.jpg') }}"
                     alt="Pierre ADAM en intervention d'entretien hebdomadaire d'une piscine"

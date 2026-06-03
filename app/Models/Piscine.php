@@ -20,6 +20,7 @@ class Piscine extends Model
         'traitement',
         'equipements',
         'notes',
+        'frequence_jour',
     ];
 
     protected $casts = [

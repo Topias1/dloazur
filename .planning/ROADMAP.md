@@ -18,6 +18,13 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - [ ] **Phase 5: Diagnostic Commercialisable** - Diagnostic gratuit (symptôme + « déjà tenté ? » + doses serveur), escalade WhatsApp contextualisée → leads qualifiés (hybride ; Stripe + carnet différés V2)
 - [x] **Phase 6: Blog admin CRUD** - Autonomie de publication pour Pierre (`/admin/blog`) — modèle Post + DB, CRUD, éditeur Markdown, migration des 3 articles, préservation SEO 999.1 (completed 2026-05-30)
 
+**Retours Pierre (post-démo 2026-06-03) — 4 phases par layer, indépendantes** (réf `.planning/feedback/pierre-2026-06-03-reponses.md`) :
+
+- [ ] **Phase 7: Espace admin — agenda, récap chimie & fix notes internes** - FIX bug `notes_privees` perdu à la synchro (Task 1) + agenda du jour + pivot `passage_produit` + récap mensuel par client *(priorisée : contient le bug de perte de donnée)*
+- [ ] **Phase 8: Vitrine — corrections retours Pierre** - Géo honnête + voix marque 3e personne + dé-duplication ; avant/après & page Dépannage (décisions Antoine)
+- [ ] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf
+- [ ] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests)
+
 ## Phase Details
 
 ### Phase 1: Vitrine & Fondations
@@ -160,6 +167,82 @@ Plans:
 - [x] 06-02-PLAN.md — Public cutover: config/blog.php source flag + BlogRepository DB read path (cache-safe) + 410-vs-404 in BlogController + sitemap published-only; SEO 999.1 preserved [wave 2]
 - [x] 06-03-PLAN.md — Admin shell: /admin/blog routes + PostController + PostIndex list (all statuses) + status-badge component + active sidebar nav + thin views [wave 2]
 - [x] 06-04-PLAN.md — Editor: PostForm + EasyMDE (gated install) + cover→Scaleway S3 + slug-lock-on-publish + status toggle + inline-confirm unpublish + cache flush [wave 3]
+
+### Phase 7: Espace admin — agenda, récap chimie & fix notes internes
+
+**Goal:** Pierre dispose d'un **agenda du jour** qui le mène en un clic à la saisie d'un passage, ses **notes internes ne sont plus perdues**, et il sort un **récap mensuel par client** (passages + chimie consommée) — son cahier de facturation numérisé.
+**Depends on:** Phase 2 (saisie passage offline) — indépendant des phases 8/9/10
+**Requirements**: dérivé retours Pierre — admin-1, admin-2, admin-5
+**Success Criteria** (what must be TRUE):
+
+  1. **[Task 1 — BUG]** `notes_privees` **persiste à la synchro** (migration + `$fillable` + upsert) ET reste **invisible côté client** (test d'invariant vie privée). Aujourd'hui la note est saisie/envoyée/validée puis silencieusement effacée
+  2. **Agenda du jour** admin : liste les piscines/clients à passer — **dérivé d'une fréquence/jour de passage** sur la piscine (zéro saisie de RDV pour un solo) → lien direct vers la saisie pré-remplie
+  3. **Consommation chimie modélisée** : pivot `passage_produit` (produit, quantité, prix snapshot) + mini-sélecteur « produits utilisés » dans la saisie (**offline Alpine/IndexedDB, jamais Livewire**)
+  4. Page **« Récap mensuel par client »** : nb passages + chimie consommée sur la période, prête à alimenter la facturation (Phase 3)
+
+**Hors périmètre / notes :** notif notes internes = **pas de promesse de push** (iOS/Safari non fiable, device Pierre inconnu) → rappel à recadrer Phase 4. Lier les factures = Phase 3.
+**Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (admin-1, admin-2, admin-5)
+**UI hint**: yes
+
+Plans:
+- [x] 07-01-PLAN.md — [admin-2] FIX bug notes_privees perdu à la synchro (migration + $fillable + upsert) + test invariant vie privée [wave 1]
+- [ ] 07-02-PLAN.md — [admin-1] Agenda du jour dérivé de frequence_jour + flags « à revoir » → liens saisie pré-remplie [wave 2]
+- [ ] 07-03-PLAN.md — [admin-5] Pivot passage_produit + sélecteur produits offline (Alpine/IndexedDB) + sync chimie [wave 2]
+- [ ] 07-04-PLAN.md — [admin-5] Page récap mensuel par client (passages + chimie) + bouton facture inerte (teaser Phase 3) [wave 3]
+
+### Phase 8: Vitrine — corrections retours Pierre
+
+**Goal:** La vitrine raconte une géographie **honnête** et parle d'une **seule voix de marque** (3e personne), sans sur-répéter l'argument défensif « pas de call-center » — l'over-claim que Pierre dénonce disparaît.
+**Depends on:** Phase 1 (vitrine) + branche `claude/pierre-feedback-website-app-A59QE` (épuration déjà validée) — indépendant des phases 7/9/10
+**Requirements**: dérivé retours Pierre — V1, V5, V7, V12, V14, V6
+**Success Criteria** (what must be TRUE):
+
+  1. Le hero est en 3e personne (plus de « ma tournée ») et décrit la **vraie couverture** (Lorrain↔Vauclin côté Atlantique ; Schoelcher↔Rivière-Salée côté caraïbe via Lamentin) en invitant à appeler pour filtrer
+  2. « toute la Martinique » est purgé des pages service (`entretien-recurrent`, `analyse-eau`)
+  3. L'argument « pas de call-center » est réduit à ≤2 occurrences tournées positif, et « interlocuteur unique » est dé-dupliqué entre philosophie/engagements/pierre
+  4. **[V5 — décision Antoine]** Carte Dépannage : page détail dédiée `/services/depannage` créée (cohérence + SEO local)
+  5. **[V7 — décision Antoine]** Avant/après : **laissé tel quel** (pas de 2 photos avant/après dispo) — le vrai slider drag est différé jusqu'à ce que Pierre fournisse deux vraies photos. Hors scope Phase 8.
+
+**Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (V1, V5, V7, V12, V14, V6 + §Décisions discuss)
+**UI hint**: yes
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)
+
+### Phase 9: Espace client — finitions retours Pierre
+
+**Goal:** Le portail client est cohérent et fiable : la section « Mes documents » assume clairement son statut de teaser branché à la facturation (Phase 3), l'historique dépliable est couvert par un test de régression, et les nits a11y/perf identifiés sont traités.
+**Depends on:** Phase 2 (portail client) — dépendance fonctionnelle Phase 3 tracée pour « Mes documents » ; indépendant des phases 7/8/10
+**Requirements**: dérivé retours Pierre — client-2, client-3 (+ nits client-1/client-4)
+**Success Criteria** (what must be TRUE):
+
+  1. **[client-3 — décision Antoine]** « Mes documents » garde le **teaser « Bientôt »** avec mention claire « branché à la facturation (Phase 3) » ; la dépendance Phase 3 est tracée
+  2. **[client-2]** L'historique dépliable a un **test de régression automatisé** (aujourd'hui non couvert) + nits a11y (aria-controls/id reliant bouton et panneau)
+  3. Nits perf optionnels du bandeau photo (client-4) : `<picture>` webp/avif + retirer `loading="lazy"` sur le hero au-dessus de la ligne de flottaison
+
+**Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (client-1..4 + §Décisions discuss)
+**UI hint**: yes
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 9 to break down)
+
+### Phase 10: Diagnostic — fidélité au proto
+
+**Goal:** Le diagnostic entre **directement dans l'arbre symptôme** comme le proto de Pierre, sans l'écran « mode » initial (la fourche « Trouver mon problème » vs « Analyser mon eau ») qui contredisait « pas de choix au départ ».
+**Depends on:** Phase 5 (diagnostic) — indépendant des phases 7/8/9
+**Requirements**: dérivé retours Pierre — diag-1, diag-2
+**Success Criteria** (what must be TRUE):
+
+  1. **[diag-1/diag-2]** L'écran « mode » du wizard est retiré ; l'app entre direct sur l'arbre symptôme (`step:'tree'`, `nodeId:'start'`), « Analyser mon eau » relégué en action secondaire dans le parcours
+  2. La **logique serveur `$mode`** (payload WhatsApp / `created_via`) est **conservée** — seul l'écran de choix disparaît
+  3. Les tests Pest browser dépendant des `data-mode-*` sont adaptés avant suppression (la suite reste verte)
+
+**Hors périmètre / notes :** monétisation = **diag gratuit lead magnet** (pas de paiement du rapport) — défaut acté, Stripe différé V2.
+**Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (diag-1, diag-2, diag-3 + §Décisions discuss)
+**UI hint**: yes
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 10 to break down)
 
 ## Progress
 
