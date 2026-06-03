@@ -186,8 +186,8 @@ Plans:
 
 Plans:
 - [x] 07-01-PLAN.md — [admin-2] FIX bug notes_privees perdu à la synchro (migration + $fillable + upsert) + test invariant vie privée [wave 1]
-- [ ] 07-02-PLAN.md — [admin-1] Agenda du jour dérivé de frequence_jour + flags « à revoir » → liens saisie pré-remplie [wave 2]
-- [ ] 07-03-PLAN.md — [admin-5] Pivot passage_produit + sélecteur produits offline (Alpine/IndexedDB) + sync chimie [wave 2]
+- [x] 07-02-PLAN.md — [admin-1] Agenda du jour dérivé de frequence_jour + flags « à revoir » → liens saisie pré-remplie [wave 2]
+- [x] 07-03-PLAN.md — [admin-5] Pivot passage_produit + sélecteur produits offline (Alpine/IndexedDB) + sync chimie [wave 2]
 - [ ] 07-04-PLAN.md — [admin-5] Page récap mensuel par client (passages + chimie) + bouton facture inerte (teaser Phase 3) [wave 3]
 
 ### Phase 8: Vitrine — corrections retours Pierre
