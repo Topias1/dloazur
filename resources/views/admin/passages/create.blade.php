@@ -18,7 +18,7 @@
         La synchronisation est déclenchée au submit, au retour online et au visibilitychange.
     --}}
     <div
-        x-data="passageForm({ clientId: {{ $client?->id ?? 'null' }}, piscineId: {{ $piscine?->id ?? 'null' }}, clients: @js($clients ?? []) })"
+        x-data="passageForm({ clientId: {{ $client?->id ?? 'null' }}, piscineId: {{ $piscine?->id ?? 'null' }}, clients: @js($clients ?? []), produits: @js($produits ?? []) })"
         x-init="init()"
         class="min-h-screen bg-sand-50">
 
@@ -180,6 +180,62 @@
                                 x-text="action"></span>
                         </label>
                     </template>
+                </div>
+            </section>
+
+            {{-- Section Produits utilisés — chimie consommée (admin-5, offline-first Alpine+IndexedDB) --}}
+            <section>
+                <h2 class="font-display font-semibold text-lg text-ink-950 mb-3">Produits utilisés
+                    <span class="text-sm font-normal text-ink-400">(optionnel)</span>
+                </h2>
+                <div class="space-y-2">
+                    <template x-for="p in produitsDisponibles" :key="p.id">
+                        <label
+                            class="flex items-center gap-3 h-12 px-3.5 rounded-xl cursor-pointer transition-colors"
+                            :class="isProduitSelected(p.id)
+                                ? 'bg-azure-50 ring-1 ring-azure-200'
+                                : 'bg-white ring-1 ring-sand-200'">
+                            {{-- Checkbox custom --}}
+                            <span
+                                class="h-6 w-6 rounded-md shrink-0 grid place-items-center"
+                                :class="isProduitSelected(p.id)
+                                    ? 'bg-azure-500 text-white'
+                                    : 'bg-white ring-1 ring-sand-300'">
+                                <template x-if="isProduitSelected(p.id)">
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none"
+                                         stroke="currentColor" stroke-width="3"
+                                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                        <polyline points="20 6 9 17 4 12"/>
+                                    </svg>
+                                </template>
+                            </span>
+                            <input
+                                type="checkbox"
+                                class="sr-only"
+                                :checked="isProduitSelected(p.id)"
+                                @change="toggleProduit(p.id)"
+                                :aria-label="p.libelle">
+                            <span
+                                class="font-medium flex-1"
+                                :class="isProduitSelected(p.id) ? 'text-ink-900' : 'text-ink-700'"
+                                x-text="p.libelle"></span>
+                            {{-- Quantité — visible seulement quand le produit est coché --}}
+                            <input
+                                x-show="isProduitSelected(p.id)"
+                                x-cloak
+                                type="number"
+                                inputmode="decimal"
+                                min="0"
+                                step="0.1"
+                                @click.stop
+                                x-model="produitQuantites[p.id]"
+                                placeholder="Qté"
+                                class="w-16 h-8 rounded-lg bg-sand-50 ring-1 ring-sand-200 text-center text-sm text-ink-900 focus:ring-2 focus:ring-azure-500 outline-none">
+                        </label>
+                    </template>
+                    <p x-show="produitsDisponibles.length === 0" class="text-sm text-ink-400 px-1">
+                        Aucun produit disponible.
+                    </p>
                 </div>
             </section>
 

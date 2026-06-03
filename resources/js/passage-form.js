@@ -1,4 +1,4 @@
-import { upsertPassage, savePhoto, getPassagesByStatus, getPhotosByPassage, markStatus, countPendingAll } from './offline-queue.js';
+import { upsertPassage, savePhoto, getPassagesByStatus, getPhotosByPassage, markStatus, countPendingAll, openOfflineDB } from './offline-queue.js';
 import { processPhoto } from './photo-pipeline.js';
 
 /**
@@ -73,6 +73,11 @@ export function passageForm(initialData = {}) {
         notes:        '',
         notesPrivees: '',
 
+        // ---- produits utilisés (chimie) — admin-5 ----
+        produitsDisponibles: initialData.produits ?? [],  // [{id, libelle, prix_ht}] pré-injectés offline-safe
+        produitIds:      [],   // ids cochés
+        produitQuantites: {},  // { [produit_id]: quantite_string }
+
         // ---- photos : [{ clientUuid, passage_client_uuid, previewUrl, status, idbId }] ----
         photos: [],
 
@@ -125,9 +130,11 @@ export function passageForm(initialData = {}) {
             this.$watch('tac',          () => { this._checkRange('tac',          this.tac);          this._debouncedSave(); });
             this.$watch('sel_g_l',      () => { this._checkRange('sel_g_l',      this.sel_g_l);      this._debouncedSave(); });
             this.$watch('th',           () => { this._checkRange('th',           this.th);           this._debouncedSave(); });
-            this.$watch('actions',      () => this._debouncedSave());
-            this.$watch('notes',        () => this._debouncedSave());
-            this.$watch('notesPrivees', () => this._debouncedSave());
+            this.$watch('actions',           () => this._debouncedSave());
+            this.$watch('notes',             () => this._debouncedSave());
+            this.$watch('notesPrivees',      () => this._debouncedSave());
+            this.$watch('produitIds',        () => this._debouncedSave());
+            this.$watch('produitQuantites',  () => this._debouncedSave());
 
             // 5. Refresh badge initial
             this.$store.offlineQueue.refresh().catch(() => {});
@@ -199,6 +206,24 @@ export function passageForm(initialData = {}) {
 
         isActionSelected(name) {
             return this.actions.includes(name);
+        },
+
+        // -------- Produits helpers (chimie — admin-5) --------
+
+        toggleProduit(id) {
+            if (this.produitIds.includes(id)) {
+                this.produitIds = this.produitIds.filter((x) => x !== id);
+                // Nettoyer la quantité à la dé-sélection
+                const q = { ...this.produitQuantites };
+                delete q[id];
+                this.produitQuantites = q;
+            } else {
+                this.produitIds = [...this.produitIds, id];
+            }
+        },
+
+        isProduitSelected(id) {
+            return this.produitIds.includes(id);
         },
 
         // -------- Sélecteur client (saisie ouverte sans client_id) --------
@@ -304,6 +329,10 @@ export function passageForm(initialData = {}) {
                 actions:       this.actions,
                 notes:         this.notes        || null,
                 notes_privees: this.notesPrivees || null,
+                produits:      this.produitIds.map((id) => ({
+                    produit_id: id,
+                    quantite:   this._num(this.produitQuantites[id] ?? ''),
+                })),
             };
         },
 
@@ -347,13 +376,76 @@ export function passageForm(initialData = {}) {
         /**
          * Flush tous les passages 'pending' en IDB vers le serveur.
          * Appelé au submit, au retour online, et au visibilitychange.
+         * Retente aussi les passages 'synced' porteurs de produits_pending=true
+         * (synchro chimie différée — ne bloque pas la synchro principale du passage).
          */
         async _flushQueue() {
             const pending = await getPassagesByStatus('pending');
             for (const item of pending) {
                 await this._uploadPassage(item);
             }
+
+            // Retry des produits différés : passages synced mais chimie pas encore envoyée
+            const db = await openOfflineDB();
+            const all = await db.getAll('passages');
+            for (const p of all) {
+                if (p.status === 'synced' && p.produits_pending === true) {
+                    await this._syncProduits(p);
+                }
+            }
+
             await this.$store.offlineQueue.refresh();
+        },
+
+        /**
+         * Synchronise la consommation chimie (pivot passage_produit) vers POST /api/passages/produits.
+         * Appelé après markStatus synced dans _uploadPassage, et en retry dans _flushQueue.
+         * SOFT FAIL : un échec ne bloque pas la synchro principale ; il pose produits_pending=true
+         * sur l'item IDB pour que _flushQueue le retente au prochain flush (jamais perdu en silence).
+         */
+        async _syncProduits(item) {
+            let payload = {};
+            try { payload = JSON.parse(item.payload_json); } catch { /* JSON malformé */ }
+            const produits = payload.produits ?? [];
+            if (!produits.length) return; // rien à synchroniser
+
+            try {
+                const res = await fetch('/api/passages/produits', {
+                    method:      'POST',
+                    headers:     this._headers(true),
+                    credentials: 'same-origin',
+                    body:        JSON.stringify({
+                        passage_client_uuid: item.client_uuid,
+                        produits,
+                    }),
+                });
+
+                if (res.ok) {
+                    // Succès : relire + purger le flag produits_pending
+                    const db = await openOfflineDB();
+                    const fresh = await db.get('passages', item.id);
+                    if (fresh) {
+                        fresh.produits_pending = false;
+                        await db.put('passages', fresh);
+                    }
+                } else {
+                    throw new Error('HTTP ' + res.status);
+                }
+            } catch (e) {
+                // Échec réseau ou serveur : NE PAS throw (ne bloque pas la synchro principale).
+                // Poser le flag produits_pending pour retry au prochain flush.
+                console.warn('[passage-form] produits sync deferred', item.client_uuid, e);
+                try {
+                    const db = await openOfflineDB();
+                    const fresh = await db.get('passages', item.id);
+                    if (fresh) {
+                        fresh.produits_pending = true;
+                        await db.put('passages', fresh);
+                    }
+                } catch (dbErr) {
+                    console.error('[passage-form] IDB write failed for produits_pending', dbErr);
+                }
+            }
         },
 
         /**
@@ -381,6 +473,7 @@ export function passageForm(initialData = {}) {
 
                     if (res.ok) {
                         await markStatus('passages', item.id, 'synced');
+                        await this._syncProduits(item);   // chimie — soft fail, ne bloque pas
                         await this._uploadPhotosForPassage(item.client_uuid);
                         return;
                     }
