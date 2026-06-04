@@ -48,6 +48,7 @@
     --color-navy-950: oklch(0.182 0.040 252);
 
     /* Accent — Lagon (turquoise) */
+    --color-lagon-50: oklch(0.965 0.030 202);
     --color-lagon-300: oklch(0.852 0.090 202);
     --color-lagon-400: oklch(0.788 0.110 204);
     --color-lagon-500: oklch(0.720 0.113 207);
@@ -65,6 +66,12 @@
     --color-sand-200: oklch(0.928 0.011 80);
     --color-sand-300: oklch(0.875 0.013 75);
 
+    /* White override — redirects all bg-white/text-white to warm sable (D-02, SC-4).
+     * Exception: the QR-card in layouts/app.blade.php uses bg-[oklch(1_0_0)] directly.
+     * Exception: whatsapp uses --color-whatsapp token, unaffected.
+     */
+    --color-white: var(--color-sand-50);
+
     /* Text — Encre (tinted toward marine) */
     --color-ink-400: oklch(0.690 0.018 250);
     --color-ink-500: oklch(0.585 0.024 250);
@@ -75,6 +82,7 @@
     /* Semantic */
     --color-success: oklch(0.700 0.150 155);
     --color-warn: oklch(0.800 0.130 80);
+    --color-warn-700: oklch(0.550 0.110 72);
     --color-danger: oklch(0.620 0.210 25);
     --color-whatsapp: #25d366;
 
