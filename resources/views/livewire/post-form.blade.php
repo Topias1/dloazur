@@ -173,7 +173,7 @@
     @endif
 
     {{-- Erreur d’enregistrement --}}
-    @error(‘save’)
+    @error('save')
         <p class="rounded-xl bg-danger/10 ring-1 ring-danger/30 px-4 py-3 text-sm text-danger">{{ $message }}</p>
     @enderror
 

@@ -85,6 +85,7 @@
     /* Semantic */
     --color-success: oklch(0.700 0.150 155);
     --color-warn: oklch(0.800 0.130 80);
+    --color-warn-200: oklch(0.900 0.075 80);
     --color-warn-700: oklch(0.550 0.110 72);
     --color-danger: oklch(0.620 0.210 25);
     --color-whatsapp: #25d366;
