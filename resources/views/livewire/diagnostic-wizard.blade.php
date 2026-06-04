@@ -222,6 +222,7 @@
     <div
         x-show="step === 'tree' && nodeId === 'start' && !$wire.disclaimerAccepted"
         x-transition.opacity.duration.200ms
+        x-init="loadCarnetEntries()"
     >
         <div class="py-6">
             <div class="rounded-2xl bg-white ring-1 ring-sand-200 overflow-hidden">
@@ -256,8 +257,31 @@
                         class="w-full h-13 px-6 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 active:bg-azure-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
                         aria-label="J'ai compris, commencer le diagnostic"
                     >
-                        J'ai compris, voir les recommandations
+                        J'accepte et commence
                     </button>
+
+                    {{-- D-04 : lien chimie secondaire — discret, pas un bouton carte --}}
+                    <div class="mt-3 flex flex-col items-center gap-2">
+                        <button
+                            type="button"
+                            @click="$wire.call('setMode', 'chemistry'); advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
+                            class="text-sm text-ink-500 hover:text-ink-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
+                        >
+                            Vous avez vos mesures ? → Analyser mon eau
+                        </button>
+
+                        {{-- D-05 : bouton carnet conditionnel --}}
+                        <button
+                            type="button"
+                            x-show="carnetEntries.length > 0"
+                            @click="loadCarnetEntries(); showCarnet = true;"
+                            class="text-sm text-ink-500 hover:text-ink-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
+                            aria-label="Mes diagnostics passés, carnet local"
+                        >
+                            Mes diagnostics passés
+                        </button>
+                    </div>
+
                     <p class="mt-3 text-center text-xs text-ink-400">
                         En continuant, vous acceptez que ces conseils sont indicatifs.
                     </p>
