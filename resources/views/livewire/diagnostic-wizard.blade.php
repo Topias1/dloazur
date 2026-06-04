@@ -264,6 +264,7 @@
                     <div class="mt-3 flex flex-col items-center gap-2">
                         <button
                             type="button"
+                            data-mode-chemistry
                             @click="$wire.call('setMode', 'chemistry'); advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
                             class="text-sm text-ink-500 hover:text-ink-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
                         >
@@ -273,6 +274,7 @@
                         {{-- D-05 : bouton carnet conditionnel --}}
                         <button
                             type="button"
+                            data-mode-carnet
                             x-show="carnetEntries.length > 0"
                             @click="loadCarnetEntries(); showCarnet = true;"
                             class="text-sm text-ink-500 hover:text-ink-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
