@@ -114,7 +114,7 @@
                 Une eau saine protège votre santé et vos équipements.
             </h2>
             <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">
-                Réservez une analyse professionnelle : intervention rapide sur toute la Martinique.
+                Réservez une analyse professionnelle : intervention rapide dans notre zone d'intervention.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"
