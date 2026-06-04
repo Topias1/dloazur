@@ -345,4 +345,14 @@ LOW:
   7. Badge « Eau saine » portail gaté sur mesures in-range
   8. Re-run `/impeccable audit` : theming ≥3/4, score global ≥17/20
 
-**Décision Antoine en suspens** : Pierre nommé en copie marketing (~10 surfaces) — légaliser dans DESIGN.md ou revert à « Dlo Azur »/« nous ».
+**Décision Antoine (résolue)** : Pierre nommé en copie marketing → **revert** à « Dlo Azur »/« nous » (D-09, strict DESIGN.md §6) ; Pierre nommé reste uniquement dans `partials/pierre.blade.php` + footer + légal.
+
+**Plans:** 6 plans en 2 vagues
+
+Plans:
+- [ ] 11-01-PLAN.md — P0 offline (sync-drawer au layout + flush store partagé + recovery zombies `uploading`) + a11y/register offline (vague 1)
+- [ ] 11-02-PLAN.md — P1 theming : override `--color-white` + tokens fantômes + garde-fou CI (app.css isolé, vague 1)
+- [ ] 11-03-PLAN.md — P0 magic-link `@error('ml')` + P1 états submitting auth + side-stripe email + polish auth (vague 1)
+- [ ] 11-04-PLAN.md — P0 faux témoignages + P1 étoiles Google + D-09 revert Pierre + polish vitrine (vague 1)
+- [ ] 11-05-PLAN.md — P1 badge « Eau saine » gaté in-range + temporaryUrl + états vides portail (vous strict, vague 1)
+- [ ] 11-06-PLAN.md — P2 dashboard D-10 + landmarks + nav Récap/Blog + loading live-search + empty-states `tu` + inline success (vague 2, depends 11-01)
