@@ -19,7 +19,7 @@
             </h1>
 
             <p class="mt-5 text-lg sm:text-xl text-navy-100 max-w-xl leading-relaxed">
-                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine, pour que votre piscine reste un plaisir, partout sur l'île.
+                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine dans notre zone d'intervention. Un appel suffit pour voir si votre piscine entre dans notre zone.
             </p>
 
             {{-- Un primaire (devis) + un secondaire (WhatsApp) --}}
