@@ -132,11 +132,11 @@
                     <div class="min-w-0">
                         <p class="text-sm font-medium text-ink-900">{{ $passage->visited_at?->format('d/m/Y') ?? '—' }}</p>
                         <p class="text-xs text-ink-500 truncate mt-0.5">
-                            @if ($passage->chlore || $passage->ph)
-                                Cl {{ $passage->chlore ?? '—' }} · pH {{ $passage->ph ?? '—' }}
+                            @if ($passage->chlore_libre !== null || $passage->ph_avant !== null)
+                                Cl {{ $passage->chlore_libre ?? '—' }} · pH {{ $passage->ph_avant ?? '—' }}
                             @endif
-                            @if ($passage->actions_effectuees)
-                                · {{ Str::limit($passage->actions_effectuees, 40) }}
+                            @if (!empty($passage->actions))
+                                · {{ Str::limit(implode(', ', (array) $passage->actions), 40) }}
                             @endif
                         </p>
                     </div>

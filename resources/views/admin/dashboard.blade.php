@@ -96,18 +96,18 @@
             <a href="{{ route('admin.passages.index', ['status' => 'pending']) }}"
                 @class([
                     'rounded-2xl p-5 flex flex-col gap-3 ring-1 transition-all hover:shadow-md cursor-pointer group',
-                    'bg-amber-50 ring-amber-200 hover:ring-amber-300' => $aSynchroniser > 0,
+                    'bg-warn/15 ring-warn-200 hover:ring-warn/40' => $aSynchroniser > 0,
                     'bg-white ring-navy-900/8 hover:ring-azure-300/50' => $aSynchroniser === 0,
                 ])>
                 <div class="flex items-start justify-between">
                     <span @class([
                         'text-3xl font-display font-bold leading-none',
-                        'text-amber-700' => $aSynchroniser > 0,
+                        'text-warn-700' => $aSynchroniser > 0,
                         'text-ink-400' => $aSynchroniser === 0,
                     ])>{{ $aSynchroniser }}</span>
                     <svg @class([
                         'transition-transform group-hover:translate-x-0.5',
-                        'text-amber-400' => $aSynchroniser > 0,
+                        'text-warn' => $aSynchroniser > 0,
                         'text-ink-300' => $aSynchroniser === 0,
                     ]) width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <path d="m9 18 6-6-6-6"/>
@@ -115,7 +115,7 @@
                 </div>
                 <span @class([
                     'text-sm font-medium',
-                    'text-amber-700' => $aSynchroniser > 0,
+                    'text-warn-700' => $aSynchroniser > 0,
                     'text-ink-500' => $aSynchroniser === 0,
                 ])>À synchroniser</span>
             </a>

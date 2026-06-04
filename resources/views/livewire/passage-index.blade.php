@@ -3,18 +3,15 @@
     {{-- Header --}}
     <div class="flex items-center justify-between gap-4">
         <h1 class="font-display font-semibold text-2xl sm:text-3xl text-ink-950">Passages</h1>
-        {{-- Bouton "Nouveau passage" désactivé jusqu'à Plan 02-05 (route admin.passages.create non encore créée) --}}
-        <span aria-disabled="true" tabindex="-1"
-              class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500/40 text-white font-semibold cursor-not-allowed opacity-50 select-none"
-              title="Disponible bientôt">
+        <a href="{{ route('admin.passages.create') }}"
+              class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
                  stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <path d="M12 5v14M5 12h14"/>
             </svg>
             <span class="hidden sm:inline">Nouveau passage</span>
             <span class="sm:hidden">Passage</span>
-        </span>
-        {{-- TODO Plan 02-05: remplacer par <a href="{{ route('admin.passages.create') }}" ...> quand la route existe --}}
+        </a>
     </div>
 
     {{-- Filtres --}}
@@ -60,7 +57,7 @@
     {{-- Liste passages --}}
     <div class="space-y-3">
         @forelse ($passages as $p)
-            <a href="#" class="block rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-4 hover:bg-sand-50 transition-colors">
+            <a href="{{ route('admin.passages.show', $p) }}" class="block rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-4 hover:bg-sand-50 transition-colors">
                 <div class="flex items-start justify-between gap-3">
                     {{-- Date + statut --}}
                     <div class="flex-1 min-w-0">
@@ -116,7 +113,14 @@
             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
                 <h2 class="font-display font-semibold text-xl text-ink-950">Aucun passage enregistré.</h2>
                 <p class="text-ink-500 mt-2">Commence par saisir un passage sur le terrain.</p>
-                {{-- CTA "Nouveau passage" activé par Plan 02-05 quand la route admin.passages.create existera --}}
+                <a href="{{ route('admin.passages.create') }}"
+                    class="inline-flex items-center gap-2 h-11 px-5 mt-4 rounded-xl bg-azure-500 text-white font-semibold hover:bg-azure-600 transition-colors">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="M12 5v14M5 12h14"/>
+                    </svg>
+                    Nouveau passage
+                </a>
             </div>
         @endforelse
     </div>
