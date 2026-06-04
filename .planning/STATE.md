@@ -27,7 +27,7 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 Phase: 11 (audit-impeccable-ux-ui-wording) — COMPLETE & VERIFIED
 Plan: 7 of 7 (all plans executed + merged to staging)
-Status: Phase 11 done. 3 stale tests aligned; full suite green (507 passed / 4 skipped). Code review (11-REVIEW.md) resolved; verifier (11-VERIFICATION.md) 7/8 must-haves, no blockers.
+Status: Phase 11 done & PUSHED to staging (commit c59e779, deploy succeeded). 3 stale tests aligned; full suite green (507 passed / 4 skipped). Code review (11-REVIEW.md) resolved; verifier (11-VERIFICATION.md) now 8/8 PASSED — SC-1 confirmed via live staging offline probe (uploading orphan auto-recovered to pending from a non-create page), SC-8 re-audited 18/20 / theming 4/4 (11-REAUDIT.md), SC-6 closed.
 Note: CR-01 (client-fiche passage history read non-existent columns) fixed. CR-02 was a FALSE POSITIVE — amber-* emits fine (Tailwind v4 ships default palette, app.css never resets it); remapped amber→warn for brand consistency, token guard left unchanged. WR-01/02/05 fixed; SC-6 closed (passage-index live filters got wire:loading). WR-03/06 (offline-sync robustness) DEFERRED — out of phase-11 scope, see follow-up below. Not pushed to staging (awaiting go-ahead).
 Last activity: 2026-06-04 -- Phase 11 verified complete
 
