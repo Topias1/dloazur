@@ -9,9 +9,6 @@
     {{-- 2. Services grid --}}
     @include('vitrine.partials.services-grid')
 
-    {{-- 3. Urgence eau verte — D-34 (inserted between services-grid and how-it-works) --}}
-    @include('vitrine.partials.urgence-eau-verte')
-
     {{-- 4. How it works --}}
     @include('vitrine.partials.how-it-works')
 
