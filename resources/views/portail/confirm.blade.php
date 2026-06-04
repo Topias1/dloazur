@@ -34,21 +34,6 @@
                 Vous êtes sur le point d'accéder à votre espace Dlo Azur Piscines.
             </p>
 
-            {{-- Erreur si token invalide via GET (query param) --}}
-            @if (session('error'))
-                <div class="mt-4 text-sm text-danger bg-danger/10 ring-1 ring-danger/20 rounded-xl p-3">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="mt-4 text-sm text-danger bg-danger/10 ring-1 ring-danger/20 rounded-xl p-3">
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
-
             {{-- Formulaire POST — le seul endroit où le token est consommé --}}
             <form method="POST" action="{{ route('portail.magic-link.confirm') }}" class="mt-6">
                 @csrf
@@ -64,7 +49,7 @@
 
             {{-- Note sécurité --}}
             <p class="text-xs text-ink-400 mt-4 text-center">
-                Ce lien expire dans 48 h · Usage unique par session
+                Ce lien expire dans 48 h · Utilisable jusqu'à 3 fois
             </p>
 
         </div>

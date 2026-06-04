@@ -57,6 +57,13 @@
                 </button>
             </form>
 
+            {{-- Erreur magic-link (lien expiré / invalide / erreur serveur) --}}
+            @error('ml')
+                <div class="mt-4 text-sm text-danger bg-danger/10 ring-1 ring-danger/30 rounded-xl p-3">
+                    {{ $message }}
+                </div>
+            @enderror
+
             {{-- Message de statut --}}
             @if (session('status'))
                 <div class="mt-4 text-sm text-success bg-success/10 ring-1 ring-success/30 rounded-xl p-3">
