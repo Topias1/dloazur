@@ -98,7 +98,7 @@ it('DIAG-07: la route /diagnostic charge la page et le composant wizard', functi
     $response = $this->get('/diagnostic');
 
     $response->assertStatus(200);
-    $response->assertSee('Trouver mon problème');
+    $response->assertSee('Avant de commencer'); // D-09 : stable Plan 01 et Plan 02 (S0 supprimé en Plan 02)
 })->group('diag-07');
 
 // ──────────────────────────────────────────────────────────────────────────────
