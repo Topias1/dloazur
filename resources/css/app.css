@@ -73,9 +73,12 @@
     --color-white: var(--color-sand-50);
 
     /* Text — Encre (tinted toward marine) */
+    --color-ink-300: oklch(0.790 0.015 250);
     --color-ink-400: oklch(0.690 0.018 250);
     --color-ink-500: oklch(0.585 0.024 250);
+    --color-ink-600: oklch(0.515 0.027 250);
     --color-ink-700: oklch(0.445 0.030 250);
+    --color-ink-800: oklch(0.378 0.038 250);
     --color-ink-900: oklch(0.310 0.045 250);
     --color-ink-950: oklch(0.255 0.045 250);
 
