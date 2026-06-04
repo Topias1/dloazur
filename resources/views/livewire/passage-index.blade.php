@@ -55,7 +55,13 @@
     </div>
 
     {{-- Liste passages --}}
-    <div class="space-y-3">
+    <div class="space-y-3"
+        wire:loading.class="opacity-50 pointer-events-none"
+        wire:target="clientId,dateFrom,dateTo">
+        {{-- Loading skeleton pendant le filtrage live --}}
+        <div wire:loading wire:target="clientId,dateFrom,dateTo"
+            class="h-12 bg-sand-100 rounded-xl animate-pulse"
+            aria-hidden="true"></div>
         @forelse ($passages as $p)
             <a href="{{ route('admin.passages.show', $p) }}" class="block rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-4 hover:bg-sand-50 transition-colors">
                 <div class="flex items-start justify-between gap-3">
