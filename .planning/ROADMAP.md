@@ -23,7 +23,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - [x] **Phase 7: Espace admin — agenda, récap chimie & fix notes internes** - FIX bug `notes_privees` perdu à la synchro (Task 1) + agenda du jour + pivot `passage_produit` + récap mensuel par client *(priorisée : contient le bug de perte de donnée)* (completed 2026-06-03)
 - [x] **Phase 8: Vitrine — corrections retours Pierre** - Géo honnête + voix marque 3e personne + dé-duplication ; avant/après & page Dépannage (décisions Antoine) (completed 2026-06-04)
 - [x] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf (completed 2026-06-04)
-- [ ] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests)
+- [x] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests) (completed 2026-06-04)
 
 **Audit transverse (2026-06-04)** :
 
@@ -252,11 +252,11 @@ Plans:
 **Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (diag-1, diag-2, diag-3 + §Décisions discuss)
 **UI hint**: yes
 
-**Plans:** 1/2 plans executed
+**Plans:** 2/2 plans complete
 
 Plans:
 - [x] 10-01-PLAN.md — setMode() server-side (attribution created_via) + decouplage des tests vis-a-vis de l'ecran S0
-- [ ] 10-02-PLAN.md — refonte Blade : suppression S0, entree directe arbre symptome, chimie+carnet en actions secondaires sur le disclaimer
+- [x] 10-02-PLAN.md — refonte Blade : suppression S0, entree directe arbre symptome, chimie+carnet en actions secondaires sur le disclaimer
 
 ## Progress
 
