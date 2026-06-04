@@ -43,5 +43,8 @@
         <!-- Blog source: keep file-backed path so existing BlogTest stays green
              while later waves flip the public read path to DB (Plan 06-03). -->
         <env name="BLOG_SOURCE" value="files"/>
+        <!-- Worktree isolation: override APP_BASE_PATH so Laravel resolves views/routes
+             from this worktree instead of the main repo (shared vendor symlink). -->
+        <server name="APP_BASE_PATH" value="/Users/amnesia/dev/dloazur/.claude/worktrees/agent-a7c2b02cdc12fbc81"/>
     </php>
 </phpunit>
