@@ -13,8 +13,8 @@
             <x-icon.drop :size="64" />
         </div>
         <h1 class="font-display font-bold text-2xl text-ink-950">Dlo Azur</h1>
-        <h2 class="font-display font-semibold text-xl text-ink-950 mt-8">Vous êtes hors ligne</h2>
-        <p class="text-ink-500 mt-3 max-w-sm">La saisie d'un passage reste disponible. Les autres pages se chargeront au retour du réseau.</p>
+        <h2 class="font-display font-semibold text-xl text-ink-950 mt-8">Tu es hors ligne</h2>
+        <p class="text-ink-500 mt-3 max-w-sm">La saisie d'un passage reste disponible. Les autres pages se chargeront à ton retour sur le réseau.</p>
         <a href="/admin/passages/create"
            class="h-13 px-6 rounded-xl bg-azure-500 text-white font-bold mt-6 inline-flex items-center justify-center">
             Retour à la saisie
