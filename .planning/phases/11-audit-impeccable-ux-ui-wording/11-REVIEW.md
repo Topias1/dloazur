@@ -58,8 +58,22 @@ findings:
   warning: 6
   info: 4
   total: 12
-status: issues_found
+status: resolved
+resolution_date: 2026-06-04
 ---
+
+> **Resolution (2026-06-04)** — committed in `61788a4`. Suite green (507 passed / 4 skipped), token guard green.
+>
+> | Finding | Verdict | Action |
+> |---------|---------|--------|
+> | CR-01 | **Confirmed bug** (phase-11 regression, commit 825dab4) | Fixed — real columns `chlore_libre`/`ph_avant`, `implode` JSON-cast `actions` before `Str::limit`. |
+> | CR-02 | **False positive on "zero CSS"** | Downgraded. Verified in compiled CSS that `amber-*` *does* emit — Tailwind v4 ships its default palette and `app.css` never resets it (`--color-*: initial` absent). Remapped `amber→warn` for brand-token consistency only; **token guard left unchanged** (hardening `FAMILIES` with default-palette names would flag working classes). |
+> | WR-01 | Confirmed | Fixed — passage rows link to `admin.passages.show`. |
+> | WR-02 | Confirmed | Fixed — header CTA + empty-state CTA link to `admin.passages.create`; stale TODO removed. |
+> | WR-05 | Confirmed | Fixed — mobile-nav "Accueil" active state gated on `routeIs('admin.dashboard')`. |
+> | WR-03, WR-06 | Confirmed, **deferred** | Out of phase-11 (UX/wording) scope. These touch the core offline-sync path (photo re-flush scope; orphan backoff/dead-letter) and need the offline test harness to change safely. Recommend a dedicated follow-up phase. |
+> | WR-04 | **Marginal** | Skipped — `nullable\|numeric\|min:1` already rejects `"0"` at validation; the `?:` null-coalesce is reached only for `''`. Noted, no change. |
+> | IN-01..IN-04 | Awareness only | No action (JSON-LD stays library-encoded; N+1/dedup deferred; sources confirmed trusted). |
 
 # Phase 11: Code Review Report
 
