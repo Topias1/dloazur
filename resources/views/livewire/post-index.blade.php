@@ -1,5 +1,14 @@
 <div class="px-5 sm:px-8 py-7 space-y-7">
 
+    {{-- Inline success (flash from post-form save) --}}
+    @if (session('status') === 'post-saved')
+        <p role="status" class="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium"
+            style="background: oklch(0.96 0.03 155); color: oklch(0.42 0.12 155); box-shadow: inset 0 0 0 1px oklch(0.80 0.08 155);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+            Article enregistré.
+        </p>
+    @endif
+
     {{-- Header --}}
     <div class="flex items-center justify-between gap-4">
         <h1 class="font-display font-semibold text-2xl sm:text-3xl text-ink-950">Blog</h1>
@@ -28,7 +37,13 @@
     </div>
 
     {{-- Article list --}}
-    <div class="space-y-3">
+    <div class="space-y-3"
+        wire:loading.class="opacity-50 pointer-events-none"
+        wire:target="search">
+        {{-- Loading skeleton --}}
+        <div wire:loading wire:target="search"
+            class="h-12 bg-sand-100 rounded-xl animate-pulse"
+            aria-hidden="true"></div>
         @forelse ($posts as $post)
             <a href="{{ route('admin.blog.edit', $post) }}"
                 class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-4 flex items-center gap-4 hover:bg-sand-50 transition-colors min-h-[64px]">
@@ -75,7 +90,7 @@
                 {{-- Empty state — no articles yet --}}
                 <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
                     <h2 class="font-display font-semibold text-xl text-ink-950">Aucun article pour l'instant.</h2>
-                    <p class="text-ink-500 mt-2">Écrivez votre premier article : il apparaîtra sur le blog une fois publié.</p>
+                    <p class="text-ink-500 mt-2">Écris ton premier article : il apparaîtra sur le blog une fois publié.</p>
                     <a href="{{ route('admin.blog.create') }}"
                         class="mt-4 inline-flex h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold items-center hover:bg-azure-600 transition-colors">
                         Écrire un article

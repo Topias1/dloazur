@@ -16,21 +16,25 @@
             <span class="font-display font-semibold text-ink-950">Dlo Azur</span>
         </a>
 
-        {{-- Desktop search (contextual placeholder — live search in client list component) --}}
-        <div class="hidden lg:flex items-center gap-2 flex-1 max-w-md">
-            <div class="relative w-full">
-                <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
-                    width="18" height="18" viewBox="0 0 24 24" fill="none"
-                    stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
-                    <circle cx="11" cy="11" r="7"/>
-                    <path d="m21 21-4.3-4.3"/>
-                </svg>
-                <input disabled
-                    class="w-full h-10 pl-10 pr-4 rounded-xl bg-white/60 ring-1 ring-navy-900/10 text-ink-400 placeholder:text-ink-400 outline-none cursor-not-allowed opacity-60"
-                    placeholder="Rechercher un client, un passage…"
-                    aria-label="Recherche (disponible dans la vue liste)">
+        {{-- Desktop search — only shown on list routes that have live search wired --}}
+        @if (request()->routeIs('admin.clients.*') || request()->routeIs('admin.passages.*') || request()->routeIs('admin.blog.*'))
+            <div class="hidden lg:flex items-center gap-2 flex-1 max-w-md">
+                <div class="relative w-full">
+                    <svg class="absolute left-3 top-1/2 -translate-y-1/2 text-ink-400"
+                        width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"/>
+                        <path d="m21 21-4.3-4.3"/>
+                    </svg>
+                    <input disabled
+                        class="w-full h-10 pl-10 pr-4 rounded-xl bg-white/60 ring-1 ring-navy-900/10 text-ink-400 placeholder:text-ink-400 outline-none cursor-not-allowed opacity-60"
+                        placeholder="Rechercher…"
+                        aria-label="Recherche (disponible dans la vue liste)">
+                </div>
             </div>
-        </div>
+        @else
+            <div class="hidden lg:flex flex-1"></div>
+        @endif
 
         {{-- Action buttons --}}
         <div class="flex items-center gap-2">

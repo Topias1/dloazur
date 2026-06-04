@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', '{{ $client->name }} — Modifier · Dlo Azur')
+@section('title', $client->name . ' · Modifier · Dlo Azur')
 
 @section('sidebar')
     <x-admin.sidebar :user="auth()->user()" />

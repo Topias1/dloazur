@@ -115,7 +115,7 @@
             {{-- Empty state (UI-SPEC §Empty states "Liste passages vide") --}}
             <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
                 <h2 class="font-display font-semibold text-xl text-ink-950">Aucun passage enregistré.</h2>
-                <p class="text-ink-500 mt-2">Commencez par saisir un passage sur le terrain.</p>
+                <p class="text-ink-500 mt-2">Commence par saisir un passage sur le terrain.</p>
                 {{-- CTA "Nouveau passage" activé par Plan 02-05 quand la route admin.passages.create existera --}}
             </div>
         @endforelse

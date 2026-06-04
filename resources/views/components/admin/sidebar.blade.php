@@ -110,6 +110,20 @@
             Blog
         </a>
 
+        {{-- Active: Récap mensuel --}}
+        <a href="{{ route('admin.recap.index') }}"
+            @class([
+                'flex items-center gap-3 h-11 px-3 rounded-xl transition-colors',
+                'bg-white/10 text-white'             => request()->routeIs('admin.recap.*'),
+                'hover:bg-white/8 hover:text-white'  => !request()->routeIs('admin.recap.*'),
+            ])
+            @if(request()->routeIs('admin.recap.*')) aria-current="page" @endif>
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M3 3h18v18H3zM3 9h18M3 15h18M9 3v18"/>
+            </svg>
+            Récap mensuel
+        </a>
+
         {{-- Greyed: Factures (Phase 3) --}}
         <span aria-disabled="true" tabindex="-1"
             class="flex items-center gap-3 h-11 px-3 rounded-xl text-navy-300 opacity-60 cursor-default">

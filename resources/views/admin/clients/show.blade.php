@@ -13,6 +13,15 @@
 @section('main')
     <div class="px-5 sm:px-8 py-7 max-w-3xl space-y-6">
 
+        {{-- Inline success (flash from piscine-form save) --}}
+        @if (session('status') === 'piscine-saved')
+            <p role="status" class="flex items-center gap-2 rounded-xl px-4 py-3 text-sm font-medium"
+                style="background: oklch(0.96 0.03 155); color: oklch(0.42 0.12 155); box-shadow: inset 0 0 0 1px oklch(0.80 0.08 155);">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+                Piscine enregistrée.
+            </p>
+        @endif
+
         {{-- Header --}}
         <div class="flex items-center gap-4">
             <a href="{{ route('admin.clients.index') }}"
@@ -106,12 +115,35 @@
         </div>
 
         {{-- Historique passages --}}
+        @php $recentPassages = $client->passages()->orderBy('visited_at', 'desc')->limit(5)->get(); @endphp
         <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-xs p-6">
-            <h2 class="font-display font-semibold text-base text-ink-900 mb-4">Historique des passages</h2>
-            @forelse ($client->passages()->orderBy('visited_at', 'desc')->paginate(10) as $passage)
-                <div class="py-3 border-b border-sand-100 last:border-0">
-                    <p class="text-sm text-ink-700">{{ $passage->visited_at?->format('d/m/Y') ?? '—' }}</p>
-                </div>
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="font-display font-semibold text-base text-ink-900">Historique des passages</h2>
+                @if ($client->passages()->count() > 5)
+                    <a href="{{ route('admin.passages.index', ['client_id' => $client->id]) }}"
+                        class="text-sm text-azure-600 hover:text-azure-700 font-medium">
+                        Voir tout ({{ $client->passages()->count() }})
+                    </a>
+                @endif
+            </div>
+            @forelse ($recentPassages as $passage)
+                <a href="{{ route('admin.passages.show', $passage) }}"
+                    class="flex items-center justify-between gap-4 py-3 border-b border-sand-100 last:border-0 hover:bg-sand-50 -mx-2 px-2 rounded-lg transition-colors">
+                    <div class="min-w-0">
+                        <p class="text-sm font-medium text-ink-900">{{ $passage->visited_at?->format('d/m/Y') ?? '—' }}</p>
+                        <p class="text-xs text-ink-500 truncate mt-0.5">
+                            @if ($passage->chlore || $passage->ph)
+                                Cl {{ $passage->chlore ?? '—' }} · pH {{ $passage->ph ?? '—' }}
+                            @endif
+                            @if ($passage->actions_effectuees)
+                                · {{ Str::limit($passage->actions_effectuees, 40) }}
+                            @endif
+                        </p>
+                    </div>
+                    <svg class="text-ink-400 shrink-0" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <path d="m9 18 6-6-6-6"/>
+                    </svg>
+                </a>
             @empty
                 <p class="text-ink-400 text-sm">Aucun passage pour ce client.</p>
             @endforelse

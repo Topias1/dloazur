@@ -73,6 +73,7 @@ class ClientForm extends Component
         }
 
         $this->dispatch('client-saved');
+        session()->flash('status', 'client-saved');
         $this->redirect(route('admin.clients.index'), navigate: true);
     }
 
