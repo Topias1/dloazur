@@ -43,5 +43,27 @@
         anonymous-component slots if that style fits better.
         x-slot:sidebar x-slot:main
     --}}
+
+    {{-- Sync drawer + sync-success confirmation — mounted once at layout level
+         so the drawer and flush are available on every admin page (P0 SC-1).
+         The badge in topbar/mobile-nav dispatches sync-drawer:open from all pages. --}}
+    <x-admin.sync-drawer />
+
+    {{-- Sync-success confirmation: briefly shown after queue reaches zero. --}}
+    <div
+        x-data
+        x-show="$store.offlineQueue.syncSuccess"
+        x-cloak
+        x-transition.opacity.duration.300ms
+        role="status"
+        aria-live="polite"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 z-[80] flex items-center gap-2 px-4 py-2.5 rounded-full shadow-lg text-sm font-semibold"
+        style="background-color: oklch(0.700 0.150 155 / 0.12); color: oklch(0.500 0.130 155); box-shadow: 0 0 0 1px oklch(0.700 0.150 155 / 0.30), 0 4px 16px oklch(0.700 0.150 155 / 0.15);">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        Tout est synchronisé
+    </div>
 </body>
 </html>

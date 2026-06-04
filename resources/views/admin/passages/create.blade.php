@@ -73,7 +73,7 @@
             <div x-show="!online"
                  x-transition.opacity.duration.150ms
                  role="status"
-                 aria-live="assertive"
+                 aria-live="polite"
                  class="flex items-start gap-3 rounded-2xl p-3.5"
                  style="background-color: var(--warn-bg); box-shadow: inset 0 0 0 1px oklch(0.85 0.09 82);">
                 <span class="h-9 w-9 shrink-0 rounded-full grid place-items-center"
@@ -120,7 +120,7 @@
                                 <button
                                     type="button"
                                     @click="decr('{{ $f }}', {{ $m['step'] }}, {{ $m['precision'] }})"
-                                    class="w-11 h-12 rounded-xl bg-sand-100 ring-1 ring-sand-200 text-ink-700 active:scale-95 grid place-items-center text-xl font-bold"
+                                    class="w-14 h-14 rounded-xl bg-sand-100 ring-1 ring-sand-200 text-ink-700 active:scale-95 grid place-items-center text-xl font-bold"
                                     aria-label="Diminuer {{ $m['label'] }}">−</button>
                                 {{-- Valeur : saisie directe au clavier numérique (inputmode=decimal),
                                      les steppers ± servant au réglage fin. Virgule FR ou point acceptés. --}}
@@ -135,7 +135,7 @@
                                 <button
                                     type="button"
                                     @click="incr('{{ $f }}', {{ $m['step'] }}, {{ $m['precision'] }})"
-                                    class="w-11 h-12 rounded-xl bg-azure-500 text-white active:scale-95 grid place-items-center text-xl font-bold"
+                                    class="w-14 h-14 rounded-xl bg-azure-500 text-white active:scale-95 grid place-items-center text-xl font-bold"
                                     aria-label="Augmenter {{ $m['label'] }}">+</button>
                             </div>
                         </div>
@@ -417,8 +417,7 @@
         {{-- Mobile bottom navigation --}}
         <x-admin.mobile-bottom-nav />
 
-        {{-- Sync drawer (panneau glissant — UI-SPEC §Sync drawer) --}}
-        <x-admin.sync-drawer />
+        {{-- Sync drawer is mounted once in layouts/admin.blade.php (P0 SC-1) --}}
 
         {{-- Toast mise à jour PWA --}}
         <x-admin.pwa-update-toast />
