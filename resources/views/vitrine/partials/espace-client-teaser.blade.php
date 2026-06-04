@@ -6,7 +6,7 @@
             <h2 class="mt-4 font-display font-bold text-3xl text-ink-950">Chaque passage, gardé en mémoire.</h2>
             <p class="mt-4 text-lg leading-relaxed text-ink-700">Après chaque intervention, retrouvez les mesures de l'eau, les actions menées et les photos, horodatées. Accessible d'un simple lien, sans mot de passe à retenir.</p>
             <a href="{{ route('contact') }}" class="mt-7 inline-flex items-center gap-2 h-12 px-5 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors cursor-pointer">
-                Voir un exemple d'espace client
+                Demander un accès
                 <x-icon.arrow-right :size="18" />
             </a>
         </div>

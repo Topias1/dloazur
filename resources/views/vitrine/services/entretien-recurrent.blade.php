@@ -56,27 +56,27 @@
             <div>
                 <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">Nettoyage et entretien mécanique</h3>
                 <ul class="space-y-2 text-ink-700 leading-relaxed max-w-[65ch]">
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Enlèvement des impuretés en surface (feuilles, insectes, sable de la brume)</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Brossage des parois et nettoyage de la ligne d'eau</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Aspiration du fond du bassin</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Enlèvement des impuretés en surface (feuilles, insectes, sable de la brume)</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Brossage des parois et nettoyage de la ligne d'eau</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Aspiration du fond du bassin</span></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">Analyse et ajustement chimique de l'eau</h3>
                 <ul class="space-y-2 text-ink-700 leading-relaxed max-w-[65ch]">
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Mesure du pH, du taux de chlore ou de sel, de l'alcalinité et du stabilisant</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Ajustement des produits pour une eau saine (pH cible : 7,2–7,6)</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Prévention des eaux troubles et des algues, courantes sous notre climat</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Mesure du pH, du taux de chlore ou de sel, de l'alcalinité et du stabilisant</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Ajustement des produits pour une eau saine (pH cible : 7,2–7,6)</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Prévention des eaux troubles et des algues, courantes sous notre climat</span></li>
                 </ul>
             </div>
 
             <div>
                 <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">Contrôle des équipements</h3>
                 <ul class="space-y-2 text-ink-700 leading-relaxed max-w-[65ch]">
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Vérification et nettoyage du préfiltre de la pompe</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Backwash (rétrolavage) du filtre à sable si nécessaire</span></li>
-                    <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Contrôle des buses de refoulement et des skimmers</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Vérification et nettoyage du préfiltre de la pompe</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Backwash (rétrolavage) du filtre à sable si nécessaire</span></li>
+                    <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Contrôle des buses de refoulement et des skimmers</span></li>
                 </ul>
             </div>
         </div>
@@ -102,7 +102,7 @@
             Pierre ADAM, fondateur de Dlo Azur Piscines, a passé plusieurs années en tant que directeur adjoint d'un magasin spécialisé piscines. Il connaît les spécificités du climat tropical, les défis de l'eau chaude, de la brume de sable et des pluies soudaines qui déséquilibrent la chimie du bassin.
         </p>
         <p class="text-ink-700 leading-relaxed max-w-[65ch]">
-            Un service client réactif, professionnel et personnalisé. Interventions dans notre zone d'intervention — du corridor atlantique au corridor caraïbe.
+            Un service client réactif, professionnel et personnalisé. Interventions dans notre zone d'intervention, du corridor atlantique au corridor caraïbe.
         </p>
 
         <div class="mt-10 flex flex-wrap gap-3">

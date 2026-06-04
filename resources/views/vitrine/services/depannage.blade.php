@@ -38,10 +38,10 @@
             Sous le climat martiniquais, pompes, filtres et circuits hydrauliques subissent une usure accélérée. Dlo Azur diagnostique et remet en route rapidement.
         </p>
         <ul class="space-y-2 text-ink-700 leading-relaxed max-w-[65ch]">
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Pompe bloquée ou bruyante (surchauffe, roulement usé)</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Filtration hors service (pression anormale, sable ou cartouche colmaté)</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Eau verte incontrôlable malgré un traitement récent</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Fuite visible sur le circuit hydraulique ou la margelle</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Pompe bloquée ou bruyante (surchauffe, roulement usé)</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Filtration hors service (pression anormale, sable ou cartouche colmaté)</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Eau verte incontrôlable malgré un traitement récent</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Fuite visible sur le circuit hydraulique ou la margelle</span></li>
         </ul>
 
     </section>
@@ -53,7 +53,7 @@
                 Une panne&nbsp;? Dlo Azur est joignable directement.
             </h2>
             <p class="mt-4 text-lg text-navy-200 max-w-xl mx-auto">
-                Pas d'intermédiaire, pas de ticket — un appel ou un message WhatsApp suffit.
+                Pas d'intermédiaire, pas de ticket · un appel ou un message WhatsApp suffit.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"

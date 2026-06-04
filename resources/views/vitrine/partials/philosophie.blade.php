@@ -29,7 +29,7 @@
                 </span>
                 <div>
                     <h3 class="font-display font-semibold text-xl text-ink-950">Joignable sur WhatsApp</h3>
-                    <p class="mt-2 text-ink-700 leading-relaxed">Vous nous contactez directement — un message suffit. Réponse rapide, sans intermédiaire.</p>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Vous nous contactez directement, un message suffit. Réponse rapide, sans intermédiaire.</p>
                 </div>
             </div>
 

@@ -120,10 +120,10 @@
             Si l'eau vient juste de commencer à verdir, vous pouvez tenter ces gestes de première urgence avant notre passage :
         </p>
         <ul class="space-y-3 text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Vérifiez que la pompe tourne bien et que le filtre n'est pas colmaté (manomètre)</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Augmentez la durée de filtration à 12–16 h/jour (en pleine chaleur)</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Effectuez un backwash (rétrolavage) du filtre à sable</span></li>
-            <li class="flex gap-2"><span class="text-azure-500 mt-0.5 shrink-0">✓</span><span>Testez le pH (bandelette ou kit) : il doit être entre 7,2 et 7,6</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Vérifiez que la pompe tourne bien et que le filtre n'est pas colmaté (manomètre)</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Augmentez la durée de filtration à 12–16 h/jour (en pleine chaleur)</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Effectuez un backwash (rétrolavage) du filtre à sable</span></li>
+            <li class="flex gap-2"><span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 shrink-0 mt-0.5"><x-icon.check class="w-5 h-5 text-success" /></span><span>Testez le pH (bandelette ou kit) : il doit être entre 7,2 et 7,6</span></li>
         </ul>
         <p class="text-ink-700 leading-relaxed max-w-[65ch]">
             <strong class="text-ink-900">Quand appeler le pro :</strong> si l'eau est verte ou opaque, si elle dégage une odeur, si des dépôts verdâtres apparaissent sur les parois, ou si vos gestes DIY n'ont pas d'effet après 24 h. Un traitement choc mal dosé peut aggraver la situation.
