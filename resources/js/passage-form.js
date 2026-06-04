@@ -1,5 +1,6 @@
 import { upsertPassage, savePhoto, getPassagesByStatus, getPhotosByPassage, markStatus, countPendingAll, openOfflineDB } from './offline-queue.js';
 import { processPhoto } from './photo-pipeline.js';
+import { flushPipeline, syncProduits } from './upload-pipeline.js';
 
 /**
  * Plages soft de validation des mesures (D-63).
@@ -181,7 +182,7 @@ export function passageForm(initialData = {}) {
             if (num < min || num > max) {
                 const label = RANGE_LABELS[field] ?? field;
                 this._pushWarning(
-                    `${label} ${num} est hors de la plage recommandée [${min}, ${max}]. La saisie est enregistrée — vérifiez votre lecture.`
+                    `${label} ${num} est hors de la plage recommandée [${min}, ${max}]. La saisie est enregistrée — vérifie ta lecture.`
                 );
             }
         },
@@ -375,22 +376,24 @@ export function passageForm(initialData = {}) {
 
         /**
          * Flush tous les passages 'pending' en IDB vers le serveur.
+         * Délègue à flushPipeline() (upload-pipeline.js) — logique unique, pas de doublon.
          * Appelé au submit, au retour online, et au visibilitychange.
-         * Retente aussi les passages 'synced' porteurs de produits_pending=true
-         * (synchro chimie différée — ne bloque pas la synchro principale du passage).
+         *
+         * After pipeline completes, upload photos for any newly-synced passage
+         * (photo upload is passageForm-specific — only relevant when the create
+         * screen is active, which is the only place photos are added to IDB).
          */
         async _flushQueue() {
-            const pending = await getPassagesByStatus('pending');
-            for (const item of pending) {
-                await this._uploadPassage(item);
-            }
+            // Run passage flush pipeline (shared with store)
+            const results = await flushPipeline();
 
-            // Retry des produits différés : passages synced mais chimie pas encore envoyée
+            // Upload photos for passages that were just synced by this flush
+            // (flushPipeline marks them synced; we find them and upload photos)
             const db = await openOfflineDB();
-            const all = await db.getAll('passages');
-            for (const p of all) {
-                if (p.status === 'synced' && p.produits_pending === true) {
-                    await this._syncProduits(p);
+            const allPassages = await db.getAll('passages');
+            for (const p of allPassages) {
+                if (p.status === 'synced') {
+                    await this._uploadPhotosForPassage(p.client_uuid);
                 }
             }
 
@@ -398,129 +401,10 @@ export function passageForm(initialData = {}) {
         },
 
         /**
-         * Synchronise la consommation chimie (pivot passage_produit) vers POST /api/passages/produits.
-         * Appelé après markStatus synced dans _uploadPassage, et en retry dans _flushQueue.
-         * SOFT FAIL : un échec ne bloque pas la synchro principale ; il pose produits_pending=true
-         * sur l'item IDB pour que _flushQueue le retente au prochain flush (jamais perdu en silence).
+         * Délègue à syncProduits() d'upload-pipeline.js.
          */
         async _syncProduits(item) {
-            let payload = {};
-            try { payload = JSON.parse(item.payload_json); } catch { /* JSON malformé */ }
-            const produits = payload.produits ?? [];
-            if (!produits.length) return; // rien à synchroniser
-
-            try {
-                const res = await fetch('/api/passages/produits', {
-                    method:      'POST',
-                    headers:     this._headers(true),
-                    credentials: 'same-origin',
-                    body:        JSON.stringify({
-                        passage_client_uuid: item.client_uuid,
-                        produits,
-                    }),
-                });
-
-                if (res.ok) {
-                    // Succès : relire + purger le flag produits_pending
-                    const db = await openOfflineDB();
-                    const fresh = await db.get('passages', item.id);
-                    if (fresh) {
-                        fresh.produits_pending = false;
-                        await db.put('passages', fresh);
-                    }
-                } else {
-                    throw new Error('HTTP ' + res.status);
-                }
-            } catch (e) {
-                // Échec réseau ou serveur : NE PAS throw (ne bloque pas la synchro principale).
-                // Poser le flag produits_pending pour retry au prochain flush.
-                console.warn('[passage-form] produits sync deferred', item.client_uuid, e);
-                try {
-                    const db = await openOfflineDB();
-                    const fresh = await db.get('passages', item.id);
-                    if (fresh) {
-                        fresh.produits_pending = true;
-                        await db.put('passages', fresh);
-                    }
-                } catch (dbErr) {
-                    console.error('[passage-form] IDB write failed for produits_pending', dbErr);
-                }
-            }
-        },
-
-        /**
-         * Upload un passage vers POST /api/passages avec backoff 2s→8s→30s (D-45).
-         * Gestion 409 : passage déjà clos (D-40).
-         */
-        async _uploadPassage(item) {
-            const delays = [2000, 8000, 30000];
-            for (let attempt = 0; attempt < delays.length; attempt++) {
-                try {
-                    await markStatus('passages', item.id, 'uploading');
-                    const res = await fetch('/api/passages', {
-                        method:      'POST',
-                        headers:     this._headers(true),
-                        credentials: 'same-origin',
-                        body:        item.payload_json,
-                    });
-
-                    if (res.status === 409) {
-                        // Passage déjà clos (D-40) — marquer synced pour purger la queue
-                        await markStatus('passages', item.id, 'synced');
-                        this.conflictMsg = "Ce passage a déjà été clos. Tes modifications n'ont pas été enregistrées.";
-                        return;
-                    }
-
-                    if (res.ok) {
-                        await markStatus('passages', item.id, 'synced');
-                        await this._syncProduits(item);   // chimie — soft fail, ne bloque pas
-                        await this._uploadPhotosForPassage(item.client_uuid);
-                        return;
-                    }
-
-                    // Refus client (4xx, ex. 422 données hors limites) : permanent.
-                    // Ré-essayer enverrait le même payload — inutile. On marque 'error'
-                    // (non repris par _flushQueue) et on remonte le motif à l'opérateur
-                    // au lieu de le laisser croire que c'est parti.
-                    if (res.status >= 400 && res.status < 500) {
-                        await markStatus('passages', item.id, 'error', (item.attempts || 0) + 1);
-                        this.uploadError = await this._validationMessage(res);
-                        return;
-                    }
-
-                    // 5xx / réponse inattendue → erreur transitoire, on ré-essaie.
-                    throw new Error('Server error ' + res.status);
-
-                } catch (e) {
-                    console.warn('[passage-form] upload attempt', attempt + 1, 'failed', e);
-                    if (attempt < delays.length - 1) {
-                        await new Promise((r) => setTimeout(r, delays[attempt]));
-                    } else {
-                        // Échec transitoire (réseau/5xx) épuisé : on le RElaisse en 'pending'
-                        // — et non en 'error' mort — pour qu'il reparte au prochain flush
-                        // (retour online / visibilitychange). Le badge le compte en attente.
-                        await markStatus('passages', item.id, 'pending', (item.attempts || 0) + 1);
-                    }
-                }
-            }
-        },
-
-        /**
-         * Extrait un message lisible d'une réponse 422 (erreurs de validation Laravel).
-         * Mappe les clés de champ vers leurs libellés FR quand c'est possible.
-         */
-        async _validationMessage(res) {
-            try {
-                const body = await res.json();
-                if (body?.errors && typeof body.errors === 'object') {
-                    const labels = Object.keys(body.errors).map((f) => RANGE_LABELS[f] ?? f);
-                    if (labels.length) {
-                        return `Valeur hors limites : ${labels.join(', ')}. Corrige la saisie puis réenregistre.`;
-                    }
-                }
-                if (body?.message) return body.message;
-            } catch (e) { /* corps non-JSON */ }
-            return 'Enregistrement refusé par le serveur. Vérifie les valeurs saisies puis réessaie.';
+            return syncProduits(item);
         },
 
         /**

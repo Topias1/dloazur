@@ -72,13 +72,14 @@ export function syncDrawerStore() {
         },
 
         /**
-         * Synchroniser maintenant : tous les items 'error' → 'pending' puis flush.
+         * Synchroniser maintenant : items 'error' + 'uploading' → 'pending' puis flush.
+         * uploading orphans (killed tab/SW) are re-queued so nothing is stranded (P0 SC-1).
          */
         async flushAll() {
             const db  = await openOfflineDB();
             const all = await db.getAll('passages');
             for (const it of all) {
-                if (it.status === 'error') {
+                if (it.status === 'error' || it.status === 'uploading') {
                     await markStatus('passages', it.id, 'pending');
                 }
             }

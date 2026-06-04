@@ -9,6 +9,9 @@ window.EasyMDE = EasyMDE;
 import { passageForm } from './passage-form.js';
 import { syncDrawerStore } from './sync-drawer.js';
 
+// Shared upload pipeline — flush() available from any admin page (P0 SC-1)
+import { flushPipeline, recoverOrphans } from './upload-pipeline.js';
+
 // Blog admin Markdown editor factory — CONTENT-01 (Plan 06-04)
 import { postEditor } from './post-editor.js';
 
@@ -53,11 +56,25 @@ document.addEventListener('alpine:init', () => {
     Alpine.store('offlineQueue', {
         pendingCount: 0,
         errorCount: 0,
+        syncSuccess: false,  // true briefly after queue empties — drives success confirmation
         async refresh() {
             const { countPendingAll } = await import('./offline-queue.js');
             const counts = await countPendingAll();
             this.pendingCount = counts.pending;
             this.errorCount = counts.errors;
+        },
+        /**
+         * Full flush: recover uploading orphans → upload pending → retry produits.
+         * Works from any admin page whether or not passageForm is mounted (P0 SC-1).
+         * Shows syncSuccess briefly when the queue reaches zero.
+         */
+        async flush() {
+            await flushPipeline();
+            await this.refresh();
+            if (this.pendingCount === 0 && this.errorCount === 0) {
+                this.syncSuccess = true;
+                setTimeout(() => { this.syncSuccess = false; }, 3500);
+            }
         },
     });
 
@@ -83,17 +100,19 @@ document.addEventListener('alpine:initialized', () => {
     window.Alpine.store('syncDrawer').init().catch(() => {});
 });
 
-// Event relay : le sync-drawer dispatch 'passage-form:flush' → si passageForm n'est pas
-// monté sur la page courante, le store global rafraîchit juste le badge.
+// Event relay : le sync-drawer dispatch 'passage-form:flush' → le store global
+// exécute le flush complet (upload + recovery) que passageForm soit monté ou non (P0 SC-1).
 window.addEventListener('passage-form:flush', async () => {
     if (window.Alpine?.store('offlineQueue')) {
-        window.Alpine.store('offlineQueue').refresh().catch(() => {});
+        window.Alpine.store('offlineQueue').flush().catch(() => {});
     }
 });
 
-// Refresh initial du badge au boot (lit IDB si présent — sinon stay à 0)
+// Boot: refresh badge + recover any uploading orphans left by a killed tab/SW.
+// recoverOrphans() is one-shot (re-queues to pending) — safe to call every load.
 document.addEventListener('alpine:initialized', () => {
     window.Alpine.store('offlineQueue').refresh().catch(() => {});
+    recoverOrphans().catch(() => {});
 });
 
 // Fallback Alpine bootstrap for pure-Blade pages (no Livewire component).
