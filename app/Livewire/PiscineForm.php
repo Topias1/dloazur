@@ -88,6 +88,7 @@ class PiscineForm extends Component
         }
 
         $this->dispatch('piscine-saved');
+        session()->flash('status', 'piscine-saved');
         $this->redirect(route('admin.clients.show', $this->clientId), navigate: true);
     }
 

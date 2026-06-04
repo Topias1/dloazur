@@ -114,6 +114,7 @@ class PostForm extends Component
         }
 
         $this->dispatch('post-saved');
+        session()->flash('status', 'post-saved');
         $this->redirect(route('admin.blog.index'), navigate: true);
     }
 
