@@ -5,13 +5,13 @@ milestone_name: milestone
 status: executing
 stopped_at: Phase 11 UI-SPEC approved
 last_updated: "2026-06-04T07:54:31.376Z"
-last_activity: 2026-06-04 -- Phase 11 execution started
+last_activity: 2026-06-04 -- Phase 11 verified complete (tests aligned, review resolved, verifier 7/8)
 progress:
   total_phases: 12
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 47
   completed_plans: 43
-  percent: 75
+  percent: 83
 ---
 
 # Project State
@@ -25,11 +25,11 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 ## Current Position
 
-Phase: 11 (audit-impeccable-ux-ui-wording) — EXECUTED, 3 stale tests pending
+Phase: 11 (audit-impeccable-ux-ui-wording) — COMPLETE & VERIFIED
 Plan: 7 of 7 (all plans executed + merged to staging)
-Status: Phase 11 code complete; 3 stale-assertion tests need alignment before "green"
-Note: Both waves merged (W1: 11-01..05, W2: 11-06/07). Build + token guard green. Post-merge gate fixed 3 integration bugs (PwaConfigTest D-07, post-form curly-quote crash, warn-200 token). Verifier + code-review chain NOT yet run.
-Last activity: 2026-06-04 -- Phase 11 plans executed & merged; paused on cost
+Status: Phase 11 done. 3 stale tests aligned; full suite green (507 passed / 4 skipped). Code review (11-REVIEW.md) resolved; verifier (11-VERIFICATION.md) 7/8 must-haves, no blockers.
+Note: CR-01 (client-fiche passage history read non-existent columns) fixed. CR-02 was a FALSE POSITIVE — amber-* emits fine (Tailwind v4 ships default palette, app.css never resets it); remapped amber→warn for brand consistency, token guard left unchanged. WR-01/02/05 fixed; SC-6 closed (passage-index live filters got wire:loading). WR-03/06 (offline-sync robustness) DEFERRED — out of phase-11 scope, see follow-up below. Not pushed to staging (awaiting go-ahead).
+Last activity: 2026-06-04 -- Phase 11 verified complete
 
 Progress: [██████████] 100%
 
@@ -96,10 +96,10 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-- **Phase 11 — 3 stale-assertion tests to align with intended changes (then run full suite + verifier + code-review):**
-  1. `tests/Feature/AdminShellTest.php` (~l.40-43) — D-10 dashboard restructure removed "Bonjour Pierre,", "Ta semaine en un coup d'œil.", "Clients actifs", "Passages cette semaine". Update assertions to the new agenda-led dashboard (still shows "À synchroniser", "Eau à surveiller"). Verify intended content in `resources/views/admin/dashboard.blade.php`.
-  2. `tests/Feature/DashboardStatsTest.php` (~l.121-133) — "À synchroniser" no longer rendered as a `state="offline"` `<x-admin.stat-card>`, so `text-[oklch(0.5_0.11_72)]` is absent. Either restore the offline stat-card or update/remove the assertion per the new dashboard.
-  3. `tests/Feature/ContactFormTest.php` (l.147) — assert `'Nous vous répondrons rapidement.'` (was "Pierre vous répondra rapidement.", changed per D-09 in `resources/views/livewire/contact-form.blade.php:14`).
+- _(none for Phase 11 — completed & verified 2026-06-04)_
+- **Follow-up (deferred from Phase 11 code review, out of UX/wording scope):** offline-sync robustness, touches the core path — needs the offline test harness to change safely.
+  1. `resources/js/passage-form.js:392-398` (WR-03) — `_flushQueue()` re-scans ALL synced passages on every flush; a permanently-failing photo retries forever. Scope photo upload to the uuids synced by THIS flush.
+  2. `resources/js/upload-pipeline.js:25-27` (WR-06) — `recoverOrphans()` re-queues `uploading` without incrementing `attempts`; no dead-letter ceiling. Add attempt increment + terminal `error` state surfaced in the sync drawer.
 - Run full suite with `php -d memory_limit=1024M ./vendor/bin/pest` (128M default OOMs the full suite — ceiling artifact, not a bug; CI likely sets higher).
 
 ### Blockers/Concerns
