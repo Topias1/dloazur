@@ -346,17 +346,19 @@ Action : La section fusionnée "Notre approche" ne doit pas répliquer "interloc
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
 1. **V6 — Que remplace-t-on dans `/services` quand on retire urgence-eau-verte ?**
    - Ce qu'on sait : le partial est encore inclus dans `services.blade.php` et présente un CTA vers `/services/eau-verte-urgence`.
    - Ce qui est flou : faut-il laisser un "trou" visuel dans `/services` ou substituer un micro-CTA vers la nouvelle page Dépannage ?
    - Recommandation : retirer le partial sans substitut — la page `/services` garde déjà `services-grid.blade.php` qui couvre l'eau verte avec sa propre carte colorée. Pas de trou fonctionnel.
+   - RESOLVED: Rien ne remplace urgence-eau-verte sur /services — services-grid couvre déjà l'eau verte.
 
 2. **Fusion philosophie+engagements — quel angle pour "Notre approche" ?**
    - Ce qu'on sait : D-09 impose la fusion, D-11 interdit "interlocuteur unique" comme angle central.
    - Ce qui est flou : quels 2 angles forts retenir ? (ex. : "suivi en ligne après chaque passage" + "accès direct à Pierre") — Claude's discretion selon CONTEXT.
    - Recommandation : "compte-rendu après chaque passage" (différenciateur mesurable) + "WhatsApp direct, pas d'intermédiaire" (différenciateur humain). Évite toute négation.
+   - RESOLVED: Option A retenue (CONTEXT.md D-09) — 2 angles : accès compte-rendu en ligne + contact direct Pierre.
 
 ---
 

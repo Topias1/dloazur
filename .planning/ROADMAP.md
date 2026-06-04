@@ -194,7 +194,7 @@ Plans:
 
 **Goal:** La vitrine raconte une géographie **honnête** et parle d'une **seule voix de marque** (3e personne), sans sur-répéter l'argument défensif « pas de call-center » — l'over-claim que Pierre dénonce disparaît.
 **Depends on:** Phase 1 (vitrine) + branche `claude/pierre-feedback-website-app-A59QE` (épuration déjà validée) — indépendant des phases 7/9/10
-**Requirements**: dérivé retours Pierre — V1, V5, V7, V12, V14, V6
+**Requirements**: dérivé retours Pierre — V1, V5, V12, V14, V6 *(V7 explicitly deferred — CONTEXT.md Deferred Ideas)*
 **Success Criteria** (what must be TRUE):
 
   1. Le hero est en 3e personne (plus de « ma tournée ») et décrit la **vraie couverture** (Lorrain↔Vauclin côté Atlantique ; Schoelcher↔Rivière-Salée côté caraïbe via Lamentin) en invitant à appeler pour filtrer
