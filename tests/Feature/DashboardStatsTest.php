@@ -115,10 +115,13 @@ it('dashboard affiche Eau à surveiller = passages dont au moins une mesure hors
 });
 
 // ---------------------------------------------------------------------------
-// Test 4 — stat-card state='offline' applique la classe ambre OKLCH
+// Test 4 — "À synchroniser" est une carte actionnable (D-10)
+// Plan 11 (D-10) : la stat-card state="offline" (OKLCH ambre) est remplacée par
+// une carte actionnable liée aux passages pending. aSynchroniser est un placeholder
+// serveur = 0 (DashboardController:84) → état neutre, traitement ambre réservé au > 0.
 // ---------------------------------------------------------------------------
 
-it('stat-card state offline applique la classe ambre oklch', function () {
+it('la carte À synchroniser est actionnable et liée aux passages pending', function () {
     putenv('OPERATOR_EMAIL=admin@dloazurtest.local');
     putenv('OPERATOR_NAME=Pierre ADAM');
     putenv('OPERATOR_INITIAL_PASSWORD=secret');
@@ -129,8 +132,8 @@ it('stat-card state offline applique la classe ambre oklch', function () {
     $response = $this->actingAs($admin)->get('/admin');
 
     $response->assertStatus(200);
-    // La stat-card "À synchroniser" utilise state="offline" → classe OKLCH ambre
-    $response->assertSee('text-[oklch(0.5_0.11_72)]', false);
+    $response->assertSee('À synchroniser');
+    $response->assertSee(route('admin.passages.index', ['status' => 'pending']), false);
 });
 
 // ---------------------------------------------------------------------------

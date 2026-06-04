@@ -144,5 +144,5 @@ it('success state replaces the form on $sent=true', function () {
         ->set('message', 'Bonjour, je souhaite un diagnostic gratuit de ma piscine.')
         ->call('submit')
         ->assertSee('Message envoyé.')
-        ->assertSee('Pierre vous répondra rapidement.');
+        ->assertSee('Nous vous répondrons rapidement.');
 });

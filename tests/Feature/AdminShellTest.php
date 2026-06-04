@@ -38,9 +38,12 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
 
     $response->assertStatus(200);
     $response->assertSee('Bonjour Pierre,');
-    $response->assertSee("Ta semaine en un coup d'œil.", false);
-    $response->assertSee('Clients actifs');
-    $response->assertSee('Passages cette semaine');
+    // Plan 11 (D-10): dashboard restructuré en agenda-led — sous-titre + section "Aujourd'hui".
+    $response->assertSee('Voici ton agenda du jour.');
+    $response->assertSee("Aujourd'hui", false);
+    // Vanity counts rétrogradés en bandeau texte (minuscules).
+    $response->assertSee('clients actifs');
+    $response->assertSee('passages cette semaine');
     $response->assertSee('À synchroniser');
     // Plan 02-03: "Factures en attente" remplacé par "Eau à surveiller" (UI-SPEC §Dashboard admin Stat cards)
     $response->assertSee('Eau à surveiller');
