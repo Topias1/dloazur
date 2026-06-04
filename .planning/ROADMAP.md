@@ -252,10 +252,10 @@ Plans:
 **Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (diag-1, diag-2, diag-3 + §Décisions discuss)
 **UI hint**: yes
 
-**Plans:** 2 plans
+**Plans:** 1/2 plans executed
 
 Plans:
-- [ ] 10-01-PLAN.md — setMode() server-side (attribution created_via) + decouplage des tests vis-a-vis de l'ecran S0
+- [x] 10-01-PLAN.md — setMode() server-side (attribution created_via) + decouplage des tests vis-a-vis de l'ecran S0
 - [ ] 10-02-PLAN.md — refonte Blade : suppression S0, entree directe arbre symptome, chimie+carnet en actions secondaires sur le disclaimer
 
 ## Progress
