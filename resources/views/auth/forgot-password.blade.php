@@ -34,7 +34,8 @@
         </div>
     @endif
 
-    <form method="POST" action="{{ route('password.email') }}" class="space-y-4">
+    <form method="POST" action="{{ route('password.email') }}" class="space-y-4"
+        x-data="{ sending: false }" @submit="sending = true">
         @csrf
 
         <div>
@@ -53,7 +54,10 @@
         </div>
 
         <button type="submit"
-            class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors">
+            :disabled="sending"
+            :class="sending ? 'opacity-60 cursor-not-allowed' : ''"
+            class="w-full h-13 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors"
+            x-text="sending ? 'Envoi...' : 'Recevoir le lien de réinitialisation'">
             Recevoir le lien de réinitialisation
         </button>
 

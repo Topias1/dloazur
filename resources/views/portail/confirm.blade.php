@@ -35,13 +35,17 @@
             </p>
 
             {{-- Formulaire POST — le seul endroit où le token est consommé --}}
-            <form method="POST" action="{{ route('portail.magic-link.confirm') }}" class="mt-6">
+            <form method="POST" action="{{ route('portail.magic-link.confirm') }}" class="mt-6"
+                x-data="{ sending: false }" @submit="sending = true">
                 @csrf
                 <input type="hidden" name="ml" value="{{ $token }}">
 
                 <button
                     type="submit"
-                    class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold text-base hover:bg-azure-600 transition-colors"
+                    :disabled="sending"
+                    :class="sending ? 'opacity-60 cursor-not-allowed' : ''"
+                    class="w-full h-13 rounded-xl bg-azure-500 text-white font-bold text-base hover:bg-azure-600 transition-colors"
+                    x-text="sending ? 'Envoi...' : 'Confirmer ma connexion'"
                 >
                     Confirmer ma connexion
                 </button>

@@ -28,7 +28,8 @@
             </p>
 
             {{-- Formulaire --}}
-            <form method="POST" action="{{ route('portail.magic-link.send') }}" class="mt-6">
+            <form method="POST" action="{{ route('portail.magic-link.send') }}" class="mt-6"
+                x-data="{ sending: false }" @submit="sending = true">
                 @csrf
 
                 <label for="email" class="block text-sm font-medium text-ink-700 mb-1.5">
@@ -51,7 +52,10 @@
 
                 <button
                     type="submit"
-                    class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold text-base mt-4 hover:bg-azure-600 transition-colors"
+                    :disabled="sending"
+                    :class="sending ? 'opacity-60 cursor-not-allowed' : ''"
+                    class="w-full h-13 rounded-xl bg-azure-500 text-white font-bold text-base mt-4 hover:bg-azure-600 transition-colors"
+                    x-text="sending ? 'Envoi...' : 'Recevoir mon lien'"
                 >
                     Recevoir mon lien
                 </button>
@@ -88,7 +92,7 @@
                         @csrf
                         <button
                             type="submit"
-                            class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold hover:bg-azure-600 transition-colors"
+                            class="w-full h-12 rounded-xl bg-sand-50 text-azure-700 font-semibold ring-1 ring-azure-200 hover:bg-azure-50 transition-colors"
                         >
                             Démo Client
                         </button>
@@ -113,7 +117,7 @@
             <p class="text-sm text-ink-500">Pas d'email ? Contactez-nous sur WhatsApp</p>
             <a
                 href="https://wa.me/596696940054"
-                class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-[#25D366] text-white font-bold mt-3 shadow-sm hover:opacity-90 transition-opacity"
+                class="inline-flex items-center gap-2 h-11 px-5 rounded-xl bg-whatsapp text-white font-bold mt-3 shadow-sm hover:opacity-90 transition-opacity"
                 target="_blank"
                 rel="noopener"
             >

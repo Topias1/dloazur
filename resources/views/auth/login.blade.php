@@ -31,7 +31,8 @@
 
     {{-- ===== PRO PANE ===== --}}
     <div x-show="tab === 'pro'">
-        <form method="POST" action="{{ route('login') }}" class="space-y-4">
+        <form method="POST" action="{{ route('login') }}" class="space-y-4"
+            x-data="{ sending: false }" @submit="sending = true">
             @csrf
 
             <div>
@@ -88,13 +89,16 @@
 
             {{-- Submit --}}
             <button type="submit"
-                class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors">
+                :disabled="sending"
+                :class="sending ? 'opacity-60 cursor-not-allowed' : ''"
+                class="w-full h-13 rounded-xl bg-azure-500 text-white font-bold shadow-sm hover:bg-azure-600 transition-colors"
+                x-text="sending ? 'Connexion...' : 'Se connecter'">
                 Se connecter
             </button>
         </form>
     </div>
 
-    {{-- ===== CLIENT PANE (Phase 2 stub) ===== --}}
+    {{-- ===== CLIENT PANE ===== --}}
     <div x-show="tab === 'client'" x-cloak>
         <div class="space-y-4">
             <div>
@@ -102,21 +106,10 @@
                 <p class="text-ink-500 mt-1 text-sm">Pas de mot de passe : recevez un lien d'accès sécurisé par e-mail.</p>
             </div>
 
-            <div>
-                <label for="cli-email" class="block text-sm font-semibold text-ink-900 mb-1.5">Votre e-mail</label>
-                <input id="cli-email" type="email" autocomplete="email" disabled
-                    class="w-full h-12 px-4 rounded-xl bg-sand-100 ring-1 ring-sand-200 text-ink-400 placeholder:text-ink-400 outline-none cursor-not-allowed"
-                    placeholder="vous@exemple.com">
-            </div>
-
-            <button type="button" disabled aria-disabled="true"
-                class="w-full h-12 rounded-xl bg-azure-500/40 text-white font-bold cursor-not-allowed opacity-60">
-                Bientôt disponible
-            </button>
-
-            <p class="text-sm text-ink-500 text-center">
-                Disponible dès l'arrivée des fiches clients (bientôt).
-            </p>
+            <a href="{{ route('portail.magic-link.request') }}"
+                class="flex items-center justify-center w-full h-13 rounded-xl bg-azure-500 text-white font-bold text-base hover:bg-azure-600 transition-colors">
+                Accéder à mon espace
+            </a>
         </div>
     </div>
 
