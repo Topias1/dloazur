@@ -24,13 +24,14 @@
         </article>
 
         {{-- Supporting cards --}}
-        <article class="rounded-3xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300">
+        <a href="{{ route('services.depannage') }}" class="group rounded-3xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-azure-400">
             <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-azure-50 text-azure-600 mb-4">
                 <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4l-6 6a2 2 0 1 0 3 3l6-6a4 4 0 0 0 5.4-5.4l-2.6 2.6-2-2 2.6-2.6Z"/></svg>
             </span>
             <h3 class="font-display font-semibold text-xl text-ink-950">Dépannage rapide</h3>
             <p class="mt-2 leading-relaxed text-ink-700">Pompe, filtration, eau trouble ou verte : un diagnostic et une remise en route sans attendre.</p>
-        </article>
+            <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-azure-600 group-hover:gap-2.5 transition-all">En savoir plus <x-icon.arrow-right :size="15" /></span>
+        </a>
 
         <article class="rounded-3xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300">
             <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-lagon-500/12 text-lagon-600 mb-4">
