@@ -49,13 +49,34 @@ class PassageTimeline extends Component
             }
         }
 
+        // Eau saine gate (SC-7): all three measures must be in range.
+        // These are the canonical in-range booleans — the blade reuses them for
+        // per-tile verdicts and the badge; do NOT recompute them in the view.
+        $phOk  = $lastPassage && $lastPassage->ph_avant !== null
+            && (float) $lastPassage->ph_avant >= 7.0
+            && (float) $lastPassage->ph_avant <= 7.6;
+        $clOk  = $lastPassage && $lastPassage->chlore_libre !== null
+            && (float) $lastPassage->chlore_libre >= 1.0
+            && (float) $lastPassage->chlore_libre <= 3.0;
+        $tacOk = $lastPassage && $lastPassage->tac !== null
+            && (float) $lastPassage->tac >= 80
+            && (float) $lastPassage->tac <= 120;
+
+        // Operator initial for the "Mot du pisciniste" avatar.
+        // Derived from the operator name so the view never hardcodes a letter.
+        $operatorInitial = mb_strtoupper(mb_substr(config('app.operator_name', 'Pierre'), 0, 1));
+
         return view('livewire.portail.passage-timeline', [
-            'client'       => $client,
-            'piscine'      => $piscine,
-            'lastPassage'  => $lastPassage,
-            'passages'     => $passages,
-            'showSel'      => $showSel,
-            'heroPhotoUrl' => $heroPhotoUrl,
+            'client'          => $client,
+            'piscine'         => $piscine,
+            'lastPassage'     => $lastPassage,
+            'passages'        => $passages,
+            'showSel'         => $showSel,
+            'heroPhotoUrl'    => $heroPhotoUrl,
+            'phOk'            => $phOk,
+            'clOk'            => $clOk,
+            'tacOk'           => $tacOk,
+            'operatorInitial' => $operatorInitial,
         ]);
     }
 }
