@@ -199,7 +199,7 @@
                 <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 text-center hover:shadow-md hover:-translate-y-0.5 transition duration-300">
                     <span class="text-3xl block mb-3" aria-hidden="true">🤝</span>
                     <h3 class="font-display font-semibold text-lg text-ink-950 mb-2">Service client réactif &amp; amical</h3>
-                    <p class="text-ink-700 leading-relaxed text-sm">À l'écoute de vos besoins, joignable directement par WhatsApp, sans standard téléphonique ni rotation d'interlocuteurs.</p>
+                    <p class="text-ink-700 leading-relaxed text-sm">Joignable directement par WhatsApp, avec un compte-rendu après chaque intervention.</p>
                 </div>
                 <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 text-center hover:shadow-md hover:-translate-y-0.5 transition duration-300">
                     <span class="text-3xl block mb-3" aria-hidden="true">🎯</span>

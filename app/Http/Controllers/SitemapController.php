@@ -24,6 +24,7 @@ final class SitemapController extends Controller
             ->add(Url::create(route('services.entretien-recurrent'))->setPriority(0.8)->setLastModificationDate(now()))
             ->add(Url::create(route('services.analyse-eau'))->setPriority(0.8)->setLastModificationDate(now()))
             ->add(Url::create(route('services.spa'))->setPriority(0.8)->setLastModificationDate(now()))
+            ->add(Url::create(route('services.depannage'))->setPriority(0.8)->setLastModificationDate(now()))
             ->add(Url::create(route('zones.fort-de-france'))->setPriority(0.7)->setLastModificationDate(now()))
             ->add(Url::create(route('zones.le-lamentin'))->setPriority(0.7)->setLastModificationDate(now()))
             ->add(Url::create(route('zones.schoelcher'))->setPriority(0.7)->setLastModificationDate(now()))
