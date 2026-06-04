@@ -49,10 +49,6 @@
             const next = option.next;
             if (!next) return;
             this.history.push({ step: this.step, nodeId: this.nodeId, mode: this.mode });
-            if (this.step === 'mode') {
-                this.mode = option.value;
-                // Synchroniser le mode côté serveur (wire:model.live non utilisé volontairement)
-            }
             if (next.kind === 'result') {
                 this.resultId = next.id;
                 this.step = 'result';
@@ -265,7 +261,7 @@
                         <button
                             type="button"
                             data-mode-chemistry
-                            @click="$wire.call('setMode', 'chemistry'); advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
+                            @click="if (!$wire.disclaimerAccepted) { $wire.call('acceptDisclaimer'); $wire.disclaimerAccepted = true; } $wire.call('setMode', 'chemistry'); advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
                             class="text-sm text-ink-500 hover:text-ink-800 underline underline-offset-2 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500 rounded"
                         >
                             Vous avez vos mesures ? → Analyser mon eau
@@ -1074,7 +1070,7 @@
                 {{-- Geste explicite : envoyer à Pierre persiste le Diagnostic (keepDiagnostic),
                      puis ouvre WhatsApp avec le contexte riche déjà encodé côté serveur. --}}
                 <a
-                    href="https://wa.me/596696940054?text={{ urlencode($whatsappSummary) }}"
+                    href="https://wa.me/596696940054?text={{ rawurlencode($whatsappSummary) }}"
                     x-on:click.prevent="$wire.keepDiagnostic(); window.open('https://wa.me/596696940054?text=' + encodeURIComponent(@js($whatsappSummary)), '_blank', 'noopener,noreferrer')"
                     target="_blank"
                     rel="noopener noreferrer"
