@@ -12,9 +12,17 @@
             {{-- Average summary --}}
             <div class="flex items-baseline justify-center gap-3 mb-10">
                 <span class="text-4xl font-display font-bold text-ink-950">
-                    {{ number_format($avg, 1, ',', '\u{202F}') }}
+                    {{ number_format($avg, 1, ',', "\u{202F}") }}
                 </span>
-                <span class="text-yellow-400 text-2xl" aria-label="{{ $avg }} étoiles sur 5">★★★★★</span>
+                <span class="text-2xl" aria-label="{{ $avg }} étoiles sur 5">
+                    @for ($i = 1; $i <= 5; $i++)
+                        @if ($i <= round($avg))
+                            <span class="text-sun-500">★</span>
+                        @else
+                            <span class="text-sun-300">★</span>
+                        @endif
+                    @endfor
+                </span>
                 <span class="text-sm text-ink-500">({{ $total }} avis Google)</span>
             </div>
 
@@ -46,8 +54,14 @@
                     </div>
 
                     {{-- Star rating --}}
-                    <div class="text-yellow-400 text-sm" aria-label="{{ $review->rating }} étoiles sur 5">
-                        @for ($i = 0; $i < $review->rating; $i++)★@endfor
+                    <div class="text-sm" aria-label="{{ $review->rating }} étoiles sur 5">
+                        @for ($i = 1; $i <= 5; $i++)
+                            @if ($i <= $review->rating)
+                                <span class="text-sun-500">★</span>
+                            @else
+                                <span class="text-sun-300">★</span>
+                            @endif
+                        @endfor
                     </div>
 
                     {{-- Review text --}}

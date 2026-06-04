@@ -12,15 +12,9 @@
             </div>
             <p class="mt-3 text-ink-700">Ce que disent les propriétaires accompagnés par Dlo Azur</p>
         </div>
-        <div class="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
-            <blockquote class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-7">
-                <p class="text-lg leading-relaxed text-ink-900">« Pierre est ponctuel et sérieux. Notre piscine n'a jamais été aussi claire, et on reçoit les photos après chaque passage. »</p>
-                <footer class="mt-4 text-sm font-semibold text-ink-500">Sandrine M., Les Trois-Îlets</footer>
-            </blockquote>
-            <blockquote class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-7">
-                <p class="text-lg leading-relaxed text-ink-900">« On gère plusieurs villas en location. Avoir un seul pisciniste fiable, avec un suivi photo, ça nous change la vie. »</p>
-                <footer class="mt-4 text-sm font-semibold text-ink-500">Conciergerie du Sud, Sainte-Anne</footer>
-            </blockquote>
+        {{-- P0 fix: no fabricated attributed testimonials. Placeholder until Pierre supplies verified Google captures or real citations. --}}
+        <div class="max-w-4xl mx-auto rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-7 text-center text-ink-500 text-sm italic">
+            [Avis à fournir par Pierre — capture Google ou citation vérifiée]
         </div>
 
         {{-- D-28 amended: Plan 04 supplies the GoogleReviews Livewire component --}}
