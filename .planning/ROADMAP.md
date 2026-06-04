@@ -228,6 +228,8 @@ Plans:
 **Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (client-1..4 + §Décisions discuss)
 **UI hint**: yes
 
+**Note dépendance Phase 3 :** La section « Mes documents » (Contrat d'entretien + Factures) affiche un teaser « Bientôt » dans ce portail. Le branchement réel (récupération du contrat, téléchargement des factures PDF) sera implémenté en **Phase 3 : Facturation & Odoo** — le portail n'affiche pour l'instant qu'un placeholder intentionnel.
+
 Plans:
 - [ ] 09-01-PLAN.md — copy teaser « Mes documents », a11y accordéon + test de régression timeline, retrait lazy hero
 

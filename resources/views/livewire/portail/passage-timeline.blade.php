@@ -34,7 +34,6 @@
                     <img
                         src="{{ $heroPhotoUrl ?? asset('assets/brand/photos/piscine-propre.jpg') }}"
                         alt="Votre piscine"
-                        loading="lazy"
                         class="absolute inset-0 h-full w-full object-cover photo-grade">
                     <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/45 to-navy-900/10"></div>
                 </div>
@@ -216,6 +215,7 @@
                                     type="button"
                                     @click="open = !open"
                                     :aria-expanded="open.toString()"
+                                    aria-controls="passage-panel-{{ $p->id }}"
                                     class="w-full p-4 flex items-center justify-between gap-3 text-left hover:bg-sand-50/70 transition-colors">
                                     <div>
                                         <p class="font-display font-semibold text-ink-900">
@@ -251,6 +251,7 @@
 
                                 {{-- Détail déplié --}}
                                 <div x-show="open" x-cloak
+                                     id="passage-panel-{{ $p->id }}"
                                      x-transition:enter="transition ease-out duration-200"
                                      x-transition:enter-start="opacity-0 -translate-y-1"
                                      x-transition:enter-end="opacity-100 translate-y-0"
@@ -320,7 +321,7 @@
                     </span>
                     <div class="flex-1 min-w-0">
                         <p class="font-display font-semibold text-ink-900">Contrat d'entretien</p>
-                        <p class="text-sm text-ink-500">Votre contrat et ses conditions.</p>
+                        <p class="text-sm text-ink-500">Disponible avec la mise en place de la facturation.</p>
                     </div>
                     <span class="text-xs font-semibold text-ink-400 bg-sand-100 rounded-full px-2.5 py-1 shrink-0">Bientôt</span>
                 </div>
@@ -332,7 +333,7 @@
                     </span>
                     <div class="flex-1 min-w-0">
                         <p class="font-display font-semibold text-ink-900">Factures</p>
-                        <p class="text-sm text-ink-500">Vos factures, à télécharger en PDF.</p>
+                        <p class="text-sm text-ink-500">Disponible avec la mise en place de la facturation.</p>
                     </div>
                     <span class="text-xs font-semibold text-ink-400 bg-sand-100 rounded-full px-2.5 py-1 shrink-0">Bientôt</span>
                 </div>
