@@ -145,6 +145,21 @@ final class VitrineController extends Controller
         ]);
     }
 
+    public function depannage(BreadcrumbSchema $breadcrumb): View
+    {
+        return view('vitrine.services.depannage', [
+            'title'            => 'Dépannage piscine en Martinique · Dlo Azur Piscines',
+            'description'      => 'Panne de pompe, filtration HS, eau trouble : dépannage rapide en Martinique. Contactez Dlo Azur sur WhatsApp pour une intervention le jour même.',
+            'canonical'        => url('/services/depannage'),
+            'ogImage'          => asset('assets/brand/og-default.jpg'),
+            'breadcrumbJsonLd' => $breadcrumb->toScript([
+                ['name' => 'Accueil',    'url' => url('/')],
+                ['name' => 'Services',   'url' => url('/services')],
+                ['name' => 'Dépannage',  'url' => url('/services/depannage')],
+            ]),
+        ]);
+    }
+
     // ───────────────────────────────────────────────────────────
     // City hub pages — Plan 999.1-04 (D-12)
     // 2-level breadcrumb: Accueil › [Commune]

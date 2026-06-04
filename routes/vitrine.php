@@ -27,6 +27,7 @@ Route::middleware('cache.headers:vitrine')->group(function () {
     Route::get('/services/entretien-recurrent', [VitrineController::class, 'entretienRecurrent'])->name('services.entretien-recurrent');
     Route::get('/services/analyse-eau',         [VitrineController::class, 'analyseEau'])->name('services.analyse-eau');
     Route::get('/services/spa',                 [VitrineController::class, 'spa'])->name('services.spa');
+    Route::get('/services/depannage',            [VitrineController::class, 'depannage'])->name('services.depannage');
     Route::get('/realisations', [VitrineController::class, 'realisations'])->name('realisations');
 
     // City hub pages — Plan 999.1-04 (D-12)
