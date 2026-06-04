@@ -5,7 +5,7 @@
         <div>
             <span class="inline-flex items-center gap-2 rounded-full bg-white/10 ring-1 ring-white/15 px-3 py-1 text-sm font-semibold text-lagon-300">Pour les professionnels</span>
             <h2 class="mt-5 font-display font-bold text-3xl sm:text-4xl text-white">Agences, conciergeries &amp; locations saisonnières.</h2>
-            <p class="mt-4 text-lg leading-relaxed text-navy-100 max-w-xl">Une piscine impeccable fait partie de l'expérience de vos voyageurs. Dlo Azur prend en charge le suivi de vos villas, avec un compte-rendu photo après chaque passage, pour que vous gardiez l'esprit tranquille.</p>
+            <p class="mt-4 text-lg leading-relaxed text-navy-100 max-w-xl">Une piscine impeccable fait partie de l'expérience de vos voyageurs. Dlo Azur prend en charge le suivi de vos villas et vous envoie un compte-rendu après chaque intervention, pour que vous gardiez l'esprit tranquille.</p>
             <ul class="mt-7 space-y-3.5">
                 <li class="flex gap-3">
                     <span class="text-lagon-400 mt-0.5 shrink-0"><x-icon.check :size="20" /></span>

@@ -7,7 +7,7 @@
         <div class="max-w-2xl mb-16">
             <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink-950">Nos prestations en détail</h2>
             <p class="mt-4 text-lg leading-relaxed text-ink-700">
-                Expertise locale adaptée au climat antillais : humidité, brume de sable, ensoleillement toute l'année. Solutions sur mesure pour chaque besoin, ponctuel ou régulier.
+                Entretien régulier, dépannage ou remise en état : chaque intervention est adaptée à votre bassin, votre matériel et vos habitudes. Ponctuel ou récurrent, selon votre besoin.
             </p>
         </div>
 

@@ -101,12 +101,9 @@ it('cgv page contains real legal sections with Pierre ADAM identity (content rec
     $response->assertSee('contact@dloazurpiscines.com', false);
 });
 
-it('home page contains Zyro SEO paragraphs "Pourquoi choisir" and "eau parfaite" (content recovery 01-06)', function () {
+it('home page contains Notre approche section (Phase 8 — replaced Pourquoi choisir, V12/V14)', function () {
     $response = $this->get('/');
     $response->assertOk();
-    $response->assertSeeText('Pourquoi choisir Dlo Azur Piscines');
-    $response->assertSeeText('partenaire de confiance en Martinique');
-    $response->assertSeeText('Votre piscine mérite une eau parfaite');
-    $response->assertSeeText('températures élevées');
-    $response->assertSeeText('algues et des bactéries');
+    $response->assertSeeText('Notre approche');
+    $response->assertSeeText('Même prestataire à chaque visite');
 });
