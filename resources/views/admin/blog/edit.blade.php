@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title'){{ $post->title }} — Modifier · Dlo Azur@endsection
+@section('title'){{ $post->title }} · Modifier · Dlo Azur@endsection
 
 @section('sidebar')
     <x-admin.sidebar :user="auth()->user()" />

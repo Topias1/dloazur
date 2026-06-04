@@ -7,9 +7,11 @@
     @if ($sent)
         {{-- Success state (UI-SPEC §Copywriting Contract) --}}
         <div class="bg-sand-50 rounded-2xl ring-1 ring-sand-200 p-8 text-center">
-            <div class="text-3xl mb-3">✓</div>
+            <span class="inline-flex items-center justify-center rounded-full bg-success/10 p-1 mb-3">
+                <x-icon.check class="w-5 h-5 text-success" />
+            </span>
             <h3 class="font-display font-semibold text-xl text-ink-950 mb-2">Message envoyé.</h3>
-            <p class="text-ink-600 mb-4">Pierre vous répondra rapidement. En attendant, écrivez-lui directement sur WhatsApp.</p>
+            <p class="text-ink-600 mb-4">Nous vous répondrons rapidement. En attendant, écrivez-nous directement sur WhatsApp.</p>
             <a
                 href="https://wa.me/596696940054"
                 rel="noopener noreferrer"
