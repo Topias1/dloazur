@@ -479,16 +479,17 @@ final class DiagnosticWizard extends Component
      */
     public function mesures(): array
     {
-        return array_filter([
+        $base = array_filter([
             'ph'          => $this->ph !== '' ? $this->ph : null,
             'chlore'      => $this->chlore !== '' ? $this->chlore : null,
             'chlore_total' => $this->chloreTotal !== '' ? $this->chloreTotal : null,
             'alcalinite'  => $this->alcalinite !== '' ? $this->alcalinite : null,
             'stabilisant' => $this->stabilisant !== '' ? $this->stabilisant : null,
-            'sel'         => $this->sel,
             'selPpm'      => $this->selPpm !== '' ? $this->selPpm : null,
             'th'          => $this->th !== '' ? $this->th : null,
         ], fn ($v) => $v !== null);
+        $base['sel'] = $this->sel; // always present and explicit (IN-01)
+        return $base;
     }
 
     // ── Actions serveur ───────────────────────────────────────────────────────
@@ -518,12 +519,23 @@ final class DiagnosticWizard extends Component
         }
     }
 
+    private const ALLOWED_TRIED_ACTIONS = [
+        'Chlore choc', 'Brossage des parois', 'Anti-algues',
+        'Ajusté le pH', 'Backwash filtre', 'Rien encore',
+    ];
+
     /**
      * Synchronise les actions déjà tentées depuis la sélection multiselect Alpine.
+     * Allowlist + cap pour empêcher l'injection de valeurs arbitraires (CR-02).
      */
     public function updateTriedActions(array $tried): void
     {
-        $this->triedActions = $tried;
+        $this->triedActions = array_values(
+            array_filter(
+                array_slice($tried, 0, 10),
+                fn ($v) => is_string($v) && in_array($v, self::ALLOWED_TRIED_ACTIONS, true)
+            )
+        );
     }
 
     /**
@@ -588,9 +600,13 @@ final class DiagnosticWizard extends Component
             $this->computeConfidence();
             $this->computeEscalade();
 
+            // Un re-calcul invalide une éventuelle persistance précédente (WR-03).
+            // On ne reset savedDiagnosticId que si un calcul existait déjà —
+            // évite d'invalider keepDiagnostic() qui peut appeler computeDoses() en interne.
+            if ($this->hasComputed) {
+                $this->savedDiagnosticId = null;
+            }
             $this->hasComputed = true;
-            // Un nouveau calcul invalide une éventuelle persistance précédente
-            $this->savedDiagnosticId = null;
         } catch (\Throwable $e) {
             Log::error('DiagnosticWizard computeDoses failed', [
                 'exception' => $e->getMessage(),
