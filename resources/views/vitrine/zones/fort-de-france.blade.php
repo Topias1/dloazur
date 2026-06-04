@@ -20,7 +20,7 @@
                 </a>
                 <a href="tel:+596696940054"
                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-navy-900 ring-1 ring-sand-50/20 text-white font-bold shadow-md hover:bg-navy-800 transition">
-                    Appeler Pierre
+                    Nous appeler
                 </a>
             </div>
             <nav aria-label="Fil d'Ariane" class="mt-6 flex items-center flex-wrap min-h-[44px] gap-2 text-sm text-sand-100/60">
@@ -105,7 +105,7 @@
                 Une piscine impeccable à Fort-de-France, c'est possible.
             </h2>
             <p class="mt-4 text-lg text-azure-50 max-w-xl mx-auto">
-                Appelez Pierre ou demandez un devis gratuit : réponse rapide, intervention sur mesure.
+                Appelez-nous ou demandez un devis gratuit : réponse rapide, intervention sur mesure.
             </p>
             <div class="mt-8 flex flex-wrap items-center justify-center gap-3">
                 <a href="tel:+596696940054"

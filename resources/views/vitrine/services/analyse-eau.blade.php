@@ -76,10 +76,10 @@
             Analyse professionnelle et ajustement sur mesure
         </h2>
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            Lors de chaque passage, Pierre mesure tous les paramètres avec des kits d'analyse professionnels. Il ajuste les doses de correcteurs (pH+, pH–, anti-algues, floculant) et adapte son intervention aux conditions météo récentes.
+            Lors de chaque passage, nous mesurons tous les paramètres avec des kits d'analyse professionnels. Nous ajustons les doses de correcteurs (pH+, pH–, anti-algues, floculant) et adaptons l'intervention aux conditions météo récentes.
         </p>
         <p class="text-ink-700 leading-relaxed max-w-[65ch] mb-4">
-            Si votre piscine est équipée d'un électrolyseur au sel, Pierre vérifie également le taux de sel, le taux de production et l'entretien des cellules.
+            Si votre piscine est équipée d'un électrolyseur au sel, nous vérifions également le taux de sel, le taux de production et l'entretien des cellules.
         </p>
         <!-- [À compléter — Pierre ADAM] : kits d'analyse utilisés, marques produits chimiques recommandées -->
 

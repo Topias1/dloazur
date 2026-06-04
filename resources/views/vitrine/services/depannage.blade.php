@@ -11,13 +11,13 @@
                 Dépannage piscine<br class="hidden sm:block"> en Martinique
             </h1>
             <p class="mt-5 text-lg text-sand-100/80 leading-relaxed max-w-2xl">
-                Panne de pompe, filtration hors service, eau trouble incontrôlable : Pierre intervient rapidement dans notre zone d'intervention. Un appel et il évalue la situation avec vous.
+                Panne de pompe, filtration hors service, eau trouble incontrôlable : nous intervenons rapidement dans notre zone d'intervention. Un appel et nous évaluons la situation avec vous.
             </p>
             <div class="mt-8 flex flex-wrap gap-3">
                 <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"
                    class="inline-flex items-center gap-2 min-h-[44px] h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold shadow-md hover:brightness-95 transition">
                     <x-icon.whatsapp :size="20" />
-                    Appeler Pierre sur WhatsApp
+                    Nous appeler sur WhatsApp
                 </a>
             </div>
             <nav aria-label="Fil d'Ariane" class="mt-6 flex items-center flex-wrap min-h-[44px] gap-2 text-sm text-sand-100/60">
@@ -50,7 +50,7 @@
     <section class="relative bg-navy-800 text-white overflow-hidden">
         <div class="relative mx-auto max-w-content px-5 sm:px-8 py-16 sm:py-20 text-center">
             <h2 class="font-display font-bold text-3xl sm:text-4xl text-white max-w-2xl mx-auto">
-                Une panne&nbsp;? Pierre est joignable directement.
+                Une panne&nbsp;? Dlo Azur est joignable directement.
             </h2>
             <p class="mt-4 text-lg text-navy-200 max-w-xl mx-auto">
                 Pas d'intermédiaire, pas de ticket — un appel ou un message WhatsApp suffit.

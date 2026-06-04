@@ -29,7 +29,7 @@
                 </span>
                 <div>
                     <h3 class="font-display font-semibold text-xl text-ink-950">Joignable sur WhatsApp</h3>
-                    <p class="mt-2 text-ink-700 leading-relaxed">Vous parlez directement à Pierre — un message suffit. Réponse rapide, sans intermédiaire.</p>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Vous nous contactez directement — un message suffit. Réponse rapide, sans intermédiaire.</p>
                 </div>
             </div>
 
@@ -51,7 +51,7 @@
                 </span>
                 <div>
                     <h3 class="font-display font-semibold text-xl text-ink-950">Même prestataire à chaque visite</h3>
-                    <p class="mt-2 text-ink-700 leading-relaxed">Pierre connaît votre bassin, vos équipements, et les ajustements déjà faits. Pas besoin de réexpliquer à chaque fois.</p>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Nous connaissons votre bassin, vos équipements, et les ajustements déjà faits. Pas besoin de réexpliquer à chaque fois.</p>
                 </div>
             </div>
 
