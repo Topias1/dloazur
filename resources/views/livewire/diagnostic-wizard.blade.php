@@ -21,7 +21,7 @@
 <div
     id="diagnostic-wizard-component"
     x-data="{
-        step: 'mode',
+        step: 'tree',
         mode: null,
         nodeId: 'start',
         history: [],
@@ -175,7 +175,7 @@
             // On retourne au mode de sélection avec l'entrée visible
             // (la re-saisie d'un nouveau diagnostic est en ligne — DIAG-02)
             this.showCarnet = false;
-            this.step = 'mode';
+            this.step = 'tree';
             this.nodeId = 'start';
             this.history = [];
             this.resultId = null;
@@ -213,76 +213,6 @@
     x-cloak
     class="w-full"
 >
-
-    {{-- ═══════════════════════════════════════════════════════════
-         S0 — Choix du mode (Symptôme / Chimie)
-         Affiché si step === 'mode'
-    ═══════════════════════════════════════════════════════════ --}}
-    <div x-show="step === 'mode' && !showCarnet" x-transition.opacity.duration.200ms>
-        <div class="py-8">
-            <p class="text-xs font-bold uppercase tracking-[0.18em] text-lagon-600 mb-3">DIAGNOSTIC PISCINE</p>
-            <h2 class="font-display font-bold text-ink-950" style="font-size: clamp(1.875rem, 3vw, 2.5rem); line-height: 1.1;">
-                Par où voulez-vous commencer ?
-            </h2>
-            <p class="mt-3 text-ink-600 leading-relaxed max-w-[55ch]">
-                Choisissez le parcours adapté à votre situation.
-            </p>
-
-            <div class="mt-8 flex flex-col gap-4">
-                <button
-                    type="button"
-                    data-mode-symptom
-                    @click="advance({ value: 'symptom', next: { kind: 'question', id: 'start' } })"
-                    class="group flex items-center gap-4 min-h-[60px] h-15 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-azure-500 hover:bg-azure-50 active:bg-azure-100 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
-                >
-                    <span class="shrink-0 h-10 w-10 rounded-xl bg-azure-50 ring-1 ring-azure-200 grid place-items-center text-azure-600">
-                        <x-icon.sparkle :size="20" />
-                    </span>
-                    <span>
-                        <span class="block font-display font-semibold text-ink-950 text-base">Trouver mon problème</span>
-                        <span class="block text-sm text-ink-500">Eau verte, trouble, électrolyseur... questions par symptôme</span>
-                    </span>
-                    <x-icon.arrow-right :size="16" class="ml-auto text-ink-400 group-hover:text-azure-600 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </button>
-
-                <button
-                    type="button"
-                    data-mode-chemistry
-                    @click="advance({ value: 'chemistry', next: { kind: 'wizard', id: 'chemistry' } })"
-                    class="group flex items-center gap-4 min-h-[60px] h-15 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-azure-500 hover:bg-azure-50 active:bg-azure-100 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
-                >
-                    <span class="shrink-0 h-10 w-10 rounded-xl bg-sand-100 ring-1 ring-sand-200 grid place-items-center text-ink-600">
-                        <x-icon.sun :size="20" />
-                    </span>
-                    <span>
-                        <span class="block font-display font-semibold text-ink-950 text-base">Analyser mon eau</span>
-                        <span class="block text-sm text-ink-500">pH, chlore, TAC, sel... calcul de doses côté serveur</span>
-                    </span>
-                    <x-icon.arrow-right :size="16" class="ml-auto text-ink-400 group-hover:text-azure-600 group-hover:translate-x-0.5 transition-all shrink-0" />
-                </button>
-
-                {{-- S9 — Carnet local : accès depuis la sélection mode --}}
-                <button
-                    type="button"
-                    data-mode-carnet
-                    x-init="loadCarnetEntries()"
-                    x-show="carnetEntries.length > 0"
-                    @click="loadCarnetEntries(); showCarnet = true;"
-                    class="group flex items-center gap-4 min-h-[52px] h-13 px-5 rounded-2xl bg-white ring-1 ring-sand-200 hover:ring-lagon-500 hover:bg-lagon-50/30 active:bg-lagon-100/20 transition-colors text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-lagon-500"
-                    aria-label="Mes diagnostics passés, carnet local"
-                >
-                    <span class="shrink-0 h-10 w-10 rounded-xl grid place-items-center" style="background: oklch(0.720 0.113 207 / 0.12); color: oklch(0.620 0.100 209);">
-                        <x-icon.calendar :size="20" />
-                    </span>
-                    <span>
-                        <span class="block font-display font-semibold text-ink-950 text-base">Mes diagnostics passés</span>
-                        <span class="block text-sm" style="color: oklch(0.500 0.060 209);" x-text="carnetEntries.length + ' diagnostic' + (carnetEntries.length > 1 ? 's' : '') + ' enregistré' + (carnetEntries.length > 1 ? 's' : '') + ' sur cet appareil'"></span>
-                    </span>
-                    <x-icon.arrow-right :size="16" class="ml-auto text-ink-400 group-hover:translate-x-0.5 transition-all shrink-0" style="color: oklch(0.620 0.100 209);" />
-                </button>
-            </div>
-        </div>
-    </div>
 
     {{-- ═══════════════════════════════════════════════════════════
          S4 — Disclaimer gate (register: product)
@@ -1289,7 +1219,7 @@
             <div class="mt-6 text-center">
                 <button
                     type="button"
-                    @click="step = 'mode'; wizardStep = 1; history = []; nodeId = 'start'; resultId = null; triedActions = [];"
+                    @click="step = 'tree'; wizardStep = 1; history = []; nodeId = 'start'; resultId = null; triedActions = [];"
                     class="text-sm text-ink-400 hover:text-ink-700 transition-colors"
                 >
                     Recommencer le diagnostic
@@ -1465,7 +1395,7 @@
                 <div class="mt-6 text-center">
                     <button
                         type="button"
-                        @click="step = 'mode'; nodeId = 'start'; history = []; resultId = null; triedActions = [];"
+                        @click="step = 'tree'; nodeId = 'start'; history = []; resultId = null; triedActions = [];"
                         class="text-sm text-ink-400 hover:text-ink-700 transition-colors"
                     >
                         Recommencer le diagnostic
@@ -1493,7 +1423,7 @@
             <div class="flex items-center gap-3 mb-6">
                 <button
                     type="button"
-                    @click="showCarnet = false; step = 'mode';"
+                    @click="showCarnet = false; step = 'tree'; nodeId = 'start';"
                     class="inline-flex items-center gap-1.5 h-9 px-3 -ml-1 rounded-xl text-sm text-ink-500 hover:text-ink-900 hover:bg-sand-100 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-500"
                     aria-label="Retour"
                 >
@@ -1523,7 +1453,7 @@
                     </p>
                     <button
                         type="button"
-                        @click="showCarnet = false; step = 'mode';"
+                        @click="showCarnet = false; step = 'tree'; nodeId = 'start';"
                         class="inline-flex items-center gap-2 h-11 px-6 rounded-xl bg-azure-500 text-white font-bold text-sm hover:bg-azure-600 active:bg-azure-700 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-azure-400"
                     >
                         Lancer un diagnostic
