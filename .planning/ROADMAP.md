@@ -206,8 +206,13 @@ Plans:
 **Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (V1, V5, V7, V12, V14, V6 + §Décisions discuss)
 **UI hint**: yes
 
+**Plans:** 4 plans
+
 Plans:
-- [ ] TBD (run /gsd-plan-phase 8 to break down)
+- [ ] 08-01-PLAN.md — Wave 0 test stubs (HeroV1, DepannageRoute, CallCenterVoix) + V1 hero 3e personne + purge toute la Martinique [wave 1]
+- [ ] 08-02-PLAN.md — V5 page /services/depannage (route + contrôleur + vue + sitemap + services-grid link) [wave 2]
+- [ ] 08-03-PLAN.md — V12/V14 fusion philosophie+engagements → Notre approche + purge call-center ≤2 occurrences [wave 2]
+- [ ] 08-04-PLAN.md — V6 suppression partial urgence-eau-verte (retrait @include + rm fichier) [wave 2]
 
 ### Phase 9: Espace client — finitions retours Pierre
 
