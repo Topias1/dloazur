@@ -19,7 +19,7 @@
             </h1>
 
             <p class="mt-5 text-lg sm:text-xl text-navy-100 max-w-xl leading-relaxed">
-                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine, du nord-atlantique au centre de la Martinique. Un appel suffit pour voir si votre piscine entre dans ma tournée.
+                Entretien régulier, dépannage et analyse de l'eau. Un service à taille humaine dans notre zone d'intervention. Un appel suffit pour voir si votre piscine entre dans notre zone.
             </p>
 
             {{-- CTA unique : devis (le canal WhatsApp reste en bas de page + nav) --}}

@@ -102,7 +102,7 @@
             Pierre ADAM, fondateur de Dlo Azur Piscines, a passé plusieurs années en tant que directeur adjoint d'un magasin spécialisé piscines. Il connaît les spécificités du climat tropical, les défis de l'eau chaude, de la brume de sable et des pluies soudaines qui déséquilibrent la chimie du bassin.
         </p>
         <p class="text-ink-700 leading-relaxed max-w-[65ch]">
-            Un service client réactif, professionnel et personnalisé. Interventions sur toute la Martinique : Fort-de-France, Le Lamentin, Schoelcher, Les Trois-Îlets et communes alentour.
+            Un service client réactif, professionnel et personnalisé. Interventions dans notre zone d'intervention — du corridor atlantique au corridor caraïbe.
         </p>
 
         <div class="mt-10 flex flex-wrap gap-3">
