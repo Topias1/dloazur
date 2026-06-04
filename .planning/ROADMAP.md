@@ -229,7 +229,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 9 to break down)
+- [ ] 09-01-PLAN.md — copy teaser « Mes documents », a11y accordéon + test de régression timeline, retrait lazy hero
 
 ### Phase 10: Diagnostic — fidélité au proto
 
