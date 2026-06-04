@@ -52,19 +52,23 @@
         <span
             x-show="$store.offlineQueue.pendingCount > 0"
             x-cloak
-            class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-warn text-white text-[10px] font-bold grid place-items-center"
+            class="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-warn text-[10px] font-bold grid place-items-center"
+            style="color: oklch(0.32 0.09 70);"
             x-text="$store.offlineQueue.pendingCount"
-            aria-hidden="true"></span>
+            aria-live="polite"
+            aria-label="passages en attente de synchronisation"></span>
     </a>
 
-    {{-- Greyed: Factures --}}
-    <span aria-disabled="true"
-        class="flex flex-col items-center justify-center gap-1 text-ink-400 opacity-60 cursor-default">
+    {{-- Active: Blog --}}
+    <a href="{{ route('admin.blog.index') }}"
+        class="flex flex-col items-center justify-center gap-1 {{ request()->routeIs('admin.blog.*') ? 'text-azure-600' : 'text-ink-400' }}"
+        @if(request()->routeIs('admin.blog.*')) aria-current="page" @endif>
         <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
             <path d="M14 2v6h6"/>
+            <path d="M16 13H8M16 17H8M10 9H8"/>
         </svg>
-        <span class="text-[11px] font-medium">Factures</span>
-    </span>
+        <span class="text-[11px] font-semibold">Blog</span>
+    </a>
 
 </nav>
