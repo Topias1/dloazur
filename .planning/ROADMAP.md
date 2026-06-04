@@ -22,7 +22,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 
 - [x] **Phase 7: Espace admin — agenda, récap chimie & fix notes internes** - FIX bug `notes_privees` perdu à la synchro (Task 1) + agenda du jour + pivot `passage_produit` + récap mensuel par client *(priorisée : contient le bug de perte de donnée)* (completed 2026-06-03)
 - [x] **Phase 8: Vitrine — corrections retours Pierre** - Géo honnête + voix marque 3e personne + dé-duplication ; avant/après & page Dépannage (décisions Antoine) (completed 2026-06-04)
-- [ ] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf
+- [x] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf (completed 2026-06-04)
 - [ ] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests)
 
 ## Phase Details
@@ -231,7 +231,7 @@ Plans:
 **Note dépendance Phase 3 :** La section « Mes documents » (Contrat d'entretien + Factures) affiche un teaser « Bientôt » dans ce portail. Le branchement réel (récupération du contrat, téléchargement des factures PDF) sera implémenté en **Phase 3 : Facturation & Odoo** — le portail n'affiche pour l'instant qu'un placeholder intentionnel.
 
 Plans:
-- [ ] 09-01-PLAN.md — copy teaser « Mes documents », a11y accordéon + test de régression timeline, retrait lazy hero
+- [x] 09-01-PLAN.md — copy teaser « Mes documents », a11y accordéon + test de régression timeline, retrait lazy hero
 
 ### Phase 10: Diagnostic — fidélité au proto
 
