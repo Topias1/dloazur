@@ -167,6 +167,7 @@ Plans:
 **Plans:** 4/4 plans complete
 
 Plans:
+
 - [x] 06-01-PLAN.md — Foundation: Post model + posts migration + scopePublished + slug auto-gen + idempotent PostMigrationSeeder + public parse() + phpunit BLOG_SOURCE lock [wave 1]
 - [x] 06-02-PLAN.md — Public cutover: config/blog.php source flag + BlogRepository DB read path (cache-safe) + 410-vs-404 in BlogController + sitemap published-only; SEO 999.1 preserved [wave 2]
 - [x] 06-03-PLAN.md — Admin shell: /admin/blog routes + PostController + PostIndex list (all statuses) + status-badge component + active sidebar nav + thin views [wave 2]
@@ -189,6 +190,7 @@ Plans:
 **UI hint**: yes
 
 Plans:
+
 - [x] 07-01-PLAN.md — [admin-2] FIX bug notes_privees perdu à la synchro (migration + $fillable + upsert) + test invariant vie privée [wave 1]
 - [x] 07-02-PLAN.md — [admin-1] Agenda du jour dérivé de frequence_jour + flags « à revoir » → liens saisie pré-remplie [wave 2]
 - [x] 07-03-PLAN.md — [admin-5] Pivot passage_produit + sélecteur produits offline (Alpine/IndexedDB) + sync chimie [wave 2]
@@ -213,6 +215,7 @@ Plans:
 **Plans:** 4/4 plans complete
 
 Plans:
+
 - [x] 08-01-PLAN.md — Wave 0 test stubs (HeroV1, DepannageRoute, CallCenterVoix) + V1 hero 3e personne + purge toute la Martinique [wave 1]
 - [x] 08-02-PLAN.md — V5 page /services/depannage (route + contrôleur + vue + sitemap + services-grid link) [wave 2]
 - [x] 08-03-PLAN.md — V12/V14 fusion philosophie+engagements → Notre approche + purge call-center ≤2 occurrences [wave 2]
@@ -235,6 +238,7 @@ Plans:
 **Note dépendance Phase 3 :** La section « Mes documents » (Contrat d'entretien + Factures) affiche un teaser « Bientôt » dans ce portail. Le branchement réel (récupération du contrat, téléchargement des factures PDF) sera implémenté en **Phase 3 : Facturation & Odoo** — le portail n'affiche pour l'instant qu'un placeholder intentionnel.
 
 Plans:
+
 - [x] 09-01-PLAN.md — copy teaser « Mes documents », a11y accordéon + test de régression timeline, retrait lazy hero
 
 ### Phase 10: Diagnostic — fidélité au proto
@@ -255,6 +259,7 @@ Plans:
 **Plans:** 2/2 plans complete
 
 Plans:
+
 - [x] 10-01-PLAN.md — setMode() server-side (attribution created_via) + decouplage des tests vis-a-vis de l'ecran S0
 - [x] 10-02-PLAN.md — refonte Blade : suppression S0, entree directe arbre symptome, chimie+carnet en actions secondaires sur le disclaimer
 
@@ -282,6 +287,7 @@ Les phases s'exécutent dans l'ordre numérique : 1 → 2 → 3 → 4 → 5 (Pha
 **Plans:** 6/6 plans complete
 
 Plans:
+
 - [x] 999.1-01-PLAN.md — Schema: rewrite LocalBusinessSchema to MultiTypedEntity (LocalBusiness+HomeAndConstructionBusiness) + founder + email; no rating/street (D-01..D-05) [wave 1]
 - [x] 999.1-02-PLAN.md — Zyro content harvest: read-only crawl for body copy, services (incl. spa), testimonials, NAP, URL inventory + Pierre-fact gap list (D-08, D-09) [wave 1]
 - [x] 999.1-05-PLAN.md — Image optimization: images:optimize Artisan command (spatie/image) + <x-picture> source-set component + generated .webp/.avif siblings [wave 1]
@@ -292,6 +298,7 @@ Plans:
 **Findings (by severity):**
 
 CRITICAL — cutover blockers (overlap with Phase 1 cutover carry-overs):
+
 - [ ] Production env must emit NO `x-robots-tag: noindex` (staging noindex is env-driven; if prod inherits it the live site is invisible). Verify `curl -I https://dloazurpiscines.com`.
 - [ ] `public/robots.txt` has literal `Sitemap: ${APP_URL}/sitemap.xml` (uninterpolated) — fix via route/`url()` or hardcode.
 - [ ] `/mentions-legales` SIRET/RCS show `[À compléter par Pierre ADAM avant lancement]` — Pierre supplies 14-digit SIRET.
@@ -299,6 +306,7 @@ CRITICAL — cutover blockers (overlap with Phase 1 cutover carry-overs):
 - [ ] No Google Business Profile (`sameAs: []`) — create GBP (SAB/service-area, hide address, categories Pool cleaning service + Swimming pool contractor), link in `sameAs`, seed 5 reviews. Highest local ROI, zero-dev.
 
 HIGH:
+
 - [ ] Schema `@type: Plumber` wrong → `["LocalBusiness","HomeAndConstructionBusiness"]`; add email, streetAddress, postalCode, founder (Pierre), hasOfferCatalog, AggregateRating.
 - [ ] No customer reviews anywhere — solicit 5–10 Google reviews, display with rating schema.
 - [ ] `/realisations` thin (~108–145 words) — add 2–3 written case studies (commune, problem, protocol, before/after params).
@@ -307,6 +315,7 @@ HIGH:
 - [ ] Missing security headers (HSTS, X-Content-Type-Options, X-Frame-Options/CSP frame-ancestors, Permissions-Policy).
 
 MEDIUM:
+
 - [ ] Add FAQ content to Services + eau-verte (PAA questions) — copy value over rich-result value (commercial site, post-Aug-2023).
 - [ ] Add 3–4 city-slug pages (Fort-de-France, Le Lamentin, Schoelcher, Les Trois-Îlets), 400+ unique words each. Quality gate: keep to a handful, no thin doorway pages.
 - [ ] Serve images as WebP/AVIF (14/15 are .jpg; hero is also og:image).
@@ -316,6 +325,7 @@ MEDIUM:
 - [ ] "Espace client" in primary nav reads as member-gate to first-timers — demote; promote "Demander un devis" CTA.
 
 LOW:
+
 - [ ] Add `llms.txt` (currently 404; AI crawlers are allowed).
 - [ ] Add `twitter:card`, `og:image:width/height` (WhatsApp share previews = conversion channel).
 - [ ] Replace generic AI-filler paragraph with Martinique-specific copy.
@@ -350,10 +360,15 @@ LOW:
 **Plans:** 7 plans en 2 vagues
 
 Plans:
+**Wave 1**
+
 - [ ] 11-01-PLAN.md — P0 offline (sync-drawer au layout + flush store partagé + recovery zombies `uploading`) + a11y/register offline (vague 1)
 - [ ] 11-02-PLAN.md — P1 theming : override `--color-white` + tokens fantômes + garde-fou CI (app.css isolé, vague 1)
 - [ ] 11-03-PLAN.md — P0 magic-link `@error('ml')` + P1 états submitting auth + side-stripe email + polish auth (vague 1)
 - [ ] 11-04-PLAN.md — P0 faux témoignages + P1 étoiles Google + D-09 revert Pierre + P3 oklch/number_format (vague 1)
 - [ ] 11-05-PLAN.md — P1 badge « Eau saine » gaté in-range + temporaryUrl + états vides portail (vous strict, vague 1)
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 11-06-PLAN.md — P2 dashboard D-10 + landmarks + nav Récap/Blog + loading live-search + empty-states `tu` + inline success (vague 2, depends 11-01)
 - [ ] 11-07-PLAN.md — P3 polish vitrine + blog (em-dashes, glyphes off-token, CTA espace-client honnête) (vague 2, depends 11-04)

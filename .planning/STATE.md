@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: verifying
+status: executing
 stopped_at: Phase 11 UI-SPEC approved
-last_updated: "2026-06-04T06:24:43.460Z"
-last_activity: 2026-06-04
+last_updated: "2026-06-04T07:32:26.620Z"
+last_activity: 2026-06-04 -- Phase 11 planning complete
 progress:
   total_phases: 12
   completed_phases: 9
-  total_plans: 40
+  total_plans: 47
   completed_plans: 43
   percent: 75
 ---
@@ -27,9 +27,9 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 Phase: 10 (diagnostic-retours-pierre) — EXECUTING
 Plan: 2 of 2
-Status: Phase complete — ready for verification
+Status: Ready to execute
 Note: Phase 07 planning complete — 4 plans en 3 vagues (admin-2 bug fix en wave 1, agenda + chimie en wave 2, récap en wave 3).
-Last activity: 2026-06-04
+Last activity: 2026-06-04 -- Phase 11 planning complete
 
 Progress: [██████████] 100%
 
