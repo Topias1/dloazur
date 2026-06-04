@@ -16,7 +16,7 @@
             <p class="mt-5 text-lg leading-relaxed text-ink-700">
                 <span class="font-semibold text-ink-900">Pierre ADAM</span> entretient les piscines de Martinique comme s'il s'agissait des siennes. Un seul interlocuteur, qui connaît votre bassin, son volume, sa filtration, et qui passe quand il le faut.
             </p>
-            <p class="mt-4 leading-relaxed text-ink-700">Pas de centre d'appel, pas de sous-traitance : vous échangez directement avec celui qui plonge l'épuisette. C'est ça, un service à taille humaine.</p>
+            <p class="mt-4 leading-relaxed text-ink-700">Vous échangez directement avec celui qui plonge l'épuisette. C'est ça, un service à taille humaine.</p>
             <div class="mt-8 flex items-center gap-6 max-w-lg">
                 <p class="font-display font-semibold text-2xl text-ink-950 leading-snug flex-1">Une dizaine de clients à l'année,<br>un seul interlocuteur, toujours.</p>
                 <img loading="lazy" decoding="async"
