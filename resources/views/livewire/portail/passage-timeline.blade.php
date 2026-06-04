@@ -96,7 +96,7 @@
                                     $phOk = $ph >= 7.0 && $ph <= 7.6;
                                 @endphp
                                 <p class="text-[11px] {{ $phOk ? 'text-success font-semibold' : 'text-ink-400' }}">
-                                    {{ $lastPassage->ph_avant !== null ? ($phOk ? 'idéal' : '') : '' }}
+                                    {{ $lastPassage->ph_avant !== null ? ($phOk ? 'idéal' : 'pH') : '' }}
                                 </p>
                             </div>
 
@@ -214,7 +214,7 @@
                                 <button
                                     type="button"
                                     @click="open = !open"
-                                    :aria-expanded="open.toString()"
+                                    :aria-expanded="open"
                                     aria-controls="passage-panel-{{ $p->id }}"
                                     class="w-full p-4 flex items-center justify-between gap-3 text-left hover:bg-sand-50/70 transition-colors">
                                     <div>
