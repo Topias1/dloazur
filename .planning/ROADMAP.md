@@ -27,7 +27,7 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 
 **Audit transverse (2026-06-04)** :
 
-- [ ] **Phase 11: Audit Impeccable — UX / UI / Wording** - Corrections issues de l'audit `/impeccable` (5 surfaces : vitrine, PWA passage offline, admin pro, portail client, auth). Bloquants fonctionnels P0 (file offline ingérable hors create + zombies `uploading` = échouage données ; erreur magic-link avalée ; faux témoignages live) + theming P1 (pur `#fff` systémique + tokens Tailwind v4 non définis) + uniformisation tu/vous opérateur + états loading/submitting. Détail complet : `.planning/phases/11-audit-impeccable-ux-ui-wording/11-FINDINGS.md` (Health 14/20)
+- [x] **Phase 11: Audit Impeccable — UX / UI / Wording** - Corrections issues de l'audit `/impeccable` (5 surfaces : vitrine, PWA passage offline, admin pro, portail client, auth). Bloquants fonctionnels P0 (file offline ingérable hors create + zombies `uploading` = échouage données ; erreur magic-link avalée ; faux témoignages live) + theming P1 (pur `#fff` systémique + tokens Tailwind v4 non définis) + uniformisation tu/vous opérateur + états loading/submitting. Détail complet : `.planning/phases/11-audit-impeccable-ux-ui-wording/11-FINDINGS.md` (Health 14/20) (completed 2026-06-04)
 
 ## Phase Details
 
@@ -357,7 +357,7 @@ LOW:
 
 **Décision Antoine (résolue)** : Pierre nommé en copie marketing → **revert** à « Dlo Azur »/« nous » (D-09, strict DESIGN.md §6) ; Pierre nommé reste uniquement dans `partials/pierre.blade.php` + footer + légal.
 
-**Plans:** 5/7 plans executed
+**Plans:** 7/7 plans complete
 
 Plans:
 **Wave 1**
@@ -370,5 +370,5 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 11-06-PLAN.md — P2 dashboard D-10 + landmarks + nav Récap/Blog + loading live-search + empty-states `tu` + inline success (vague 2, depends 11-01)
-- [ ] 11-07-PLAN.md — P3 polish vitrine + blog (em-dashes, glyphes off-token, CTA espace-client honnête) (vague 2, depends 11-04)
+- [x] 11-06-PLAN.md — P2 dashboard D-10 + landmarks + nav Récap/Blog + loading live-search + empty-states `tu` + inline success (vague 2, depends 11-01)
+- [x] 11-07-PLAN.md — P3 polish vitrine + blog (em-dashes, glyphes off-token, CTA espace-client honnête) (vague 2, depends 11-04)

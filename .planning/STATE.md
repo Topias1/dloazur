@@ -25,11 +25,11 @@ See: .planning/PROJECT.md (updated 2026-05-27)
 
 ## Current Position
 
-Phase: 11 (audit-impeccable-ux-ui-wording) — EXECUTING
-Plan: 1 of 7
-Status: Executing Phase 11
-Note: Phase 07 planning complete — 4 plans en 3 vagues (admin-2 bug fix en wave 1, agenda + chimie en wave 2, récap en wave 3).
-Last activity: 2026-06-04 -- Phase 11 execution started
+Phase: 11 (audit-impeccable-ux-ui-wording) — EXECUTED, 3 stale tests pending
+Plan: 7 of 7 (all plans executed + merged to staging)
+Status: Phase 11 code complete; 3 stale-assertion tests need alignment before "green"
+Note: Both waves merged (W1: 11-01..05, W2: 11-06/07). Build + token guard green. Post-merge gate fixed 3 integration bugs (PwaConfigTest D-07, post-form curly-quote crash, warn-200 token). Verifier + code-review chain NOT yet run.
+Last activity: 2026-06-04 -- Phase 11 plans executed & merged; paused on cost
 
 Progress: [██████████] 100%
 
@@ -96,7 +96,11 @@ Recent decisions affecting current work:
 
 ### Pending Todos
 
-None yet.
+- **Phase 11 — 3 stale-assertion tests to align with intended changes (then run full suite + verifier + code-review):**
+  1. `tests/Feature/AdminShellTest.php` (~l.40-43) — D-10 dashboard restructure removed "Bonjour Pierre,", "Ta semaine en un coup d'œil.", "Clients actifs", "Passages cette semaine". Update assertions to the new agenda-led dashboard (still shows "À synchroniser", "Eau à surveiller"). Verify intended content in `resources/views/admin/dashboard.blade.php`.
+  2. `tests/Feature/DashboardStatsTest.php` (~l.121-133) — "À synchroniser" no longer rendered as a `state="offline"` `<x-admin.stat-card>`, so `text-[oklch(0.5_0.11_72)]` is absent. Either restore the offline stat-card or update/remove the assertion per the new dashboard.
+  3. `tests/Feature/ContactFormTest.php` (l.147) — assert `'Nous vous répondrons rapidement.'` (was "Pierre vous répondra rapidement.", changed per D-09 in `resources/views/livewire/contact-form.blade.php:14`).
+- Run full suite with `php -d memory_limit=1024M ./vendor/bin/pest` (128M default OOMs the full suite — ceiling artifact, not a bug; CI likely sets higher).
 
 ### Blockers/Concerns
 
