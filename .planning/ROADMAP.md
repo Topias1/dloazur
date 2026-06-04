@@ -25,6 +25,10 @@ Cinq phases dérivent naturellement des requirements : une fondation vitrine + i
 - [x] **Phase 9: Espace client — finitions retours Pierre** - Section « Mes documents » teaser cohérent Phase 3, test de régression historique dépliable, nits a11y/perf (completed 2026-06-04)
 - [ ] **Phase 10: Diagnostic — fidélité au proto** - Retirer l'écran « mode » initial, entrer direct dans l'arbre symptôme (garder `$mode` serveur, adapter les tests)
 
+**Audit transverse (2026-06-04)** :
+
+- [ ] **Phase 11: Audit Impeccable — UX / UI / Wording** - Corrections issues de l'audit `/impeccable` (5 surfaces : vitrine, PWA passage offline, admin pro, portail client, auth). Bloquants fonctionnels P0 (file offline ingérable hors create + zombies `uploading` = échouage données ; erreur magic-link avalée ; faux témoignages live) + theming P1 (pur `#fff` systémique + tokens Tailwind v4 non définis) + uniformisation tu/vous opérateur + états loading/submitting. Détail complet : `.planning/phases/11-audit-impeccable-ux-ui-wording/11-FINDINGS.md` (Health 14/20)
+
 ## Phase Details
 
 ### Phase 1: Vitrine & Fondations
@@ -248,8 +252,11 @@ Plans:
 **Réf:** `.planning/feedback/pierre-2026-06-03-reponses.md` (diag-1, diag-2, diag-3 + §Décisions discuss)
 **UI hint**: yes
 
+**Plans:** 2 plans
+
 Plans:
-- [ ] TBD (run /gsd-plan-phase 10 to break down)
+- [ ] 10-01-PLAN.md — setMode() server-side (attribution created_via) + decouplage des tests vis-a-vis de l'ecran S0
+- [ ] 10-02-PLAN.md — refonte Blade : suppression S0, entree directe arbre symptome, chimie+carnet en actions secondaires sur le disclaimer
 
 ## Progress
 
@@ -316,3 +323,26 @@ LOW:
 - [ ] Add before/after video to eau-verte page.
 
 **Health score at audit:** 61/100 (cutover-readiness; live = 0 while noindex). Perf excellent warm (TTFB ~100ms).
+
+---
+
+### Phase 11: Audit Impeccable — UX / UI / Wording
+
+**Goal**: **As a** opérateur et client Dlo Azur, **I want to** corriger les défauts d'UX/UI/wording relevés par l'audit `/impeccable` du 2026-06-04, **so that** le cœur de valeur offline ne perd aucune donnée, le client verrouillé reçoit un message clair, le site marchand n'affiche pas de faux témoignages, et le système de tokens tient sa propre loi (jamais `#fff`, aucun token fantôme).
+**Mode:** quick (corrections ciblées, pas de nouvelle feature)
+**Depends on**: Phases 7, 9, 10 (touche les mêmes surfaces ; à séquencer après leurs corrections en cours)
+**Source**: `.planning/phases/11-audit-impeccable-ux-ui-wording/11-FINDINGS.md`
+**Audit Health**: 14/20 (theming = dimension faible) ; AI-slop LOW
+
+**Success Criteria** (what must be TRUE):
+
+  1. Une saisie en file offline reste poussable depuis n'importe quelle page admin (sync-drawer + flush partagés au layout), et un item interrompu en `uploading` est re-tenté automatiquement (zéro zombie)
+  2. Un client au lien magic-link expiré voit le message d'erreur (`@error('ml')` câblé)
+  3. Aucun faux témoignage attribué sur la vitrine live
+  4. Aucun `bg-white`/`text-white` pur résiduel hors exceptions documentées ; aucun token Tailwind non déclaré (`lagon-50`, `warn-700`, `ink-600`) — garde-fou CI
+  5. Registre tu/vous opérateur cohérent sur tout l'admin + PWA + toasts JS ; vouvoiement client intact
+  6. États loading sur listes live-search + submitting sur boutons auth
+  7. Badge « Eau saine » portail gaté sur mesures in-range
+  8. Re-run `/impeccable audit` : theming ≥3/4, score global ≥17/20
+
+**Décision Antoine en suspens** : Pierre nommé en copie marketing (~10 surfaces) — légaliser dans DESIGN.md ou revert à « Dlo Azur »/« nous ».
