@@ -4,9 +4,9 @@
  * PortailTimelineTest — Tests de régression sur l'historique dépliable du portail client
  *
  * T1 : Structure a11y accordéon — aria-expanded, aria-controls, id panneau
- * T2 : Contenu déplié — mesures pH/Cl/TAC avec format virgule décimale exact
- * T3 : Actions réalisées dans le panneau historique
- * T4 : Notes dans le panneau historique
+ * T2 : Contenu déplié — mesures pH/Cl/TAC avec format virgule décimale exact (scoped au panneau B)
+ * T3 : Actions réalisées dans le panneau historique (scoped au panneau B)
+ * T4 : Notes dans le panneau historique (scoped au panneau B)
  * T5 : Compteur photos absent quand aucune photo seedée (cas base sans R2)
  *
  * Seed : 2 passages requis pour que l'historique s'affiche ($passages->count() > 1).
@@ -59,6 +59,24 @@ function seedTimelineFixture(): array
     return [$client, $passageA, $passageB];
 }
 
+/**
+ * Extrait le fragment HTML du panneau accordéon pour un passage donné.
+ * Cherche depuis l'attribut id="passage-panel-{id}" sur le <div> dépliable
+ * et retourne une tranche suffisamment large pour couvrir le contenu du panneau.
+ * Fait échouer le test si le panneau est introuvable.
+ */
+function extractAccordionPanel(string $html, int|string $passageId): string
+{
+    $needle = 'id="passage-panel-' . $passageId . '"';
+    $pos    = strpos($html, $needle);
+
+    expect($pos)->not->toBeFalse("Le panneau accordéon pour le passage #{$passageId} est introuvable dans le HTML rendu.");
+
+    // 6 000 caractères couvrent un panneau complet avec Livewire blade-comment verbosity
+    // (mesures 3×, actions N×, notes) — suffisant sans dépasser sur le panneau suivant.
+    return substr($html, $pos, 6000);
+}
+
 // ---------------------------------------------------------------------------
 // T1 : Structure a11y accordéon
 // ---------------------------------------------------------------------------
@@ -81,47 +99,57 @@ test('T1 — structure a11y accordéon : aria-expanded, aria-controls et id pann
 });
 
 // ---------------------------------------------------------------------------
-// T2 : Contenu déplié — mesures pH / Cl libre / TAC
+// T2 : Contenu déplié — mesures pH / Cl libre / TAC (scoped au panneau B)
 // ---------------------------------------------------------------------------
-test('T2 — contenu déplié : mesures pH 7,4 / Cl 2,3 / TAC 95 rendues avec virgule décimale', function () {
+test('T2 — contenu déplié : mesures pH 7,4 / Cl 2,3 / TAC 95 rendues DANS le panneau accordéon B', function () {
     [$client, $passageA, $passageB] = seedTimelineFixture();
 
     $response = $this->actingAs($client, 'clients')
         ->get('/portail/passages');
 
     $response->assertStatus(200);
+
+    // Scoper les assertions au panneau du passage B — si le bloc TAC/pH/Cl est supprimé du
+    // panneau, le test doit échouer même si les valeurs existent ailleurs dans la page.
+    $panel = extractAccordionPanel($response->getContent(), $passageB->id);
 
     // La vue utilise number_format($val, 1, ',', '') → virgule décimale française
-    $response->assertSee('7,4', false);   // pH passage B
-    $response->assertSee('2,3', false);   // Cl libre passage B
-    $response->assertSee('95', false);    // TAC passage B (number_format 0 décimales)
+    expect($panel)->toContain('7,4');   // pH passage B
+    expect($panel)->toContain('2,3');   // Cl libre passage B
+    expect($panel)->toContain('95');    // TAC passage B (number_format 0 décimales)
 });
 
 // ---------------------------------------------------------------------------
-// T3 : Actions réalisées dans le panneau historique
+// T3 : Actions réalisées dans le panneau historique (scoped au panneau B)
 // ---------------------------------------------------------------------------
-test('T3 — actions réalisées : libellés du passage historique visibles', function () {
+test('T3 — actions réalisées : libellés du passage historique visibles DANS le panneau accordéon B', function () {
     [$client, $passageA, $passageB] = seedTimelineFixture();
 
     $response = $this->actingAs($client, 'clients')
         ->get('/portail/passages');
 
     $response->assertStatus(200);
-    $response->assertSee('Nettoyage filtre', false);
-    $response->assertSee('Brossage parois', false);
+
+    $panel = extractAccordionPanel($response->getContent(), $passageB->id);
+
+    expect($panel)->toContain('Nettoyage filtre');
+    expect($panel)->toContain('Brossage parois');
 });
 
 // ---------------------------------------------------------------------------
-// T4 : Notes dans le panneau historique
+// T4 : Notes dans le panneau historique (scoped au panneau B)
 // ---------------------------------------------------------------------------
-test('T4 — notes : texte du passage historique visible', function () {
+test('T4 — notes : texte du passage historique visible DANS le panneau accordéon B', function () {
     [$client, $passageA, $passageB] = seedTimelineFixture();
 
     $response = $this->actingAs($client, 'clients')
         ->get('/portail/passages');
 
     $response->assertStatus(200);
-    $response->assertSee('Note historique XQ7Z', false);
+
+    $panel = extractAccordionPanel($response->getContent(), $passageB->id);
+
+    expect($panel)->toContain('Note historique XQ7Z');
 });
 
 // ---------------------------------------------------------------------------
@@ -130,22 +158,25 @@ test('T4 — notes : texte du passage historique visible', function () {
 test('T5 — compteur photos : icône caméra absente quand le passage historique n\'a pas de photo', function () {
     [$client, $passageA, $passageB] = seedTimelineFixture();
 
-    // Aucune photo attachée à $passageB (relation photos vide par défaut en SQLite test)
+    // Aucune photo attachée à $passageB (relation photos vide par défaut en test)
     $response = $this->actingAs($client, 'clients')
         ->get('/portail/passages');
 
     $response->assertStatus(200);
 
-    // Le compteur photos (icône caméra SVG + chiffre) n'est rendu que si $p->photos->isNotEmpty()
-    // Sans photo seedée, le bloc entier est absent — on vérifie que « 1 » compteur n'apparaît pas
-    // dans un contexte caméra (la vue rend exactement $p->photos->count() = 0 → bloc omis)
-    // On assert que le bloc compteur caméra n'est pas rendu pour ce passage spécifique
-    // en vérifiant l'absence du pattern de comptage (chiffre isolé dans le flex photos)
-    // Note : le SVG de la caméra est partagé avec d'autres vues potentielles, on cherche
-    // l'absence d'un compteur chiffré adjacent à la caméra dans l'accordéon.
-    // La vue omet tout le <span> photo si isNotEmpty() = false → pas de count affiché.
-    $html = $response->getContent();
-    // Le compteur affiche exactement $p->photos->count() = ici 0 → le <span> photos est absent
-    // On vérifie que la ligne du passage B ne contient pas de compteur (sa section est vide)
-    expect($html)->not->toContain('photos->count()');
+    // Scoper au panneau B + son bouton d'en-tête (le span photo est dans le bouton, avant le panneau id)
+    // On cherche depuis aria-controls="passage-panel-{id}" (dans le bouton) pour couvrir toute la <li>
+    $html    = $response->getContent();
+    $btnAnchor = 'aria-controls="passage-panel-' . $passageB->id . '"';
+    $btnPos    = strpos($html, $btnAnchor);
+
+    expect($btnPos)->not->toBeFalse("Le bouton accordéon pour le passage #{$passageB->id} est introuvable.");
+
+    // Extraire depuis le bouton jusqu'à la fin du panneau (~4 000 car couvre bouton + panneau)
+    $liFragment = substr($html, $btnPos, 4000);
+
+    // Le span photo (caméra SVG + compteur) n'est rendu que si $p->photos->isNotEmpty().
+    // Sans photo, le bloc est entièrement absent. On vérifie l'absence du début unique du
+    // path SVG de la caméra, présent exclusivement dans ce bloc conditionnel.
+    expect($liFragment)->not->toContain('M6.827 6.175A2.31');
 });
