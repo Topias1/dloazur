@@ -503,6 +503,22 @@ final class DiagnosticWizard extends Component
     }
 
     /**
+     * Définit le mode de parcours (Phase 10 — diag-1/diag-2, T-10-01).
+     *
+     * Appelé par Alpine via $wire.call('setMode', value) au clic sur le lien chimie
+     * ou à l'entrée dans l'arbre symptôme. Seules les valeurs de la liste blanche
+     * ['symptom', 'chemistry'] sont acceptées ; toute autre valeur est ignorée
+     * silencieusement (pas d'assignation, pas d'exception) pour empêcher
+     * l'injection d'un created_via arbitraire (T-10-01 : Tampering).
+     */
+    public function setMode(string $mode): void
+    {
+        if (in_array($mode, ['symptom', 'chemistry'], strict: true)) {
+            $this->mode = $mode;
+        }
+    }
+
+    /**
      * Synchronise les actions déjà tentées depuis la sélection multiselect Alpine.
      */
     public function updateTriedActions(array $tried): void

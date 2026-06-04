@@ -559,3 +559,50 @@ it('submitLead materializes the diagnostic when none was kept yet', function () 
     expect($diagnostic->prenom)->toBe('Marie');
     Mail::assertSent(DiagnosticLead::class);
 });
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Attribution mode serveur (Phase 10 — diag-1/diag-2)
+// ──────────────────────────────────────────────────────────────────────────────
+
+it('mode serveur — parcours chimie : created_via=wizard et type_probleme=chemistry', function () {
+    Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->call('setMode', 'chemistry')
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('keepDiagnostic');
+
+    $diagnostic = Diagnostic::first();
+    expect($diagnostic)->not()->toBeNull();
+    expect($diagnostic->created_via)->toBe('wizard');
+    expect($diagnostic->type_probleme)->toBe('chemistry');
+});
+
+it('mode serveur — parcours symptôme : created_via=depannage et type_probleme=symptom', function () {
+    Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->call('setMode', 'symptom')
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('keepDiagnostic');
+
+    $diagnostic = Diagnostic::first();
+    expect($diagnostic)->not()->toBeNull();
+    expect($diagnostic->created_via)->toBe('depannage');
+    expect($diagnostic->type_probleme)->toBe('symptom');
+});
+
+it('mode serveur — valeur hors liste ignorée silencieusement : $mode reste null, created_via=wizard', function () {
+    Livewire::test(DiagnosticWizard::class)
+        ->set('disclaimerAccepted', true)
+        ->call('setMode', 'foo')
+        ->set('volume', '50')
+        ->set('ph', '7.0')
+        ->call('keepDiagnostic');
+
+    $diagnostic = Diagnostic::first();
+    expect($diagnostic)->not()->toBeNull();
+    // mode null => created_via defaults to 'wizard' (existing keepDiagnostic logic)
+    expect($diagnostic->created_via)->toBe('wizard');
+    expect($diagnostic->type_probleme)->toBeNull();
+});
