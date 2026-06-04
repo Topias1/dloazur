@@ -357,16 +357,16 @@ LOW:
 
 **Décision Antoine (résolue)** : Pierre nommé en copie marketing → **revert** à « Dlo Azur »/« nous » (D-09, strict DESIGN.md §6) ; Pierre nommé reste uniquement dans `partials/pierre.blade.php` + footer + légal.
 
-**Plans:** 7 plans en 2 vagues
+**Plans:** 5/7 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 11-01-PLAN.md — P0 offline (sync-drawer au layout + flush store partagé + recovery zombies `uploading`) + a11y/register offline (vague 1)
-- [ ] 11-02-PLAN.md — P1 theming : override `--color-white` + tokens fantômes + garde-fou CI (app.css isolé, vague 1)
-- [ ] 11-03-PLAN.md — P0 magic-link `@error('ml')` + P1 états submitting auth + side-stripe email + polish auth (vague 1)
-- [ ] 11-04-PLAN.md — P0 faux témoignages + P1 étoiles Google + D-09 revert Pierre + P3 oklch/number_format (vague 1)
-- [ ] 11-05-PLAN.md — P1 badge « Eau saine » gaté in-range + temporaryUrl + états vides portail (vous strict, vague 1)
+- [x] 11-01-PLAN.md — P0 offline (sync-drawer au layout + flush store partagé + recovery zombies `uploading`) + a11y/register offline (vague 1)
+- [x] 11-02-PLAN.md — P1 theming : override `--color-white` + tokens fantômes + garde-fou CI (app.css isolé, vague 1)
+- [x] 11-03-PLAN.md — P0 magic-link `@error('ml')` + P1 états submitting auth + side-stripe email + polish auth (vague 1)
+- [x] 11-04-PLAN.md — P0 faux témoignages + P1 étoiles Google + D-09 revert Pierre + P3 oklch/number_format (vague 1)
+- [x] 11-05-PLAN.md — P1 badge « Eau saine » gaté in-range + temporaryUrl + états vides portail (vous strict, vague 1)
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
