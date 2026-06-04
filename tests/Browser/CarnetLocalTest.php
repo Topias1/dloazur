@@ -113,7 +113,6 @@ it('DIAG-07: la route /diagnostic charge la page et le composant wizard', functi
 // ──────────────────────────────────────────────────────────────────────────────
 
 it('DIAG-07 (browser): le carnet persiste a travers les sessions de navigation', function () {
-    // Ce test exige Playwright. Skip si non disponible.
     // Instructions manuelles (05-VALIDATION.md Manual-Only) :
     //   1. Ouvrir /diagnostic dans un navigateur
     //   2. Compléter un diagnostic (Analyser mon eau -> mesures -> Calculer)
@@ -122,23 +121,19 @@ it('DIAG-07 (browser): le carnet persiste a travers les sessions de navigation',
     //   5. Vérifier que l'entrée est toujours visible
     //   6. Ouvrir DevTools > Application > Local Storage : confirmer la clé dloazur_diagnostic_carnet_v1
     //   7. Confirmer 0 requête réseau pour la lecture de l'historique (Network tab)
-    expect(true)->toBeTrue(); // placeholder passant — la vraie assertion est manuelle
-})->skip('Playwright browser not available in this env — manual/CI verification required')
+})->todo('Playwright assertions pending — DIAG-07 persistence across reload')
   ->group('diag-07', 'browser-manual');
 
 it('DIAG-07 (browser): la lecture de l\'historique fait 0 appel réseau', function () {
-    // Ce test exige Playwright + interception réseau.
     // Instructions manuelles :
     //   1. Compléter un diagnostic
     //   2. Recharger + ouvrir DevTools > Network
     //   3. Naviguer vers "Mes diagnostics passés"
     //   4. Confirmer : 0 requête XHR/fetch vers /api ou /diagnostic
-    expect(true)->toBeTrue(); // placeholder
-})->skip('Playwright browser not available in this env — manual/CI verification required')
+})->todo('Playwright assertions pending — DIAG-07 zero network reads for history')
   ->group('diag-07', 'browser-manual');
 
 it('DIAG-07 (browser): effacer l\'historique vide la liste', function () {
-    // Ce test exige Playwright.
     // Instructions manuelles :
     //   1. Avoir au moins un diagnostic dans le carnet
     //   2. Cliquer "Effacer l'historique"
@@ -146,6 +141,5 @@ it('DIAG-07 (browser): effacer l\'historique vide la liste', function () {
     //   4. Cliquer "Effacer l'historique" (bouton danger)
     //   5. Vérifier que la liste affiche "Aucun diagnostic pour l'instant"
     //   6. Confirmer LocalStorage vide (clé dloazur_diagnostic_carnet_v1 absente)
-    expect(true)->toBeTrue(); // placeholder
-})->skip('Playwright browser not available in this env — manual/CI verification required')
+})->todo('Playwright assertions pending — DIAG-07 clear history empties list')
   ->group('diag-07', 'browser-manual');

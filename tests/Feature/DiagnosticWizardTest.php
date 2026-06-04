@@ -430,37 +430,37 @@ it('richContextPayload inclut symptôme, mesures, actions tentées, diagnostic, 
 it('lead submit is rate limited after 5 attempts in 60s', function () {
     Mail::fake();
 
-    // Clear rate limiter before the test
-    $key = 'livewire-rate-limiter:' . sha1(DiagnosticWizard::class . '|submitLead|' . request()->ip());
-    RateLimiter::clear($key);
+    // Clear all rate limiter buckets before the test so prior runs don't bleed in.
+    RateLimiter::clear('submitLead');
+    RateLimiter::clear('computeDoses');
 
-    // Create a diagnostic first
+    // Use a single component instance throughout so the rate-limiter state accumulates
+    // on the same component (and same IP fingerprint).
     $component = Livewire::test(DiagnosticWizard::class)
         ->set('disclaimerAccepted', true)
         ->set('volume', '25')
         ->set('ph', '7.4')
         ->call('computeAndPersist');
 
-    // 5 successful lead submissions
+    // 5 successful lead submissions — same instance, disclaimer accepted, required fields set.
     for ($i = 1; $i <= 5; $i++) {
-        Livewire::test(DiagnosticWizard::class)
-            ->set('disclaimerAccepted', true)
+        $component
             ->set('prenom', "User $i")
             ->set('commune', 'Fort-de-France')
-            ->call('submitLead');
+            ->call('submitLead')
+            ->assertHasNoErrors(['throttle']);
     }
 
-    // 6th should be throttled
-    $throttled = Livewire::test(DiagnosticWizard::class)
-        ->set('disclaimerAccepted', true)
+    // 6th must be throttled by the rate limiter.
+    // Reset leadSent so we can assert the throttle prevented a new success.
+    $component->set('leadSent', false);
+    $component
         ->set('prenom', 'User 6')
         ->set('commune', 'Fort-de-France')
         ->call('submitLead')
         ->assertHasErrors(['throttle']);
 
-    expect($throttled->get('leadSent'))->toBeFalse();
-
-    RateLimiter::clear($key);
+    expect($component->get('leadSent'))->toBeFalse();
 });
 
 // ──────────────────────────────────────────────────────────────────────────────
