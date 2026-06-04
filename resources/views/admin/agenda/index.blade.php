@@ -26,7 +26,7 @@
             <h2 class="font-display font-semibold text-base text-ink-900 mb-4">
                 Aujourd'hui
                 @if ($piscinesAujourdhui->isNotEmpty())
-                    <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-azure-50 text-azure-700">
+                    <span class="ml-2 text-xs font-semibold px-2 py-0.5 rounded-full bg-sand-100 text-ink-500">
                         {{ $piscinesAujourdhui->count() }}
                     </span>
                 @endif
@@ -73,7 +73,7 @@
                             @endif
                             <span class="text-xs text-ink-400">{{ $passage->visited_at?->format('d/m/Y') ?? '—' }}</span>
                         </div>
-                        <p class="text-sm text-ink-600 mt-1 line-clamp-2">{{ $passage->notes_privees }}</p>
+                        <p class="text-sm text-ink-700 mt-1 line-clamp-2">{{ $passage->notes_privees }}</p>
                     </div>
                     @if ($passage->client_id)
                         <a href="{{ route('admin.passages.create', ['client_id' => $passage->client_id]) }}"

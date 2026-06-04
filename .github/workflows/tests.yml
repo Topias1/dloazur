@@ -79,6 +79,11 @@ jobs:
       - name: Build assets
         run: npm run build
 
+      - name: Check undeclared Tailwind v4 token classes
+        run: |
+          chmod +x bin/check-undeclared-tokens.sh
+          bin/check-undeclared-tokens.sh
+
       - name: Run migrations
         run: php artisan migrate --force --no-interaction
 

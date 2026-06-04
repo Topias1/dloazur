@@ -172,7 +172,7 @@
             </div>
 
             <div class="text-center">
-                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-block rounded-2xl bg-white p-2.5 shadow-md hover:brightness-95 transition" aria-label="Écrire à Dlo Azur sur WhatsApp">
+                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-block rounded-2xl bg-[oklch(1_0_0)] p-2.5 shadow-md hover:brightness-95 transition" aria-label="Écrire à Dlo Azur sur WhatsApp">
                     <img loading="lazy" src="{{ asset('assets/brand/qr.png') }}" alt="QR code WhatsApp de Dlo Azur Piscines" width="96" height="96" class="h-24 w-24">
                 </a>
                 <p class="mt-2 text-xs text-navy-300">Scannez pour WhatsApp</p>
