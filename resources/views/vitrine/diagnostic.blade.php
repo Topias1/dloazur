@@ -118,19 +118,18 @@
             <div class="mx-auto max-w-content px-5 sm:px-8 py-3">
                 <div class="flex items-center justify-between gap-4 flex-wrap">
                     <div class="flex items-center gap-3 min-w-0">
-                        <span class="shrink-0 h-8 w-8 rounded-xl grid place-items-center" style="background: oklch(0.720 0.113 207 / 0.12); color: oklch(0.620 0.100 209);">
+                        <span class="shrink-0 h-8 w-8 rounded-xl grid place-items-center bg-lagon-500/12 text-lagon-600">
                             <x-icon.calendar :size="15" />
                         </span>
                         <div class="min-w-0">
-                            <p class="text-xs font-bold uppercase tracking-wide mb-0.5" style="color: oklch(0.620 0.100 209);">DERNIER DIAGNOSTIC</p>
+                            <p class="text-xs font-bold uppercase tracking-wide mb-0.5 text-lagon-600">DERNIER DIAGNOSTIC</p>
                             <p class="text-sm font-semibold text-ink-800 truncate" x-text="latest?.diagnostic ?? ''"></p>
                         </div>
                     </div>
                     {{-- Reprendre ce diagnostic : scroll vers le wizard + ouvrir le carnet --}}
                     <a
                         href="#diagnostic-wizard-root"
-                        class="shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-xl text-sm font-bold ring-1 transition-colors focus-visible:outline-none focus-visible:ring-2"
-                        style="border-color: oklch(0.720 0.113 207 / 0.40); color: oklch(0.620 0.100 209); background: oklch(0.720 0.113 207 / 0.10);"
+                        class="shrink-0 inline-flex items-center gap-1.5 h-9 px-4 rounded-xl text-sm font-bold ring-1 ring-lagon-500/40 bg-lagon-500/10 text-lagon-600 transition-colors focus-visible:outline-none focus-visible:ring-2"
                         @click.prevent="
                             document.getElementById('diagnostic-wizard-root')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                             const carnetBtn = document.querySelector('[data-mode-carnet]');
@@ -158,11 +157,11 @@
                 {{-- Fallback WhatsApp si le composant n'est pas encore enregistré --}}
                 <div class="rounded-2xl bg-white ring-1 ring-sand-200 p-8 text-center">
                     <p class="text-ink-700 mb-2 font-semibold">Le diagnostic est en cours de chargement.</p>
-                    <p class="text-ink-500 text-sm mb-6">En attendant, contactez Pierre directement sur WhatsApp, il répond rapidement.</p>
+                    <p class="text-ink-500 text-sm mb-6">En attendant, contactez-nous directement sur WhatsApp, nous répondons rapidement.</p>
                     <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer"
                        class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold shadow-sm hover:brightness-95 transition">
                         <x-icon.whatsapp :size="18" />
-                        Contacter Pierre sur WhatsApp
+                        Contacter Dlo Azur sur WhatsApp
                     </a>
                 </div>
             @endif
