@@ -38,6 +38,10 @@ return Application::configure(basePath: dirname(__DIR__))
         // Le PWA est same-domain donc le cookie est envoyé automatiquement (T-2-03, Pitfall 5).
         $middleware->validateCsrfTokens(except: ['api/*']);
 
+        // SearchIndexing pose X-Robots-Tag: noindex,nofollow,noai,noimageai tant que
+        // config('app.indexable') est false (sites de test). Fail-closed : actif par défaut.
+        $middleware->append(\App\Http\Middleware\SearchIndexing::class);
+
         // ServiceWorkerHeaders ajoute Service-Worker-Allowed: / sur /build/sw.js (D-60, Pitfall 2).
         // Sans ce header le SW est scopé à /build/ et n'intercepte rien sur /admin/*, /portail/*.
         $middleware->append(\App\Http\Middleware\ServiceWorkerHeaders::class);

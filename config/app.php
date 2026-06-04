@@ -58,6 +58,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Indexabilité moteurs de recherche & scrapers LLM
+    |--------------------------------------------------------------------------
+    |
+    | Tant que la vraie production n'est pas lancée, les environnements de test
+    | (staging + main pré-prod) ne doivent PAS être indexés par Google/Bing ni
+    | aspirés par les crawlers IA (GPTBot, ClaudeBot, CCBot, Google-Extended…).
+    | Comme tous les environnements Laravel Cloud tournent en APP_ENV=production,
+    | le nom d'environnement ne peut servir de garde : CE FLAG est l'unique garde.
+    |
+    | Valeur par défaut = false (fail-closed) : un site reste privé tant qu'on
+    | n'a pas explicitement posé SITE_INDEXABLE=true. Au lancement public réel,
+    | définir SITE_INDEXABLE=true sur le seul environnement de production.
+    |
+    */
+
+    'indexable' => env('SITE_INDEXABLE', false),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application URL
     |--------------------------------------------------------------------------
     |

@@ -20,13 +20,40 @@ Route::middleware('cache.headers:health')->get('/up', [HealthController::class, 
 // /offline — page hors-ligne précachée par Workbox (navigateFallback) — accessible sans auth
 Route::view('/offline', 'offline')->name('offline');
 
-// robots.txt — served as static file in production (public/robots.txt);
-// this route ensures the test suite can assert it, since the Laravel test
-// client routes through the kernel, not the web server file system.
+// robots.txt — généré dynamiquement selon config('app.indexable').
+// Servi par Laravel (plus de fichier statique public/robots.txt) afin que le
+// contenu dépende de l'environnement : les sites de test (SITE_INDEXABLE absent
+// → false) interdisent toute indexation ET bloquent les crawlers IA ; la prod
+// réelle (SITE_INDEXABLE=true) sert la version permissive.
 Route::get('/robots.txt', function () {
-    return response(file_get_contents(public_path('robots.txt')), 200, [
-        'Content-Type' => 'text/plain',
-    ]);
+    $sitemap = rtrim((string) config('app.url'), '/').'/sitemap.xml';
+
+    if (config('app.indexable')) {
+        $body = <<<TXT
+            User-agent: *
+            Allow: /
+            Disallow: /admin
+
+            Sitemap: {$sitemap}
+            TXT;
+    } else {
+        // Sites de test : on interdit tout (moteurs + crawlers IA explicites).
+        $aiBots = ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'ClaudeBot', 'Claude-Web', 'anthropic-ai', 'CCBot', 'Google-Extended', 'PerplexityBot', 'Bytespider', 'Amazonbot', 'Applebot-Extended', 'meta-externalagent', 'cohere-ai'];
+        $aiBlocks = collect($aiBots)
+            ->map(fn (string $bot) => "User-agent: {$bot}\nDisallow: /")
+            ->implode("\n\n");
+
+        $body = <<<TXT
+            User-agent: *
+            Disallow: /
+
+            {$aiBlocks}
+
+            Sitemap: {$sitemap}
+            TXT;
+    }
+
+    return response($body."\n", 200, ['Content-Type' => 'text/plain']);
 })->name('robots');
 
 // llms.txt — AI-crawler discoverability file (public marketing URLs only; no auth/admin paths)
