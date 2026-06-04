@@ -137,8 +137,9 @@ it('home renders the animated avant/après section linking to the eau-verte page
     $response->assertSee(route('services.eau-verte-urgence'), false);
 });
 
-it('home renders Nos engagements section before final CTA (D-35)', function () {
+it('home renders Notre approche section (D-09 fusion — Phase 8)', function () {
     $response = $this->get('/');
-    $response->assertSeeText('Nos engagements');
-    $response->assertSeeText('Compte-rendu après chaque passage');
+
+    $response->assertSeeText('Notre approche');
+    $response->assertSeeText('Même prestataire à chaque visite');
 });

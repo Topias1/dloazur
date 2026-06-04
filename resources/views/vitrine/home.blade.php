@@ -27,9 +27,6 @@
     {{-- 9. Testimonials --}}
     @include('vitrine.partials.testimonials')
 
-    {{-- 10. Nos engagements — D-35 (before final CTA) --}}
-    @include('vitrine.partials.engagements')
-
     {{-- 11. Final CTA --}}
     @include('vitrine.partials.final-cta')
 @endsection

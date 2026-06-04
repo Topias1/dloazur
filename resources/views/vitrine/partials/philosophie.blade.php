@@ -1,40 +1,60 @@
-{{-- Philosophie / SEO dense — récupéré de la home Zyro (Plan 01-06 content recovery) --}}
-{{-- Couvre : "Pourquoi choisir Dlo Azur" + "Votre piscine mérite une eau parfaite" --}}
-{{-- Placement : entre how-it-works et hospitality, pour densifier le contenu SEO --}}
+{{-- Notre approche — section fusionnée (Phase 8 — V12/V14 brand voice) --}}
+{{-- Fusionne l'ancienne section philosophie + les engagements (D-09) --}}
+{{-- Règles : pas de "interlocuteur unique", pas de "jamais"/"standard"/"call-center"/"centre d'appel"/"sous-traitance" --}}
 <section class="bg-lagon-50/40 border-y border-navy-900/8">
-    <div class="mx-auto max-w-content px-5 sm:px-8 py-20 sm:py-24 grid lg:grid-cols-2 gap-12 items-start">
+    <div class="mx-auto max-w-content px-5 sm:px-8 py-16 sm:py-20">
 
-        {{-- Bloc 1 : Pourquoi choisir Dlo Azur --}}
-        <div>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-ink-950">Pourquoi choisir Dlo Azur Piscines ?</h2>
-            <p class="mt-4 leading-relaxed text-ink-700">
-                Dlo Azur Piscines, votre <strong>partenaire de confiance en Martinique</strong> pour le nettoyage, l'entretien et le traitement de vos piscines. Profitez d'une eau limpide et de services personnalisés adaptés à vos besoins. Votre sérénité est notre priorité, parce que votre piscine doit être que du plaisir.
-            </p>
-            <ul class="mt-5 space-y-3">
-                <li class="flex gap-3">
-                    <span class="text-azure-500 shrink-0 mt-0.5"><x-icon.check :size="18" /></span>
-                    <span class="text-ink-700">Expertise locale en Martinique : solutions adaptées à tous types de piscines</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="text-azure-500 shrink-0 mt-0.5"><x-icon.check :size="18" /></span>
-                    <span class="text-ink-700">Service fiable et réactif, joignable directement par WhatsApp</span>
-                </li>
-                <li class="flex gap-3">
-                    <span class="text-azure-500 shrink-0 mt-0.5"><x-icon.check :size="18" /></span>
-                    <span class="text-ink-700">Un seul interlocuteur qui connaît votre bassin, pas de sous-traitance</span>
-                </li>
-            </ul>
+        <div class="text-center mb-12">
+            <h2 class="font-display font-bold text-3xl sm:text-4xl text-ink-950">Notre approche</h2>
+            <p class="text-center mt-2 text-lg text-ink-700 max-w-xl mx-auto">Un entretien suivi, un interlocuteur direct, un compte-rendu après chaque passage.</p>
         </div>
 
-        {{-- Bloc 2 : Votre piscine mérite une eau parfaite --}}
-        <div>
-            <h2 class="font-display font-bold text-2xl sm:text-3xl text-ink-950">Votre piscine mérite une eau parfaite</h2>
-            <p class="mt-4 leading-relaxed text-ink-700">
-                Une piscine à l'eau limpide, équilibrée et saine est bien plus qu'un simple espace de détente : c'est le reflet de votre confort, de votre sécurité et de votre bien-être. Une eau parfaite garantit non seulement une baignade agréable, mais protège également vos équipements des dommages liés à un mauvais entretien.
-            </p>
-            <p class="mt-3 leading-relaxed text-ink-700">
-                En Martinique, où les <strong>températures élevées et l'humidité</strong> peuvent favoriser la prolifération des algues et des bactéries, il est essentiel d'adopter un <strong>entretien rigoureux et adapté</strong>. Avec Dlo Azur Piscines, profitez d'une eau parfaitement traitée, grâce à des solutions professionnelles et sur mesure, pour faire de chaque baignade un moment de plaisir en toute sérénité.
-            </p>
+        <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
+
+            {{-- Card 1 : Eau conforme --}}
+            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300 flex flex-col gap-4">
+                <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-azure-50 text-azure-600">
+                    <x-icon.shield :size="22" />
+                </span>
+                <div>
+                    <h3 class="font-display font-semibold text-xl text-ink-950">Eau toujours conforme</h3>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Vous recevez un compte-rendu après chaque passage : mesures, actions réalisées, état du bassin. Rien de caché, tout tracé.</p>
+                </div>
+            </div>
+
+            {{-- Card 2 : Joignable sur WhatsApp --}}
+            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300 flex flex-col gap-4">
+                <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-[#25D366]/10 text-[#25D366]">
+                    <x-icon.whatsapp :size="22" />
+                </span>
+                <div>
+                    <h3 class="font-display font-semibold text-xl text-ink-950">Joignable sur WhatsApp</h3>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Vous parlez directement à Pierre — un message suffit. Réponse rapide, 7j/7, sans délai d'attente.</p>
+                </div>
+            </div>
+
+            {{-- Card 3 : Compte-rendu après chaque passage --}}
+            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300 flex flex-col gap-4">
+                <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-lagon-500/12 text-lagon-600">
+                    <x-icon.sparkle :size="22" />
+                </span>
+                <div>
+                    <h3 class="font-display font-semibold text-xl text-ink-950">Suivi en ligne à tout moment</h3>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Mesures, actions, photos quand c'est utile. Votre historique est accessible en ligne à tout moment depuis votre espace client.</p>
+                </div>
+            </div>
+
+            {{-- Card 4 : Même prestataire à chaque visite --}}
+            <div class="rounded-2xl bg-white ring-1 ring-navy-900/8 shadow-sm p-7 hover:shadow-md hover:-translate-y-0.5 transition duration-300 flex flex-col gap-4">
+                <span class="inline-grid h-11 w-11 place-items-center rounded-xl bg-sun-500/10 text-sun-500">
+                    <x-icon.sun :size="22" />
+                </span>
+                <div>
+                    <h3 class="font-display font-semibold text-xl text-ink-950">Même prestataire à chaque visite</h3>
+                    <p class="mt-2 text-ink-700 leading-relaxed">Pierre connaît votre bassin, vos équipements, et les ajustements déjà faits. Pas besoin de réexpliquer à chaque fois.</p>
+                </div>
+            </div>
+
         </div>
 
     </div>

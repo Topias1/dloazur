@@ -8,7 +8,7 @@
             {{-- Colonne gauche : accroche + canal instantané --}}
             <div class="text-center lg:text-left">
                 <h2 class="font-display font-bold text-3xl sm:text-4xl text-white leading-tight">Une piscine verte&nbsp;? Une question&nbsp;? Écrivez-nous.</h2>
-                <p class="mt-4 text-lg text-azure-50 max-w-md mx-auto lg:mx-0">Devis gratuit et sans engagement. Vous parlez directement à Pierre, jamais à un standard.</p>
+                <p class="mt-4 text-lg text-azure-50 max-w-md mx-auto lg:mx-0">Devis gratuit et sans engagement. Vous parlez directement à Pierre, sans intermédiaire.</p>
                 <div class="mt-7 flex flex-col sm:flex-row items-center lg:items-start justify-center lg:justify-start gap-x-4 gap-y-2">
                     <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold text-base shadow-lg hover:brightness-95 transition cursor-pointer">
                         <x-icon.whatsapp :size="20" />
