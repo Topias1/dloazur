@@ -126,8 +126,8 @@ it('home renders Urgence eau verte section between services and how-it-works (D-
     $response->assertSee(route('services.eau-verte-urgence'), false);
 });
 
-it('home renders Nos engagements section before final CTA (D-35)', function () {
+it('home renders Notre approche section (D-09 fusion — Phase 8)', function () {
     $response = $this->get('/');
-    $response->assertSeeText('Nos engagements');
-    $response->assertSeeText('Rapport photo à chaque passage');
+    $response->assertSeeText('Notre approche');
+    $response->assertSeeText('Même prestataire à chaque visite');
 });
