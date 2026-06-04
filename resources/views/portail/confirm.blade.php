@@ -34,29 +34,18 @@
                 Vous êtes sur le point d'accéder à votre espace Dlo Azur Piscines.
             </p>
 
-            {{-- Erreur si token invalide via GET (query param) --}}
-            @if (session('error'))
-                <div class="mt-4 text-sm text-danger bg-danger/10 ring-1 ring-danger/20 rounded-xl p-3">
-                    {{ session('error') }}
-                </div>
-            @endif
-
-            @if ($errors->any())
-                <div class="mt-4 text-sm text-danger bg-danger/10 ring-1 ring-danger/20 rounded-xl p-3">
-                    @foreach ($errors->all() as $error)
-                        <p>{{ $error }}</p>
-                    @endforeach
-                </div>
-            @endif
-
             {{-- Formulaire POST — le seul endroit où le token est consommé --}}
-            <form method="POST" action="{{ route('portail.magic-link.confirm') }}" class="mt-6">
+            <form method="POST" action="{{ route('portail.magic-link.confirm') }}" class="mt-6"
+                x-data="{ sending: false }" @submit="sending = true">
                 @csrf
                 <input type="hidden" name="ml" value="{{ $token }}">
 
                 <button
                     type="submit"
-                    class="w-full h-12 rounded-xl bg-azure-500 text-white font-bold text-base hover:bg-azure-600 transition-colors"
+                    :disabled="sending"
+                    :class="sending ? 'opacity-60 cursor-not-allowed' : ''"
+                    class="w-full h-13 rounded-xl bg-azure-500 text-white font-bold text-base hover:bg-azure-600 transition-colors"
+                    x-text="sending ? 'Envoi...' : 'Confirmer ma connexion'"
                 >
                     Confirmer ma connexion
                 </button>
@@ -64,7 +53,7 @@
 
             {{-- Note sécurité --}}
             <p class="text-xs text-ink-400 mt-4 text-center">
-                Ce lien expire dans 48 h · Usage unique par session
+                Ce lien expire dans 48 h · Utilisable jusqu'à 3 fois
             </p>
 
         </div>

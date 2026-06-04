@@ -20,7 +20,7 @@
                     Retour à l'accueil
                     <x-icon.arrow-right :size="18" />
                 </a>
-                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-[#25D366] text-white font-bold text-base shadow-sm hover:brightness-95 transition">
+                <a href="https://wa.me/596696940054" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 h-13 px-6 rounded-xl bg-whatsapp text-white font-bold text-base shadow-sm hover:brightness-95 transition">
                     <x-icon.whatsapp :size="18" />
                     Nous écrire
                 </a>

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Votre lien de connexion — Dlo Azur Piscines</title>
 </head>
+<!-- hex→token map: #fdfcf9=sand-50 (body bg), #1a2c40=navy-900 (text), #0080ff=azure-500 (brand/CTA), #154c79=navy-600 (brand text) -->
 <body style="font-family: -apple-system, BlinkMacSystemFont, 'Inter', sans-serif; background: #fdfcf9; color: #1a2c40; padding: 24px; margin: 0;">
     <div style="max-width: 480px; margin: 0 auto; background: white; border-radius: 16px; padding: 32px; box-shadow: 0 2px 8px rgba(26,44,64,0.06);">
 
@@ -33,11 +34,11 @@
             </a>
         </div>
 
-        <!-- Note sécurité -->
-        <p style="font-size: 13px; color: #718096; line-height: 1.5; margin: 24px 0 0; padding: 12px 16px; background: #f7fafc; border-radius: 8px; border-left: 3px solid #e2e8f0;">
+        <!-- Note sécurité — hex→token: #fefdf8=sand-50, #1a2c40=navy-900 (border) -->
+        <div style="font-size: 13px; color: #718096; line-height: 1.5; margin: 24px 0 0; padding: 12px 16px; background: #fefdf8; border-radius: 8px; border: 1px solid #e2e8f0;">
             Ce lien est valable <strong>48 heures</strong> et utilisable jusqu'à 3 fois.<br>
             Si vous n'avez pas demandé cet email, ignorez-le.
-        </p>
+        </div>
 
         <!-- Signature -->
         <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid #e2e8f0;">
