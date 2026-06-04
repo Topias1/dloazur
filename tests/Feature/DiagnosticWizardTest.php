@@ -18,7 +18,7 @@ uses(RefreshDatabase::class);
 it('/diagnostic page renders the wizard component', function () {
     $this->get('/diagnostic')
         ->assertStatus(200)
-        ->assertSee('Avant de commencer'); // D-08 : assertion finale "J'accepte" posée en Plan 02 après renommage du CTA
+        ->assertSee("J'accepte", false); // D-08 : CTA "J'accepte et commence" (false = pas d'encodage HTML du needle)
 });
 
 it('wizard x-data is complete and not truncated by a raw quote (regression: client crash)', function () {
