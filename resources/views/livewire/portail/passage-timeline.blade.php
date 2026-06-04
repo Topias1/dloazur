@@ -33,7 +33,7 @@
                 <div class="relative h-40 sm:h-52">
                     <img
                         src="{{ $heroPhotoUrl ?? asset('assets/brand/photos/piscine-propre.jpg') }}"
-                        alt="Votre piscine"
+                        alt="{{ $heroPhotoUrl && $lastPassage ? 'Votre piscine — passage du ' . $lastPassage->visited_at->format('d/m/Y') : 'Votre piscine' }}"
                         class="absolute inset-0 h-full w-full object-cover photo-grade">
                     <div class="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/45 to-navy-900/10"></div>
                 </div>
@@ -60,7 +60,7 @@
                             </span>
                         @endif
                     </div>
-                    @if ($lastPassage)
+                    @if ($lastPassage && $phOk && $clOk && $tacOk)
                         <div class="flex items-center gap-2 mt-4">
                             <span class="rounded-full bg-success/20 ring-1 ring-success/40 text-[oklch(0.85_0.12_155)] px-3 py-1 text-sm font-semibold inline-flex items-center gap-1.5">
                                 <span class="h-2 w-2 rounded-full bg-success"></span>Eau saine
@@ -91,12 +91,11 @@
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
                                     {{ $lastPassage->ph_avant !== null ? number_format((float) $lastPassage->ph_avant, 1, ',', '') : '·' }}
                                 </p>
-                                @php
-                                    $ph = (float) ($lastPassage->ph_avant ?? 0);
-                                    $phOk = $ph >= 7.0 && $ph <= 7.6;
-                                @endphp
-                                <p class="text-[11px] {{ $phOk ? 'text-success font-semibold' : 'text-ink-400' }}">
-                                    {{ $lastPassage->ph_avant !== null ? ($phOk ? 'idéal' : 'pH') : '' }}
+                                <p class="text-[11px] text-ink-400">
+                                    {{ $lastPassage->ph_avant !== null ? 'pH' : '' }}
+                                    @if ($lastPassage->ph_avant !== null && $phOk)
+                                        <span class="text-success font-semibold">·&thinsp;idéal</span>
+                                    @endif
                                 </p>
                             </div>
 
@@ -106,12 +105,11 @@
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
                                     {{ $lastPassage->chlore_libre !== null ? number_format((float) $lastPassage->chlore_libre, 1, ',', '') : '·' }}
                                 </p>
-                                @php
-                                    $cl = (float) ($lastPassage->chlore_libre ?? 0);
-                                    $clOk = $cl >= 1.0 && $cl <= 3.0;
-                                @endphp
-                                <p class="text-[11px] {{ $clOk ? 'text-success font-semibold' : 'text-ink-400' }}">
-                                    {{ $lastPassage->chlore_libre !== null ? ($clOk ? 'idéal' : 'mg/L') : '' }}
+                                <p class="text-[11px] text-ink-400">
+                                    {{ $lastPassage->chlore_libre !== null ? 'mg/L' : '' }}
+                                    @if ($lastPassage->chlore_libre !== null && $clOk)
+                                        <span class="text-success font-semibold">·&thinsp;idéal</span>
+                                    @endif
                                 </p>
                             </div>
 
@@ -121,12 +119,11 @@
                                 <p class="font-display font-bold text-2xl text-ink-950 tabular-nums">
                                     {{ $lastPassage->tac !== null ? number_format((float) $lastPassage->tac, 0, ',', '') : '·' }}
                                 </p>
-                                @php
-                                    $tac = (float) ($lastPassage->tac ?? 0);
-                                    $tacOk = $tac >= 80 && $tac <= 120;
-                                @endphp
-                                <p class="text-[11px] {{ $tacOk ? 'text-success font-semibold' : 'text-ink-400' }}">
-                                    {{ $lastPassage->tac !== null ? ($tacOk ? 'idéal' : 'mg/L') : '' }}
+                                <p class="text-[11px] text-ink-400">
+                                    {{ $lastPassage->tac !== null ? 'mg/L' : '' }}
+                                    @if ($lastPassage->tac !== null && $tacOk)
+                                        <span class="text-success font-semibold">·&thinsp;idéal</span>
+                                    @endif
                                 </p>
                             </div>
 
@@ -162,14 +159,14 @@
                         </div>
                     @endif
 
-                    {{-- Mot du pisciniste --}}
+                    {{-- Le mot de Pierre --}}
                     @if ($lastPassage->notes)
                         <div class="rounded-2xl bg-lagon-500/8 ring-1 ring-lagon-500/20 p-4 flex gap-3">
-                            <span class="h-9 w-9 rounded-full bg-lagon-500 text-white font-display font-bold grid place-items-center shrink-0 text-sm">
-                                P
+                            <span class="h-9 w-9 rounded-full bg-lagon-500 text-white font-display font-bold grid place-items-center shrink-0 text-sm" aria-hidden="true">
+                                {{ $operatorInitial }}
                             </span>
                             <div>
-                                <p class="text-sm font-semibold text-ink-900">Mot du pisciniste</p>
+                                <p class="text-sm font-semibold text-ink-900">Le mot de Pierre</p>
                                 <p class="text-sm text-ink-700 leading-relaxed mt-1">{{ $lastPassage->notes }}</p>
                             </div>
                         </div>
@@ -182,17 +179,21 @@
                             try {
                                 $firstPhotoUrl = \Illuminate\Support\Facades\Storage::disk($firstPhoto->disk ?? 'r2')->temporaryUrl($firstPhoto->path, now()->addHour());
                             } catch (\Throwable $e) {
-                                $firstPhotoUrl = '';
+                                $firstPhotoUrl = null;
                             }
                         @endphp
                         <div>
                             <p class="font-display font-semibold text-sm text-ink-900 mb-2">Photo du passage</p>
-                            <img
-                                src="{{ $firstPhotoUrl }}"
-                                alt="Photo de l'intervention du {{ $lastPassage->visited_at->format('d/m/Y') }}"
-                                loading="lazy"
-                                class="w-full max-h-96 object-cover rounded-2xl ring-1 ring-sand-200"
-                            >
+                            @if ($firstPhotoUrl)
+                                <img
+                                    src="{{ $firstPhotoUrl }}"
+                                    alt="Photo de l'intervention du {{ $lastPassage->visited_at->format('d/m/Y') }}"
+                                    loading="lazy"
+                                    class="w-full max-h-96 object-cover rounded-2xl ring-1 ring-sand-200"
+                                >
+                            @else
+                                <p class="text-ink-500 text-sm">Photo non disponible pour ce passage.</p>
+                            @endif
                         </div>
                     @endif
 
@@ -204,7 +205,11 @@
         <section>
             <h2 class="font-display font-semibold text-xl text-ink-950 mb-4">Historique</h2>
 
-            @if ($passages->count() > 1)
+            @if ($passages->count() === 1)
+                <p class="text-ink-500 text-sm mt-4">
+                    Votre premier passage apparaît ci-dessus. L'historique se remplira à chaque entretien.
+                </p>
+            @elseif ($passages->count() > 1)
                 <ol class="relative border-l border-sand-200 ml-3 space-y-5">
                     @foreach ($passages->skip(1) as $p)
                         <li class="ml-6 relative" x-data="{ open: false }">
