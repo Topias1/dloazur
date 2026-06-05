@@ -84,7 +84,7 @@
                 {{-- Empty state — no clients yet --}}
                 <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
                     <h2 class="font-display font-semibold text-xl text-ink-950">Aucun client pour l'instant.</h2>
-                    <p class="text-ink-500 mt-2">Ajoute ton premier client pour commencer à saisir des passages.</p>
+                    <p class="text-ink-500 mt-2">Ajoutez votre premier client pour commencer à saisir des passages.</p>
                     <a href="{{ route('admin.clients.create') }}"
                         class="mt-4 inline-flex h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold items-center hover:bg-azure-600 transition-colors">
                         Ajouter un client

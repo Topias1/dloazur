@@ -7,7 +7,7 @@
  * En local sans build : ->skip() automatique.
  * En CI : npm run build est exécuté avant ./vendor/bin/pest — tous les tests passent.
  *
- * Test 6-7 : route GET /offline — accessible sans auth, affiche "Tu es hors ligne" (registre opérateur tu, D-07).
+ * Test 6-7 : route GET /offline — accessible sans auth, affiche "Vous êtes hors ligne" (vouvoiement unifié — renverse D-07 « registre opérateur tu » le 2026-06-05).
  */
 
 use Illuminate\Support\Facades\File;
@@ -39,10 +39,10 @@ it("Le SW généré contient 'passages-queue' (BackgroundSync queueName)", funct
 
 // ── Tests route (toujours actifs) ────────────────────────────────────────────
 
-it("La route GET /offline retourne 200 et affiche 'Tu es hors ligne'", function () {
+it("La route GET /offline retourne 200 et affiche 'Vous êtes hors ligne'", function () {
     $this->get('/offline')
         ->assertStatus(200)
-        ->assertSee('Tu es hors ligne');
+        ->assertSee('Vous êtes hors ligne');
 });
 
 it('La route /offline est accessible sans authentification', function () {

@@ -18,7 +18,7 @@
             <h1 class="font-display font-semibold text-2xl sm:text-3xl text-ink-950">
                 Bonjour {{ Str::of($user->name)->before(' ') }},
             </h1>
-            <p class="text-ink-500 mt-1">Voici ton agenda du jour.</p>
+            <p class="text-ink-500 mt-1">Voici votre agenda du jour.</p>
         </div>
 
         {{-- D-10: Agenda du jour — hoisted, full width, visually dominant --}}

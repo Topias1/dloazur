@@ -90,7 +90,7 @@
                 {{-- Empty state — no articles yet --}}
                 <div class="rounded-2xl bg-sand-50 ring-1 ring-sand-200 p-8 text-center">
                     <h2 class="font-display font-semibold text-xl text-ink-950">Aucun article pour l'instant.</h2>
-                    <p class="text-ink-500 mt-2">Écris ton premier article : il apparaîtra sur le blog une fois publié.</p>
+                    <p class="text-ink-500 mt-2">Écrivez votre premier article : il apparaîtra sur le blog une fois publié.</p>
                     <a href="{{ route('admin.blog.create') }}"
                         class="mt-4 inline-flex h-11 px-5 rounded-xl bg-azure-500 text-white font-semibold items-center hover:bg-azure-600 transition-colors">
                         Écrire un article

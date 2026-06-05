@@ -37,7 +37,7 @@
 
 ### Wording — registre tu/vous opérateur (P1)
 
-- **D-07 : Registre opérateur = `tu`.** Aligner sur `tu` toute la copie admin/PWA actuellement en `vous` : empty-states admin (`client-index`/`post-index` « votre premier… »), `offline.blade.php`, et toutes les chaînes JS (`passage-form.js` toasts — incohérent dans le même fichier). « Ta semaine » (dashboard) reste, le reste s'aligne dessus.
+- **D-07 : Registre opérateur = `tu`.** ~~Aligner sur `tu` toute la copie admin/PWA actuellement en `vous`~~ **RENVERSÉ le 2026-06-05** (quick `vouvoiement-outil-metier`, décision Antoine) : registre opérateur repassé en **`vous`** pour une voix unique et irréprochable sur toute l'app (« deux publics, une seule voix », PRODUCT.md §5). Toute la copie admin/PWA/JS est désormais en `vous` ; client-facing inchangé (D-08).
 - **D-08 : Client-facing reste `vous` strict.** Verrouillé — portail, emails, magic-link, login client. Aucune modification de registre côté client.
 
 ### Wording — Pierre en copie marketing vitrine (P1, décision Antoine)
@@ -108,7 +108,7 @@
 
 - Override `#fff` = exactement `--color-white: var(--color-sand-50)` (D-02), pas un sweep.
 - « Appeler Pierre » → « Nous appeler »/« Appeler Dlo Azur » (D-09).
-- Registre opérateur cohérent en `tu`, ancré sur le « Ta semaine » existant du dashboard (D-07).
+- Registre opérateur cohérent en `vous` (D-07 **renversé 2026-06-05** : voix unique sur toute l'app ; voir détail plus haut).
 - Garde-fou CI = grep sur classes de tokens non déclarés (D-06).
 
 </specifics>

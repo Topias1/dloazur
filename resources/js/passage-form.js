@@ -182,7 +182,7 @@ export function passageForm(initialData = {}) {
             if (num < min || num > max) {
                 const label = RANGE_LABELS[field] ?? field;
                 this._pushWarning(
-                    `${label} ${num} est hors de la plage recommandée [${min}, ${max}]. La saisie est enregistrée — vérifie ta lecture.`
+                    `${label} ${num} est hors de la plage recommandée [${min}, ${max}]. La saisie est enregistrée — vérifiez votre lecture.`
                 );
             }
         },
@@ -342,7 +342,7 @@ export function passageForm(initialData = {}) {
         async submit() {
             // Garde anti-orphelin (intégrité) : un passage doit appartenir à un client.
             if (!this.clientId) {
-                this.conflictMsg = 'Choisis un client avant d\'enregistrer ce passage.';
+                this.conflictMsg = 'Choisissez un client avant d\'enregistrer ce passage.';
                 return;
             }
             this.saving = true;

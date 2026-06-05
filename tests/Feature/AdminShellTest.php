@@ -39,7 +39,7 @@ it('GET /admin while authenticated returns 200 with the dashboard stub content',
     $response->assertStatus(200);
     $response->assertSee('Bonjour Pierre,');
     // Plan 11 (D-10): dashboard restructuré en agenda-led — sous-titre + section "Aujourd'hui".
-    $response->assertSee('Voici ton agenda du jour.');
+    $response->assertSee('Voici votre agenda du jour.');
     $response->assertSee("Aujourd'hui", false);
     // Vanity counts rétrogradés en bandeau texte (minuscules).
     $response->assertSee('clients actifs');

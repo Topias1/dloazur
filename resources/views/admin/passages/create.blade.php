@@ -52,7 +52,7 @@
                     <label for="client-select" class="block text-sm font-semibold text-ink-900 mb-1.5">Client</label>
                     <select id="client-select" x-model="clientId" @change="onClientChange()"
                             class="w-full h-12 rounded-xl bg-white ring-1 ring-sand-200 px-3 text-ink-900 focus:ring-2 focus:ring-azure-500 outline-none">
-                        <option value="">Choisis un client…</option>
+                        <option value="">Choisissez un client…</option>
                         @foreach (($clients ?? []) as $c)
                             <option value="{{ $c['id'] }}">{{ $c['name'] }}</option>
                         @endforeach
@@ -60,7 +60,7 @@
                     <template x-if="selectedClientPiscines.length > 1">
                         <select x-model="piscineId"
                                 class="w-full h-12 mt-2 rounded-xl bg-white ring-1 ring-sand-200 px-3 text-ink-900 focus:ring-2 focus:ring-azure-500 outline-none">
-                            <option value="">Choisis une piscine…</option>
+                            <option value="">Choisissez une piscine…</option>
                             <template x-for="p in selectedClientPiscines" :key="p.id">
                                 <option :value="p.id" x-text="p.nom"></option>
                             </template>
@@ -85,7 +85,7 @@
                 </span>
                 <div>
                     <p class="font-semibold text-sm" style="color: oklch(0.42 0.10 70);">
-                        Hors ligne · ta saisie est sauvegardée
+                        Hors ligne · votre saisie est sauvegardée
                     </p>
                     <p class="text-xs leading-snug" style="color: oklch(0.5 0.08 72);">
                         Elle partira automatiquement au retour du réseau.
